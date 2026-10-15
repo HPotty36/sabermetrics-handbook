@@ -130,7 +130,10 @@ a.step:hover{border-color:var(--ink)}
 .term-abbr{font-family:var(--font-display);font-weight:800;font-size:clamp(54px,10vw,92px);line-height:.98;letter-spacing:.005em;margin:12px 0 6px;text-wrap:balance}
 .term-ko{font-size:21px;font-weight:700;line-height:1.4;margin:0}
 .term-en{font-family:var(--font-mono);font-size:12.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin:2px 0 0}
-.lead{font-size:19px;line-height:1.65;max-width:34em;margin:18px 0 0}
+/* 한 줄 정의: Investopedia의 Definition 상자처럼 본문과 떼어 놓는다 */
+.definition{margin:18px 0 0;padding:12px 18px 14px;max-width:40em;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.definition-label{margin:0 0 2px;font-size:12.5px;font-weight:600;letter-spacing:.04em;color:var(--muted)}
+.lead{font-size:18px;line-height:1.65;margin:0}
 .order-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:20px}
 .order-label{font-size:13px;color:var(--muted)}
 .order{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--surface)}
@@ -159,8 +162,9 @@ a.step:hover{border-color:var(--ink)}
 .avg{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:3px}
 .avg-tag{font-size:11px;font-weight:600;line-height:1;color:var(--seam);white-space:nowrap}
 .plate{width:13px;height:12px;background:var(--seam);clip-path:polygon(0 0,100% 0,100% 50%,50% 100%,0 50%)}
-.scale-dir{margin:0 24px;font-size:12.5px;line-height:1.4;color:var(--muted);text-align:right}
-.scale-dir.low{text-align:left}
+/* 막대 양 끝의 나쁨·좋음: Baseball Savant 퍼센타일 막대의 POOR · GREAT */
+.scale-ends{display:flex;justify-content:space-between;margin:0 24px;font-size:12px;font-weight:600;line-height:1.3;letter-spacing:.04em;color:var(--muted)}
+.scale-ends .good{color:var(--seam)}
 /* 숫자 → 의미를 위에서 아래로 읽는 목록. 넓은 화면에서는 두 단으로 흐른다. */
 .legend{list-style:none;margin:14px 0 0;padding:0;columns:2 220px;column-gap:28px}
 .legend li{display:flex;align-items:baseline;gap:12px;font-size:14px;line-height:1.5;padding:3px 0;min-width:0;break-inside:avoid}
@@ -184,23 +188,26 @@ a.step:hover{border-color:var(--ink)}
 .term-ladders{display:grid;gap:22px}
 .term-ladder .ladder-name{margin-bottom:8px}
 
-/* 사다리 위치: GOV.UK step by step navigation header의 ‘Part of’ 한 줄 */
-.part-of{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 14px;font-size:13px;line-height:1.5;color:var(--muted);margin:0 0 12px}
-.part-of-label{font-weight:600;color:var(--ink)}
-.part-of a{color:inherit;text-decoration:none}
-.part-of a:hover{color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+/* 사다리 위치: GOV.UK step by step navigation header의 ‘Part of’ 상자 */
+.part-of{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 14px;margin:0 0 14px;padding:8px 12px;font-size:13.5px;line-height:1.5;background:var(--surface);border:1px solid var(--line);border-radius:8px}
+.part-of-label{font-weight:600;color:var(--muted)}
+.part-of a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
+.part-of a:hover{text-decoration-color:var(--seam)}
 .part-of-pos{font-variant-numeric:tabular-nums;color:var(--muted)}
 
-/* 사다리 앞뒤 칸: GOV.UK pagination처럼 본문 끝에 이전·다음 링크와 맥락 한 줄 */
-.pager{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
-.pager-link{display:flex;flex-direction:column;gap:3px;min-width:0;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface);text-decoration:none}
-.pager-link.next{align-items:flex-end;text-align:right}
-a.pager-link:hover{border-color:var(--ink)}
-.pager-link.is-stub{border-style:dashed;background:transparent;color:var(--muted)}
-.pager-link.is-empty{visibility:hidden}
-.pager-dir{font-size:12.5px;line-height:1.3;color:var(--muted)}
-.pager-name{display:inline-flex;align-items:center;gap:7px;max-width:100%;font-family:var(--font-display);font-weight:600;font-size:20px;letter-spacing:.02em;line-height:1.25}
-.pager-ko{font-size:13px;line-height:1.4;color:var(--muted)}
+/* 용어 페이지의 사다리: GOV.UK step by step처럼 번호를 세로선으로 잇고, 지금 용어는 채운 원 */
+.steps{list-style:none;margin:0;padding:0}
+.steps-row{position:relative;display:grid;grid-template-columns:28px minmax(0,1fr);gap:14px;align-items:start;padding:5px 0}
+.steps-row:not(:last-child)::before{content:"";position:absolute;left:13px;top:33px;bottom:-5px;width:2px;background:var(--line)}
+.steps-num{display:grid;place-items:center;width:28px;height:28px;border:2px solid var(--line);border-radius:50%;background:var(--paper);font-family:var(--font-display);font-weight:600;font-size:15px;line-height:1;color:var(--muted)}
+.steps-row.is-current .steps-num{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.steps-row.is-stub .steps-num{border-style:dashed}
+.steps-body{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 10px;min-width:0;padding-top:1px;text-decoration:none}
+.steps-chip{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-display);font-weight:600;font-size:19px;letter-spacing:.02em;line-height:1.35}
+.steps-ko{font-size:13.5px;line-height:1.5;color:var(--muted)}
+a.steps-body:hover .steps-chip{color:var(--seam)}
+.steps-row.is-current .steps-chip{font-weight:800}
+.steps-row.is-stub .steps-chip{color:var(--muted)}
 .related{display:flex;flex-wrap:wrap;gap:8px}
 .sources{list-style:none;margin:0;padding:0;display:grid;gap:6px;font-size:14.5px}
 .sources a{text-decoration-color:var(--line);text-underline-offset:3px}

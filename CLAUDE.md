@@ -75,13 +75,19 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
 
 ### 레퍼런스를 참고해 프로토타입에서 바꾼 것 (2026-10-15)
 
-토큰, 글꼴, 위 두 요소는 그대로 두고 정보 구조와 위계만 바꿨다.
+토큰, 글꼴, 위 두 요소는 그대로 두고 정보 구조와 위계만 바꿨다. 아래 사이트를 데스크톱(1280px)과 모바일(390px)에서 직접 열어 보고 정했다.
 
-- 용어 페이지 맨 위에 ‘사다리 · 투수 평가 2/4’ 한 줄. 참고: [GOV.UK step by step navigation header](https://components.publishing.service.gov.uk/component-guide/step_by_step_nav_header)(콘텐츠 페이지 맨 위에 ‘Part of’로 속한 여정을 알린다).
-- 사다리 섹션을 본문 끝(출처 뒤)으로 옮기고, 사다리마다 ‘한 칸 기본 / 한 칸 심화’ 링크를 붙였다. 참고: [GOV.UK pagination](https://design-system.service.gov.uk/components/pagination)(본문 뒤에 이전·다음 링크와 맥락 한 줄), [docs.page previous and next links](https://use.docs.page/features/previous-and-next-links)(탐색 순서를 따라 페이지 끝에 둔다), [GOV.UK step by step navigation](https://design-system.service.gov.uk/patterns/step-by-step-navigation).
-- 섹션 제목을 13px 회색에서 16px 굵은 본문색으로 올렸다. 긴 용어 페이지에서 구획이 보이게 하려는 것이다. 참고: [Vector 2022](https://www.mediawiki.org/wiki/Reading/Web/Desktop_Improvements)(읽기 폭 제한과 제목·목차 중심 탐색).
-- 눈금 막대에 좋은 쪽을 글로 적었다(‘오른쪽으로 갈수록 좋아요 →’). 빨간 쪽이 좋은 쪽이라는 관례는 [Baseball Savant 퍼센타일 막대](https://www.mlb.com/news/baseball-savant-statcast-player-pages-new-look)와 같다. 범례는 숫자 → 의미를 위에서 아래로 읽는 목록으로 바꿨다.
-- 이 컨테이너에서는 레퍼런스 사이트를 직접 열 수 없어(네트워크 정책) 웹 검색으로 패턴과 근거를 확인했다. 화면을 직접 비교하지는 못했다.
+- 용어 페이지 맨 위 ‘사다리 · 투수 평가 2/4’ 상자. [GOV.UK 콘텐츠 페이지](https://www.gov.uk/apply-first-provisional-driving-licence)는 단계별 안내에 속한 페이지 맨 위에 ‘Part of’ 회색 상자와 링크를 둔다.
+- 사다리는 본문 끝에 세로 번호 목록으로 둔다. 번호를 세로선으로 잇고 지금 용어는 채운 원으로 표시한다. [GOV.UK step by step](https://www.gov.uk/learn-to-drive-a-car)과 같은 방식이다. 앞뒤 칸이 이름과 함께 보이므로 따로 이전·다음 링크는 두지 않는다. 가로 칩은 모바일에서 줄이 꺾여 순서가 잘 안 보였다. 홈의 사다리 9개는 한눈에 훑는 용도라 가로 칩 그대로다.
+- 한 줄 정의(`summary`)를 ‘정의’ 상자로 본문과 떼어 놓는다. [Investopedia 용어 페이지](https://www.investopedia.com/terms/p/price-earningsratio.asp)의 ‘Definition’ 상자, [FanGraphs Library](https://library.fangraphs.com/pitching/fip/)의 맨 위 요약 카드와 같은 역할이다.
+- 눈금 막대 양 끝에 ‘나쁨 · 좋음’을 적는다(좋은 쪽이 빨강). [Baseball Savant 선수 페이지](https://baseballsavant.mlb.com/)의 퍼센타일 막대 머리글(POOR · AVERAGE · GREAT, 좋은 쪽 빨강)을 따랐다. 가운데 ‘평균’은 홈플레이트 마커가 맡는다. 범례는 숫자 → 의미를 위에서 아래로 읽는 목록이다.
+- 섹션 제목은 16px 굵은 본문색. [MLB.com Glossary](https://www.mlb.com/glossary/statcast/barrel)와 FanGraphs Library처럼 정의 → 계산 → 해석 → 맥락 순서의 구획이 보이게 하려는 것이다.
+
+보고도 넣지 않은 것 (넣으려면 먼저 확인받는다)
+
+- 테마 선택(라이트·다크·자동): [MDN](https://developer.mozilla.org/en-US/docs/Glossary/Cache), [Wikipedia](https://en.wikipedia.org/wiki/On-base_plus_slugging)에 있다. CSS는 `data-theme`을 이미 지원하지만 클라이언트 스크립트가 하나 늘어난다.
+- 마지막 확인 날짜: MDN(‘last modified’), Investopedia(‘Updated’, ‘Fact checked’)가 신뢰 표시로 쓴다. 용어마다 날짜 필드가 필요하다.
+- 본문 17px: [토스피드](https://toss.im/tossfeed/article/beginning-of-tps)는 본문 17px·행간 1.6·폭 700px, MLB 용어집은 16px·1.5다. 지금(16px·1.7)도 범위 안이라 두었다.
 
 ## 지켜야 할 것
 

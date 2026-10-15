@@ -8,13 +8,13 @@ const ladders = [
   { name: '투수 평가', hint: '', steps: ['era', 'fip'] },
 ];
 
-test('용어가 들어 있는 사다리마다 위치와 앞뒤 칸을 준다', () => {
+test('용어가 들어 있는 사다리마다 몇 번째 칸인지 준다', () => {
   const places = ladderPlaces(ladders, 'wrc-plus');
   assert.deepEqual(
-    places.map(({ ladder, pos, total, prev, next }) => ({ name: ladder.name, pos, total, prev, next })),
+    places.map(({ ladder, pos, total }) => ({ name: ladder.name, pos, total })),
     [
-      { name: '타격 생산', pos: 4, total: 4, prev: 'woba', next: undefined },
-      { name: '전체 가치', pos: 1, total: 2, prev: undefined, next: 'war' },
+      { name: '타격 생산', pos: 4, total: 4 },
+      { name: '전체 가치', pos: 1, total: 2 },
     ],
   );
 });
