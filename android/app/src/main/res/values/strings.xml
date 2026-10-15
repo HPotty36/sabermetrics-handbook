@@ -2,6 +2,6 @@
 <resources>
     <string name="app_name">세이버메트릭스 핸드북</string>
     <string name="title_activity_main">세이버메트릭스 핸드북</string>
-    <string name="package_name">io.github.hpotty36.sabermetrics</string>
-    <string name="custom_url_scheme">io.github.hpotty36.sabermetrics</string>
+    <string name="package_name">com.sabermetricshandbook.app</string>
+    <string name="custom_url_scheme">com.sabermetricshandbook.app</string>
 </resources>

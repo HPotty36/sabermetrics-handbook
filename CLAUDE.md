@@ -55,7 +55,7 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
    - `android/`, `ios/`(Swift Package Manager)를 만들고, 아이콘과 스플래시는 `assets/`의 원본으로 `npx @capacitor/assets generate --android --ios`로 만들었다.
    - Capacitor식 라우팅(확장자 없는 주소 → 홈)을 흉내 낸 서버에서 앱용 빌드의 링크, 사다리 이동, 검색, 읽는 순서를 확인했다. 같은 서버에서 웹 빌드는 실패한다(앱용 빌드가 따로 있는 이유).
    - 이 컨테이너에는 Android SDK가 없고(dl.google.com 차단) Xcode도 없어 APK·IPA를 만들어 보지 못했다. 로컬에서 `npm run cap:sync` 뒤 `npx cap open android`(Android Studio) 또는 `npx cap open ios`(Xcode)로 빌드하고 실제 기기에서 확인한다.
-   - `appId`(`io.github.hpotty36.sabermetrics`)는 임시다. 스토어에 처음 올린 뒤에는 바꿀 수 없으니 출시 전에 정한다.
+   - `appId`(`com.sabermetricshandbook.app`)는 임시다. 스토어에 처음 올린 뒤에는 바꿀 수 없으니 출시 전에 정한다. 개인을 알아볼 수 있는 문구(GitHub 계정명 등)는 넣지 않는다.
    - 확인할 것: iOS 상태 표시줄 영역(헤더는 `env(safe-area-inset-top)`을 쓴다), Android 뒤로 가기 버튼, 다크 모드 스플래시에서 공 테두리가 잘 안 보이는 점.
 
 스택은 Astro를 권장하지만 확정은 아니다. 바꾸려면 먼저 이유를 설명하고 확인받는다.

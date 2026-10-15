@@ -1,4 +1,4 @@
-package io.github.hpotty36.sabermetrics;
+package com.sabermetricshandbook.app;
 
 import com.getcapacitor.BridgeActivity;
 
