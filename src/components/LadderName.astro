@@ -1,0 +1,10 @@
+---
+import type { Ladder } from '../lib/schema.ts';
+
+interface Props {
+  ladder: Ladder;
+}
+
+const { ladder } = Astro.props;
+---
+<div class="ladder-name">{ladder.name}<span class="ladder-hint">{ladder.hint}</span></div>

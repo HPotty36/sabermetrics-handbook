@@ -1,0 +1,68 @@
+{
+  "abbr": "Blast",
+  "chip": "블라스트",
+  "ko": "블라스트",
+  "en": "Blast",
+  "aliases": [
+    "배트트래킹",
+    "bat tracking",
+    "스퀘어드업",
+    "squared-up",
+    "bat speed",
+    "배트스피드",
+    "fast swing",
+    "빠른스윙"
+  ],
+  "level": 3,
+  "order": 140,
+  "cats": [
+    "타격",
+    "트래킹"
+  ],
+  "added": 2024,
+  "summary": "빠르게 휘두르면서 동시에 정확하게 맞힌 스윙. 배트 트래킹 지표가 말하는 ‘좋은 스윙’의 기준이다.",
+  "easy": [
+    "세게 휘둘러도 빗맞으면 공은 멀리 가지 않는다. 정확히 맞혀도 스윙이 느리면 힘이 덜 실린다.",
+    "블라스트는 두 조건을 함께 채운 스윙만 센다. 2024년 기준으로 경쟁 스윙의 약 10%, 타구의 약 27%가 블라스트였다."
+  ],
+  "formula": {
+    "expr": "스퀘어드업 비율(%) + 배트 스피드(mph) ≥ 164",
+    "vars": [
+      [
+        "예시",
+        "89% + 75mph = 164 → 블라스트"
+      ],
+      [
+        "기억법",
+        "두 값의 평균이 82 이상"
+      ]
+    ]
+  },
+  "deep": [
+    "스퀘어드업은 배트 스피드와 투구 속도로 계산한 ‘낼 수 있는 최대 타구 속도’의 80% 이상을 실제로 낸 경우다.",
+    "배트 스피드는 배트 끝에서 6인치 안쪽 지점의 속도다. 선수 평균은 가장 빠른 90% 스윙 등 ‘경쟁 스윙’만으로 계산하고, 75mph 이상은 ‘빠른 스윙’으로 따로 센다.",
+    "배트 트래킹 데이터는 2024년 5월 Baseball Savant에 공개됐고, 2023시즌 후반기 기록부터 남아 있다."
+  ],
+  "myth": {
+    "claim": "배트 스피드만 빠르면 좋은 타자다.",
+    "truth": "빠른 스윙이 정확도를 해치면 오히려 손해다. 속도와 정확도를 한 판정으로 묶은 블라스트가 따로 만들어진 이유다."
+  },
+  "related": [
+    "attack-angle",
+    "barrel"
+  ],
+  "sources": [
+    {
+      "t": "MLB.com Glossary · Blasts",
+      "u": "https://www.mlb.com/glossary/statcast/bat-tracking-blasts"
+    },
+    {
+      "t": "MLB.com Glossary · Squared-Up",
+      "u": "https://www.mlb.com/glossary/statcast/squared-up"
+    },
+    {
+      "t": "Baseball Savant · Bat Tracking",
+      "u": "https://baseballsavant.mlb.com/leaderboard/bat-tracking"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+---
+import Step from './Step.astro';
+
+interface Props {
+  steps: string[];
+  current?: string;
+}
+
+const { steps, current } = Astro.props;
+---
+<div class="chain">{steps.map((id, i) => (
+  <>{i > 0 && <span class="arrow" aria-hidden="true">→</span>}<Step id={id} current={current} /></>
+))}</div>

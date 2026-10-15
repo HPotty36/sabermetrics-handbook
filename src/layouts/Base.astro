@@ -1,0 +1,58 @@
+---
+// 모든 페이지의 틀. 헤더(검색), 실밥 구분선, 데스크톱 사이드바 목록, 본문 열.
+import '../styles/global.css';
+import Foot from '../components/Foot.astro';
+import TermIndex from '../components/TermIndex.astro';
+import { loadHandbook } from '../lib/handbook.ts';
+import { homeHref, termHref } from '../lib/paths.ts';
+import { toSearchEntry } from '../lib/search.ts';
+import { SEASON } from '../lib/site.ts';
+
+interface Props {
+  title: string;
+  description: string;
+  view: 'home' | 'term';
+  current?: string;
+}
+
+const { title, description, view, current } = Astro.props;
+const { terms } = await loadHandbook();
+const searchIndex = JSON.stringify(terms.map((t) => toSearchEntry(t, termHref(t.id)))).replace(/</g, '\\u003c');
+---
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{title}</title>
+<meta name="description" content={description}>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+</head>
+<body data-view={view}>
+<header class="site-head">
+  <div class="head-inner">
+    <a class="brand" href={homeHref} aria-label="세이버메트릭스 핸드북 홈"><span class="brand-ball" aria-hidden="true"></span><span>세이버<span class="long">메트릭스</span> 핸드북</span></a>
+    <label class="search" for="q">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="8.5" cy="8.5" r="6"/><path d="M13 13l5 5"/></svg>
+      <input id="q" type="search" autocomplete="off" placeholder="FIP, 수비 무관, attack angle…" aria-label="용어 검색">
+    </label>
+  </div>
+  <div class="stitch" aria-hidden="true"></div>
+</header>
+
+<div class="app">
+  <aside class="side" aria-label="전체 용어">
+    <div id="side-index"><TermIndex current={current} /></div>
+    <p class="side-note">리그 평균은 {SEASON} MLB 정규시즌 기준입니다.</p>
+  </aside>
+  <main class="main" id="main"><slot /><Foot /></main>
+</div>
+
+<script type="application/json" id="search-index" is:inline set:html={searchIndex} />
+<script>
+  import '../scripts/term-index.ts';
+</script>
+</body>
+</html>

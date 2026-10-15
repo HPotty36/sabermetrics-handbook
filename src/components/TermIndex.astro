@@ -1,0 +1,29 @@
+---
+// 전체 용어 목록과 필터. 데스크톱은 사이드바에, 모바일은 홈 아래에 같은 목록이 들어간다.
+// 처음에는 모든 용어를 그려 두고, 검색·필터는 scripts/term-index.ts가 브라우저에서 처리한다.
+import { loadHandbook } from '../lib/handbook.ts';
+import { termHref } from '../lib/paths.ts';
+import { CATS, LEVELS } from '../lib/schema.ts';
+import { ALL_CATS } from '../lib/search.ts';
+
+interface Props {
+  current?: string;
+}
+
+const { current } = Astro.props;
+const { terms } = await loadHandbook();
+const levels = [0, 1, 2, 3] as const;
+const cats = [ALL_CATS, ...CATS];
+---
+<div data-term-index>
+  <div class="filters"><div class="chips" role="group" aria-label="레벨">{levels.map((l) => (
+    <button type="button" class="chip" data-level={l} aria-pressed={l === 0 ? 'true' : 'false'}>{l ? LEVELS[l] : '모든 레벨'}</button>
+  ))}</div><div class="chips" role="group" aria-label="분야">{cats.map((c) => (
+    <button type="button" class="chip" data-cat={c} aria-pressed={c === ALL_CATS ? 'true' : 'false'}>{c === ALL_CATS ? '모든 분야' : c}</button>
+  ))}</div></div>
+  <p class="index-count">{terms.length} / {terms.length} 용어</p>
+  <ul class="rows">{terms.map((t) => (
+    <li data-id={t.id}><a class="row" href={termHref(t.id)} aria-current={t.id === current ? 'page' : undefined}><span class="row-abbr">{t.abbr}</span><span class={`lv lv${t.level}`}>{LEVELS[t.level]}</span><span class="row-ko">{t.ko}</span></a></li>
+  ))}</ul>
+  <p class="empty" hidden></p>
+</div>

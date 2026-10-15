@@ -1,0 +1,82 @@
+---
+import Chain from '../../components/Chain.astro';
+import Formula from '../../components/Formula.astro';
+import LadderName from '../../components/LadderName.astro';
+import Scale from '../../components/Scale.astro';
+import Sec from '../../components/Sec.astro';
+import Step from '../../components/Step.astro';
+import Base from '../../layouts/Base.astro';
+import { loadHandbook } from '../../lib/handbook.ts';
+import { homeHref } from '../../lib/paths.ts';
+import { LEVELS } from '../../lib/schema.ts';
+import { SITE_NAME } from '../../lib/site.ts';
+
+export async function getStaticPaths() {
+  const { terms } = await loadHandbook();
+  return terms.map((t) => ({ params: { id: t.id } }));
+}
+
+const { termMap, ladders } = await loadHandbook();
+const t = termMap.get(Astro.params.id)!;
+const myLadders = ladders.filter((l) => l.steps.includes(t.id));
+---
+<Base title={`${t.abbr} · ${t.ko} | ${SITE_NAME}`} description={t.summary} view="term" current={t.id}>
+  <a class="back" href={homeHref}>← 전체 용어</a>
+  <header class="term-head">
+    <div class="term-meta"><span class={`lv lv${t.level}`}>{LEVELS[t.level]}</span>{t.added && <span class="new">{t.added}년 등장</span>}<span class="cat">{t.cats.join(' · ')}</span></div>
+    <h1 class="term-abbr">{t.abbr}</h1>
+    <p class="term-ko">{t.ko}</p>
+    <p class="term-en">{t.en}</p>
+    <p class="lead">{t.summary}</p>
+    <div class="order-row"><span class="order-label">읽는 순서</span><div class="order" role="group" aria-label="읽는 순서"><button type="button" data-order="easy" aria-pressed="true">쉽게 먼저</button><button type="button" data-order="deep" aria-pressed="false">깊게 먼저</button></div></div>
+  </header>
+
+  <div data-reading-order>
+    <Sec title="쉽게 말하면" data-block="easy">{t.easy.map((p) => <p>{p}</p>)}</Sec>
+    {t.scale && <Sec title="숫자 읽는 법" data-block="scale"><Scale scale={t.scale} /></Sec>}
+    <Sec title="깊게 보면" data-block="deep">{t.formula && <Formula formula={t.formula} />}{t.deep.map((p) => <p>{p}</p>)}</Sec>
+  </div>
+  {/* 읽는 순서: 첫 화면이 그려지기 전에 저장된 순서로 바꿔 두려고 인라인으로 바로 실행한다. */}
+  <script is:inline>
+    (function () {
+      var KEY = 'sh-order';
+      var body = document.querySelector('[data-reading-order]');
+      var buttons = document.querySelectorAll('[data-order]');
+      function saved() {
+        try { return localStorage.getItem(KEY) === 'deep'; } catch (e) { return false; }
+      }
+      function apply(deepFirst) {
+        (deepFirst ? ['deep', 'scale', 'easy'] : ['easy', 'scale', 'deep']).forEach(function (k) {
+          var el = body.querySelector('[data-block="' + k + '"]');
+          if (el) body.appendChild(el);
+        });
+        buttons.forEach(function (b) {
+          b.setAttribute('aria-pressed', String((b.getAttribute('data-order') === 'deep') === deepFirst));
+        });
+      }
+      if (saved()) apply(true);
+      buttons.forEach(function (b) {
+        b.addEventListener('click', function () {
+          var deepFirst = b.getAttribute('data-order') === 'deep';
+          try { localStorage.setItem(KEY, deepFirst ? 'deep' : 'easy'); } catch (e) {}
+          var y = window.scrollY;
+          apply(deepFirst);
+          window.scrollTo(0, y);
+        });
+      });
+      window.addEventListener('pageshow', function (e) { if (e.persisted) apply(saved()); });
+    })();
+  </script>
+
+  <Sec title="흔한 오해"><div class="myth"><div class="myth-row claim"><span class="myth-tag">오해</span><p>{t.myth.claim}</p></div><div class="myth-row truth"><span class="myth-tag">실제로는</span><p>{t.myth.truth}</p></div></div></Sec>
+  {t.leagues && t.leagues.length > 0 && (
+    <Sec title="리그마다 다른 점"><div class="leagues">{t.leagues.map((l) => <div class="league"><b>{l.lg}</b><p>{l.t}</p></div>)}</div></Sec>
+  )}
+  {myLadders.length > 0 && (
+    <Sec title="사다리에서의 위치"><div class="term-ladders">{myLadders.map((l) => (
+      <div class="term-ladder"><LadderName ladder={l} /><Chain steps={l.steps} current={t.id} /></div>
+    ))}</div></Sec>
+  )}
+  <Sec title="같이 보면 좋은 용어"><div class="related">{t.related.map((id) => <Step id={id} />)}</div></Sec>
+  <Sec title="출처"><ul class="sources">{t.sources.map((s) => <li><a href={s.u} target="_blank" rel="noopener">{s.t} ↗</a></li>)}</ul></Sec>
+</Base>

@@ -9,22 +9,38 @@
 
 ## 상태
 
-프로토타입 단계다. `prototype/index.html`을 브라우저로 열면 바로 볼 수 있다.
-용어 15개를 썼고, 12개를 준비 중이다.
+Astro 정적 사이트로 옮겼다. 용어 15개를 썼고, 12개를 준비 중이다.
+
+```sh
+npm install
+npm run dev      # 개발 서버 (http://localhost:4321)
+npm run build    # 정적 빌드 → dist/. 콘텐츠 검사에 걸리면 실패한다
+npm test         # 콘텐츠 검사와 검색·숫자 표기 단위 테스트 (빌드 없이)
+npm run check    # 타입 검사
+```
+
+Node 22.22 이상이 필요하다.
 
 ## 구조
 
 ```
-prototype/index.html      동작과 디자인의 기준이 되는 단일 HTML 프로토타입
-data/terms.json           용어, 준비 중 용어, 사다리 데이터 (콘텐츠 원본)
-docs/content-guide.md     용어 스키마와 작성 규칙
-docs/verified-facts.md    원 자료와 대조해 확인한 수치와 정의
-CLAUDE.md                 Claude Code용 프로젝트 안내
+src/content/terms/<id>.json   용어 1개 = 파일 1개 (콘텐츠 원본)
+src/content/stubs.json        준비 중 용어
+src/content/ladders.json      사다리 (적힌 순서대로 화면에 나온다)
+src/lib/schema.ts             콘텐츠 스키마 (zod)
+src/lib/validate.ts           파일 사이의 참조와 눈금 범위 검사
+src/pages/                    홈(/)과 용어 페이지(/terms/<id>/)
+src/scripts/term-index.ts     검색·필터 (브라우저)
+src/styles/global.css         프로토타입에서 옮긴 스타일
+prototype/index.html          동작과 디자인의 기준이 되는 단일 HTML 프로토타입
+docs/content-guide.md         용어 스키마와 작성 규칙
+docs/verified-facts.md        원 자료와 대조해 확인한 수치와 정의
+CLAUDE.md                     Claude Code용 프로젝트 안내
 ```
 
 ## 로드맵
 
-1. 정적 사이트로 이전 (Astro, 용어별 페이지)
+1. ~~정적 사이트로 이전 (Astro, 용어별 페이지)~~ 끝
 2. 설치형 웹앱 (PWA, 오프라인)
 3. Android/iOS 앱 (Capacitor)
 
