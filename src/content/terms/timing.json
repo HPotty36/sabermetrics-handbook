@@ -1,0 +1,53 @@
+{
+  "abbr": "Swing Timing",
+  "chip": "스윙 타이밍",
+  "ko": "스윙 타이밍",
+  "en": "Swing Timing",
+  "aliases": [
+    "타이밍",
+    "스윙타이밍",
+    "miss distance",
+    "미스 디스턴스",
+    "헛스윙 거리",
+    "perfect contact",
+    "flawed swing",
+    "이른 스윙",
+    "늦은 스윙"
+  ],
+  "level": 3,
+  "order": 100,
+  "cats": [
+    "타격",
+    "트래킹"
+  ],
+  "added": 2026,
+  "summary": "배트가 공과 가장 가까워진 순간, 시간과 위치가 공과 얼마나 맞았는지를 나눠서 보여 주는 지표 묶음.",
+  "easy": [
+    "헛스윙에도 종류가 있다. 공보다 한참 먼저 휘두른 스윙, 높이를 못 맞춘 스윙, 공이 배트 안쪽으로 파고든 스윙은 원인이 다르다.",
+    "스윙 타이밍은 이를 나눠서 보여 준다. 이르거나 늦었는지, 위아래가 맞았는지, 배트 중심에 걸렸는지를 따로 판정해서, 타자가 어디에서 어긋나고 있는지 알 수 있다."
+  ],
+  "deep": [
+    "2026년 6월 Statcast 배트 트래킹에 추가됐다. 배트와 공이 가장 가까워진 순간을 기준으로 시간(이르다·제때·늦다), 위아래(공 위·맞음·공 아래), 좌우(배트 안쪽으로 파고듦·중심·바깥쪽)를 나눠 판정한다.",
+    "헛스윙에는 그 순간 배트와 공 사이의 거리를 인치로 잰 Miss Distance가 붙는다. 같은 헛스윙이라도 아깝게 빗나간 것과 크게 빗나간 것을 구분할 수 있다.",
+    "세 방향이 모두 맞은 스윙의 비율을 Perfect Contact%로, 어긋난 스윙의 비율을 Flawed Swing%로 제공한다. 투수 쪽에서는 타자에게서 어떤 스윙을 끌어냈는지로 읽는다."
+  ],
+  "myth": {
+    "claim": "헛스윙은 대부분 타이밍이 늦어서 나온다.",
+    "truth": "너무 이른 스윙, 높이를 못 맞춘 스윙도 헛스윙이 된다. 같은 헛스윙 비율이라도 원인이 다르면 고칠 곳도 다르고, 스윙 타이밍은 그 원인을 나눠 보여 준다."
+  },
+  "related": [
+    "attack-angle",
+    "blast",
+    "batspeed"
+  ],
+  "sources": [
+    {
+      "t": "Baseball Savant 변경 기록 · 2026년 6월 스윙 타이밍",
+      "u": "https://baseballsavant.mlb.com/changelog/2026-06-09-swing-timing-miss-distance"
+    },
+    {
+      "t": "Baseball Savant · Swing Timing 리더보드",
+      "u": "https://baseballsavant.mlb.com/leaderboard/bat-tracking/swing-timing-miss-distance"
+    }
+  ]
+}

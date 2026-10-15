@@ -40,7 +40,7 @@ const doorLabel = (t: TermEntry) => `${t.added ? `${t.added}년 · ` : ''}${t.ko
       ))}</ul></section>
   </div>
   <h2 class="block-title">사다리</h2>
-  <p class="block-sub">왼쪽이 기본, 오른쪽으로 갈수록 한 단계 깊은 지표예요. 점선은 아직 쓰는 중인 용어({stubs.length}개)입니다.</p>
+  <p class="block-sub">왼쪽이 기본, 오른쪽으로 갈수록 한 단계 깊은 지표예요.{stubs.length > 0 && ` 점선은 아직 쓰는 중인 용어(${stubs.length}개)입니다.`}</p>
   <div class="ladders">{ladders.map((l) => (
     <div class="ladder"><LadderName ladder={l} /><Chain steps={l.steps} /></div>
   ))}</div>

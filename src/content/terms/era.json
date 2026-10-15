@@ -1,0 +1,63 @@
+{
+  "abbr": "ERA",
+  "chip": "ERA",
+  "ko": "평균자책점",
+  "en": "Earned Run Average",
+  "aliases": [
+    "방어율",
+    "평자",
+    "자책점",
+    "earned run average"
+  ],
+  "level": 1,
+  "order": 30,
+  "cats": [
+    "투구"
+  ],
+  "summary": "투수가 9이닝 동안 내준 자책점의 평균. 실책 때문에 생긴 점수는 빼고 센다.",
+  "easy": [
+    "투수 기록 가운데 가장 많이 보는 숫자다. 한 경기, 즉 9이닝을 혼자 던졌다고 치면 몇 점을 내줄지로 바꿔서 보여 준다. 낮을수록 좋다.",
+    "실점을 다 세지는 않는다. 수비 실책 때문에 난 점수는 투수 책임이 아니라고 보고 빼는데, 남긴 점수를 자책점이라고 한다. 하지만 실책으로 기록되지 않는 수비, 예를 들어 수비수가 공까지 가지 못해 생긴 안타는 그대로 투수 몫이다. 이 한계 때문에 FIP 같은 지표가 나왔다."
+  ],
+  "formula": {
+    "expr": "ERA = 9 × ER ÷ IP",
+    "vars": [
+      [
+        "ER",
+        "자책점"
+      ],
+      [
+        "IP",
+        "투구 이닝"
+      ]
+    ]
+  },
+  "deep": [
+    "자책점은 기록원이 판정한다. 실책이나 포일이 없었다고 가정하고 그 이닝을 다시 그려 봐서, 그래도 났을 점수만 자책점으로 남긴다. 그래서 같은 실점도 기록원의 판단에 따라 자책 여부가 갈린다.",
+    "주자를 남기고 내려간 투수는 그 주자가 홈을 밟으면 자기 실점이 된다. 뒤에 나온 투수가 주자를 막아 주느냐에 따라 앞 투수의 ERA가 달라진다. 이닝이 적은 불펜 투수의 ERA가 특히 크게 흔들리는 이유다.",
+    "ERA에는 수비의 도움과 운이 섞여 있다. 투수가 혼자 결정한 결과만 보는 FIP, 홈런까지 리그 평균으로 바꾼 xFIP, 타구 유형까지 반영한 SIERA가 사다리의 다음 칸이다."
+  ],
+  "myth": {
+    "claim": "ERA가 낮으면 투수가 잘 던진 것이다.",
+    "truth": "수비가 좋은 팀, 타자에게 불리한 구장, 운이 따른 시즌에도 ERA는 낮아진다. 투수 자신의 몫을 보려면 FIP와 함께 본다."
+  },
+  "related": [
+    "fip",
+    "babip",
+    "war"
+  ],
+  "sources": [
+    {
+      "t": "MLB.com Glossary · Earned Run Average",
+      "u": "https://www.mlb.com/glossary/standard-stats/earned-run-average"
+    },
+    {
+      "t": "MLB.com Glossary · Earned Run",
+      "u": "https://www.mlb.com/glossary/standard-stats/earned-run"
+    },
+    {
+      "t": "FanGraphs Library · ERA",
+      "u": "https://library.fangraphs.com/pitching/era/"
+    }
+  ]
+}

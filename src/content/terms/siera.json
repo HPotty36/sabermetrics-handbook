@@ -1,0 +1,45 @@
+{
+  "abbr": "SIERA",
+  "chip": "SIERA",
+  "ko": "기술 상호작용 평균자책점",
+  "en": "Skill-Interactive Earned Run Average",
+  "aliases": [
+    "시에라",
+    "skill interactive era",
+    "스킬 인터랙티브"
+  ],
+  "level": 3,
+  "order": 20,
+  "cats": [
+    "투구"
+  ],
+  "summary": "삼진, 볼넷, 땅볼·뜬공 같은 타구 유형이 서로 어떻게 맞물리는지까지 반영해 평균자책점을 추정한 값. 평균자책점과 같은 눈금이다.",
+  "easy": [
+    "FIP와 xFIP는 삼진, 볼넷, 홈런(또는 뜬공)을 각자 따로 더한다. 하지만 실제로는 이 요소들이 서로 영향을 준다. 삼진을 많이 잡는 투수는 맞더라도 약한 타구를 맞는 경우가 많다.",
+    "SIERA는 이런 맞물림을 계산에 넣는다. 그래서 삼진이 많은 투수, 땅볼을 많이 유도하는 투수의 실력을 FIP나 xFIP보다 조금 더 잘 잡아낸다고 본다."
+  ],
+  "deep": [
+    "입력값은 타석당 삼진, 타석당 볼넷, 그리고 땅볼과 뜬공의 차이다. 여기에 제곱항과 곱셈항을 더해, 삼진이 많을수록 땅볼의 가치가 어떻게 달라지는지 같은 상호작용을 표현한다. 식이 길어 여기서는 구조만 적는다.",
+    "피홈런을 직접 쓰지 않는다는 점은 xFIP와 같다. 다만 xFIP가 모든 투수에게 같은 홈런/뜬공 비율을 적용하는 것과 달리, SIERA는 삼진이 많은 투수일수록 홈런과 안타를 덜 맞는 경향을 식 안에 담는다.",
+    "Baseball Prospectus에서 처음 발표됐고, 지금 많이 쓰이는 것은 FanGraphs가 손본 버전이다. 두 버전은 식과 값이 다르므로 숫자를 인용할 때 출처를 함께 적는다."
+  ],
+  "myth": {
+    "claim": "SIERA는 다음 시즌 평균자책점을 예측하는 지표다.",
+    "truth": "이미 던진 결과로 그 시즌의 실력을 추정하는 지표다. 다음 시즌을 내다볼 때 참고할 수는 있지만, 나이나 부상, 구속 변화 같은 요소는 들어 있지 않다."
+  },
+  "related": [
+    "xfip",
+    "fip",
+    "era"
+  ],
+  "sources": [
+    {
+      "t": "FanGraphs Library · SIERA",
+      "u": "https://library.fangraphs.com/pitching/siera/"
+    },
+    {
+      "t": "MLB.com Glossary · Skill-Interactive Earned Run Average",
+      "u": "https://www.mlb.com/glossary/advanced-stats/skill-interactive-earned-run-average"
+    }
+  ]
+}
