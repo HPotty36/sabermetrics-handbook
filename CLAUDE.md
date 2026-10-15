@@ -16,6 +16,7 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
 ## 지금 있는 것
 
 - Astro 7 정적 사이트다. Node 22.22 이상. `npm run dev`, `npm run build`(결과는 `dist/`), `npm test`, `npm run check`.
+  - 앱(Capacitor 8): `npm run cap:sync`가 앱용 빌드(`dist-app/`)를 만들어 `android/`, `ios/`에 복사한다. 앱의 로컬 서버는 확장자 없는 주소를 모두 홈 `index.html`로 보내므로(Android `WebViewLocalServer`, iOS 라우터), 앱용 빌드(`astro build --mode app`)만 페이지 링크에 `index.html`까지 적는다(`src/lib/make-paths.ts`). 웹 빌드의 주소는 그대로다. 앱에서는 서비스 워커를 등록하지 않는다.
   - 라우트: `src/pages/index.astro`(홈 `/`), `src/pages/terms/[id].astro`(용어 `/terms/<id>/`).
   - 콘텐츠의 원본은 `src/content/`다.
     - `terms/<id>.json`: 용어 1개 = 파일 1개(27개). 파일 이름이 id다. 콘텐츠 컬렉션으로 읽는다.
@@ -50,7 +51,12 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
    - 2026-10-15에 Chromium으로 확인했다. 서버를 끈 상태에서 방문하지 않은 용어 페이지, 홈, 없는 주소(→ 홈), 글꼴, 검색이 모두 동작했다.
    - 남은 것: 실제 Android Chrome·iOS Safari에서 ‘홈 화면에 추가’와 오프라인을 눈으로 확인한다. 아이콘은 헤더의 공 마크를 옮긴 임시 디자인이다.
    - manifest와 아이콘 경로는 `/` 기준이다. `base`를 바꾸면 manifest도 함께 고친다.
-5. Capacitor로 Android/iOS를 감싼다.
+5. ~~Capacitor로 Android/iOS를 감싼다.~~ 2026-10-15에 프로젝트를 만들었다. 빌드는 아직이다.
+   - `android/`, `ios/`(Swift Package Manager)를 만들고, 아이콘과 스플래시는 `assets/`의 원본으로 `npx @capacitor/assets generate --android --ios`로 만들었다.
+   - Capacitor식 라우팅(확장자 없는 주소 → 홈)을 흉내 낸 서버에서 앱용 빌드의 링크, 사다리 이동, 검색, 읽는 순서를 확인했다. 같은 서버에서 웹 빌드는 실패한다(앱용 빌드가 따로 있는 이유).
+   - 이 컨테이너에는 Android SDK가 없고(dl.google.com 차단) Xcode도 없어 APK·IPA를 만들어 보지 못했다. 로컬에서 `npm run cap:sync` 뒤 `npx cap open android`(Android Studio) 또는 `npx cap open ios`(Xcode)로 빌드하고 실제 기기에서 확인한다.
+   - `appId`(`io.github.hpotty36.sabermetrics`)는 임시다. 스토어에 처음 올린 뒤에는 바꿀 수 없으니 출시 전에 정한다.
+   - 확인할 것: iOS 상태 표시줄 영역(헤더는 `env(safe-area-inset-top)`을 쓴다), Android 뒤로 가기 버튼, 다크 모드 스플래시에서 공 테두리가 잘 안 보이는 점.
 
 스택은 Astro를 권장하지만 확정은 아니다. 바꾸려면 먼저 이유를 설명하고 확인받는다.
 

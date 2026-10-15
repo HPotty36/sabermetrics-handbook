@@ -17,6 +17,8 @@ npm run dev      # 개발 서버 (http://localhost:4321)
 npm run build    # 정적 빌드 → dist/. 콘텐츠 검사에 걸리면 실패한다
 npm test         # 콘텐츠 검사와 검색·숫자 표기 단위 테스트 (빌드 없이)
 npm run check    # 타입 검사
+npm run cap:sync # 앱용 빌드(dist-app/)를 만들어 android/, ios/에 복사
+npx cap open android   # Android Studio에서 열기 (Xcode는 npx cap open ios)
 ```
 
 Node 22.22 이상이 필요하다.
@@ -34,6 +36,9 @@ src/scripts/term-index.ts     검색·필터 (브라우저)
 src/styles/global.css         스타일 (프로토타입에서 출발)
 integrations/                 빌드 후 서비스 워커(dist/sw.js) 생성
 public/                       manifest, 아이콘
+capacitor.config.ts           앱 설정 (Capacitor)
+android/, ios/                네이티브 앱 프로젝트
+assets/                       앱 아이콘·스플래시 원본 (@capacitor/assets)
 prototype/index.html          동작과 디자인의 기준이 되는 단일 HTML 프로토타입
 docs/content-guide.md         용어 스키마와 작성 규칙
 docs/verified-facts.md        원 자료와 대조해 확인한 수치와 정의
@@ -44,7 +49,7 @@ CLAUDE.md                     Claude Code용 프로젝트 안내
 
 1. ~~정적 사이트로 이전 (Astro, 용어별 페이지)~~ 끝
 2. ~~설치형 웹앱 (PWA, 오프라인)~~ 끝
-3. Android/iOS 앱 (Capacitor)
+3. Android/iOS 앱 (Capacitor) — 프로젝트는 만들었고, 로컬 빌드와 기기 확인이 남았다
 
 웹앱과 앱은 같은 사이트를 그대로 확장한다.
 

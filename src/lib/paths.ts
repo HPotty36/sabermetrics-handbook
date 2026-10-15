@@ -1,7 +1,6 @@
-const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
+import { makePaths } from './make-paths.ts';
 
-export const homeHref = base;
+/** `astro build --mode app`으로 만든 앱(Capacitor)용 빌드인지. */
+export const isAppBuild = import.meta.env.MODE === 'app';
 
-export function termHref(id: string): string {
-  return `${base}terms/${id}/`;
-}
+export const { base, homeHref, termHref } = makePaths(import.meta.env.BASE_URL, isAppBuild);

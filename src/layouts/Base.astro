@@ -13,7 +13,7 @@ import '../styles/global.css';
 import Foot from '../components/Foot.astro';
 import TermIndex from '../components/TermIndex.astro';
 import { loadHandbook } from '../lib/handbook.ts';
-import { homeHref, termHref } from '../lib/paths.ts';
+import { base, homeHref, isAppBuild, termHref } from '../lib/paths.ts';
 import { toSearchEntry } from '../lib/search.ts';
 import { SEASON } from '../lib/site.ts';
 
@@ -37,9 +37,9 @@ const searchIndex = JSON.stringify(terms.map((t) => toSearchEntry(t, termHref(t.
 <meta name="description" content={description}>
 <meta name="theme-color" content="#F2F4F7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0C111A" media="(prefers-color-scheme: dark)">
-<link rel="icon" href={`${homeHref}favicon.svg`} type="image/svg+xml">
-<link rel="apple-touch-icon" href={`${homeHref}icons/apple-touch-icon.png`}>
-<link rel="manifest" href={`${homeHref}manifest.webmanifest`}>
+<link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml">
+<link rel="apple-touch-icon" href={`${base}icons/apple-touch-icon.png`}>
+<link rel="manifest" href={`${base}manifest.webmanifest`}>
 </head>
 <body data-view={view}>
 <header class="site-head">
@@ -65,9 +65,10 @@ const searchIndex = JSON.stringify(terms.map((t) => toSearchEntry(t, termHref(t.
 <script>
   import '../scripts/term-index.ts';
 </script>
-{import.meta.env.PROD && (
-  // 설치형 웹앱(PWA): 오프라인에서도 열리도록 서비스 워커를 등록한다. 개발 서버에서는 캐시가 방해되므로 등록하지 않는다.
-  <script is:inline define:vars={{ swUrl: `${homeHref}sw.js`, scope: homeHref }}>
+{import.meta.env.PROD && !isAppBuild && (
+  // 설치형 웹앱(PWA): 오프라인에서도 열리도록 서비스 워커를 등록한다.
+  // 개발 서버에서는 캐시가 방해되고, 앱(Capacitor)은 파일이 기기 안에 있어 필요 없으므로 등록하지 않는다.
+  <script is:inline define:vars={{ swUrl: `${base}sw.js`, scope: base }}>
     if ('serviceWorker' in navigator) {
       addEventListener('load', function () { navigator.serviceWorker.register(swUrl, { scope: scope }).catch(function () {}); });
     }
