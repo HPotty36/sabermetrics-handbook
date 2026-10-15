@@ -21,8 +21,10 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
     - `terms/<id>.json`: 용어 1개 = 파일 1개(15개). 파일 이름이 id다. 콘텐츠 컬렉션으로 읽는다.
     - `stubs.json`(준비 중 12개), `ladders.json`(사다리 9개): 순서가 있는 목록이라 컬렉션이 아니라 `src/lib/handbook.ts`에서 읽는다. 사다리는 파일에 적힌 순서대로 화면에 나온다.
   - 스키마는 `src/lib/schema.ts`(zod), 파일 사이의 참조 검사는 `src/lib/validate.ts`다. 어긋나면 `astro build`가 실패한다. `npm test`는 빌드 없이 같은 검사를 돌린다.
-  - 클라이언트 스크립트는 두 개뿐이다. `src/scripts/term-index.ts`(검색·필터)와 용어 페이지의 인라인 스크립트(읽는 순서).
-  - 스타일은 `src/styles/global.css`다. 프로토타입 CSS를 그대로 옮겼다.
+  - 클라이언트 스크립트는 세 가지뿐이다. `src/scripts/term-index.ts`(검색·필터), 용어 페이지의 인라인 스크립트(읽는 순서), 서비스 워커 등록(빌드 결과에서만, `Base.astro`).
+  - 스타일은 `src/styles/global.css`다. 프로토타입 CSS에서 출발했다.
+  - 글꼴은 npm의 Fontsource 패키지로 직접 내보낸다(`Base.astro`에서 불러옴). `astro.config.mjs`의 작은 Vite 플러그인이 woff를 빼고 woff2만 남긴다.
+  - PWA: `public/manifest.webmanifest`, 아이콘(`public/favicon.svg`에서 만든 `public/icons/*.png`), 서비스 워커. 서비스 워커는 빌드가 끝나면 `integrations/service-worker.mjs`가 `dist/sw.js`로 만든다. 페이지·CSS·아이콘은 설치 때 미리 저장하고, 글꼴 조각은 쓰일 때 저장한다. 페이지는 네트워크 우선(3초 안에 안 오면 저장본), 없는 페이지는 오프라인에서 홈으로 대신한다.
 - `prototype/index.html`: 동작과 디자인의 기준이다. 브라우저로 바로 열린다.
   - 아티팩트 환경 제약 때문에 해시 라우팅(`#fip`)과 인라인 데이터를 썼다. 안의 JSON은 옮기기 전(2026-10-15) 콘텐츠의 스냅숏이라 고치지 않는다.
 - `docs/content-guide.md`: 용어 스키마와 작성 규칙이다. 용어를 쓰거나 고치기 전에 읽는다.
@@ -41,8 +43,10 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
      - 본문이 살짝 올라오는 등장 애니메이션(0.28초)이 페이지를 옮길 때마다 나온다. 프로토타입은 처음 열 때만 나왔다.
    - 페이지가 나뉘었으므로 검색어와 필터는 sessionStorage에 둬서, 프로토타입처럼 옮겨 다니는 동안 유지한다.
 3. `stubs` 12개를 작성한다. `docs/content-guide.md` 규칙대로 쓰고, 수치는 출처를 확인한 뒤에 넣는다.
-4. PWA를 붙인다. manifest, 서비스 워커, 오프라인 캐시가 필요하다.
-   - 글꼴은 지금 Google Fonts에서 받는다. 오프라인에서도 같은 글꼴로 보이려면 직접 호스팅하거나 캐시해야 한다.
+4. ~~PWA를 붙인다. manifest, 서비스 워커, 오프라인 캐시가 필요하다.~~ 끝났다.
+   - 2026-10-15에 Chromium으로 확인했다. 서버를 끈 상태에서 방문하지 않은 용어 페이지, 홈, 없는 주소(→ 홈), 글꼴, 검색이 모두 동작했다.
+   - 남은 것: 실제 Android Chrome·iOS Safari에서 ‘홈 화면에 추가’와 오프라인을 눈으로 확인한다. 아이콘은 헤더의 공 마크를 옮긴 임시 디자인이다.
+   - manifest와 아이콘 경로는 `/` 기준이다. `base`를 바꾸면 manifest도 함께 고친다.
 5. Capacitor로 Android/iOS를 감싼다.
 
 스택은 Astro를 권장하지만 확정은 아니다. 바꾸려면 먼저 이유를 설명하고 확인받는다.

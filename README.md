@@ -9,7 +9,7 @@
 
 ## 상태
 
-Astro 정적 사이트로 옮겼다. 용어 15개를 썼고, 12개를 준비 중이다.
+Astro 정적 사이트로 옮겼고, 설치형 웹앱(PWA)으로 오프라인에서도 열린다. 용어 15개를 썼고, 12개를 준비 중이다.
 
 ```sh
 npm install
@@ -31,7 +31,9 @@ src/lib/schema.ts             콘텐츠 스키마 (zod)
 src/lib/validate.ts           파일 사이의 참조와 눈금 범위 검사
 src/pages/                    홈(/)과 용어 페이지(/terms/<id>/)
 src/scripts/term-index.ts     검색·필터 (브라우저)
-src/styles/global.css         프로토타입에서 옮긴 스타일
+src/styles/global.css         스타일 (프로토타입에서 출발)
+integrations/                 빌드 후 서비스 워커(dist/sw.js) 생성
+public/                       manifest, 아이콘
 prototype/index.html          동작과 디자인의 기준이 되는 단일 HTML 프로토타입
 docs/content-guide.md         용어 스키마와 작성 규칙
 docs/verified-facts.md        원 자료와 대조해 확인한 수치와 정의
@@ -41,7 +43,7 @@ CLAUDE.md                     Claude Code용 프로젝트 안내
 ## 로드맵
 
 1. ~~정적 사이트로 이전 (Astro, 용어별 페이지)~~ 끝
-2. 설치형 웹앱 (PWA, 오프라인)
+2. ~~설치형 웹앱 (PWA, 오프라인)~~ 끝
 3. Android/iOS 앱 (Capacitor)
 
 웹앱과 앱은 같은 사이트를 그대로 확장한다.

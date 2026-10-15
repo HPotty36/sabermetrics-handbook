@@ -1,5 +1,14 @@
 ---
 // 모든 페이지의 틀. 헤더(검색), 실밥 구분선, 데스크톱 사이드바 목록, 본문 열.
+// 글꼴은 npm의 Fontsource 패키지로 사이트에서 직접 내보낸다. 오프라인(PWA)과 앱에서도 같은 글꼴로 보인다.
+import '@fontsource/ibm-plex-sans-kr/400';
+import '@fontsource/ibm-plex-sans-kr/500';
+import '@fontsource/ibm-plex-sans-kr/600';
+import '@fontsource/ibm-plex-sans-kr/700';
+import '@fontsource/big-shoulders-display/600';
+import '@fontsource/big-shoulders-display/800';
+import '@fontsource/ibm-plex-mono/400';
+import '@fontsource/ibm-plex-mono/500';
 import '../styles/global.css';
 import Foot from '../components/Foot.astro';
 import TermIndex from '../components/TermIndex.astro';
@@ -26,9 +35,11 @@ const searchIndex = JSON.stringify(terms.map((t) => toSearchEntry(t, termHref(t.
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{title}</title>
 <meta name="description" content={description}>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<meta name="theme-color" content="#F2F4F7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0C111A" media="(prefers-color-scheme: dark)">
+<link rel="icon" href={`${homeHref}favicon.svg`} type="image/svg+xml">
+<link rel="apple-touch-icon" href={`${homeHref}icons/apple-touch-icon.png`}>
+<link rel="manifest" href={`${homeHref}manifest.webmanifest`}>
 </head>
 <body data-view={view}>
 <header class="site-head">
@@ -54,5 +65,13 @@ const searchIndex = JSON.stringify(terms.map((t) => toSearchEntry(t, termHref(t.
 <script>
   import '../scripts/term-index.ts';
 </script>
+{import.meta.env.PROD && (
+  // 설치형 웹앱(PWA): 오프라인에서도 열리도록 서비스 워커를 등록한다. 개발 서버에서는 캐시가 방해되므로 등록하지 않는다.
+  <script is:inline define:vars={{ swUrl: `${homeHref}sw.js`, scope: homeHref }}>
+    if ('serviceWorker' in navigator) {
+      addEventListener('load', function () { navigator.serviceWorker.register(swUrl, { scope: scope }).catch(function () {}); });
+    }
+  </script>
+)}
 </body>
 </html>

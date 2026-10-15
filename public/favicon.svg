@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- 헤더의 공 마크(.brand-ball)를 아이콘으로 옮겼다. 색은 :root 토큰(ink, surface, seam). -->
+  <defs><clipPath id="in"><circle cx="50" cy="50" r="42"/></clipPath></defs>
+  <circle cx="50" cy="50" r="42" fill="#FFFFFF"/>
+  <g clip-path="url(#in)" fill="none" stroke="#C42638" stroke-width="5" stroke-dasharray="7 5">
+    <ellipse cx="2" cy="50" rx="30" ry="64"/>
+    <ellipse cx="98" cy="50" rx="30" ry="64"/>
+  </g>
+  <circle cx="50" cy="50" r="42" fill="none" stroke="#121A27" stroke-width="8"/>
+</svg>
