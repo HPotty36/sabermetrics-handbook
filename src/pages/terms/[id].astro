@@ -2,11 +2,13 @@
 import Chain from '../../components/Chain.astro';
 import Formula from '../../components/Formula.astro';
 import LadderName from '../../components/LadderName.astro';
+import Pager from '../../components/Pager.astro';
 import Scale from '../../components/Scale.astro';
 import Sec from '../../components/Sec.astro';
 import Step from '../../components/Step.astro';
 import Base from '../../layouts/Base.astro';
 import { loadHandbook } from '../../lib/handbook.ts';
+import { ladderPlaces } from '../../lib/ladder.ts';
 import { homeHref } from '../../lib/paths.ts';
 import { LEVELS } from '../../lib/schema.ts';
 import { SITE_NAME } from '../../lib/site.ts';
@@ -18,11 +20,17 @@ export async function getStaticPaths() {
 
 const { termMap, ladders } = await loadHandbook();
 const t = termMap.get(Astro.params.id)!;
-const myLadders = ladders.filter((l) => l.steps.includes(t.id));
+const places = ladderPlaces(ladders, t.id);
 ---
 <Base title={`${t.abbr} · ${t.ko} | ${SITE_NAME}`} description={t.summary} view="term" current={t.id}>
   <a class="back" href={homeHref}>← 전체 용어</a>
   <header class="term-head">
+    {/* GOV.UK 디자인 시스템의 step by step navigation header처럼, 이 페이지가 어느 사다리의 몇 번째 칸인지 맨 위에 알린다. */}
+    {places.length > 0 && (
+      <nav class="part-of" aria-label="이 용어가 속한 사다리"><span class="part-of-label">사다리</span>{places.map(({ ladder, pos, total }) => (
+        <a href="#ladders">{ladder.name} <span class="part-of-pos">{pos}/{total}</span></a>
+      ))}</nav>
+    )}
     <div class="term-meta"><span class={`lv lv${t.level}`}>{LEVELS[t.level]}</span>{t.added && <span class="new">{t.added}년 등장</span>}<span class="cat">{t.cats.join(' · ')}</span></div>
     <h1 class="term-abbr">{t.abbr}</h1>
     <p class="term-ko">{t.ko}</p>
@@ -72,11 +80,12 @@ const myLadders = ladders.filter((l) => l.steps.includes(t.id));
   {t.leagues && t.leagues.length > 0 && (
     <Sec title="리그마다 다른 점"><div class="leagues">{t.leagues.map((l) => <div class="league"><b>{l.lg}</b><p>{l.t}</p></div>)}</div></Sec>
   )}
-  {myLadders.length > 0 && (
-    <Sec title="사다리에서의 위치"><div class="term-ladders">{myLadders.map((l) => (
-      <div class="term-ladder"><LadderName ladder={l} /><Chain steps={l.steps} current={t.id} /></div>
-    ))}</div></Sec>
-  )}
   <Sec title="같이 보면 좋은 용어"><div class="related">{t.related.map((id) => <Step id={id} />)}</div></Sec>
   <Sec title="출처"><ul class="sources">{t.sources.map((s) => <li><a href={s.u} target="_blank" rel="noopener">{s.t} ↗</a></li>)}</ul></Sec>
+  {/* 문서 사이트의 이전·다음 링크처럼 사다리를 본문 끝에 둔다. 전체 사다리와, 한 칸 기본·한 칸 심화로 가는 링크. */}
+  {places.length > 0 && (
+    <Sec title="사다리에서의 위치" id="ladders"><div class="term-ladders">{places.map(({ ladder, prev, next }) => (
+      <div class="term-ladder"><LadderName ladder={ladder} /><Chain steps={ladder.steps} current={t.id} /><Pager prev={prev} next={next} /></div>
+    ))}</div></Sec>
+  )}
 </Base>

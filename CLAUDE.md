@@ -34,6 +34,7 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
    - 클라이언트 스크립트는 검색, 필터, 읽는 순서 전환에만 쓴다. 이 원칙은 계속 지킨다.
 2. 프로토타입과 화면이 같은지 확인한다. 데스크톱은 사이드바, 모바일은 한 열이고 라이트·다크를 모두 본다.
    - 2026-10-15에 Chromium 스크린숏으로 자동 비교했다. 모든 페이지 × 1280px·400px × 라이트·다크에서 안티에일리어싱 오차(색값 ±1, 몇 픽셀)를 빼면 같았고, 400px에서 가로 스크롤도 없었다. 실제 기기(iOS Safari, Android Chrome)에서 눈으로 보는 확인이 남았다.
+   - 그 뒤 레퍼런스를 참고해 용어 페이지를 일부 바꿨다(‘디자인 기준’ 참고). 이제 프로토타입은 토큰과 동작의 기준이고, 화면이 픽셀 단위로 같지는 않다.
    - 프로토타입과 다른 점:
      - 필터만 걸었는데 결과가 없으면 ‘고른 조건에 맞는 용어가 아직 없어요.’를 보인다. 프로토타입은 빈 따옴표(‘’)가 찍혔다.
      - 모바일 용어 페이지에서 검색을 시작하면 홈의 전체 용어로 페이지를 옮긴다(프로토타입은 같은 화면 안에서 전환). 한글은 글자 조합이 끝난 뒤에 옮긴다.
@@ -58,6 +59,16 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
   - IBM Plex Mono: 수식
 - 이 주제만의 요소는 두 가지다. 헤더 아래 실밥 구분선, 숫자 눈금 막대의 홈플레이트 모양 평균 마커. 이런 장식을 더 늘리지 않는다.
 - 모바일 400px 폭에서 가로 스크롤이 생기면 안 된다.
+
+### 레퍼런스를 참고해 프로토타입에서 바꾼 것 (2026-10-15)
+
+토큰, 글꼴, 위 두 요소는 그대로 두고 정보 구조와 위계만 바꿨다.
+
+- 용어 페이지 맨 위에 ‘사다리 · 투수 평가 2/4’ 한 줄. 참고: [GOV.UK step by step navigation header](https://components.publishing.service.gov.uk/component-guide/step_by_step_nav_header)(콘텐츠 페이지 맨 위에 ‘Part of’로 속한 여정을 알린다).
+- 사다리 섹션을 본문 끝(출처 뒤)으로 옮기고, 사다리마다 ‘한 칸 기본 / 한 칸 심화’ 링크를 붙였다. 참고: [GOV.UK pagination](https://design-system.service.gov.uk/components/pagination)(본문 뒤에 이전·다음 링크와 맥락 한 줄), [docs.page previous and next links](https://use.docs.page/features/previous-and-next-links)(탐색 순서를 따라 페이지 끝에 둔다), [GOV.UK step by step navigation](https://design-system.service.gov.uk/patterns/step-by-step-navigation).
+- 섹션 제목을 13px 회색에서 16px 굵은 본문색으로 올렸다. 긴 용어 페이지에서 구획이 보이게 하려는 것이다. 참고: [Vector 2022](https://www.mediawiki.org/wiki/Reading/Web/Desktop_Improvements)(읽기 폭 제한과 제목·목차 중심 탐색).
+- 눈금 막대에 좋은 쪽을 글로 적었다(‘오른쪽으로 갈수록 좋아요 →’). 빨간 쪽이 좋은 쪽이라는 관례는 [Baseball Savant 퍼센타일 막대](https://www.mlb.com/news/baseball-savant-statcast-player-pages-new-look)와 같다. 범례는 숫자 → 의미를 위에서 아래로 읽는 목록으로 바꿨다.
+- 이 컨테이너에서는 레퍼런스 사이트를 직접 열 수 없어(네트워크 정책) 웹 검색으로 패턴과 근거를 확인했다. 화면을 직접 비교하지는 못했다.
 
 ## 지켜야 할 것
 

@@ -1,0 +1,30 @@
+---
+// 사다리 앞뒤 칸으로 가는 링크. GOV.UK 디자인 시스템의 pagination(본문 뒤에 이전·다음 링크, 아래에 맥락 한 줄)을 참고했다.
+import { loadHandbook } from '../lib/handbook.ts';
+import { termHref } from '../lib/paths.ts';
+
+interface Props {
+  prev?: string;
+  next?: string;
+}
+
+const { prev, next } = Astro.props;
+const { termMap, stubMap } = await loadHandbook();
+
+const slots = [
+  { id: prev, dir: 'prev', label: '← 한 칸 기본' },
+  { id: next, dir: 'next', label: '한 칸 심화 →' },
+] as const;
+---
+<div class="pager">{slots.map(({ id, dir, label }) => {
+  if (!id) return <span class={`pager-link is-empty ${dir}`} aria-hidden="true"></span>;
+  const term = termMap.get(id);
+  if (term) {
+    return (
+      <a class={`pager-link ${dir}`} href={termHref(id)} rel={dir}><span class="pager-dir">{label}</span><span class="pager-name"><span class={`dot dot${term.level}`} aria-hidden="true"></span>{term.chip}</span><span class="pager-ko">{term.ko === term.chip ? term.en : term.ko}</span></a>
+    );
+  }
+  return (
+    <span class={`pager-link is-stub ${dir}`}><span class="pager-dir">{label}</span><span class="pager-name">{stubMap.get(id)!.chip}</span><span class="pager-ko">준비 중</span></span>
+  );
+})}</div>
