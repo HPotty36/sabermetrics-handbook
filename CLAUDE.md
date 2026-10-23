@@ -26,6 +26,10 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
   - 스타일은 `src/styles/global.css`다. 프로토타입 CSS에서 출발했다.
   - 글꼴은 npm의 Fontsource 패키지로 직접 내보낸다(`Base.astro`에서 불러옴). `astro.config.mjs`의 작은 Vite 플러그인이 woff를 빼고 woff2만 남긴다.
   - PWA: `public/manifest.webmanifest`, 아이콘(`public/favicon.svg`에서 만든 `public/icons/*.png`), 서비스 워커. 서비스 워커는 빌드가 끝나면 `integrations/service-worker.mjs`가 `dist/sw.js`로 만든다. 페이지·CSS·아이콘은 설치 때 미리 저장하고, 글꼴 조각은 쓰일 때 저장한다. 페이지는 네트워크 우선(3초 안에 안 오면 저장본), 없는 페이지는 오프라인에서 홈으로 대신한다.
+  - 배포: Cloudflare Pages에 Git으로 연결한다(프로덕션 브랜치 `main`, 빌드 명령 `npm run build`, 출력 `dist`). 다른 브랜치는 미리보기 배포가 된다.
+    - Pages 빌드 이미지의 기본 Node(22.16)는 `engines`보다 낮고 `engines`를 읽지 않으므로 `.node-version`으로 고정한다. Node를 올리면 둘 다 고친다.
+    - `404.html`이 없으면 Pages는 없는 주소에 홈을 보낸다(SPA 방식). 오프라인 서비스 워커와 같은 동작이다.
+    - 사이트 주소(`<프로젝트 이름>.pages.dev`)에도 앱 ID처럼 개인을 알아볼 수 있는 문구를 넣지 않는다.
 - `prototype/index.html`: 동작과 디자인의 기준이다. 브라우저로 바로 열린다.
   - 아티팩트 환경 제약 때문에 해시 라우팅(`#fip`)과 인라인 데이터를 썼다. 안의 JSON은 옮기기 전(2026-10-15) 콘텐츠의 스냅숏이라 고치지 않는다.
 - `docs/content-guide.md`: 용어 스키마와 작성 규칙이다. 용어를 쓰거나 고치기 전에 읽는다.
