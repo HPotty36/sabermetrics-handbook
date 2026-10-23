@@ -19,6 +19,39 @@
     "투수 기록 가운데 가장 많이 보는 숫자다. 한 경기, 즉 9이닝을 혼자 던졌다고 치면 몇 점을 내줄지로 바꿔서 보여 준다. 낮을수록 좋다.",
     "실점을 다 세지는 않는다. 수비 실책 때문에 난 점수는 투수 책임이 아니라고 보고 빼는데, 남긴 점수를 자책점이라고 한다. 하지만 실책으로 기록되지 않는 수비, 예를 들어 수비수가 공까지 가지 못해 생긴 안타는 그대로 투수 몫이다. 이 한계 때문에 FIP 같은 지표가 나왔다."
   ],
+  "scale": {
+    "min": 2.5,
+    "max": 5.5,
+    "dir": "low",
+    "fmt": "dec2",
+    "avg": {
+      "v": 4.17,
+      "t": "2026 MLB 평균 4.17 (2025년 4.15)"
+    },
+    "marks": [
+      {
+        "v": 2.92,
+        "t": "정상급"
+      },
+      {
+        "v": 3.34,
+        "t": "좋음"
+      },
+      {
+        "v": 3.75,
+        "t": "평균보다 좋음"
+      },
+      {
+        "v": 4.59,
+        "t": "평균보다 나쁨"
+      },
+      {
+        "v": 5.21,
+        "t": "매우 부진"
+      }
+    ],
+    "note": "낮을수록 좋다. FanGraphs의 ERA- 경험칙(리그 평균을 100으로 놓은 선발 투수 기준)을 2026 리그 평균 4.17에 맞춰 환산한 대략적인 구간이다. 구장 보정은 하지 않았고, 불펜 투수는 대체로 더 낮게 나온다."
+  },
   "formula": {
     "expr": "ERA = 9 × ER ÷ IP",
     "vars": [
@@ -58,6 +91,14 @@
     {
       "t": "FanGraphs Library · ERA",
       "u": "https://library.fangraphs.com/pitching/era/"
+    },
+    {
+      "t": "Baseball-Reference · 2026 MLB 투구 (리그 평균)",
+      "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-pitching.shtml"
+    },
+    {
+      "t": "FanGraphs Library · ERA-, FIP-, xFIP-",
+      "u": "https://library.fangraphs.com/pitching/era-fip-xfip/"
     }
   ]
 }

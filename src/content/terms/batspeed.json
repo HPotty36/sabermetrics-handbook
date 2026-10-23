@@ -29,7 +29,7 @@
   ],
   "deep": [
     "선수 평균은 모든 스윙이 아니라 ‘경쟁 스윙’으로만 낸다. 그 선수의 가장 빠른 90% 스윙에, 배트 스피드 60mph 이상이면서 타구 속도가 90mph 이상인 스윙을 더한 것이다. 체크 스윙이나 일부러 갖다 맞힌 스윙이 평균을 끌어내리지 않게 하려는 장치다.",
-    "75mph 이상인 스윙은 ‘빠른 스윙’으로 따로 세고, 그 비율을 Fast Swing%로 제공한다. 배트 스피드와 정확도를 한 번에 판정한 것이 블라스트다.",
+    "75mph 이상인 스윙은 ‘빠른 스윙’으로 따로 세고, 그 비율을 Fast Swing%로 제공한다. 2026 MLB 평균은 경쟁 스윙 기준 72.1mph, 빠른 스윙 비율은 26.6%로 2025년(71.8mph, 24.6%)보다 조금 올랐다. 배트 스피드와 정확도를 한 번에 판정한 것이 블라스트다.",
     "배트 트래킹 데이터는 2024년 5월 Baseball Savant에 공개됐고, 2023시즌 올스타 휴식기 이후 기록부터 남아 있다."
   ],
   "myth": {
@@ -49,6 +49,10 @@
     {
       "t": "MLB.com Glossary · Fast Swing Rate",
       "u": "https://www.mlb.com/glossary/statcast/fast-swing-rate"
+    },
+    {
+      "t": "Baseball Savant · Bat Tracking (2026 리그 단위)",
+      "u": "https://baseballsavant.mlb.com/leaderboard/bat-tracking?minSwings=q&seasonStart=2026&seasonEnd=2026&type=league&gameType=Regular"
     }
   ]
 }

@@ -26,8 +26,8 @@
   ],
   "deep": [
     "회전 가운데 실제로 공을 움직이는 것은 진행 방향과 수직으로 도는 성분뿐이다. 총알처럼 진행 방향을 축으로 도는 회전(자이로 회전)은 움직임을 거의 만들지 않는다. 전체 회전 중 움직임에 쓰이는 비율을 액티브 스핀, 또는 회전 효율이라고 한다.",
-    "그래서 회전수가 높아도 회전 효율이 낮으면 IVB가 평범하게 나온다. 포심이 ‘떠오르는’ 정도를 보려면 회전수보다 IVB를 직접 보는 편이 정확하다.",
-    "지금은 추적 장비가 회전축을 직접 재서 액티브 스핀을 구한다. 예전에는 공의 움직임에서 거꾸로 계산했으므로, 측정 방식이 바뀐 앞뒤 시즌을 비교할 때는 이 점을 감안한다."
+    "그래서 회전수가 높아도 회전 효율이 낮으면 IVB가 평범하게 나온다. 포심이 ‘떠오르는’ 정도를 보려면 회전수보다 IVB를 직접 보는 편이 정확하다. 2026 MLB 포심 평균 회전수는 2,314rpm으로 2025년 2,323rpm과 비슷했다.",
+    "2020시즌부터는 공이 손을 떠날 때의 회전을 직접 재서 액티브 스핀을 구한다. 공의 움직임에서 거꾸로 계산하던 예전 방식의 값도 따로 공개되므로, 숫자를 비교할 때는 어느 방식인지 먼저 확인한다."
   ],
   "myth": {
     "claim": "회전수가 같으면 같은 공이다.",
@@ -46,6 +46,10 @@
     {
       "t": "MLB.com Glossary · Active Spin",
       "u": "https://www.mlb.com/glossary/statcast/active-spin"
+    },
+    {
+      "t": "Baseball Savant · Statcast Search (2026 포심, 리그 단위)",
+      "u": "https://baseballsavant.mlb.com/statcast_search?hfPT=FF%7C&hfGT=R%7C&hfSea=2026%7C&player_type=pitcher&group_by=league&chk_stats_velocity=on&chk_stats_spin_rate=on"
     }
   ]
 }

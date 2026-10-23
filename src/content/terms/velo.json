@@ -54,8 +54,12 @@
       "u": "https://www.mlb.com/glossary/statcast/perceived-velocity"
     },
     {
-      "t": "AP · 2026 포심 평균 구속 기록 (U.S. News 게재)",
-      "u": "https://www.usnews.com/news/sports/articles/2026-09-29/the-fast-get-faster-mlb-pitchers-again-set-fastball-velocity-record-by-averaging-94-8-mph"
+      "t": "AP · 2026 포심 평균 구속 기록 (ESPN 게재)",
+      "u": "https://www.espn.com/mlb/story/_/id/50059411/mlb-pitchers-again-set-fastball-velocity-record-948-mph"
+    },
+    {
+      "t": "Baseball Savant · Statcast Search (2026 포심, 리그 단위)",
+      "u": "https://baseballsavant.mlb.com/statcast_search?hfPT=FF%7C&hfGT=R%7C&hfSea=2026%7C&player_type=pitcher&group_by=league&chk_stats_velocity=on&chk_stats_spin_rate=on"
     }
   ]
 }

@@ -23,29 +23,33 @@
     "max": 5.5,
     "dir": "low",
     "fmt": "dec2",
+    "avg": {
+      "v": 4.17,
+      "t": "2026 MLB 평균 4.17 (정의상 리그 ERA와 같다)"
+    },
     "marks": [
       {
-        "v": 3.0,
+        "v": 2.92,
         "t": "정상급"
       },
       {
-        "v": 3.5,
+        "v": 3.34,
         "t": "좋음"
       },
       {
-        "v": 4.0,
-        "t": "평균 안팎"
+        "v": 3.75,
+        "t": "평균보다 좋음"
       },
       {
-        "v": 4.5,
-        "t": "부진"
+        "v": 4.59,
+        "t": "평균보다 나쁨"
       },
       {
-        "v": 5.0,
+        "v": 5.21,
         "t": "매우 부진"
       }
     ],
-    "note": "낮을수록 좋다. ERA와 같은 눈금이다."
+    "note": "낮을수록 좋다. ERA와 같은 눈금이다. FanGraphs의 FIP- 경험칙(리그 평균 100, 선발 투수 기준)을 2026 리그 평균에 맞춰 환산한 대략적인 구간이다."
   },
   "formula": {
     "expr": "FIP = (13×HR + 3×(BB + HBP) − 2×K) ÷ IP + C",
@@ -103,6 +107,14 @@
     {
       "t": "FanGraphs · Guts (시즌별 FIP 상수)",
       "u": "https://www.fangraphs.com/guts.aspx?type=cn"
+    },
+    {
+      "t": "FanGraphs Library · ERA-, FIP-, xFIP-",
+      "u": "https://library.fangraphs.com/pitching/era-fip-xfip/"
+    },
+    {
+      "t": "Baseball-Reference · 2026 MLB 투구 (리그 평균)",
+      "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-pitching.shtml"
     }
   ]
 }

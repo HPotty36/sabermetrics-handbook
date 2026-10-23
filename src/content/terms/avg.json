@@ -35,7 +35,7 @@
   "deep": [
     "분모인 타수에는 볼넷과 사구가 빠진다. 출루율은 이 둘을 분자와 분모에 모두 넣기 때문에, 같은 타자라도 출루율이 대개 타율보다 높다. 그 차이가 크면 볼넷과 사구로 자주 나가는 타자다.",
     "타율은 인플레이 타구가 안타가 되느냐에 크게 좌우된다. 그 부분에는 상대 수비와 운이 많이 섞여 있어서, 같은 타자라도 한 시즌 타율은 해마다 꽤 출렁인다. 이 흔들림을 따로 떼어 보는 지표가 BABIP다.",
-    "쓸모가 없지는 않다. 공을 맞히는 능력을 보는 출발점이고, 타율·출루율·장타율 세 숫자를 함께 읽으면 어떤 모양의 타자인지 보인다."
+    "쓸모가 없지는 않다. 공을 맞히는 능력을 보는 출발점이고, 타율·출루율·장타율 세 숫자를 함께 읽으면 어떤 모양의 타자인지 보인다. 2026 MLB 리그 타율은 .244로 2025년 .245와 거의 같았다."
   ],
   "myth": {
     "claim": "타율이 높은 타자가 공격에 더 많이 기여한다.",
@@ -54,6 +54,10 @@
     {
       "t": "FanGraphs Library · Stats to Avoid: Batting Average",
       "u": "https://library.fangraphs.com/stats-to-avoid-batting-average/"
+    },
+    {
+      "t": "Baseball-Reference · 2026 MLB 타격 (리그 평균)",
+      "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-batting.shtml"
     }
   ]
 }
