@@ -1,0 +1,12 @@
+---
+import type { Term } from '../lib/schema.ts';
+
+interface Props {
+  formula: NonNullable<Term['formula']>;
+}
+
+const { formula: f } = Astro.props;
+---
+<div class="formula"><div class="formula-expr">{f.expr}</div>{f.vars && f.vars.length > 0 && (
+  <dl class="vars">{f.vars.map(([sym, desc]) => <><dt>{sym}</dt><dd>{desc}</dd></>)}</dl>
+)}</div>

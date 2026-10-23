@@ -1,0 +1,89 @@
+{
+  "abbr": "Attack Angle",
+  "chip": "어택 앵글",
+  "ko": "어택 앵글 (배트 진입각)",
+  "en": "Attack Angle",
+  "aliases": [
+    "어택앵글",
+    "swing path",
+    "스윙패스",
+    "스윙 틸트",
+    "attack direction",
+    "어택디렉션",
+    "ideal attack angle"
+  ],
+  "level": 3,
+  "order": 90,
+  "cats": [
+    "타격",
+    "트래킹"
+  ],
+  "added": 2025,
+  "summary": "배트의 스위트 스팟이 공과 만나는 순간, 위아래로 어느 방향으로 움직이고 있었는지를 나타낸 각도.",
+  "easy": [
+    "배트가 살짝 올라가며 공을 맞히면 라인드라이브와 적당한 뜬공이 나오기 쉽다. 너무 내려찍으면 땅볼이, 너무 올려치면 팝플라이가 늘어난다.",
+    "발사각이 ‘공이 어디로 떴나’라면 어택 앵글은 ‘배트가 어떻게 들어갔나’다. 결과가 아니라 스윙 자체를 본다."
+  ],
+  "scale": {
+    "min": -5,
+    "max": 25,
+    "dir": "none",
+    "fmt": "int",
+    "unit": "°",
+    "avg": {
+      "v": 10,
+      "t": "MLB 평균 약 10°"
+    },
+    "band": [
+      5,
+      20
+    ],
+    "marks": [
+      {
+        "v": 0,
+        "t": "수평으로 만남"
+      },
+      {
+        "v": 5,
+        "t": "이상적 범위 시작"
+      },
+      {
+        "v": 20,
+        "t": "이상적 범위 끝"
+      }
+    ],
+    "note": "초록 구간이 이상적 범위(5~20°)다. 리그 전체로는 대략 절반의 스윙이 이 범위에 든다."
+  },
+  "deep": [
+    "2025년 5월 Statcast에 함께 추가된 스윙 지표 묶음의 하나다. 같이 나온 지표로 스윙 패스 틸트(접촉 직전 배트 궤적의 기울기, 평균 약 32°)와 어택 디렉션(접촉 순간 좌우 방향, 평균은 약간 당겨치는 쪽)이 있다.",
+    "어택 앵글이 5~20도인 스윙의 비율을 ‘이상적 어택 앵글 비율’로 따로 제공한다.",
+    "2026년 6월에는 스윙 타이밍(이르다·늦다)과 헛스윙 때 배트와 공 사이 거리(Miss Distance) 같은 지표도 추가됐다."
+  ],
+  "myth": {
+    "claim": "어택 앵글은 높을수록 장타가 나온다.",
+    "truth": "투구가 들어오는 각도와 맞아야 한다. 배트의 진입 각도가 공의 진입 각도(VAA)와 비슷할수록 배트가 공의 궤적에 오래 머물러 정타 확률이 오른다."
+  },
+  "related": [
+    "blast",
+    "vaa",
+    "barrel"
+  ],
+  "sources": [
+    {
+      "t": "MLB.com Glossary · Attack Angle",
+      "u": "https://www.mlb.com/glossary/statcast/attack-angle"
+    },
+    {
+      "t": "MLB.com Glossary · Ideal Attack Angle",
+      "u": "https://www.mlb.com/glossary/statcast/ideal-attack-angle"
+    },
+    {
+      "t": "Baseball Savant 변경 기록 · 2025년 5월 스윙 지표",
+      "u": "https://baseballsavant.mlb.com/changelog/2025-05-20-swing-path-attack-angle"
+    },
+    {
+      "t": "Baseball Savant 변경 기록 · 2026년 6월 스윙 타이밍",
+      "u": "https://baseballsavant.mlb.com/changelog/2026-06-09-swing-timing-miss-distance"
+    }
+  ]
+}

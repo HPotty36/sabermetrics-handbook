@@ -1,0 +1,65 @@
+{
+  "abbr": "Velocity",
+  "chip": "구속",
+  "ko": "구속",
+  "en": "Pitch Velocity",
+  "aliases": [
+    "velo",
+    "스피드",
+    "직구 구속",
+    "포심 구속",
+    "mph",
+    "km/h",
+    "체감 구속",
+    "perceived velocity"
+  ],
+  "level": 1,
+  "order": 80,
+  "cats": [
+    "투구",
+    "트래킹"
+  ],
+  "summary": "투수가 던진 공의 빠르기. Statcast는 공이 손을 떠나는 순간의 속도를 잰다.",
+  "easy": [
+    "가장 직관적인 투수 기록이다. 공이 빠를수록 타자가 판단할 시간이 줄어, 같은 코스라도 치기 어렵다.",
+    "구종마다 뜻이 다르다. 포심 패스트볼은 빠를수록 유리한 경우가 많지만, 변화구는 패스트볼과의 속도 차이가 더 중요하다. 그래서 구속은 구종을 나눠서 본다."
+  ],
+  "deep": [
+    "공은 손을 떠난 순간이 가장 빠르고, 홈플레이트로 오면서 느려진다. Statcast는 이 가장 빠른 순간의 속도를 기록한다. 예전 추적 시스템은 재는 지점이 달랐으므로, 오래된 기록과 비교할 때는 측정 방식을 확인한다.",
+    "같은 구속이라도 타자가 느끼는 빠르기는 다르다. 투수가 앞으로 길게 끌고 나와 놓을수록(익스텐션) 공이 타자에게 더 빨리 도착한다. 이를 반영한 ‘체감 구속’이 따로 있다.",
+    "2026 MLB 포심 평균은 94.8mph(약 152.6km/h)로 역대 가장 빨랐다. 2025년은 94.5mph였다."
+  ],
+  "myth": {
+    "claim": "구속이 빠르면 잘 안 맞는다.",
+    "truth": "구속이 같아도 공의 움직임, 들어오는 각도, 다른 구종과의 조합에 따라 결과가 크게 다르다. 구속으로 설명되지 않는 부분을 보려고 IVB, VAA, Stuff+ 같은 지표를 쓴다."
+  },
+  "leagues": [
+    {
+      "lg": "KBO",
+      "t": "한국 중계와 기록은 구속을 km/h로 쓴다. 1mph는 약 1.609km/h라서, MLB 기록을 볼 때는 단위를 바꿔 비교한다."
+    }
+  ],
+  "related": [
+    "spin",
+    "ivb",
+    "stuff-plus"
+  ],
+  "sources": [
+    {
+      "t": "MLB.com Glossary · Velocity",
+      "u": "https://www.mlb.com/glossary/statcast/velocity"
+    },
+    {
+      "t": "MLB.com Glossary · Perceived Velocity",
+      "u": "https://www.mlb.com/glossary/statcast/perceived-velocity"
+    },
+    {
+      "t": "AP · 2026 포심 평균 구속 기록 (ESPN 게재)",
+      "u": "https://www.espn.com/mlb/story/_/id/50059411/mlb-pitchers-again-set-fastball-velocity-record-948-mph"
+    },
+    {
+      "t": "Baseball Savant · Statcast Search (2026 포심, 리그 단위)",
+      "u": "https://baseballsavant.mlb.com/statcast_search?hfPT=FF%7C&hfGT=R%7C&hfSea=2026%7C&player_type=pitcher&group_by=league&chk_stats_velocity=on&chk_stats_spin_rate=on"
+    }
+  ]
+}

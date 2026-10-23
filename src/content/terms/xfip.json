@@ -1,0 +1,120 @@
+{
+  "abbr": "xFIP",
+  "chip": "xFIP",
+  "ko": "기대 수비 무관 평균자책점",
+  "en": "Expected Fielding Independent Pitching",
+  "aliases": [
+    "기대FIP",
+    "expected fip",
+    "엑스핍",
+    "xFIP-"
+  ],
+  "level": 2,
+  "order": 40,
+  "cats": [
+    "투구"
+  ],
+  "summary": "FIP에서 실제 피홈런 대신, 뜬공 수에 리그 평균 홈런/뜬공 비율을 곱한 ‘기대 피홈런’을 넣어 계산한 값. 평균자책점과 같은 눈금이다.",
+  "easy": [
+    "FIP는 수비와 운을 빼려고 홈런, 볼넷, 삼진만 본다. 그런데 그 홈런도 운을 꽤 탄다. 같은 뜬공이라도 바람, 구장 크기, 담장 바로 앞에서 잡히느냐에 따라 홈런이 되기도 하고 아니기도 하다.",
+    "xFIP는 홈런을 ‘이 투수가 맞은 뜬공이 리그 평균만큼 넘어갔다면’으로 바꿔 넣는다. 한 시즌 홈런을 유난히 많이 또는 적게 맞은 투수의 원래 실력을 짐작할 때 쓴다."
+  ],
+  "scale": {
+    "min": 2.5,
+    "max": 5.5,
+    "dir": "low",
+    "fmt": "dec2",
+    "marks": [
+      {
+        "v": 2.92,
+        "t": "정상급"
+      },
+      {
+        "v": 3.34,
+        "t": "좋음"
+      },
+      {
+        "v": 3.75,
+        "t": "평균보다 좋음"
+      },
+      {
+        "v": 4.59,
+        "t": "평균보다 나쁨"
+      },
+      {
+        "v": 5.21,
+        "t": "매우 부진"
+      }
+    ],
+    "note": "낮을수록 좋다. FIP와 같은 상수를 써서 ERA와 같은 눈금이다. FanGraphs의 xFIP- 경험칙(리그 평균 100, 선발 투수 기준)을 2026 리그 ERA 4.17에 맞춰 환산한 대략적인 구간이다."
+  },
+  "formula": {
+    "expr": "xFIP = (13×(FB × lgHR/FB) + 3×(BB + HBP) − 2×K) ÷ IP + C",
+    "vars": [
+      [
+        "FB",
+        "허용한 뜬공 수"
+      ],
+      [
+        "lgHR/FB",
+        "리그 평균 홈런/뜬공 비율"
+      ],
+      [
+        "BB",
+        "볼넷"
+      ],
+      [
+        "HBP",
+        "사구"
+      ],
+      [
+        "K",
+        "탈삼진"
+      ],
+      [
+        "IP",
+        "투구 이닝"
+      ],
+      [
+        "C",
+        "FIP와 같은 리그 상수 (2026 MLB 3.10)"
+      ]
+    ]
+  },
+  "deep": [
+    "홈런 자리만 빼면 FIP와 같다. 계수 13, 3, 2와 리그 상수도 FIP의 것을 그대로 쓰므로 평균자책점과 같은 눈금으로 읽는다.",
+    "바탕에 깔린 가정은 ‘뜬공이 홈런이 되는 비율은 투수가 거의 통제하지 못한다’는 것이다. 대부분의 투수에게는 맞지만, 약한 뜬공을 꾸준히 유도하는 투수나 홈런이 잘 나오는 구장을 홈으로 쓰는 투수에게는 어긋난다.",
+    "구장 보정은 들어 있지 않다. 구장과 리그를 보정해 100을 평균으로 맞춘 xFIP-가 따로 있다. 타구 유형과 삼진·볼넷이 맞물리는 효과까지 넣은 SIERA가 사다리의 다음 칸이다."
+  ],
+  "myth": {
+    "claim": "xFIP가 FIP보다 늘 더 정확하다.",
+    "truth": "홈런 운을 지우는 대신, 홈런을 덜 맞는 능력도 함께 지운다. 뜬공을 약하게 맞히게 하는 투수는 몇 시즌 동안 xFIP보다 낮은 FIP와 ERA를 유지하기도 한다."
+  },
+  "related": [
+    "fip",
+    "era",
+    "siera"
+  ],
+  "sources": [
+    {
+      "t": "FanGraphs Library · xFIP",
+      "u": "https://library.fangraphs.com/pitching/xfip/"
+    },
+    {
+      "t": "MLB.com Glossary · Expected Fielding Independent Pitching",
+      "u": "https://www.mlb.com/glossary/advanced-stats/expected-fielding-independent-pitching"
+    },
+    {
+      "t": "FanGraphs · Guts (시즌별 FIP 상수)",
+      "u": "https://www.fangraphs.com/guts.aspx?type=cn"
+    },
+    {
+      "t": "FanGraphs Library · ERA-, FIP-, xFIP-",
+      "u": "https://library.fangraphs.com/pitching/era-fip-xfip/"
+    },
+    {
+      "t": "Baseball-Reference · 2026 MLB 투구 (리그 평균)",
+      "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-pitching.shtml"
+    }
+  ]
+}
