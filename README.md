@@ -9,6 +9,8 @@
 
 ## 상태
 
+사이트: https://sabermetrics-handbook.pages.dev/
+
 Astro 정적 사이트로 옮겼고, 설치형 웹앱(PWA)으로 오프라인에서도 열린다. 용어 27개를 썼다.
 `main`에 올라간 내용은 Cloudflare Pages가 빌드해 배포한다(빌드 명령 `npm run build`, 출력 `dist/`).
 
