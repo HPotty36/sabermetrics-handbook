@@ -1,10 +1,8 @@
 ---
 // 모든 페이지의 틀. 헤더(검색), 실밥 구분선, 데스크톱 사이드바 목록, 본문 열.
-// 글꼴은 npm의 Fontsource 패키지로 사이트에서 직접 내보낸다. 오프라인(PWA)과 앱에서도 같은 글꼴로 보인다.
-import '@fontsource/ibm-plex-sans-kr/400';
-import '@fontsource/ibm-plex-sans-kr/500';
-import '@fontsource/ibm-plex-sans-kr/600';
-import '@fontsource/ibm-plex-sans-kr/700';
+// 글꼴은 npm 패키지(Pretendard, Fontsource)로 사이트에서 직접 내보낸다. 오프라인(PWA)과 앱에서도 같은 글꼴로 보인다.
+// Pretendard는 가변 글꼴의 유니코드 조각(dynamic subset)이라 쓰는 글자의 조각만 받는다.
+import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
 import '@fontsource/big-shoulders-display/600';
 import '@fontsource/big-shoulders-display/800';
 import '@fontsource/ibm-plex-mono/400';
@@ -34,8 +32,8 @@ const searchIndex = JSON.stringify(terms.map((t) => toSearchEntry(t, termHref(t.
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{title}</title>
 <meta name="description" content={description}>
-<meta name="theme-color" content="#F2F4F7" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0C111A" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B0B0D" media="(prefers-color-scheme: dark)">
 <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml">
 <link rel="apple-touch-icon" href={`${base}icons/apple-touch-icon.png`}>
 <link rel="manifest" href={`${base}manifest.webmanifest`}>
@@ -43,10 +41,11 @@ const searchIndex = JSON.stringify(terms.map((t) => toSearchEntry(t, termHref(t.
 <body data-view={view}>
 <header class="site-head">
   <div class="head-inner">
-    <a class="brand" href={homeHref} aria-label="세이버메트릭스 핸드북 홈"><img src={`${base}favicon.svg`} width="22" height="22" alt=""><span>세이버<span class="long">메트릭스</span> 핸드북</span></a>
+    <a class="brand" href={homeHref} aria-label="세이버메트릭스 핸드북 홈"><img src={`${base}favicon.svg`} width="24" height="24" alt=""><span>세이버<span class="long">메트릭스</span> 핸드북</span></a>
     <label class="search" for="q">
       <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="8.5" cy="8.5" r="6"/><path d="M13 13l5 5"/></svg>
-      <input id="q" type="search" autocomplete="off" placeholder="FIP, 수비 무관, attack angle…" aria-label="용어 검색">
+      <input id="q" type="search" autocomplete="off" placeholder="용어 검색 (FIP, 수비 무관, attack angle)" aria-label="용어 검색">
+      <kbd aria-hidden="true">/</kbd>
     </label>
   </div>
   <div class="stitch" aria-hidden="true"></div>
@@ -54,7 +53,7 @@ const searchIndex = JSON.stringify(terms.map((t) => toSearchEntry(t, termHref(t.
 
 <div class="app">
   <aside class="side" aria-label="전체 용어">
-    <div id="side-index"><TermIndex current={current} /></div>
+    <div id="side-index"><TermIndex variant="nav" current={current} /></div>
   </aside>
   <main class="main" id="main"><slot /><Foot /></main>
 </div>

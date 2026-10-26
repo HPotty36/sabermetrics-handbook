@@ -12,15 +12,21 @@ const homeIndex = document.getElementById('home-index');
 const desktop = window.matchMedia('(min-width: 1024px)');
 const onTermPage = document.body.dataset.view === 'term';
 
-const indexes = Array.from(document.querySelectorAll<HTMLElement>('[data-term-index]'), (root) => ({
-  root,
-  list: root.querySelector<HTMLUListElement>('.rows')!,
-  rows: new Map(Array.from(root.querySelectorAll<HTMLLIElement>('li[data-id]'), (li) => [li.dataset.id!, li])),
-  count: root.querySelector<HTMLElement>('.index-count')!,
-  empty: root.querySelector<HTMLElement>('.empty')!,
-  levelChips: root.querySelectorAll<HTMLElement>('[data-level]'),
-  catChips: root.querySelectorAll<HTMLElement>('[data-cat]'),
-}));
+// 사이드바 목록(nav)에는 레벨 묶음 제목(li[data-group])이 있고 필터·개수가 없다. 홈 타일(grid)은 그 반대다.
+const indexes = Array.from(document.querySelectorAll<HTMLElement>('[data-term-index]'), (root) => {
+  const list = root.querySelector<HTMLUListElement>('.rows')!;
+  return {
+    root,
+    list,
+    original: Array.from(list.children),
+    rows: new Map(Array.from(root.querySelectorAll<HTMLLIElement>('li[data-id]'), (li) => [li.dataset.id!, li])),
+    groups: Array.from(root.querySelectorAll<HTMLLIElement>('li[data-group]')),
+    count: root.querySelector<HTMLElement>('.index-count'),
+    empty: root.querySelector<HTMLElement>('.empty')!,
+    levelChips: root.querySelectorAll<HTMLElement>('[data-level]'),
+    catChips: root.querySelectorAll<HTMLElement>('[data-cat]'),
+  };
+});
 
 let state: SearchQuery = { q: '', level: 0, cat: ALL_CATS };
 
@@ -45,13 +51,18 @@ function render() {
     ? `‘${state.q}’에 맞는 용어가 없어요. 약어(FIP), 한글(수비 무관), 영문(fielding)으로 찾을 수 있어요.`
     : '고른 조건에 맞는 용어가 없어요.';
 
+  const shownLevels = new Set(found.map((e) => e.level));
+
   for (const ix of indexes) {
-    for (const e of found) ix.list.append(ix.rows.get(e.id)!);
+    // 검색어가 없으면 처음 순서(레벨 묶음)로, 있으면 맞는 순서대로 놓고 묶음 제목은 숨긴다.
+    if (state.q) for (const e of found) ix.list.append(ix.rows.get(e.id)!);
+    else for (const el of ix.original) ix.list.append(el);
     for (const [id, li] of ix.rows) li.hidden = !shown.has(id);
+    for (const g of ix.groups) g.hidden = Boolean(state.q) || !shownLevels.has(Number(g.dataset.group));
     ix.list.hidden = found.length === 0;
     ix.empty.hidden = found.length > 0;
     ix.empty.textContent = emptyText;
-    ix.count.textContent = found.length === entries.length ? `용어 ${entries.length}개` : `${entries.length}개 중 ${found.length}개`;
+    if (ix.count) ix.count.textContent = found.length === entries.length ? `용어 ${entries.length}개` : `${entries.length}개 중 ${found.length}개`;
     ix.levelChips.forEach((c) => c.setAttribute('aria-pressed', String(Number(c.dataset.level) === state.level)));
     ix.catChips.forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.cat === state.cat)));
   }
@@ -115,6 +126,14 @@ input.addEventListener('keydown', (e) => {
     save();
     render();
   }
+});
+
+// 데스크톱에서 ‘/’를 누르면 검색창으로 간다(Vercel·GitHub와 같은 단축키).
+document.addEventListener('keydown', (e) => {
+  const t = e.target as HTMLElement;
+  if (e.key !== '/' || e.metaKey || e.ctrlKey || e.altKey || t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
+  e.preventDefault();
+  input.focus();
 });
 
 // 뒤로 가기로 캐시된 페이지가 돌아오면 다른 페이지에서 바꾼 조건을 다시 반영한다.

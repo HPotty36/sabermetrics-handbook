@@ -1,214 +1,262 @@
-/* 프로토타입(prototype/index.html)의 스타일에서 출발했다. :root 토큰이 디자인의 원본이다.
-   레퍼런스를 참고해 바꾼 부분은 CLAUDE.md의 ‘디자인 기준’에 적어 둔다. */
-/* Layout: sticky header with search; desktop = term index sidebar + one reading column; phone = one column, index under the home view */
+/* 디자인의 원본. 토큰 이름과 역할은 프로토타입(prototype/index.html)에서 왔고, 값과 배치는 2026-10-26 다시 디자인했다.
+   참고: Vercel Geist 문서(사이드바, 가는 선으로 나눈 타일 격자, 큰 제목), Linear 변경 기록(왼쪽 제목 열),
+   토스(한글 글자 크기·자간), Apple 스포츠(숫자 하나를 크게). 자세한 내용은 CLAUDE.md ‘디자인 기준’.
+   Layout: sticky header with search; desktop = level-grouped term nav + one reading column; phone = one column, tile index on the home page */
 :root{
-  --paper:#F2F4F7;
-  --surface:#FFFFFF;
-  --ink:#121A27;
-  --muted:#586377;
-  --line:#D7DCE4;
-  --track:#E3E7ED;
+  --paper:#FFFFFF;
+  --surface:#F5F5F6;
+  --ink:#16171A;
+  --muted:#6B6E76;
+  --line:#E6E6E9;
+  --track:#ECECEF;
   --seam:#C42638;
   --on-seam:#FFFFFF;
   --lv1:#2C7A46;
   --lv2:#A87400;
   --lv3:#2B4C9B;
-  --font-display:"Big Shoulders Display","IBM Plex Sans KR","Arial Narrow",sans-serif;
-  --font-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
+  --font-display:"Big Shoulders Display","Pretendard Variable","Arial Narrow",sans-serif;
+  --font-body:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif;
   --font-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  --shadow-raised:0 1px 2px rgba(16,17,20,.06),0 0 0 1px var(--line);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --paper:#0C111A; --surface:#141B27; --ink:#E5E9F0; --muted:#9AA5B6; --line:#263142; --track:#222C3B;
+    --paper:#0B0B0D; --surface:#17171A; --ink:#ECECEF; --muted:#9B9CA5; --line:#27272C; --track:#212125;
     --seam:#FF5D6D; --on-seam:#1A0B0F; --lv1:#5BC27F; --lv2:#E3B23C; --lv3:#86A3F2;
+    --shadow-raised:0 1px 2px rgba(0,0,0,.4),0 0 0 1px var(--line);
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --paper:#0C111A; --surface:#141B27; --ink:#E5E9F0; --muted:#9AA5B6; --line:#263142; --track:#222C3B;
+  --paper:#0B0B0D; --surface:#17171A; --ink:#ECECEF; --muted:#9B9CA5; --line:#27272C; --track:#212125;
   --seam:#FF5D6D; --on-seam:#1A0B0F; --lv1:#5BC27F; --lv2:#E3B23C; --lv3:#86A3F2;
+  --shadow-raised:0 1px 2px rgba(0,0,0,.4),0 0 0 1px var(--line);
   color-scheme:dark;
 }
 
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.7;word-break:keep-all;overflow-wrap:break-word}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:16px;line-height:1.7;letter-spacing:-.003em;word-break:keep-all;overflow-wrap:break-word;-webkit-font-smoothing:antialiased}
 a{color:inherit}
-:focus-visible{outline:2px solid var(--seam);outline-offset:2px}
-button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--seam);outline-offset:2px;border-radius:4px}
+button{font:inherit;color:inherit;letter-spacing:inherit}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;flex:none;background:var(--muted)}
+.dot1{background:var(--lv1)} .dot2{background:var(--lv2)} .dot3{background:var(--lv3)}
+.lv{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;line-height:1.4;white-space:nowrap}
+.lv1{color:var(--lv1)} .lv2{color:var(--lv2)} .lv3{color:var(--lv3)}
 
 /* header */
 .site-head{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
-.head-inner{max-width:1240px;margin:0 auto;display:flex;align-items:center;gap:16px;padding-block:12px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.brand{display:flex;align-items:center;gap:9px;text-decoration:none;font-weight:700;font-size:17px;white-space:nowrap;letter-spacing:-.01em}
+.head-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:20px;height:60px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;font-size:16px;letter-spacing:-.02em;white-space:nowrap}
 .brand img{display:block;flex:none}
-.search{position:relative;flex:1;min-width:0;max-width:440px;margin-left:auto}
-.search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--muted);pointer-events:none}
-.search input{width:100%;font:inherit;font-size:15px;line-height:1.4;padding:8px 12px 8px 35px;border:1px solid var(--line);border-radius:4px;background:var(--surface);color:var(--ink)}
+.search{position:relative;flex:1;min-width:0;max-width:400px;margin-left:auto}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--muted);pointer-events:none}
+.search input{width:100%;height:38px;font:inherit;font-size:14.5px;padding:0 40px 0 36px;border:1px solid transparent;border-radius:8px;background:var(--surface);color:var(--ink);transition:border-color .15s,background-color .15s}
 .search input::placeholder{color:var(--muted)}
-.stitch{height:8px;background:var(--seam);opacity:.8;
+.search input:focus{outline:none;border-color:var(--ink);background:var(--paper)}
+.search kbd{position:absolute;right:10px;top:50%;transform:translateY(-50%);min-width:20px;height:20px;padding:0 5px;display:grid;place-items:center;font:500 12px/1 var(--font-mono);color:var(--muted);border:1px solid var(--line);border-radius:5px;background:var(--paper);pointer-events:none}
+.search input:focus + kbd{display:none}
+.stitch{height:8px;background:var(--seam);opacity:.85;
   -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='8' viewBox='0 0 16 8'%3E%3Cpath d='M3 1.5 L7 6.5 M9 6.5 L13 1.5' stroke='%23000' stroke-width='1.7' stroke-linecap='round' fill='none'/%3E%3C/svg%3E") repeat-x center/16px 8px;
   mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='8' viewBox='0 0 16 8'%3E%3Cpath d='M3 1.5 L7 6.5 M9 6.5 L13 1.5' stroke='%23000' stroke-width='1.7' stroke-linecap='round' fill='none'/%3E%3C/svg%3E") repeat-x center/16px 8px}
 @media (max-width:420px){.brand .long{display:none}}
+@media (max-width:1023px){.search kbd{display:none}.search input{padding-right:12px}}
 
 /* app grid */
-.app{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr);gap:40px;padding-block:28px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.app{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .side{display:none}
+.main{min-width:0;padding:28px 0 56px}
 @media (min-width:1024px){
-  .app{grid-template-columns:260px minmax(0,1fr);gap:64px}
-  .side{display:block;position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px);align-self:start;max-height:calc(100vh - 96px);overflow:auto;padding-right:6px}
-  #home-index{display:none}
+  .app{grid-template-columns:232px minmax(0,1fr);padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
+  .side{display:block;position:sticky;top:calc(env(safe-area-inset-top,0px) + 68px);align-self:start;height:calc(100vh - 68px);overflow:auto;padding:20px 14px 40px 0;border-right:1px solid var(--line)}
+  .main{padding:44px 0 72px 56px;max-width:900px}
 }
-.main{min-width:0;max-width:740px}
 
-/* index: Baseball Savant처럼 모서리가 거의 없는 작은 토글, 네이버 지식백과 목록처럼 가는 선으로 나눈 줄 */
-.filters{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
-.chips{display:flex;flex-wrap:wrap;gap:4px}
-.chip{font-size:13px;line-height:1.3;padding:4px 8px;border-radius:3px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer}
-.chip:hover{color:var(--ink)}
-.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
-.index-count{font-size:13px;font-variant-numeric:tabular-nums;color:var(--muted);margin:0;padding-bottom:6px;border-bottom:1px solid var(--line)}
+/* sidebar nav: Vercel Geist 문서의 왼쪽 메뉴처럼 묶음 제목 + 글자 목록, 지금 페이지는 회색 바탕 */
 .rows{list-style:none;margin:0;padding:0}
-.rows li{border-bottom:1px solid var(--line)}
-.row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;gap:0 10px;padding:7px 8px;margin:0 -8px;text-decoration:none}
-.row:hover .row-abbr{color:var(--seam)}
-.row[aria-current="page"]{background:var(--surface);box-shadow:inset 3px 0 0 var(--seam)}
-.row-abbr{font-family:var(--font-display);font-weight:600;font-size:19px;letter-spacing:.02em;line-height:1.25}
-.row-ko{grid-column:1;font-size:13px;color:var(--muted);line-height:1.4}
-.row .lv{grid-row:1;grid-column:2}
-.empty{font-size:14px;color:var(--muted);padding:8px 0}
+.nav-group{display:flex;align-items:center;gap:8px;margin:18px 0 4px;padding:0 10px;font-size:12.5px;font-weight:600;color:var(--muted)}
+.nav-rows>li:first-child{margin-top:0}
+.nav-row{display:flex;align-items:baseline;gap:8px;padding:5px 10px;border-radius:6px;text-decoration:none;min-width:0}
+.nav-row:hover{background:var(--surface)}
+.nav-row[aria-current="page"]{background:var(--surface)}
+.nav-row[aria-current="page"] .nav-abbr{color:var(--seam)}
+.nav-abbr{font-size:14px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
+.nav-ko{font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.empty{font-size:14px;color:var(--muted);padding:10px}
 
-/* 레벨은 표준국어대사전의 품사 표시처럼 색 글자로만 적는다 */
-.lv{font-size:12.5px;font-weight:600;line-height:1.3;white-space:nowrap}
-.lv1{color:var(--lv1)} .lv2{color:var(--lv2)} .lv3{color:var(--lv3)}
+/* segmented control: 필터와 읽는 순서. 회색 홈 안에서 고른 칸만 흰 바탕으로 올라온다 */
+.seg{display:inline-flex;flex-wrap:wrap;gap:2px;padding:3px;border-radius:9px;background:var(--surface)}
+.seg button{border:0;background:transparent;color:var(--muted);font-size:13.5px;font-weight:500;line-height:1.3;padding:6px 12px;border-radius:6px;cursor:pointer;transition:color .15s,background-color .15s}
+.seg button:hover{color:var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--paper);color:var(--ink);font-weight:600;box-shadow:var(--shadow-raised)}
 
 /* home */
-.home-title{font-size:24px;line-height:1.35;letter-spacing:-.01em;margin:0 0 6px}
-.home-desc{color:var(--muted);font-size:15.5px;max-width:36em;margin:0}
-.doors{display:grid;grid-template-columns:minmax(0,1fr);gap:36px;margin-top:32px}
-@media (min-width:640px){.doors{grid-template-columns:repeat(2,minmax(0,1fr));gap:40px}}
-.door{min-width:0;border-top:2px solid var(--ink);padding-top:12px}
-.door h2{font-size:17px;line-height:1.4;margin:0}
-.door>p{margin:2px 0 8px;color:var(--muted);font-size:14.5px}
-.door-list{list-style:none;margin:0;padding:0}
-.door-list li{border-bottom:1px solid var(--line)}
-.door-list a,.door-list .stubline{display:flex;align-items:baseline;gap:12px;text-decoration:none;padding:7px 0}
-.door-list .dl-abbr{font-weight:600;font-size:15.5px;min-width:7.5em}
-.door-list .dl-ko{font-size:14px;color:var(--muted)}
-.door-list a:hover .dl-abbr{color:var(--seam);text-decoration:underline;text-underline-offset:3px}
-.door-list .stubline{color:var(--muted)}
-.door .go{display:inline-block;margin-top:12px;font-weight:600;font-size:15px;text-underline-offset:3px}
-.door .go:hover{color:var(--seam)}
+.intro h1{font-size:clamp(30px,4.4vw,42px);font-weight:700;line-height:1.2;letter-spacing:-.035em;margin:0 0 12px;text-wrap:balance}
+.intro p{font-size:17px;line-height:1.65;color:var(--muted);max-width:33em;margin:0}
 
-.block-title{font-size:17px;line-height:1.4;margin:48px 0 2px;padding-top:12px;border-top:2px solid var(--ink)}
-.block-sub{color:var(--muted);font-size:14.5px;margin:0 0 10px;max-width:36em}
-.ladder{display:grid;grid-template-columns:minmax(0,1fr);gap:2px;padding:10px 0;border-bottom:1px solid var(--line)}
-@media (min-width:640px){.ladder{grid-template-columns:170px minmax(0,1fr);gap:20px;align-items:baseline}}
-.ladder-name{font-weight:600;font-size:15px;line-height:1.5}
-.ladder-hint{display:block;color:var(--muted);font-size:13px;font-weight:400}
-.chain{margin:0;font-size:15.5px;line-height:1.8}
-.chain a{font-weight:600;text-decoration:none;white-space:nowrap}
-.chain a:hover{color:var(--seam);text-decoration:underline;text-underline-offset:3px}
-.chain .stub{color:var(--muted);white-space:nowrap}
-.arrow{color:var(--muted);margin:0 6px}
+.entries{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;margin-top:36px}
+@media (min-width:720px){.entries{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.entry{display:flex;flex-direction:column;min-width:0;padding:22px 22px 20px;border:1px solid var(--line);border-radius:14px}
+.entry h2{font-size:19px;font-weight:700;letter-spacing:-.025em;line-height:1.35;margin:0}
+.entry>p{margin:4px 0 14px;font-size:14.5px;color:var(--muted)}
+.entry-list{list-style:none;margin:0 0 4px;padding:0}
+.entry-list li+li{border-top:1px solid var(--line)}
+.entry-list a,.el-stub{display:flex;align-items:baseline;gap:12px;padding:8px 0;text-decoration:none;min-width:0}
+.el-abbr{flex:none;width:104px;font-family:var(--font-display);font-weight:600;font-size:20px;letter-spacing:.01em;line-height:1.2}
+/* 약어용 글꼴에는 한글이 없어서, 한글 칩은 본문 글꼴 굵은 글자로 크기를 맞춘다 */
+.el-abbr.is-ko,.stop.is-ko,.steps-chip.is-ko{font-family:var(--font-body);font-weight:700;font-size:16px;letter-spacing:-.02em}
+.el-name{font-size:14px;color:var(--muted);min-width:0;flex:1}
+.el-year{font:500 12px/1.4 var(--font-mono);color:var(--seam)}
+.entry-list a:hover .el-abbr{color:var(--seam)}
+.el-stub{color:var(--muted)}
+.btn{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;margin-top:auto;padding:9px 16px;border-radius:8px;background:var(--seam);color:var(--on-seam);font-size:14.5px;font-weight:600;text-decoration:none;transition:opacity .15s}
+.entry-list+.btn{margin-top:14px}
+.btn:hover{opacity:.85}
+
+.block{margin-top:64px}
+.block-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;margin-bottom:16px}
+.block-head h2{font-size:24px;font-weight:700;letter-spacing:-.03em;line-height:1.3;margin:0}
+.block-head p{margin:0;font-size:14.5px;color:var(--muted)}
+.lv-legend{display:flex;gap:14px;margin-left:auto !important;font-size:13px}
+.lv-legend>span{display:inline-flex;align-items:center;gap:6px}
 #home-index{scroll-margin-top:84px}
 
+/* 사다리(홈): 지하철 노선도처럼 역을 선으로 잇는다 */
+.ladders{border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.ladder{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;padding:16px 20px}
+.ladder+.ladder{border-top:1px solid var(--line)}
+@media (min-width:720px){.ladder{grid-template-columns:168px minmax(0,1fr);gap:24px;align-items:center}}
+.ladder-name{font-weight:700;font-size:15px;letter-spacing:-.02em;line-height:1.45}
+.ladder-hint{display:block;color:var(--muted);font-size:13px;font-weight:400;letter-spacing:0}
+.route{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;align-items:center;row-gap:8px}
+.route li{display:flex;align-items:center}
+.route li+li::before{content:"";width:22px;height:2px;margin:0 8px;background:var(--line);border-radius:1px}
+.stop{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-display);font-weight:600;font-size:20px;letter-spacing:.01em;line-height:1.3;text-decoration:none;white-space:nowrap}
+a.stop:hover{color:var(--seam)}
+.stop.is-stub{color:var(--muted)}
+.stop small{font-family:var(--font-body);font-size:11.5px;font-weight:500}
+
+/* 전체 용어 타일: 기록지처럼 칸을 가는 선으로 나누고 약어를 크게 쓴다 */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.index-count{margin:0 0 10px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.tiles{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(176px,1fr));border-top:1px solid var(--line);border-left:1px solid var(--line)}
+@media (max-width:520px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tiles>li{border-right:1px solid var(--line);border-bottom:1px solid var(--line);min-width:0}
+.tile{display:flex;flex-direction:column;height:100%;min-height:124px;padding:14px 16px 16px;text-decoration:none;transition:background-color .15s}
+.tile:hover{background:var(--surface)}
+.tile:hover .tile-abbr{color:var(--seam)}
+.tile-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px;min-height:20px}
+.tile-avg{font-family:var(--font-display);font-weight:600;font-size:16px;line-height:1;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tile-avg small{font-family:var(--font-body);font-size:11px;font-weight:500;margin-right:4px}
+.tile-abbr{margin-top:auto;padding-top:18px;font-family:var(--font-display);font-weight:800;font-size:32px;line-height:1;letter-spacing:.005em;overflow-wrap:anywhere}
+.tile-ko{margin-top:6px;font-size:13.5px;line-height:1.4;color:var(--muted)}
+.tiles-sm .tile{min-height:0;padding:12px 14px 14px}
+.tiles-sm .tile-abbr{padding-top:0;font-size:24px}
+
 /* term */
-.back{display:inline-block;font-size:14px;color:var(--muted);text-decoration:none;margin-bottom:12px}
+.back{display:inline-block;font-size:14px;color:var(--muted);text-decoration:none;margin-bottom:16px}
 .back:hover{color:var(--ink)}
 @media (min-width:1024px){.back{display:none}}
-.term-head{padding-bottom:20px;border-bottom:1px solid var(--line)}
-/* 표제어: 표준국어대사전·Merriam-Webster처럼 표제어 바로 아래에 원어와 뜻을 상자 없이 적는다 */
-.term-abbr{font-family:var(--font-display);font-weight:800;font-size:clamp(54px,10vw,88px);line-height:1;letter-spacing:.005em;margin:0 0 8px;text-wrap:balance}
-.term-names{margin:0;font-size:20px;line-height:1.45}
-.term-ko{font-weight:700}
-.term-en{color:var(--muted);font-size:16px;margin-left:8px}
-.term-info{display:flex;flex-wrap:wrap;gap:2px 16px;margin:8px 0 0;font-size:13.5px;line-height:1.5}
-.term-info div{display:flex;gap:6px}
-.term-info dt{color:var(--muted)}
-.term-info dd{margin:0}
-.lead{font-size:18px;line-height:1.65;margin:16px 0 0;max-width:38em}
-.order-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:18px}
+.term-head{padding-bottom:28px;border-bottom:1px solid var(--line)}
+/* 사다리 위치: GOV.UK step by step navigation header의 ‘Part of’ */
+.part-of{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:0 0 22px;font-size:13.5px;line-height:1.5}
+.part-of-label{color:var(--muted)}
+.part-of a{display:inline-flex;align-items:center;gap:8px;padding:3px 10px;border:1px solid var(--line);border-radius:6px;text-decoration:none;font-weight:600}
+.part-of a:hover{border-color:var(--ink)}
+.part-of-pos{font:500 12px/1 var(--font-mono);color:var(--muted)}
+.term-title{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px 32px}
+.term-tags{display:flex;flex-wrap:wrap;align-items:center;gap:4px 14px;margin:0 0 10px;font-size:13px;color:var(--muted)}
+.term-abbr{font-family:var(--font-display);font-weight:800;font-size:clamp(60px,11vw,112px);line-height:.92;letter-spacing:0;margin:0 0 14px;text-wrap:balance}
+.term-names{margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 10px}
+.term-ko{font-size:22px;font-weight:700;letter-spacing:-.03em;line-height:1.35}
+.term-en{font-size:15px;color:var(--muted)}
+/* 리그 평균: Apple 스포츠의 점수처럼 숫자 하나를 크게 */
+.term-stat{display:grid;grid-template-columns:auto;justify-items:end;text-align:right;max-width:15em}
+.term-stat-label{font-size:12.5px;font-weight:600;color:var(--muted)}
+.term-stat-num{font-family:var(--font-display);font-weight:800;font-size:64px;line-height:.95;color:var(--seam);font-variant-numeric:tabular-nums}
+.term-stat-note{margin-top:6px;font-size:12.5px;line-height:1.45;color:var(--muted)}
+@media (max-width:719px){
+  .term-stat{grid-template-columns:auto 1fr;align-items:baseline;justify-items:start;text-align:left;gap:0 12px;max-width:none;width:100%;padding:12px 14px;border-radius:10px;background:var(--surface)}
+  .term-stat-label{grid-row:1/span 2}
+  .term-stat-num{font-size:40px}
+  .term-stat-note{grid-column:2;margin-top:2px}
+}
+.lead{font-size:clamp(18px,2.2vw,20px);font-weight:500;line-height:1.6;letter-spacing:-.02em;margin:22px 0 0;max-width:34em}
+.order-row{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:22px}
 .order-label{font-size:13px;color:var(--muted)}
-.order{display:inline-flex;border:1px solid var(--line);border-radius:4px;overflow:hidden;background:var(--surface)}
-.order button{border:0;background:transparent;color:var(--muted);font-size:13px;line-height:1.3;padding:5px 11px;cursor:pointer}
-.order button+button{border-left:1px solid var(--line)}
-.order button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
 
-.sec{padding:24px 0;border-bottom:1px solid var(--line)}
-.sec>h2{font-size:17px;font-weight:700;line-height:1.4;color:var(--ink);margin:0 0 10px}
-.sec p{max-width:38em;margin:0 0 .85em}
-.sec p:last-child{margin-bottom:0}
+/* 단락: 넓은 화면에서는 Linear 변경 기록처럼 제목을 왼쪽 열에 둔다 */
+.sec{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;padding:32px 0;border-bottom:1px solid var(--line)}
+@media (min-width:860px){.sec{grid-template-columns:136px minmax(0,1fr);gap:32px}}
+.sec>h2{font-size:15px;font-weight:700;letter-spacing:-.02em;line-height:1.7;margin:0}
+.sec-body{min-width:0}
+.sec-body>p{font-size:16.5px;line-height:1.8;max-width:36em;margin:0 0 .9em}
+.sec-body>p:last-child{margin-bottom:0}
 
-.formula{border:1px solid var(--line);border-radius:4px;background:var(--surface);margin:0 0 16px;overflow:hidden}
-.formula-expr{font-family:var(--font-mono);font-size:15px;padding:12px 16px;overflow-x:auto;white-space:nowrap;border-bottom:1px solid var(--line)}
-.vars{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px;margin:0;padding:10px 16px;font-size:14px}
+.formula{border:1px solid var(--line);border-radius:10px;background:var(--surface);margin:0 0 20px;overflow:hidden}
+.formula-expr{font-family:var(--font-mono);font-size:15px;padding:14px 18px;overflow-x:auto;white-space:nowrap;border-bottom:1px solid var(--line);background:var(--paper)}
+.vars{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 16px;margin:0;padding:12px 18px;font-size:14px}
 .vars dt{font-family:var(--font-mono);font-weight:500}
 .vars dd{margin:0;color:var(--muted)}
 
+/* 숫자 눈금 막대. 평균은 홈플레이트 모양 마커 */
 .scale-bar{position:relative;height:64px;margin:4px 24px 0}
-.scale-track{position:absolute;left:0;right:0;top:27px;height:10px;border-radius:2px;background:var(--track);overflow:hidden}
-.scale-track.dir-high{background:linear-gradient(90deg,var(--track),color-mix(in srgb,var(--seam) 55%,var(--track)))}
-.scale-track.dir-low{background:linear-gradient(270deg,var(--track),color-mix(in srgb,var(--seam) 55%,var(--track)))}
-.scale-band{position:absolute;top:0;bottom:0;background:color-mix(in srgb,var(--lv1) 50%,transparent)}
-.tick{position:absolute;top:23px;width:2px;height:18px;margin-left:-1px;background:var(--ink)}
-.tick-num{position:absolute;top:21px;left:50%;transform:translateX(-50%);font-family:var(--font-display);font-weight:600;font-size:15px;line-height:1;white-space:nowrap;font-variant-numeric:tabular-nums}
+.scale-track{position:absolute;left:0;right:0;top:27px;height:8px;border-radius:4px;background:var(--track);overflow:hidden}
+.scale-track.dir-high{background:linear-gradient(90deg,var(--track),color-mix(in srgb,var(--seam) 60%,var(--track)))}
+.scale-track.dir-low{background:linear-gradient(270deg,var(--track),color-mix(in srgb,var(--seam) 60%,var(--track)))}
+.scale-band{position:absolute;top:0;bottom:0;background:color-mix(in srgb,var(--lv1) 55%,transparent)}
+.tick{position:absolute;top:22px;width:2px;height:18px;margin-left:-1px;background:var(--ink);border-radius:1px}
+.tick-num{position:absolute;top:22px;left:50%;transform:translateX(-50%);font-family:var(--font-display);font-weight:600;font-size:15px;line-height:1;white-space:nowrap;font-variant-numeric:tabular-nums}
 .avg{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:3px}
-.avg-tag{font-size:11px;font-weight:600;line-height:1;color:var(--seam);white-space:nowrap}
+.avg-tag{font-size:11px;font-weight:700;line-height:1;color:var(--seam);white-space:nowrap}
 .plate{width:13px;height:12px;background:var(--seam);clip-path:polygon(0 0,100% 0,100% 50%,50% 100%,0 50%)}
 /* 막대 양 끝의 나쁨·좋음: Baseball Savant 퍼센타일 막대의 POOR · GREAT */
 .scale-ends{display:flex;justify-content:space-between;margin:0 24px;font-size:12px;font-weight:600;line-height:1.3;color:var(--muted)}
 .scale-ends .good{color:var(--seam)}
-/* 숫자 → 의미를 위에서 아래로 읽는 목록. 넓은 화면에서는 두 단으로 흐른다. */
-.legend{list-style:none;margin:14px 0 0;padding:0;columns:2 220px;column-gap:28px}
-.legend li{display:flex;align-items:baseline;gap:12px;font-size:14px;line-height:1.5;padding:3px 0;min-width:0;break-inside:avoid}
-.legend b{font-family:var(--font-display);font-weight:600;font-size:17px;min-width:3.4em;font-variant-numeric:tabular-nums;flex:none}
-.legend li.is-avg{column-span:all;color:var(--seam);margin-bottom:4px}
-.legend li.is-avg span{color:var(--ink)}
-.scale-note{font-size:13.5px;color:var(--muted);margin:10px 0 0}
+.legend{list-style:none;margin:18px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));border-top:1px solid var(--line)}
+.legend li{display:flex;align-items:baseline;gap:12px;font-size:14px;line-height:1.5;padding:8px 0;border-bottom:1px solid var(--line);min-width:0}
+.legend b{font-family:var(--font-display);font-weight:600;font-size:18px;min-width:3.2em;font-variant-numeric:tabular-nums;flex:none}
+.legend li.is-avg{grid-column:1/-1}
+.legend li.is-avg b{color:var(--seam)}
+.scale-note{font-size:13.5px;line-height:1.65;color:var(--muted);margin:12px 0 0;max-width:40em}
 
-/* 흔한 오해: 잘못 알려진 말을 따옴표로 먼저 적고, 바로 아래에 실제 내용을 적는다 */
-.myth-claim{font-weight:600}
+/* 흔한 오해: 두 줄짜리 표 */
+.myth{border:1px solid var(--line);border-radius:12px;overflow:hidden;max-width:40em}
+.myth-row{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;padding:14px 18px;align-items:baseline}
+.myth-row+.myth-row{border-top:1px solid var(--line)}
+.myth-row p{margin:0;font-size:16px;line-height:1.75}
+.myth-row:first-child p{color:var(--muted)}
+.myth-label{font-size:12.5px;font-weight:700;color:var(--muted)}
+.myth-row.is-truth .myth-label{color:var(--seam)}
 
-.leagues{display:grid;gap:10px;max-width:38em}
+.leagues{display:grid;gap:12px;max-width:38em}
 .league{display:grid;grid-template-columns:4.6em minmax(0,1fr);gap:12px;align-items:baseline}
-.league b{font-size:14px;font-weight:600}
-.league p{margin:0}
+.league b{font:500 13px/1.6 var(--font-mono)}
+.league p{margin:0;font-size:16px;line-height:1.75}
 
-/* 같이 보기·출처: 위키백과의 같은 이름 단락처럼 그냥 목록으로 둔다 */
-.see-also{margin:0;padding-left:1.2em}
-.see-also li{padding:1px 0}
-.see-also a{font-weight:600;text-underline-offset:3px}
-.see-also a:hover{color:var(--seam)}
-.see-also span{color:var(--muted);font-size:14.5px;margin-left:6px}
-.sources{margin:0;padding-left:1.4em;font-size:14.5px;line-height:1.6}
-.sources li{padding:2px 0}
-.sources a{text-decoration-color:var(--line);text-underline-offset:3px}
+.sources{list-style:none;margin:0;padding:0;counter-reset:src;display:grid;gap:6px;font-size:14.5px}
+.sources li{counter-increment:src;display:flex;gap:10px}
+.sources li::before{content:counter(src);font:500 12.5px/1.75 var(--font-mono);color:var(--muted);min-width:1.2em}
+.sources a{text-decoration-color:var(--line);text-underline-offset:3px;line-height:1.6}
 .sources a:hover{text-decoration-color:var(--seam)}
 
-.term-ladders{display:grid;gap:22px}
-.term-ladder .ladder-name{margin-bottom:8px}
-
-/* 사다리 위치: GOV.UK step by step navigation header의 ‘Part of’ 상자 */
-.part-of{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 14px;margin:0 0 16px;padding:7px 12px;font-size:13.5px;line-height:1.5;background:var(--surface);border:1px solid var(--line);border-radius:3px}
-.part-of-label{font-weight:600;color:var(--muted)}
-.part-of a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:3px}
-.part-of a:hover{text-decoration-color:var(--seam)}
-.part-of-pos{font-variant-numeric:tabular-nums;color:var(--muted)}
+.term-ladders{display:grid;gap:24px}
+.term-ladder .ladder-name{margin-bottom:10px}
 
 /* 용어 페이지의 사다리: GOV.UK step by step처럼 번호를 세로선으로 잇고, 지금 용어는 채운 원 */
 .steps{list-style:none;margin:0;padding:0}
 .steps-row{position:relative;display:grid;grid-template-columns:28px minmax(0,1fr);gap:14px;align-items:start;padding:5px 0}
 .steps-row:not(:last-child)::before{content:"";position:absolute;left:13px;top:33px;bottom:-5px;width:2px;background:var(--line)}
 .steps-num{display:grid;place-items:center;width:28px;height:28px;border:2px solid var(--line);border-radius:50%;background:var(--paper);font-family:var(--font-display);font-weight:600;font-size:15px;line-height:1;color:var(--muted)}
-.steps-row.is-current .steps-num{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.steps-row.is-current .steps-num{background:var(--seam);border-color:var(--seam);color:var(--on-seam)}
 .steps-row.is-stub .steps-num{border-style:dashed}
 .steps-body{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 10px;min-width:0;padding-top:1px;text-decoration:none}
-.steps-chip{font-weight:600;font-size:16px;line-height:1.5}
+.steps-chip{font-family:var(--font-display);font-weight:600;font-size:20px;letter-spacing:.01em;line-height:1.3}
 .steps-ko{font-size:13.5px;line-height:1.5;color:var(--muted)}
-a.steps-body:hover .steps-chip{color:var(--seam);text-decoration:underline;text-underline-offset:3px}
-.steps-row.is-current .steps-chip{font-weight:700}
+a.steps-body:hover .steps-chip{color:var(--seam)}
+.steps-row.is-current .steps-chip{font-weight:800}
 .steps-row.is-stub .steps-chip{color:var(--muted)}
 
-.foot{margin-top:48px;padding-top:16px;border-top:1px solid var(--line);font-size:13px;color:var(--muted);max-width:44em}
-.foot p{margin:0 0 4px}
+.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);font-size:13px;line-height:1.65;color:var(--muted);max-width:46em}
+.foot p{margin:0}

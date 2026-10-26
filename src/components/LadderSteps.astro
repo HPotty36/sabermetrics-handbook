@@ -1,7 +1,7 @@
 ---
 // 용어 페이지의 사다리. GOV.UK step by step navigation처럼 번호 매긴 칸을 세로선으로 잇고, 지금 용어를 채운 원으로 표시한다.
 // 앞뒤 칸이 이름과 함께 바로 보이므로 따로 이전·다음 링크를 두지 않는다.
-import { loadHandbook, subName } from '../lib/handbook.ts';
+import { hasHangul, loadHandbook, subName } from '../lib/handbook.ts';
 import { termHref } from '../lib/paths.ts';
 import type { Ladder } from '../lib/schema.ts';
 
@@ -19,10 +19,10 @@ const { termMap, stubMap } = await loadHandbook();
   const num = <span class="steps-num" aria-hidden="true">{i + 1}</span>;
   if (!term) {
     return (
-      <li class="steps-row is-stub">{num}<span class="steps-body"><span class="steps-chip">{stubMap.get(id)!.chip}</span><span class="steps-ko">준비 중</span></span></li>
+      <li class="steps-row is-stub">{num}<span class="steps-body"><span class:list={['steps-chip', { 'is-ko': hasHangul(stubMap.get(id)!.chip) }]}>{stubMap.get(id)!.chip}</span><span class="steps-ko">준비 중</span></span></li>
     );
   }
-  const body = <><span class="steps-chip">{term.chip}</span><span class="steps-ko">{subName(term)}</span></>;
+  const body = <><span class:list={['steps-chip', { 'is-ko': hasHangul(term.chip) }]}>{term.chip}</span><span class="steps-ko">{subName(term)}</span></>;
   return isCurrent ? (
     <li class="steps-row is-current" aria-current="step">{num}<span class="steps-body">{body}</span></li>
   ) : (

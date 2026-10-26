@@ -36,6 +36,6 @@ await png(full, 180, 'public/icons/apple-touch-icon.png');
 await png(full, 1024, 'assets/icon-only.png');
 await png(shrunk(0.68), 1024, 'assets/icon-foreground.png'); // 안드로이드 적응형: 108dp 가운데 지름 66dp 원 안
 await png(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><rect width="1024" height="1024" fill="${SEAM}"/></svg>`, 1024, 'assets/icon-background.png');
-await splash('#F2F4F7', 'assets/splash.png'); // paper
-await splash('#0C111A', 'assets/splash-dark.png'); // 다크 paper
+await splash('#FFFFFF', 'assets/splash.png'); // paper
+await splash('#0B0B0D', 'assets/splash-dark.png'); // 다크 paper
 console.log('아이콘 PNG를 만들었다. 앱 아이콘은 `npx @capacitor/assets generate --android --ios`로 이어서 만든다.');
