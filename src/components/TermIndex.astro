@@ -21,7 +21,7 @@ const cats = [ALL_CATS, ...CATS];
   ))}</div><div class="chips" role="group" aria-label="분야">{cats.map((c) => (
     <button type="button" class="chip" data-cat={c} aria-pressed={c === ALL_CATS ? 'true' : 'false'}>{c === ALL_CATS ? '모든 분야' : c}</button>
   ))}</div></div>
-  <p class="index-count">{terms.length} / {terms.length} 용어</p>
+  <p class="index-count">용어 {terms.length}개</p>
   <ul class="rows">{terms.map((t) => (
     <li data-id={t.id}><a class="row" href={termHref(t.id)} aria-current={t.id === current ? 'page' : undefined}><span class="row-abbr">{t.abbr}</span><span class={`lv lv${t.level}`}>{LEVELS[t.level]}</span><span class="row-ko">{t.ko}</span></a></li>
   ))}</ul>

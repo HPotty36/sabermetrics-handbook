@@ -4,11 +4,10 @@ import LadderName from '../../components/LadderName.astro';
 import LadderSteps from '../../components/LadderSteps.astro';
 import Scale from '../../components/Scale.astro';
 import Sec from '../../components/Sec.astro';
-import Step from '../../components/Step.astro';
 import Base from '../../layouts/Base.astro';
-import { loadHandbook } from '../../lib/handbook.ts';
+import { loadHandbook, subName } from '../../lib/handbook.ts';
 import { ladderPlaces } from '../../lib/ladder.ts';
-import { homeHref } from '../../lib/paths.ts';
+import { homeHref, termHref } from '../../lib/paths.ts';
 import { LEVELS } from '../../lib/schema.ts';
 import { SITE_NAME } from '../../lib/site.ts';
 
@@ -30,12 +29,11 @@ const places = ladderPlaces(ladders, t.id);
         <a href="#ladders">{ladder.name} <span class="part-of-pos">{pos}/{total}</span></a>
       ))}</nav>
     )}
-    <div class="term-meta"><span class={`lv lv${t.level}`}>{LEVELS[t.level]}</span>{t.added && <span class="new">{t.added}년 등장</span>}<span class="cat">{t.cats.join(' · ')}</span></div>
+    {/* 표준국어대사전·Merriam-Webster의 표제어처럼, 약어 아래에 한글·영문 이름과 레벨·분야를 적고 바로 한 줄 정의를 둔다. */}
     <h1 class="term-abbr">{t.abbr}</h1>
-    <p class="term-ko">{t.ko}</p>
-    <p class="term-en">{t.en}</p>
-    {/* Investopedia의 ‘Definition’ 상자처럼 한 줄 정의를 설명 본문과 떼어 놓는다. */}
-    <div class="definition"><p class="definition-label">정의</p><p class="lead">{t.summary}</p></div>
+    <p class="term-names"><span class="term-ko">{t.ko}</span>{t.en !== t.abbr && t.en !== t.ko && <span class="term-en" lang="en">{t.en}</span>}</p>
+    <dl class="term-info"><div><dt>레벨</dt><dd class={`lv${t.level}`}>{LEVELS[t.level]}</dd></div><div><dt>분야</dt><dd>{t.cats.join(', ')}</dd></div>{t.added && <div><dt>도입</dt><dd>{t.added}년</dd></div>}</dl>
+    <p class="lead">{t.summary}</p>
     <div class="order-row"><span class="order-label">읽는 순서</span><div class="order" role="group" aria-label="읽는 순서"><button type="button" data-order="easy" aria-pressed="true">쉽게 먼저</button><button type="button" data-order="deep" aria-pressed="false">깊게 먼저</button></div></div>
   </header>
 
@@ -76,15 +74,18 @@ const places = ladderPlaces(ladders, t.id);
     })();
   </script>
 
-  <Sec title="흔한 오해"><div class="myth"><div class="myth-row claim"><span class="myth-tag">오해</span><p>{t.myth.claim}</p></div><div class="myth-row truth"><span class="myth-tag">실제로는</span><p>{t.myth.truth}</p></div></div></Sec>
+  <Sec title="흔한 오해"><p class="myth-claim">“{t.myth.claim}”</p><p>{t.myth.truth}</p></Sec>
   {t.leagues && t.leagues.length > 0 && (
     <Sec title="리그마다 다른 점"><div class="leagues">{t.leagues.map((l) => <div class="league"><b>{l.lg}</b><p>{l.t}</p></div>)}</div></Sec>
   )}
-  <Sec title="같이 보면 좋은 용어"><div class="related">{t.related.map((id) => <Step id={id} />)}</div></Sec>
-  <Sec title="출처"><ul class="sources">{t.sources.map((s) => <li><a href={s.u} target="_blank" rel="noopener">{s.t} ↗</a></li>)}</ul></Sec>
+  <Sec title="같이 보기"><ul class="see-also">{t.related.map((id) => {
+    const r = termMap.get(id)!;
+    return <li><a href={termHref(id)}>{r.chip}</a><span>{subName(r)}</span></li>;
+  })}</ul></Sec>
+  <Sec title="출처"><ol class="sources">{t.sources.map((s) => <li><a href={s.u} target="_blank" rel="noopener">{s.t}</a></li>)}</ol></Sec>
   {/* 사다리는 본문 끝에 GOV.UK step by step처럼 세로 번호 목록으로 둔다. 맨 위 ‘사다리’ 줄이 여기로 이어진다. */}
   {places.length > 0 && (
-    <Sec title="사다리에서의 위치" id="ladders"><div class="term-ladders">{places.map(({ ladder }) => (
+    <Sec title="사다리" id="ladders"><div class="term-ladders">{places.map(({ ladder }) => (
       <div class="term-ladder"><LadderName ladder={ladder} /><LadderSteps ladder={ladder} current={t.id} /></div>
     ))}</div></Sec>
   )}

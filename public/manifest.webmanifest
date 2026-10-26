@@ -1,7 +1,7 @@
 {
   "name": "세이버메트릭스 핸드북",
   "short_name": "세이버 핸드북",
-  "description": "입문 지표부터 최신 Statcast까지, 한 칸씩 깊어지는 한국어 세이버메트릭스 용어 사전.",
+  "description": "OPS, FIP, xwOBA 같은 야구 기록 용어를 쉬운 설명과 자세한 설명으로 나눠 정리한 한국어 용어 사전.",
   "lang": "ko",
   "dir": "ltr",
   "id": "/",

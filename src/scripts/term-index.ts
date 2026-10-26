@@ -42,8 +42,8 @@ function render() {
   const found = search(entries, state);
   const shown = new Set(found.map((e) => e.id));
   const emptyText = state.q
-    ? `‘${state.q}’에 맞는 용어가 아직 없어요. 약어(FIP), 한글(수비 무관), 영문(fielding) 모두 검색돼요.`
-    : '고른 조건에 맞는 용어가 아직 없어요.';
+    ? `‘${state.q}’에 맞는 용어가 없어요. 약어(FIP), 한글(수비 무관), 영문(fielding)으로 찾을 수 있어요.`
+    : '고른 조건에 맞는 용어가 없어요.';
 
   for (const ix of indexes) {
     for (const e of found) ix.list.append(ix.rows.get(e.id)!);
@@ -51,7 +51,7 @@ function render() {
     ix.list.hidden = found.length === 0;
     ix.empty.hidden = found.length > 0;
     ix.empty.textContent = emptyText;
-    ix.count.textContent = `${found.length} / ${entries.length} 용어`;
+    ix.count.textContent = found.length === entries.length ? `용어 ${entries.length}개` : `${entries.length}개 중 ${found.length}개`;
     ix.levelChips.forEach((c) => c.setAttribute('aria-pressed', String(Number(c.dataset.level) === state.level)));
     ix.catChips.forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.cat === state.cat)));
   }

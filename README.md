@@ -22,6 +22,7 @@ npm test         # 콘텐츠 검사와 검색·숫자 표기 단위 테스트 (�
 npm run check    # 타입 검사
 npm run cap:sync # 앱용 빌드(dist-app/)를 만들어 android/, ios/에 복사
 npx cap open android   # Android Studio에서 열기 (Xcode는 npx cap open ios)
+npm run icons    # assets/icon.svg, public/favicon.svg로 PWA·앱 아이콘과 스플래시를 다시 만든다
 ```
 
 Node 22.22 이상이 필요하다.
@@ -41,7 +42,8 @@ integrations/                 빌드 후 서비스 워커(dist/sw.js) 생성
 public/                       manifest, 아이콘
 capacitor.config.ts           앱 설정 (Capacitor)
 android/, ios/                네이티브 앱 프로젝트
-assets/                       앱 아이콘·스플래시 원본 (@capacitor/assets)
+assets/                       앱 아이콘 원본(icon.svg)과 스플래시 PNG (@capacitor/assets 입력)
+scripts/make-icons.mjs        아이콘 SVG → PNG
 prototype/index.html          동작과 디자인의 기준이 되는 단일 HTML 프로토타입
 docs/content-guide.md         용어 스키마와 작성 규칙
 docs/verified-facts.md        원 자료와 대조해 확인한 수치와 정의

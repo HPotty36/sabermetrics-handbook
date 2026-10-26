@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <!-- 앱 아이콘 원본. 위에서 내려다본 홈플레이트와 양쪽 타석이다. 바탕은 :root 토큰 seam(#C42638).
+       홈플레이트는 실제 비율(폭 17, 옆변 8.5, 뾰족한 부분 깊이 약 8.47)을 따랐다. 모서리는 OS가 깎으므로 여기서는 꽉 채운다. -->
+  <rect width="1024" height="1024" fill="#C42638"/>
+  <g fill="none" stroke="#FFFFFF" stroke-width="36">
+    <rect x="150" y="302" width="200" height="420"/>
+    <rect x="674" y="302" width="200" height="420"/>
+  </g>
+  <path d="M392 392h240v120L512 631.6L392 512Z" fill="#FFFFFF"/>
+</svg>
