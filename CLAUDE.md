@@ -25,7 +25,7 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
   - 클라이언트 스크립트는 세 가지뿐이다. `src/scripts/term-index.ts`(검색·필터), 용어 페이지의 인라인 스크립트(읽는 순서), 서비스 워커 등록(빌드 결과에서만, `Base.astro`).
   - 스타일은 `src/styles/global.css`다. 프로토타입 CSS에서 출발했다.
   - 글꼴은 npm의 Fontsource 패키지로 직접 내보낸다(`Base.astro`에서 불러옴). `astro.config.mjs`의 작은 Vite 플러그인이 woff를 빼고 woff2만 남긴다.
-  - PWA: `public/manifest.webmanifest`, 아이콘(`public/favicon.svg`에서 만든 `public/icons/*.png`), 서비스 워커. 서비스 워커는 빌드가 끝나면 `integrations/service-worker.mjs`가 `dist/sw.js`로 만든다. 페이지·CSS·아이콘은 설치 때 미리 저장하고, 글꼴 조각은 쓰일 때 저장한다. 페이지는 네트워크 우선(3초 안에 안 오면 저장본), 없는 페이지는 오프라인에서 홈으로 대신한다.
+  - PWA: `public/manifest.webmanifest`, 아이콘(`public/icons/*.png`), 서비스 워커. 서비스 워커는 빌드가 끝나면 `integrations/service-worker.mjs`가 `dist/sw.js`로 만든다. 페이지·CSS·아이콘은 설치 때 미리 저장하고, 글꼴 조각은 쓰일 때 저장한다. 페이지는 네트워크 우선(3초 안에 안 오면 저장본), 없는 페이지는 오프라인에서 홈으로 대신한다.
   - 배포: https://sabermetrics-handbook.pages.dev/ . Cloudflare Pages에 Git으로 연결했다(프로덕션 브랜치 `main`, 빌드 명령 `npm run build`, 출력 `dist`). `main`에 합치면 다시 배포되고, 다른 브랜치는 미리보기 배포가 된다.
     - 대시보드의 ‘새로운 것을 만들기’에서 GitHub를 바로 고르면 Workers가 만들어진다. Workers 주소에는 계정 서브도메인이 붙으므로 쓰지 않는다. 화면 아래 ‘레거시 Pages 워크플로’의 ‘Pages로 계속’으로 만든다.
     - 2026-10-26에 배포 주소를 확인했다. 파일 418개가 로컬 빌드와 같았다. Chromium에서 검색·필터·읽는 순서가 동작했고, 1280px·400px에서 가로 스크롤이 없었고, 설치 가능 판정에 오류가 없었다. 서버에 닿지 않게 한 뒤에도 방문하지 않은 용어 페이지, 홈, 없는 주소(→ 홈), 글꼴, 검색이 동작했다.
@@ -47,7 +47,7 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
    - 프로토타입과 다른 점:
      - 필터만 걸었는데 결과가 없으면 ‘고른 조건에 맞는 용어가 아직 없어요.’를 보인다. 프로토타입은 빈 따옴표(‘’)가 찍혔다.
      - 모바일 용어 페이지에서 검색을 시작하면 홈의 전체 용어로 페이지를 옮긴다(프로토타입은 같은 화면 안에서 전환). 한글은 글자 조합이 끝난 뒤에 옮긴다.
-     - 본문이 살짝 올라오는 등장 애니메이션(0.28초)이 페이지를 옮길 때마다 나온다. 프로토타입은 처음 열 때만 나왔다.
+     - 등장 애니메이션이 없다. 프로토타입은 처음 열 때 본문이 살짝 올라왔다(2026-10-26에 뺐다).
    - 페이지가 나뉘었으므로 검색어와 필터는 sessionStorage에 둬서, 프로토타입처럼 옮겨 다니는 동안 유지한다.
 3. ~~`stubs` 12개를 작성한다.~~ 2026-10-15에 작성했고, 2026-10-23에 원문과 대조해 수치를 채웠다.
    - 리그 타율·평균자책점·수비율, 포심 회전수, 배트 스피드·빠른 스윙 비율, 스윙 타이밍 판정 기준값을 원문(Baseball-Reference, Baseball Savant)으로 확인해 본문에 넣었다(`verified-facts.md`).
@@ -56,14 +56,14 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
    - 남은 미확인 항목(리그 VAA 평균, FanGraphs 리그 xFIP·SIERA 등)은 `verified-facts.md`의 ‘확인하지 못한 것’에 있다. www.fangraphs.com은 봇 차단 때문에 이 작업 환경에서 열리지 않았다.
 4. ~~PWA를 붙인다. manifest, 서비스 워커, 오프라인 캐시가 필요하다.~~ 끝났다.
    - 2026-10-15에 Chromium으로 확인했다. 서버를 끈 상태에서 방문하지 않은 용어 페이지, 홈, 없는 주소(→ 홈), 글꼴, 검색이 모두 동작했다.
-   - 남은 것: 실제 Android Chrome·iOS Safari에서 배포 주소를 열어 ‘홈 화면에 추가’와 오프라인을 눈으로 확인한다. 아이콘은 헤더의 공 마크를 옮긴 임시 디자인이다.
+   - 남은 것: 실제 Android Chrome·iOS Safari에서 배포 주소를 열어 ‘홈 화면에 추가’와 오프라인을 눈으로 확인한다.
    - manifest와 아이콘 경로는 `/` 기준이다. `base`를 바꾸면 manifest도 함께 고친다.
 5. ~~Capacitor로 Android/iOS를 감싼다.~~ 2026-10-15에 프로젝트를 만들었다. 빌드는 아직이다.
-   - `android/`, `ios/`(Swift Package Manager)를 만들고, 아이콘과 스플래시는 `assets/`의 원본으로 `npx @capacitor/assets generate --android --ios`로 만들었다.
+   - `android/`, `ios/`(Swift Package Manager)를 만들었다. 아이콘과 스플래시는 `npm run icons`로 만든다(아래 ‘앱 아이콘’).
    - Capacitor식 라우팅(확장자 없는 주소 → 홈)을 흉내 낸 서버에서 앱용 빌드의 링크, 사다리 이동, 검색, 읽는 순서를 확인했다. 같은 서버에서 웹 빌드는 실패한다(앱용 빌드가 따로 있는 이유).
    - 이 컨테이너에는 Android SDK가 없고(dl.google.com 차단) Xcode도 없어 APK·IPA를 만들어 보지 못했다. 로컬에서 `npm run cap:sync` 뒤 `npx cap open android`(Android Studio) 또는 `npx cap open ios`(Xcode)로 빌드하고 실제 기기에서 확인한다.
    - `appId`(`com.sabermetricshandbook.app`)는 임시다. 스토어에 처음 올린 뒤에는 바꿀 수 없으니 출시 전에 정한다. 개인을 알아볼 수 있는 문구(GitHub 계정명 등)는 넣지 않는다.
-   - 확인할 것: iOS 상태 표시줄 영역(헤더는 `env(safe-area-inset-top)`을 쓴다), Android 뒤로 가기 버튼, 다크 모드 스플래시에서 공 테두리가 잘 안 보이는 점.
+   - 확인할 것: iOS 상태 표시줄 영역(헤더는 `env(safe-area-inset-top)`을 쓴다), Android 뒤로 가기 버튼.
 
 스택은 Astro를 권장하지만 확정은 아니다. 바꾸려면 먼저 이유를 설명하고 확인받는다.
 
@@ -78,6 +78,7 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
   - IBM Plex Sans KR: 본문
   - IBM Plex Mono: 수식
 - 이 주제만의 요소는 두 가지다. 헤더 아래 실밥 구분선, 숫자 눈금 막대의 홈플레이트 모양 평균 마커. 이런 장식을 더 늘리지 않는다.
+  - 앱 아이콘(헤더 마크 겸용)은 장식이 아니라 로고라 따로 센다. 아래 ‘앱 아이콘’ 참고.
 - 모바일 400px 폭에서 가로 스크롤이 생기면 안 된다.
 
 ### 레퍼런스를 참고해 프로토타입에서 바꾼 것 (2026-10-15)
@@ -86,9 +87,32 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
 
 - 용어 페이지 맨 위 ‘사다리 · 투수 평가 2/4’ 상자. [GOV.UK 콘텐츠 페이지](https://www.gov.uk/apply-first-provisional-driving-licence)는 단계별 안내에 속한 페이지 맨 위에 ‘Part of’ 회색 상자와 링크를 둔다.
 - 사다리는 본문 끝에 세로 번호 목록으로 둔다. 번호를 세로선으로 잇고 지금 용어는 채운 원으로 표시한다. [GOV.UK step by step](https://www.gov.uk/learn-to-drive-a-car)과 같은 방식이다. 앞뒤 칸이 이름과 함께 보이므로 따로 이전·다음 링크는 두지 않는다. 가로 칩은 모바일에서 줄이 꺾여 순서가 잘 안 보였다. 홈의 사다리 9개는 한눈에 훑는 용도라 가로 칩 그대로다.
-- 한 줄 정의(`summary`)를 ‘정의’ 상자로 본문과 떼어 놓는다. [Investopedia 용어 페이지](https://www.investopedia.com/terms/p/price-earningsratio.asp)의 ‘Definition’ 상자, [FanGraphs Library](https://library.fangraphs.com/pitching/fip/)의 맨 위 요약 카드와 같은 역할이다.
+- ~~한 줄 정의(`summary`)를 ‘정의’ 상자로 본문과 떼어 놓는다(Investopedia의 ‘Definition’ 상자).~~ 2026-10-26에 상자를 없애고 표제어 바로 아래 큰 글자로 둔다(아래).
 - 눈금 막대 양 끝에 ‘나쁨 · 좋음’을 적는다(좋은 쪽이 빨강). [Baseball Savant 선수 페이지](https://baseballsavant.mlb.com/)의 퍼센타일 막대 머리글(POOR · AVERAGE · GREAT, 좋은 쪽 빨강)을 따랐다. 가운데 ‘평균’은 홈플레이트 마커가 맡는다. 범례는 숫자 → 의미를 위에서 아래로 읽는 목록이다.
-- 섹션 제목은 16px 굵은 본문색. [MLB.com Glossary](https://www.mlb.com/glossary/statcast/barrel)와 FanGraphs Library처럼 정의 → 계산 → 해석 → 맥락 순서의 구획이 보이게 하려는 것이다.
+- 섹션 제목은 굵은 본문색(2026-10-26부터 17px, 앞의 빨간 마름모는 뺐다). [MLB.com Glossary](https://www.mlb.com/glossary/statcast/barrel)와 FanGraphs Library처럼 정의 → 계산 → 해석 → 맥락 순서의 구획이 보이게 하려는 것이다.
+
+### AI가 만든 것처럼 보이는 요소를 뺀 정리 (2026-10-26)
+
+토큰, 글꼴, 실밥 구분선, 홈플레이트 마커, 읽는 순서 전환, 두 입구, 사다리는 그대로다. 아래 사이트와 앱을 데스크톱(1280px)과 모바일(390px)에서 직접 열어 보고 ‘사람이 만든 참고서’처럼 보이는 쪽으로 정리했다.
+
+- 홈 첫머리: 작은 윗글(eyebrow) + 두 줄짜리 큰 문구 + 회색 부제 조합을 없앴다. 제목 한 줄(‘세이버메트릭스 용어 사전’, 24px)과 사실만 적은 설명 한 줄만 둔다. [네이버 지식백과](https://terms.naver.com/search.naver?query=%ED%8F%89%EA%B7%A0%EC%9E%90%EC%B1%85%EC%A0%90)와 [표준국어대사전](https://stdict.korean.go.kr/)은 첫 화면부터 바로 목록과 뜻을 보여 준다.
+- 두 입구(‘처음이라면’, ‘이미 안다면’): 둥근 카드 두 장을 없앴다. 신문 단락처럼 위에 2px 본문색 선을 긋고, 목록은 가는 선으로 나눈 줄로 쓴다(네이버 지식백과 검색 결과의 제목·설명·가는 선).
+- 사다리(홈): 테두리 칩과 레벨 색 점을 빼고, 글자 링크를 ‘→’로 잇는다.
+- 용어 표제어: [표준국어대사전](https://stdict.korean.go.kr/search/searchView.do?word_no=430937&searchKeywordTo=3)의 ‘표제어 + 원어’, [Merriam-Webster](https://www.merriam-webster.com/dictionary/earned%20run%20average)의 ‘표제어 + 품사 + 바로 아래 뜻’ 순서를 따랐다. 약어 아래에 한글 이름과 영문 이름을 한 줄로, 그 아래 ‘레벨 · 분야 · 도입’을 이름표 줄로, 그 아래 한 줄 정의를 상자 없이 18px로 둔다. 영문 이름은 대문자·자간을 넓힌 고정폭 글자로 쓰지 않는다.
+- 레벨: 테두리 알약 배지 대신 레벨 색 글자만 쓴다(표준국어대사전의 품사 표시처럼).
+- 모서리: 999px 알약 모양(검색창, 필터, 읽는 순서, 배지)과 10~14px 둥근 카드를 없앴다. 입력창·버튼은 3~4px. [Baseball Savant](https://baseballsavant.mlb.com/leaderboard/bat-tracking)의 검색창과 선택 상자처럼 거의 각진 모양이다.
+- 섹션 제목 앞의 빨간 마름모, 페이지마다 나오던 등장 애니메이션, ‘2026년 등장’ 빨간 배지를 뺐다.
+- 흔한 오해: ‘오해·실제로는’ 이름표와 취소선을 없애고, 잘못 알려진 말을 따옴표로 적은 뒤 바로 아래에 설명한다.
+- ‘같이 보면 좋은 용어’ → ‘같이 보기’, 출처는 번호 목록이고 ↗ 표시는 뺐다. [위키백과](https://ko.wikipedia.org/wiki/%ED%8F%89%EA%B7%A0%EC%9E%90%EC%B1%85%EC%A0%90)의 같은 이름 단락처럼 그냥 목록으로 둔다.
+- 문구: 홍보 문구(‘한 칸씩 깊어지는’), 사이트 자신을 가리키는 말, 본문의 ‘~하는 이유다’ 맺음·의인화·비유를 걷어 냈다. 규칙은 `docs/content-guide.md`의 ‘쓰는 법’.
+
+다시 넣지 않을 것: 알약 모양 모서리, 그림자 있는 카드, 제목 앞 장식 기호, 대문자·넓은 자간 이름표, 색 점, 그라데이션 강조, 등장 애니메이션, 윗글 + 큰 문구 + 부제 조합, 이모지.
+
+### 앱 아이콘 (2026-10-26)
+
+- 위에서 내려다본 홈플레이트와 양쪽 타석을 seam 빨강 바탕에 흰 선으로 그렸다. 홈플레이트는 실제 비율(폭 17, 옆변 8.5)이다.
+- 참고한 앱 아이콘(App Store): The Athletic, Dictionary.com, 위키백과, ESPN, FotMob, Merriam-Webster. 모두 단색 바탕에 생각 하나만 그리고 그라데이션·광택이 없다. 예전 아이콘(공 테두리와 실밥)은 흔한 공 그림이라 작게 보면 무엇인지 구분이 안 됐다.
+- 원본: `assets/icon.svg`(꽉 찬 사각형), `public/favicon.svg`(둥근 모서리, 탭 아이콘과 헤더 마크도 이 파일). PNG는 `npm run icons`가 만든다(`scripts/make-icons.mjs` → `@capacitor/assets`). 원(마스크)에 들어가는 아이콘은 안전 영역에 맞춰 줄인다(PWA maskable 0.8, Android 적응형 0.68).
 
 보고도 넣지 않은 것 (넣으려면 먼저 확인받는다)
 

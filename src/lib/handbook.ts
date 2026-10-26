@@ -7,6 +7,9 @@ import { formatIssues, validateHandbook } from './validate.ts';
 
 export type TermEntry = Term & { id: string };
 
+/** 목록에서 칩 옆에 붙이는 이름. 한글 이름이 칩과 같거나 칩으로 시작하면(어택 앵글) 영문 이름을 쓴다. */
+export const subName = (t: Pick<Term, 'chip' | 'ko' | 'en'>) => (t.ko.startsWith(t.chip) ? t.en : t.ko);
+
 export interface Handbook {
   /** 레벨 순, 같은 레벨 안에서는 order 순 */
   terms: TermEntry[];

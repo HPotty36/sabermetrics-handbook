@@ -3,7 +3,7 @@ import Chain from '../components/Chain.astro';
 import LadderName from '../components/LadderName.astro';
 import TermIndex from '../components/TermIndex.astro';
 import Base from '../layouts/Base.astro';
-import { loadHandbook, type TermEntry } from '../lib/handbook.ts';
+import { loadHandbook, subName, type TermEntry } from '../lib/handbook.ts';
 import { termHref } from '../lib/paths.ts';
 import { SEASON, SITE_NAME } from '../lib/site.ts';
 
@@ -20,17 +20,19 @@ const recent = terms.filter((t) => t.added).sort(byAddedDesc);
 const recentStubs = stubs.filter((s) => s.added).sort(byAddedDesc);
 const deep = terms.filter((t) => t.level === 3 && !t.added);
 
-const doorLabel = (t: TermEntry) => `${t.added ? `${t.added}년 · ` : ''}${t.ko === t.chip ? t.en : t.ko}`;
+const doorLabel = (t: TermEntry) => `${t.added ? `${t.added}년 · ` : ''}${subName(t)}`;
 ---
-<Base title={SITE_NAME} description="입문 지표부터 최신 Statcast까지, 한 칸씩 깊어지는 한국어 세이버메트릭스 용어 사전." view="home">
-  <section class="hero"><p class="eyebrow">용어 {terms.length}개 · 사다리 {ladders.length}개 · {SEASON} MLB 기준</p><h1>입문 지표부터 최신 Statcast까지, 한 칸씩 깊어지는 용어 사전</h1><p>모든 용어를 ‘쉽게’와 ‘깊게’ 두 겹으로 썼어요. 처음이면 위에서부터, 이미 안다면 깊게 먼저 읽기로 바꿔 보세요.</p></section>
+<Base title={SITE_NAME} description="OPS, FIP, xwOBA 같은 야구 기록 용어를 쉬운 설명과 자세한 설명으로 나눠 정리한 한국어 용어 사전." view="home">
+  {/* 네이버 지식백과·표준국어대사전처럼 첫 화면은 제목 한 줄과 설명 한 줄만 두고 바로 목록을 보여 준다. */}
+  <h1 class="home-title">세이버메트릭스 용어 사전</h1>
+  <p class="home-desc">야구 기록 용어 {terms.length}개를 ‘쉽게 말하면’과 ‘깊게 보면’으로 나눠 설명해요. 리그 평균은 {SEASON} MLB 정규시즌 기준이에요.</p>
   <div class="doors">
-    <section class="door"><h2>처음이라면</h2><p>OPS에서 시작해 사다리를 한 칸씩 올라가면 돼요.</p>
+    <section class="door"><h2>처음이라면</h2><p>OPS부터 사다리 순서대로 읽으면 돼요.</p>
       <ul class="door-list">{beginner.map((t) => (
         <li><a href={termHref(t.id)}><span class="dl-abbr">{t.chip}</span><span class="dl-ko">{doorLabel(t)}</span></a></li>
       ))}</ul>
-      <a class="go" href={termHref(start.id)}>OPS부터 읽기 →</a></section>
-    <section class="door"><h2>이미 안다면</h2><p>최근 Statcast에 생긴 지표와 심화 용어부터 보세요.</p>
+      <a class="go" href={termHref(start.id)}>OPS부터 읽기</a></section>
+    <section class="door"><h2>이미 안다면</h2><p>최근 Statcast에 생긴 지표와 심화 용어예요.</p>
       <ul class="door-list">{recent.map((t) => (
         <li><a href={termHref(t.id)}><span class="dl-abbr">{t.chip}</span><span class="dl-ko">{doorLabel(t)}</span></a></li>
       ))}{recentStubs.map((s) => (
@@ -40,7 +42,7 @@ const doorLabel = (t: TermEntry) => `${t.added ? `${t.added}년 · ` : ''}${t.ko
       ))}</ul></section>
   </div>
   <h2 class="block-title">사다리</h2>
-  <p class="block-sub">왼쪽이 기본, 오른쪽으로 갈수록 한 단계 깊은 지표예요.{stubs.length > 0 && ` 점선은 아직 쓰는 중인 용어(${stubs.length}개)입니다.`}</p>
+  <p class="block-sub">왼쪽이 기본이고, 오른쪽으로 갈수록 깊은 지표예요.</p>
   <div class="ladders">{ladders.map((l) => (
     <div class="ladder"><LadderName ladder={l} /><Chain steps={l.steps} /></div>
   ))}</div>

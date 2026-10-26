@@ -1,10 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-  <!-- 헤더의 공 마크(.brand-ball)를 아이콘으로 옮겼다. 색은 :root 토큰(ink, surface, seam). -->
-  <defs><clipPath id="in"><circle cx="50" cy="50" r="42"/></clipPath></defs>
-  <circle cx="50" cy="50" r="42" fill="#FFFFFF"/>
-  <g clip-path="url(#in)" fill="none" stroke="#C42638" stroke-width="5" stroke-dasharray="7 5">
-    <ellipse cx="2" cy="50" rx="30" ry="64"/>
-    <ellipse cx="98" cy="50" rx="30" ry="64"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <!-- 탭 아이콘과 헤더 마크. assets/icon.svg에 둥근 모서리만 더했다. -->
+  <rect width="1024" height="1024" rx="224" fill="#C42638"/>
+  <g fill="none" stroke="#FFFFFF" stroke-width="36">
+    <rect x="150" y="302" width="200" height="420"/>
+    <rect x="674" y="302" width="200" height="420"/>
   </g>
-  <circle cx="50" cy="50" r="42" fill="none" stroke="#121A27" stroke-width="8"/>
+  <path d="M392 392h240v120L512 631.6L392 512Z" fill="#FFFFFF"/>
 </svg>
