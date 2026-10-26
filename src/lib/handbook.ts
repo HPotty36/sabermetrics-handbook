@@ -10,6 +10,9 @@ export type TermEntry = Term & { id: string };
 /** 목록에서 칩 옆에 붙이는 이름. 한글 이름이 칩과 같거나 칩으로 시작하면(어택 앵글) 영문 이름을 쓴다. */
 export const subName = (t: Pick<Term, 'chip' | 'ko' | 'en'>) => (t.ko.startsWith(t.chip) ? t.en : t.ko);
 
+/** 칩에 한글이 있는지. 약어용 글꼴(Big Shoulders)에는 한글이 없어서, 한글 칩은 본문 글꼴로 따로 맞춘다. */
+export const hasHangul = (s: string) => /[가-힣]/.test(s);
+
 export interface Handbook {
   /** 레벨 순, 같은 레벨 안에서는 order 순 */
   terms: TermEntry[];

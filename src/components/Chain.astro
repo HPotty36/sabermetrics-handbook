@@ -1,6 +1,6 @@
 ---
-// 홈의 사다리 한 줄. 칸은 그냥 글자 링크로 잇는다. 준비 중 용어는 링크 없이 흐리게 둔다.
-import { loadHandbook } from '../lib/handbook.ts';
+// 홈의 사다리 한 줄. 지하철 노선도처럼 칸(역)을 선으로 잇고, 점 색으로 레벨을 표시한다. 준비 중 용어는 링크 없이 흐리게 둔다.
+import { hasHangul, loadHandbook } from '../lib/handbook.ts';
 import { termHref } from '../lib/paths.ts';
 
 interface Props {
@@ -10,13 +10,11 @@ interface Props {
 const { steps } = Astro.props;
 const { termMap, stubMap } = await loadHandbook();
 ---
-<p class="chain">{steps.map((id, i) => {
+<ol class="route">{steps.map((id) => {
   const term = termMap.get(id);
-  return (
-    <>{i > 0 && <span class="arrow" aria-hidden="true">→</span>}{term ? (
-      <a href={termHref(id)}>{term.chip}</a>
-    ) : (
-      <span class="stub">{stubMap.get(id)!.chip} (준비 중)</span>
-    )}</>
-  );
-})}</p>
+  if (!term) {
+    const stub = stubMap.get(id)!;
+    return <li><span class:list={['stop', 'is-stub', { 'is-ko': hasHangul(stub.chip) }]}><span class="dot" aria-hidden="true"></span>{stub.chip} <small>준비 중</small></span></li>;
+  }
+  return <li><a class:list={['stop', { 'is-ko': hasHangul(term.chip) }]} href={termHref(id)}><span class={`dot dot${term.level}`} aria-hidden="true"></span>{term.chip}</a></li>;
+})}</ol>

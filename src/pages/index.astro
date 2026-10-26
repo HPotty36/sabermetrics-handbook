@@ -3,8 +3,9 @@ import Chain from '../components/Chain.astro';
 import LadderName from '../components/LadderName.astro';
 import TermIndex from '../components/TermIndex.astro';
 import Base from '../layouts/Base.astro';
-import { loadHandbook, subName, type TermEntry } from '../lib/handbook.ts';
+import { hasHangul, loadHandbook, subName } from '../lib/handbook.ts';
 import { termHref } from '../lib/paths.ts';
+import { LEVELS } from '../lib/schema.ts';
 import { SEASON, SITE_NAME } from '../lib/site.ts';
 
 const { terms, stubs, ladders, termMap } = await loadHandbook();
@@ -19,32 +20,48 @@ const byAddedDesc = (a: { added?: number }, b: { added?: number }) => b.added! -
 const recent = terms.filter((t) => t.added).sort(byAddedDesc);
 const recentStubs = stubs.filter((s) => s.added).sort(byAddedDesc);
 const deep = terms.filter((t) => t.level === 3 && !t.added);
-
-const doorLabel = (t: TermEntry) => `${t.added ? `${t.added}년 · ` : ''}${subName(t)}`;
 ---
 <Base title={SITE_NAME} description="OPS, FIP, xwOBA 같은 야구 기록 용어를 쉬운 설명과 자세한 설명으로 나눠 정리한 한국어 용어 사전." view="home">
-  {/* 네이버 지식백과·표준국어대사전처럼 첫 화면은 제목 한 줄과 설명 한 줄만 두고 바로 목록을 보여 준다. */}
-  <h1 class="home-title">세이버메트릭스 용어 사전</h1>
-  <p class="home-desc">야구 기록 용어 {terms.length}개를 ‘쉽게 말하면’과 ‘깊게 보면’으로 나눠 설명해요. 리그 평균은 {SEASON} MLB 정규시즌 기준이에요.</p>
-  <div class="doors">
-    <section class="door"><h2>처음이라면</h2><p>OPS부터 사다리 순서대로 읽으면 돼요.</p>
-      <ul class="door-list">{beginner.map((t) => (
-        <li><a href={termHref(t.id)}><span class="dl-abbr">{t.chip}</span><span class="dl-ko">{doorLabel(t)}</span></a></li>
+  <section class="intro">
+    <h1>세이버메트릭스 용어 사전</h1>
+    <p>야구 기록 용어 {terms.length}개를 ‘쉽게 말하면’과 ‘깊게 보면’ 두 겹으로 정리했어요. 리그 평균은 {SEASON} MLB 정규시즌 기준이에요.</p>
+  </section>
+
+  <div class="entries">
+    <section class="entry">
+      <h2>처음이라면</h2>
+      <p>OPS부터 사다리 순서대로 읽으면 돼요.</p>
+      <ul class="entry-list">{beginner.map((t) => (
+        <li><a href={termHref(t.id)}><span class:list={['el-abbr', { 'is-ko': hasHangul(t.chip) }]}>{t.chip}</span><span class="el-name">{subName(t)}</span></a></li>
       ))}</ul>
-      <a class="go" href={termHref(start.id)}>OPS부터 읽기</a></section>
-    <section class="door"><h2>이미 안다면</h2><p>최근 Statcast에 생긴 지표와 심화 용어예요.</p>
-      <ul class="door-list">{recent.map((t) => (
-        <li><a href={termHref(t.id)}><span class="dl-abbr">{t.chip}</span><span class="dl-ko">{doorLabel(t)}</span></a></li>
+      <a class="btn" href={termHref(start.id)}>OPS부터 읽기<span aria-hidden="true">→</span></a>
+    </section>
+    <section class="entry">
+      <h2>이미 안다면</h2>
+      <p>최근 Statcast에 생긴 지표와 심화 용어예요.</p>
+      <ul class="entry-list">{recent.map((t) => (
+        <li><a href={termHref(t.id)}><span class:list={['el-abbr', { 'is-ko': hasHangul(t.chip) }]}>{t.chip}</span><span class="el-name">{subName(t)}</span><span class="el-year">{t.added}</span></a></li>
       ))}{recentStubs.map((s) => (
-        <li><span class="stubline"><span class="dl-abbr">{s.chip}</span><span class="dl-ko">{s.added}년 · 준비 중</span></span></li>
+        <li><span class="el-stub"><span class:list={['el-abbr', { 'is-ko': hasHangul(s.chip) }]}>{s.chip}</span><span class="el-name">준비 중</span><span class="el-year">{s.added}</span></span></li>
       ))}{deep.map((t) => (
-        <li><a href={termHref(t.id)}><span class="dl-abbr">{t.chip}</span><span class="dl-ko">{doorLabel(t)}</span></a></li>
-      ))}</ul></section>
+        <li><a href={termHref(t.id)}><span class:list={['el-abbr', { 'is-ko': hasHangul(t.chip) }]}>{t.chip}</span><span class="el-name">{subName(t)}</span></a></li>
+      ))}</ul>
+    </section>
   </div>
-  <h2 class="block-title">사다리</h2>
-  <p class="block-sub">왼쪽이 기본이고, 오른쪽으로 갈수록 깊은 지표예요.</p>
-  <div class="ladders">{ladders.map((l) => (
-    <div class="ladder"><LadderName ladder={l} /><Chain steps={l.steps} /></div>
-  ))}</div>
-  <section id="home-index"><h2 class="block-title">전체 용어</h2><div id="home-index-list"><TermIndex /></div></section>
+
+  <section class="block">
+    <div class="block-head">
+      <h2>사다리</h2>
+      <p>왼쪽이 기본이고, 오른쪽으로 갈수록 깊은 지표예요.</p>
+      <p class="lv-legend">{([1, 2, 3] as const).map((l) => <span><span class={`dot dot${l}`} aria-hidden="true"></span>{LEVELS[l]}</span>)}</p>
+    </div>
+    <div class="ladders">{ladders.map((l) => (
+      <div class="ladder"><LadderName ladder={l} /><Chain steps={l.steps} /></div>
+    ))}</div>
+  </section>
+
+  <section class="block" id="home-index">
+    <div class="block-head"><h2>전체 용어</h2></div>
+    <TermIndex variant="grid" />
+  </section>
 </Base>

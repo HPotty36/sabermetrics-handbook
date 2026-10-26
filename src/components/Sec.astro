@@ -1,4 +1,5 @@
 ---
+// 용어 페이지의 단락. 넓은 화면에서는 Linear 변경 기록처럼 제목을 왼쪽 열에, 내용을 오른쪽 열에 둔다.
 import type { HTMLAttributes } from 'astro/types';
 
 interface Props extends HTMLAttributes<'section'> {
@@ -7,4 +8,4 @@ interface Props extends HTMLAttributes<'section'> {
 
 const { title, ...attrs } = Astro.props;
 ---
-<section class="sec" {...attrs}><h2>{title}</h2><slot /></section>
+<section class="sec" {...attrs}><h2>{title}</h2><div class="sec-body"><slot /></div></section>

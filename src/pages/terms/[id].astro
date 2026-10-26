@@ -5,7 +5,8 @@ import LadderSteps from '../../components/LadderSteps.astro';
 import Scale from '../../components/Scale.astro';
 import Sec from '../../components/Sec.astro';
 import Base from '../../layouts/Base.astro';
-import { loadHandbook, subName } from '../../lib/handbook.ts';
+import { fmt } from '../../lib/format.ts';
+import { loadHandbook } from '../../lib/handbook.ts';
 import { ladderPlaces } from '../../lib/ladder.ts';
 import { homeHref, termHref } from '../../lib/paths.ts';
 import { LEVELS } from '../../lib/schema.ts';
@@ -26,15 +27,22 @@ const places = ladderPlaces(ladders, t.id);
     {/* GOV.UK 디자인 시스템의 step by step navigation header처럼, 이 페이지가 어느 사다리의 몇 번째 칸인지 맨 위에 알린다. */}
     {places.length > 0 && (
       <nav class="part-of" aria-label="이 용어가 속한 사다리"><span class="part-of-label">사다리</span>{places.map(({ ladder, pos, total }) => (
-        <a href="#ladders">{ladder.name} <span class="part-of-pos">{pos}/{total}</span></a>
+        <a href="#ladders">{ladder.name}<span class="part-of-pos">{pos}/{total}</span></a>
       ))}</nav>
     )}
-    {/* 표준국어대사전·Merriam-Webster의 표제어처럼, 약어 아래에 한글·영문 이름과 레벨·분야를 적고 바로 한 줄 정의를 둔다. */}
-    <h1 class="term-abbr">{t.abbr}</h1>
-    <p class="term-names"><span class="term-ko">{t.ko}</span>{t.en !== t.abbr && t.en !== t.ko && <span class="term-en" lang="en">{t.en}</span>}</p>
-    <dl class="term-info"><div><dt>레벨</dt><dd class={`lv${t.level}`}>{LEVELS[t.level]}</dd></div><div><dt>분야</dt><dd>{t.cats.join(', ')}</dd></div>{t.added && <div><dt>도입</dt><dd>{t.added}년</dd></div>}</dl>
+    <div class="term-title">
+      <div>
+        <p class="term-tags"><span class={`lv lv${t.level}`}><span class={`dot dot${t.level}`} aria-hidden="true"></span>{LEVELS[t.level]}</span><span>{t.cats.join(' · ')}</span>{t.added && <span>{t.added}년 도입</span>}</p>
+        <h1 class="term-abbr">{t.abbr}</h1>
+        <p class="term-names"><span class="term-ko">{t.ko}</span>{t.en !== t.abbr && t.en !== t.ko && <span class="term-en" lang="en">{t.en}</span>}</p>
+      </div>
+      {/* 리그 평균이 있으면 Apple 스포츠 앱의 점수처럼 숫자 하나를 크게 둔다. */}
+      {t.scale?.avg && (
+        <div class="term-stat"><span class="term-stat-label">평균</span><span class="term-stat-num">{fmt(t.scale.avg.v, t.scale)}</span><span class="term-stat-note">{t.scale.avg.t}</span></div>
+      )}
+    </div>
     <p class="lead">{t.summary}</p>
-    <div class="order-row"><span class="order-label">읽는 순서</span><div class="order" role="group" aria-label="읽는 순서"><button type="button" data-order="easy" aria-pressed="true">쉽게 먼저</button><button type="button" data-order="deep" aria-pressed="false">깊게 먼저</button></div></div>
+    <div class="order-row"><span class="order-label">읽는 순서</span><div class="seg" role="group" aria-label="읽는 순서"><button type="button" data-order="easy" aria-pressed="true">쉽게 먼저</button><button type="button" data-order="deep" aria-pressed="false">깊게 먼저</button></div></div>
   </header>
 
   <div data-reading-order>
@@ -74,13 +82,13 @@ const places = ladderPlaces(ladders, t.id);
     })();
   </script>
 
-  <Sec title="흔한 오해"><p class="myth-claim">“{t.myth.claim}”</p><p>{t.myth.truth}</p></Sec>
+  <Sec title="흔한 오해"><div class="myth"><div class="myth-row"><span class="myth-label">오해</span><p>{t.myth.claim}</p></div><div class="myth-row is-truth"><span class="myth-label">실제</span><p>{t.myth.truth}</p></div></div></Sec>
   {t.leagues && t.leagues.length > 0 && (
     <Sec title="리그마다 다른 점"><div class="leagues">{t.leagues.map((l) => <div class="league"><b>{l.lg}</b><p>{l.t}</p></div>)}</div></Sec>
   )}
-  <Sec title="같이 보기"><ul class="see-also">{t.related.map((id) => {
+  <Sec title="같이 보기"><ul class="tiles tiles-sm">{t.related.map((id) => {
     const r = termMap.get(id)!;
-    return <li><a href={termHref(id)}>{r.chip}</a><span>{subName(r)}</span></li>;
+    return <li><a class="tile" href={termHref(id)}><span class="tile-abbr">{r.abbr}</span><span class="tile-ko">{r.ko}</span></a></li>;
   })}</ul></Sec>
   <Sec title="출처"><ol class="sources">{t.sources.map((s) => <li><a href={s.u} target="_blank" rel="noopener">{s.t}</a></li>)}</ol></Sec>
   {/* 사다리는 본문 끝에 GOV.UK step by step처럼 세로 번호 목록으로 둔다. 맨 위 ‘사다리’ 줄이 여기로 이어진다. */}
