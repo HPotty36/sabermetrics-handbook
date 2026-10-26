@@ -26,7 +26,9 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
   - 스타일은 `src/styles/global.css`다. 프로토타입 CSS에서 출발했다.
   - 글꼴은 npm의 Fontsource 패키지로 직접 내보낸다(`Base.astro`에서 불러옴). `astro.config.mjs`의 작은 Vite 플러그인이 woff를 빼고 woff2만 남긴다.
   - PWA: `public/manifest.webmanifest`, 아이콘(`public/favicon.svg`에서 만든 `public/icons/*.png`), 서비스 워커. 서비스 워커는 빌드가 끝나면 `integrations/service-worker.mjs`가 `dist/sw.js`로 만든다. 페이지·CSS·아이콘은 설치 때 미리 저장하고, 글꼴 조각은 쓰일 때 저장한다. 페이지는 네트워크 우선(3초 안에 안 오면 저장본), 없는 페이지는 오프라인에서 홈으로 대신한다.
-  - 배포: Cloudflare Pages에 Git으로 연결한다(프로덕션 브랜치 `main`, 빌드 명령 `npm run build`, 출력 `dist`). 다른 브랜치는 미리보기 배포가 된다.
+  - 배포: https://sabermetrics-handbook.pages.dev/ . Cloudflare Pages에 Git으로 연결했다(프로덕션 브랜치 `main`, 빌드 명령 `npm run build`, 출력 `dist`). `main`에 합치면 다시 배포되고, 다른 브랜치는 미리보기 배포가 된다.
+    - 대시보드의 ‘새로운 것을 만들기’에서 GitHub를 바로 고르면 Workers가 만들어진다. Workers 주소에는 계정 서브도메인이 붙으므로 쓰지 않는다. 화면 아래 ‘레거시 Pages 워크플로’의 ‘Pages로 계속’으로 만든다.
+    - 2026-10-26에 배포 주소를 확인했다. 파일 418개가 로컬 빌드와 같았다. Chromium에서 검색·필터·읽는 순서가 동작했고, 1280px·400px에서 가로 스크롤이 없었고, 설치 가능 판정에 오류가 없었다. 서버에 닿지 않게 한 뒤에도 방문하지 않은 용어 페이지, 홈, 없는 주소(→ 홈), 글꼴, 검색이 동작했다.
     - Pages 빌드 이미지의 기본 Node(22.16)는 `engines`보다 낮고 `engines`를 읽지 않으므로 `.node-version`으로 고정한다. Node를 올리면 둘 다 고친다.
     - `404.html`이 없으면 Pages는 없는 주소에 홈을 보낸다(SPA 방식). 오프라인 서비스 워커와 같은 동작이다.
     - 사이트 주소(`<프로젝트 이름>.pages.dev`)에도 앱 ID처럼 개인을 알아볼 수 있는 문구를 넣지 않는다.
@@ -54,7 +56,7 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
    - 남은 미확인 항목(리그 VAA 평균, FanGraphs 리그 xFIP·SIERA 등)은 `verified-facts.md`의 ‘확인하지 못한 것’에 있다. www.fangraphs.com은 봇 차단 때문에 이 작업 환경에서 열리지 않았다.
 4. ~~PWA를 붙인다. manifest, 서비스 워커, 오프라인 캐시가 필요하다.~~ 끝났다.
    - 2026-10-15에 Chromium으로 확인했다. 서버를 끈 상태에서 방문하지 않은 용어 페이지, 홈, 없는 주소(→ 홈), 글꼴, 검색이 모두 동작했다.
-   - 남은 것: 실제 Android Chrome·iOS Safari에서 ‘홈 화면에 추가’와 오프라인을 눈으로 확인한다. 아이콘은 헤더의 공 마크를 옮긴 임시 디자인이다.
+   - 남은 것: 실제 Android Chrome·iOS Safari에서 배포 주소를 열어 ‘홈 화면에 추가’와 오프라인을 눈으로 확인한다. 아이콘은 헤더의 공 마크를 옮긴 임시 디자인이다.
    - manifest와 아이콘 경로는 `/` 기준이다. `base`를 바꾸면 manifest도 함께 고친다.
 5. ~~Capacitor로 Android/iOS를 감싼다.~~ 2026-10-15에 프로젝트를 만들었다. 빌드는 아직이다.
    - `android/`, `ios/`(Swift Package Manager)를 만들고, 아이콘과 스플래시는 `assets/`의 원본으로 `npx @capacitor/assets generate --android --ios`로 만들었다.
