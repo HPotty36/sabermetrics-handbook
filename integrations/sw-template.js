@@ -1,18 +1,39 @@
-// 서비스 워커 본체. 빌드 때 integrations/service-worker.mjs가 맨 앞에 VERSION, BASE, PRECACHE_URLS를 붙여 dist/sw.js로 내보낸다.
-/* global VERSION, BASE, PRECACHE_URLS */
+// 서비스 워커 본체. 빌드 때 integrations/service-worker.mjs가 맨 앞에 VERSION, BASE, CORE_URLS, PAGE_URLS를 붙여 dist/sw.js로 내보낸다.
+/* global VERSION, BASE, CORE_URLS, PAGE_URLS */
 
 const PRECACHE = `sh-precache-${VERSION}`;
 // 글꼴 조각(woff2)은 파일 이름에 해시가 있어 버전이 바뀌어도 그대로 쓴다. 쓰는 조각만 처음 받을 때 저장한다.
 const FONTS = 'sh-fonts';
 const NETWORK_TIMEOUT_MS = 3000;
 
+// 설치 때는 CSS·JS·아이콘·manifest와 두 홈만 받는다. 나머지 페이지는 warmPages가 그 뒤에 받는다.
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(PRECACHE)
-      .then((cache) => cache.addAll(PRECACHE_URLS))
+      .then((cache) => cache.addAll(CORE_URLS))
       .then(() => self.skipWaiting()),
   );
 });
+
+// 페이지가 다 열리고 조금 지나면 ‘warm’을 보낸다(Base.astro). 그때 나머지 페이지를 하나씩 저장한다.
+// 한 번에 하나만 받으므로 느린 연결에서도 브라우저의 설치 검사나 다른 요청을 밀어내지 않는다.
+// 연결이 끊기면 멈추고, 다음에 ‘warm’이 오면 아직 없는 것부터 잇는다.
+let warming = null;
+self.addEventListener('message', (event) => {
+  if (event.data !== 'warm') return;
+  warming ??= warmPages().finally(() => (warming = null));
+  event.waitUntil(warming);
+});
+
+async function warmPages() {
+  const cache = await caches.open(PRECACHE);
+  for (const url of PAGE_URLS) {
+    if (await cache.match(url, { ignoreVary: true })) continue;
+    const response = await fetch(url).catch(() => null);
+    if (!response) return;
+    if (response.ok) await cache.put(url, response);
+  }
+}
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
@@ -32,6 +53,9 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(fromNetworkFirst(request));
   } else if (url.pathname.endsWith('.woff2')) {
     event.respondWith(fromCacheFirst(request, FONTS));
+  } else if (url.pathname.startsWith(`${BASE}screenshots/`)) {
+    // 설치 창의 화면 사진. 안드로이드 크롬은 페이지를 열 때마다 받으므로 처음 받은 것을 이 버전의 저장분에 둔다.
+    event.respondWith(fromCacheFirst(request, PRECACHE));
   } else {
     event.respondWith(fromCacheFirst(request, null));
   }

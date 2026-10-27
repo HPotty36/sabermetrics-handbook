@@ -173,7 +173,17 @@ const current = (id: string) => (id !== tab ? undefined : view === 'term' ? 'tru
   // 개발 서버에서는 캐시가 방해되고, 앱(Capacitor)은 파일이 기기 안에 있어 필요 없으므로 등록하지 않는다.
   <script is:inline define:vars={{ swUrl: `${base}sw.js`, scope: base }}>
     if ('serviceWorker' in navigator) {
-      addEventListener('load', function () { navigator.serviceWorker.register(swUrl, { scope: scope }).catch(function () {}); });
+      addEventListener('load', function () {
+        var sw = navigator.serviceWorker;
+        sw.register(swUrl, { scope: scope }).catch(function () {});
+        // 나머지 페이지는 첫 화면과 브라우저의 설치 검사가 끝난 뒤에 저장하게 한다(sw-template.js의 warm).
+        // 새 서비스 워커가 자리를 잡으면(controllerchange) 그 워커에 다시 알린다.
+        function warm() {
+          setTimeout(function () { sw.ready.then(function (r) { if (r.active) r.active.postMessage('warm'); }); }, 3000);
+        }
+        warm();
+        sw.addEventListener('controllerchange', warm);
+      });
     }
   </script>
 )}
