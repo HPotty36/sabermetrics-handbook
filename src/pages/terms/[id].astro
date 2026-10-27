@@ -6,7 +6,7 @@ import Scale from '../../components/Scale.astro';
 import Sec from '../../components/Sec.astro';
 import Base from '../../layouts/Base.astro';
 import { fmt } from '../../lib/format.ts';
-import { loadHandbook } from '../../lib/handbook.ts';
+import { loadHandbook, subName } from '../../lib/handbook.ts';
 import { ladderPlaces } from '../../lib/ladder.ts';
 import { homeHref, termHref } from '../../lib/paths.ts';
 import { LEVELS } from '../../lib/schema.ts';
@@ -22,34 +22,26 @@ const t = termMap.get(Astro.params.id)!;
 const places = ladderPlaces(ladders, t.id);
 ---
 <Base title={`${t.abbr} · ${t.ko} | ${SITE_NAME}`} description={t.summary} view="term" current={t.id}>
-  <a class="back" href={homeHref}>← 전체 용어</a>
-  <header class="term-head">
-    {/* GOV.UK 디자인 시스템의 step by step navigation header처럼, 이 페이지가 어느 사다리의 몇 번째 칸인지 맨 위에 알린다. */}
-    {places.length > 0 && (
-      <nav class="part-of" aria-label="이 용어가 속한 사다리"><span class="part-of-label">사다리</span>{places.map(({ ladder, pos, total }) => (
-        <a href="#ladders">{ladder.name}<span class="part-of-pos">{pos}/{total}</span></a>
-      ))}</nav>
-    )}
-    <div class="term-title">
-      <div>
-        <p class="term-tags"><span class={`lv lv${t.level}`}><span class={`dot dot${t.level}`} aria-hidden="true"></span>{LEVELS[t.level]}</span><span>{t.cats.join(' · ')}</span>{t.added && <span>{t.added}년 도입</span>}</p>
-        <h1 class="term-abbr">{t.abbr}</h1>
-        <p class="term-names"><span class="term-ko">{t.ko}</span>{t.en !== t.abbr && t.en !== t.ko && <span class="term-en" lang="en">{t.en}</span>}</p>
-      </div>
-      {/* 리그 평균이 있으면 Apple 스포츠 앱의 점수처럼 숫자 하나를 크게 둔다. */}
-      {t.scale?.avg && (
-        <div class="term-stat"><span class="term-stat-label">평균</span><span class="term-stat-num">{fmt(t.scale.avg.v, t.scale)}</span><span class="term-stat-note">{t.scale.avg.t}</span></div>
-      )}
-    </div>
-    <p class="lead">{t.summary}</p>
-    <div class="order-row"><span class="order-label">읽는 순서</span><div class="seg" role="group" aria-label="읽는 순서"><button type="button" data-order="easy" aria-pressed="true">쉽게 먼저</button><button type="button" data-order="deep" aria-pressed="false">깊게 먼저</button></div></div>
-  </header>
+  <a class="back" href={homeHref}>← 차례</a>
+  {/* 책의 본문 단과 여백 단. 넓은 화면에서는 Tufte CSS처럼 평균·사다리·같이 보기를 오른쪽 여백에 적는다. */}
+  <div class="leaf">
+    <article class="text">
+      <header class="term-head">
+        <p class="kicker"><span>{LEVELS[t.level]}</span><span>{t.cats.join(' · ')}</span>{t.added && <span>{t.added}년에 생김</span>}{places.map(({ ladder, pos, total }) => (
+          <a href="#ladders">사다리 ‘{ladder.name}’ {pos}/{total}</a>
+        ))}</p>
+        <h1 class="headword">{t.abbr}</h1>
+        <p class="names"><span class="names-ko">{t.ko}</span>{t.en !== t.abbr && t.en !== t.ko && <span class="names-en" lang="en">{t.en}</span>}</p>
+        <p class="def"><span class="def-label">뜻</span>{t.summary}</p>
+        {t.scale?.avg && <p class="avg-inline"><b>{fmt(t.scale.avg.v, t.scale)}</b>{t.scale.avg.t}</p>}
+        <p class="toggles order-row" role="group" aria-label="읽는 순서"><span class="toggles-label">읽는 순서</span><button type="button" data-order="easy" aria-pressed="true">쉽게 먼저</button><button type="button" data-order="deep" aria-pressed="false">깊게 먼저</button></p>
+      </header>
 
-  <div data-reading-order>
-    <Sec title="쉽게 말하면" data-block="easy">{t.easy.map((p) => <p>{p}</p>)}</Sec>
-    {t.scale && <Sec title="숫자 읽는 법" data-block="scale"><Scale scale={t.scale} /></Sec>}
-    <Sec title="깊게 보면" data-block="deep">{t.formula && <Formula formula={t.formula} />}{t.deep.map((p) => <p>{p}</p>)}</Sec>
-  </div>
+      <div data-reading-order>
+        <Sec title="쉽게 말하면" data-block="easy">{t.easy.map((p) => <p>{p}</p>)}</Sec>
+        {t.scale && <Sec title="숫자 읽는 법" data-block="scale"><Scale scale={t.scale} /></Sec>}
+        <Sec title="깊게 보면" data-block="deep">{t.formula && <Formula formula={t.formula} />}{t.deep.map((p) => <p>{p}</p>)}</Sec>
+      </div>
   {/* 읽는 순서: 첫 화면이 그려지기 전에 저장된 순서로 바꿔 두려고 인라인으로 바로 실행한다. */}
   <script is:inline>
     (function () {
@@ -82,19 +74,27 @@ const places = ladderPlaces(ladders, t.id);
     })();
   </script>
 
-  <Sec title="흔한 오해"><div class="myth"><div class="myth-row"><span class="myth-label">오해</span><p>{t.myth.claim}</p></div><div class="myth-row is-truth"><span class="myth-label">실제</span><p>{t.myth.truth}</p></div></div></Sec>
-  {t.leagues && t.leagues.length > 0 && (
-    <Sec title="리그마다 다른 점"><div class="leagues">{t.leagues.map((l) => <div class="league"><b>{l.lg}</b><p>{l.t}</p></div>)}</div></Sec>
-  )}
-  <Sec title="같이 보기"><ul class="tiles tiles-sm">{t.related.map((id) => {
-    const r = termMap.get(id)!;
-    return <li><a class="tile" href={termHref(id)}><span class="tile-abbr">{r.abbr}</span><span class="tile-ko">{r.ko}</span></a></li>;
-  })}</ul></Sec>
-  <Sec title="출처"><ol class="sources">{t.sources.map((s) => <li><a href={s.u} target="_blank" rel="noopener">{s.t}</a></li>)}</ol></Sec>
-  {/* 사다리는 본문 끝에 GOV.UK step by step처럼 세로 번호 목록으로 둔다. 맨 위 ‘사다리’ 줄이 여기로 이어진다. */}
-  {places.length > 0 && (
-    <Sec title="사다리" id="ladders"><div class="term-ladders">{places.map(({ ladder }) => (
-      <div class="term-ladder"><LadderName ladder={ladder} /><LadderSteps ladder={ladder} current={t.id} /></div>
-    ))}</div></Sec>
-  )}
+      <Sec title="흔한 오해"><blockquote class="myth"><p>“{t.myth.claim}”</p></blockquote><p>{t.myth.truth}</p></Sec>
+      {t.leagues && t.leagues.length > 0 && (
+        <Sec title="리그마다 다른 점">{t.leagues.map((l) => <p><b class="lg">{l.lg}</b>{l.t}</p>)}</Sec>
+      )}
+      <Sec title="출처"><ol class="sources">{t.sources.map((s) => <li><a href={s.u} target="_blank" rel="noopener">{s.t}</a></li>)}</ol></Sec>
+    </article>
+
+    <aside class="margin" aria-label="곁들여 볼 것">
+      {t.scale?.avg && (
+        <div class="mnote mnote-avg"><p class="mnote-title">평균</p><p class="avg-num">{fmt(t.scale.avg.v, t.scale)}</p><p class="mnote-small">{t.scale.avg.t}</p></div>
+      )}
+      {/* 사다리: GOV.UK step by step처럼 번호를 세로선으로 잇고 지금 용어를 칠한다. 앞뒤 칸이 다 보이므로 이전·다음 링크는 따로 두지 않는다. */}
+      {places.length > 0 && (
+        <div class="mnote" id="ladders">{places.map(({ ladder }) => (
+          <div class="term-ladder"><p class="mnote-title">사다리</p><LadderName ladder={ladder} /><LadderSteps ladder={ladder} current={t.id} /></div>
+        ))}</div>
+      )}
+      <div class="mnote"><p class="mnote-title">같이 보기</p><ul class="see-also">{t.related.map((id) => {
+        const r = termMap.get(id)!;
+        return <li><a href={termHref(id)}>{r.chip}</a><span>{subName(r)}</span></li>;
+      })}</ul></div>
+    </aside>
+  </div>
 </Base>

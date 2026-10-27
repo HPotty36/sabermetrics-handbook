@@ -7,6 +7,7 @@ interface Props {
 
 const { formula: f } = Astro.props;
 ---
-<div class="formula"><div class="formula-expr">{f.expr}</div>{f.vars && f.vars.length > 0 && (
-  <dl class="vars">{f.vars.map(([sym, desc]) => <><dt>{sym}</dt><dd>{desc}</dd></>)}</dl>
-)}</div>
+{/* 책의 수식처럼 가운데에 놓고, 기호 풀이는 아래에 작게 적는다. */}
+<figure class="formula"><p class="formula-expr">{f.expr}</p>{f.vars && f.vars.length > 0 && (
+  <dl class="vars">{f.vars.map(([sym, desc]) => <div><dt>{sym}</dt><dd>{desc}</dd></div>)}</dl>
+)}</figure>

@@ -1,57 +1,38 @@
 ---
-// 전체 용어 목록. 두 가지 모양이 있다.
-// - nav: 데스크톱 사이드바. Vercel Geist 문서의 왼쪽 메뉴처럼 레벨별로 묶은 글자 목록이다.
-// - grid: 홈 본문. 칸을 가는 선으로 나눈 타일 격자(기록지처럼)에 약어를 크게, 리그 평균이 있으면 숫자로 보인다.
-// 처음에는 모든 용어를 그려 두고, 검색·필터는 scripts/term-index.ts가 브라우저에서 처리한다.
+// 차례. 데스크톱은 왼쪽 단에, 모바일은 홈 맨 아래에 같은 목록이 들어간다.
+// Butterick의 Practical Typography 차례처럼 굵은 묶음 제목(레벨) 아래에 용어를 글자로만 늘어놓는다.
+// 처음에는 모든 용어를 그려 두고, 검색·고르기는 scripts/term-index.ts가 브라우저에서 처리한다.
 import { loadHandbook } from '../lib/handbook.ts';
-import { fmt } from '../lib/format.ts';
 import { termHref } from '../lib/paths.ts';
 import { CATS, LEVELS } from '../lib/schema.ts';
 import { ALL_CATS } from '../lib/search.ts';
 
 interface Props {
-  variant: 'nav' | 'grid';
   current?: string;
 }
 
-const { variant, current } = Astro.props;
+const { current } = Astro.props;
 const { terms } = await loadHandbook();
 const levels = [1, 2, 3] as const;
 const levelFilters = [0, 1, 2, 3] as const;
 const cats = [ALL_CATS, ...CATS];
 ---
-{variant === 'nav' ? (
-  <div data-term-index>
-    <ul class="rows nav-rows">{levels.map((l) => (
-      <>
-        <li class="nav-group" data-group={l}><span class={`dot dot${l}`} aria-hidden="true"></span>{LEVELS[l]}</li>
-        {terms.filter((t) => t.level === l).map((t) => (
-          <li data-id={t.id}><a class="nav-row" href={termHref(t.id)} aria-current={t.id === current ? 'page' : undefined}><span class="nav-abbr">{t.abbr}</span><span class="nav-ko">{t.ko}</span></a></li>
-        ))}
-      </>
-    ))}</ul>
-    <p class="empty" hidden></p>
+<div data-term-index>
+  <div class="filters">
+    <p class="toggles" role="group" aria-label="레벨"><span class="toggles-label">레벨</span>{levelFilters.map((l) => (
+      <button type="button" data-level={l} aria-pressed={l === 0 ? 'true' : 'false'}>{l ? LEVELS[l] : '전부'}</button>
+    ))}</p>
+    <p class="toggles" role="group" aria-label="분야"><span class="toggles-label">분야</span>{cats.map((c) => (
+      <button type="button" data-cat={c} aria-pressed={c === ALL_CATS ? 'true' : 'false'}>{c === ALL_CATS ? '전부' : c}</button>
+    ))}</p>
   </div>
-) : (
-  <div data-term-index>
-    <div class="filters">
-      <div class="seg" role="group" aria-label="레벨">{levelFilters.map((l) => (
-        <button type="button" data-level={l} aria-pressed={l === 0 ? 'true' : 'false'}>{l ? LEVELS[l] : '모든 레벨'}</button>
-      ))}</div>
-      <div class="seg" role="group" aria-label="분야">{cats.map((c) => (
-        <button type="button" data-cat={c} aria-pressed={c === ALL_CATS ? 'true' : 'false'}>{c === ALL_CATS ? '모든 분야' : c}</button>
-      ))}</div>
-    </div>
-    <p class="index-count">용어 {terms.length}개</p>
-    <ul class="rows tiles">{terms.map((t) => (
-      <li data-id={t.id}><a class="tile" href={termHref(t.id)}>
-        <span class="tile-top"><span class={`lv lv${t.level}`}><span class={`dot dot${t.level}`} aria-hidden="true"></span>{LEVELS[t.level]}</span>{t.scale?.avg && (
-          <span class="tile-avg"><small>평균</small>{fmt(t.scale.avg.v, t.scale)}</span>
-        )}</span>
-        <span class="tile-abbr">{t.abbr}</span>
-        <span class="tile-ko">{t.ko}</span>
-      </a></li>
-    ))}</ul>
-    <p class="empty" hidden></p>
-  </div>
-)}
+  <ul class="rows toc">{levels.map((l) => (
+    <>
+      <li class="toc-group" data-group={l}>{LEVELS[l]}</li>
+      {terms.filter((t) => t.level === l).map((t) => (
+        <li data-id={t.id}><a class="toc-row" href={termHref(t.id)} aria-current={t.id === current ? 'page' : undefined}><span class="toc-abbr">{t.abbr}</span><span class="toc-ko">{t.ko}</span></a></li>
+      ))}
+    </>
+  ))}</ul>
+  <p class="empty" hidden></p>
+</div>
