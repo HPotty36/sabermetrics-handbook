@@ -5,7 +5,8 @@ import LadderSteps from '../../components/LadderSteps.astro';
 import Scale from '../../components/Scale.astro';
 import Sec from '../../components/Sec.astro';
 import Base from '../../layouts/Base.astro';
-import { gloss, loadHandbook, otherNames } from '../../lib/handbook.ts';
+import { fmt } from '../../lib/format.ts';
+import { loadHandbook, subName } from '../../lib/handbook.ts';
 import { ladderPlaces } from '../../lib/ladder.ts';
 import { homeHref, termHref } from '../../lib/paths.ts';
 import { LEVELS } from '../../lib/schema.ts';
@@ -19,88 +20,91 @@ export async function getStaticPaths() {
 const { termMap, ladders } = await loadHandbook();
 const t = termMap.get(Astro.params.id)!;
 const places = ladderPlaces(ladders, t.id);
-const names = otherNames(t);
 // 같이 보기에는 사다리에 이미 보이는 용어를 다시 적지 않는다.
 const inLadders = new Set(places.flatMap(({ ladder }) => ladder.steps));
 const related = t.related.filter((id) => !inLadders.has(id)).map((id) => termMap.get(id)!);
-const isLatin = (s: string) => /^[A-Za-z]/.test(s);
 ---
-<Base title={`${[t.chip, ...names].join(' · ')} | ${SITE_NAME}`} description={t.summary} view="term" current={t.id}>
+<Base title={`${t.abbr} · ${t.ko} | ${SITE_NAME}`} description={t.summary} view="term" current={t.id}>
   <a class="back" href={homeHref}>← 처음으로</a>
-  <article class="entry">
-    <header class="entry-head">
-      <p class="meta"><span>{LEVELS[t.level]}</span><span>{t.cats.join(' · ')}</span>{t.added && <span>{t.added}년 도입</span>}{places.map(({ ladder, pos, total }) => (
-        <a href="#ladders">{ladder.name} {pos}/{total}</a>
-      ))}</p>
-      <h1 class="headword">{t.chip}</h1>
-      {names.length > 0 && <p class="names">{names.map((n) => <span lang={isLatin(n) ? 'en' : undefined}>{n}</span>)}</p>}
-      <p class="lead">{t.summary}</p>
-      {t.scale?.avg && <p class="avg-line">{t.scale.avg.t}</p>}
-    </header>
+  {/* 책의 본문 단과 여백 단. 넓은 화면에서는 Tufte CSS처럼 평균·사다리·같이 보기를 오른쪽 여백에 적는다. 좁은 화면에서는 본문 다음, 출처 앞에 온다. */}
+  <div class="leaf">
+    <article class="text">
+      <header class="term-head">
+        <p class="kicker"><span>{LEVELS[t.level]}</span><span>{t.cats.join(' · ')}</span>{t.added && <span>{t.added}년 도입</span>}{places.map(({ ladder, pos, total }) => (
+          <a href="#ladders">사다리 ‘{ladder.name}’ {pos}/{total}</a>
+        ))}</p>
+        <h1 class="headword">{t.abbr}</h1>
+        <p class="names"><span class="names-ko">{t.ko}</span>{t.en !== t.abbr && t.en !== t.ko && <span class="names-en" lang="en">{t.en}</span>}</p>
+        <p class="def">{t.summary}</p>
+        {t.scale?.avg && <p class="avg-inline"><b>{fmt(t.scale.avg.v, t.scale)}</b>{t.scale.avg.t}</p>}
+        <p class="toggles order-row" role="group" aria-label="읽는 순서"><span class="toggles-label">읽는 순서</span><button type="button" data-order="easy" aria-pressed="true">쉽게 먼저</button><button type="button" data-order="deep" aria-pressed="false">깊게 먼저</button></p>
+      </header>
 
-    <div class="order" role="group" aria-label="읽는 순서"><span class="order-label">읽는 순서</span><button type="button" data-order="easy" aria-pressed="true">쉽게 먼저</button><button type="button" data-order="deep" aria-pressed="false">깊게 먼저</button></div>
-
-    <div data-reading-order>
-      <Sec title="쉽게 말하면" data-block="easy">{t.easy.map((p) => <p>{p}</p>)}</Sec>
-      {t.scale && <Sec title="숫자 읽는 법" data-block="scale"><Scale scale={t.scale} /></Sec>}
-      <Sec title="깊게 보면" data-block="deep">{t.formula && <Formula formula={t.formula} />}{t.deep.map((p) => <p>{p}</p>)}</Sec>
-    </div>
-    {/* 읽는 순서: 첫 화면이 그려지기 전에 저장된 순서로 바꿔 두려고 인라인으로 바로 실행한다. */}
-    <script is:inline>
-      (function () {
-        var KEY = 'sh-order';
-        var body = document.querySelector('[data-reading-order]');
-        var buttons = document.querySelectorAll('[data-order]');
-        function saved() {
-          try { return localStorage.getItem(KEY) === 'deep'; } catch (e) { return false; }
-        }
-        function apply(deepFirst) {
-          (deepFirst ? ['deep', 'scale', 'easy'] : ['easy', 'scale', 'deep']).forEach(function (k) {
-            var el = body.querySelector('[data-block="' + k + '"]');
-            if (el) body.appendChild(el);
-          });
-          buttons.forEach(function (b) {
-            b.setAttribute('aria-pressed', String((b.getAttribute('data-order') === 'deep') === deepFirst));
-          });
-        }
-        if (saved()) apply(true);
-        buttons.forEach(function (b) {
-          b.addEventListener('click', function () {
-            var deepFirst = b.getAttribute('data-order') === 'deep';
-            try { localStorage.setItem(KEY, deepFirst ? 'deep' : 'easy'); } catch (e) {}
-            var y = window.scrollY;
-            apply(deepFirst);
-            window.scrollTo(0, y);
-          });
+      <div data-reading-order>
+        <Sec title="쉽게 말하면" data-block="easy">{t.easy.map((p) => <p>{p}</p>)}</Sec>
+        {t.scale && <Sec title="숫자 읽는 법" data-block="scale"><Scale scale={t.scale} /></Sec>}
+        <Sec title="깊게 보면" data-block="deep">{t.formula && <Formula formula={t.formula} />}{t.deep.map((p) => <p>{p}</p>)}</Sec>
+      </div>
+  {/* 읽는 순서: 첫 화면이 그려지기 전에 저장된 순서로 바꿔 두려고 인라인으로 바로 실행한다. */}
+  <script is:inline>
+    (function () {
+      var KEY = 'sh-order';
+      var body = document.querySelector('[data-reading-order]');
+      var buttons = document.querySelectorAll('[data-order]');
+      function saved() {
+        try { return localStorage.getItem(KEY) === 'deep'; } catch (e) { return false; }
+      }
+      function apply(deepFirst) {
+        (deepFirst ? ['deep', 'scale', 'easy'] : ['easy', 'scale', 'deep']).forEach(function (k) {
+          var el = body.querySelector('[data-block="' + k + '"]');
+          if (el) body.appendChild(el);
         });
-        window.addEventListener('pageshow', function (e) { if (e.persisted) apply(saved()); });
-      })();
-    </script>
+        buttons.forEach(function (b) {
+          b.setAttribute('aria-pressed', String((b.getAttribute('data-order') === 'deep') === deepFirst));
+        });
+      }
+      if (saved()) apply(true);
+      buttons.forEach(function (b) {
+        b.addEventListener('click', function () {
+          var deepFirst = b.getAttribute('data-order') === 'deep';
+          try { localStorage.setItem(KEY, deepFirst ? 'deep' : 'easy'); } catch (e) {}
+          var y = window.scrollY;
+          apply(deepFirst);
+          window.scrollTo(0, y);
+        });
+      });
+      window.addEventListener('pageshow', function (e) { if (e.persisted) apply(saved()); });
+    })();
+  </script>
 
-    {t.myth && <Sec title="흔한 오해"><p class="myth-claim">{t.myth.claim}</p><p>{t.myth.truth}</p></Sec>}
-    {t.leagues && t.leagues.length > 0 && (
-      <Sec title="리그마다 다른 점">{t.leagues.map((l) => <p><b class="lg">{l.lg}</b>{l.t}</p>)}</Sec>
-    )}
+      {t.myth && <Sec title="흔한 오해"><blockquote class="myth"><p>“{t.myth.claim}”</p></blockquote><p>{t.myth.truth}</p></Sec>}
+      {t.leagues && t.leagues.length > 0 && (
+        <Sec title="리그마다 다른 점">{t.leagues.map((l) => <p><b class="lg">{l.lg}</b>{l.t}</p>)}</Sec>
+      )}
+    </article>
 
-    {/* 사다리: 번호 칸을 세로선으로 잇고 지금 용어를 칠한다. 다 읽으면 바로 다음 칸으로 갈 수 있게 ‘다음’을 따로 둔다. */}
-    {places.length > 0 && (
-      <Sec title="사다리" id="ladders" class="sec-ladders">{places.map(({ ladder, pos }) => {
-        const next = termMap.get(ladder.steps[pos] ?? '');
-        return (
-          <div class="term-ladder">
-            <LadderName ladder={ladder} />
-            <LadderSteps ladder={ladder} current={t.id} />
-            {next && <p class="next"><a href={termHref(next.id)}>다음 <b>{next.chip}</b> →</a></p>}
-          </div>
-        );
-      })}</Sec>
-    )}
-    {related.length > 0 && (
-      <Sec title="같이 보기"><ul class="see-also">{related.map((r) => {
-        const g = gloss(r);
-        return <li><a href={termHref(r.id)}>{r.chip}</a>{g && <span>{g}</span>}</li>;
-      })}</ul></Sec>
-    )}
-    <Sec title="출처" class="sec-sources"><ol class="sources">{t.sources.map((s) => <li><a href={s.u} target="_blank" rel="noopener">{s.t}</a></li>)}</ol></Sec>
-  </article>
+    <aside class="margin" aria-label="곁들여 볼 것">
+      {t.scale?.avg && (
+        <div class="mnote mnote-avg"><p class="mnote-title">평균</p><p class="avg-num">{fmt(t.scale.avg.v, t.scale)}</p><p class="mnote-small">{t.scale.avg.t}</p></div>
+      )}
+      {/* 사다리: GOV.UK step by step처럼 번호를 세로선으로 잇고 지금 용어를 칠한다. 다 읽으면 바로 넘어가게 ‘다음’을 따로 둔다. */}
+      {places.length > 0 && (
+        <div class="mnote" id="ladders">{places.map(({ ladder, pos }) => {
+          const next = termMap.get(ladder.steps[pos] ?? '');
+          return (
+            <div class="term-ladder"><p class="mnote-title">사다리</p><LadderName ladder={ladder} /><LadderSteps ladder={ladder} current={t.id} />{next && (
+              <p class="next"><a href={termHref(next.id)}>다음 <b>{next.chip}</b> →</a></p>
+            )}</div>
+          );
+        })}</div>
+      )}
+      {related.length > 0 && (
+        <div class="mnote"><p class="mnote-title">같이 보기</p><ul class="see-also">{related.map((r) => (
+          <li><a href={termHref(r.id)}>{r.chip}</a><span>{subName(r)}</span></li>
+        ))}</ul></div>
+      )}
+    </aside>
+
+    <Sec title="출처" class="endnotes"><ol class="sources">{t.sources.map((s) => <li><a href={s.u} target="_blank" rel="noopener">{s.t}</a></li>)}</ol></Sec>
+  </div>
 </Base>

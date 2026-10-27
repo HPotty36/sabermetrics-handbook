@@ -37,7 +37,8 @@ src/lib/schema.ts             콘텐츠 스키마 (zod)
 src/lib/validate.ts           파일 사이의 참조와 눈금 범위 검사
 src/pages/                    홈(/)과 용어 페이지(/terms/<id>/)
 src/scripts/search-box.ts     검색 (브라우저)
-src/styles/global.css         스타일 (디자인 토큰의 원본)
+src/scripts/term-index.ts     넓은 화면 차례의 레벨·분야 고르기 (브라우저)
+src/styles/global.css         스타일 (프로토타입에서 출발)
 integrations/                 빌드 후 서비스 워커(dist/sw.js) 생성
 public/                       manifest, 아이콘
 capacitor.config.ts           앱 설정 (Capacitor)

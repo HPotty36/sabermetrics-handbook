@@ -1,6 +1,5 @@
 ---
-// 숫자 눈금. 가는 막대에 구간 눈금을 찍고 평균은 홈플레이트 모양 마커로 표시한다.
-// 막대 양 끝에 ‘나쁨 · 좋음’을 적는다(Baseball Savant 퍼센타일 막대처럼). 아래 목록은 눈금 숫자의 뜻이다.
+// 숫자 눈금 막대. 평균은 홈플레이트 모양 마커로 표시한다.
 import { fmt, pos } from '../lib/format.ts';
 import type { Scale } from '../lib/schema.ts';
 
@@ -11,17 +10,19 @@ interface Props {
 const { scale: s } = Astro.props;
 const at = (v: number) => pos(v, s);
 const bandStyle = s.band && `left:${at(s.band[0])}%;width:${(Number(at(s.band[1])) - Number(at(s.band[0]))).toFixed(2)}%`;
-const marks = [...s.marks].sort((a, b) => a.v - b.v);
+const legend = [...s.marks].sort((a, b) => a.v - b.v);
+// Baseball Savant 퍼센타일 막대처럼 막대 양 끝에 ‘나쁨 · 좋음’을 적는다. 빨간 쪽이 좋은 쪽이다.
 const ends = { high: ['나쁨', '좋음'], low: ['좋음', '나쁨'], none: null }[s.dir];
 const betterLabel = { high: ', 클수록 좋음', low: ', 작을수록 좋음', none: '' }[s.dir];
 ---
-<div class="gauge" role="img" aria-label={`눈금 ${fmt(s.min, s)}에서 ${fmt(s.max, s)}까지${betterLabel}`}>
-  <div class="gauge-bar"><div class="gauge-track">{bandStyle && <span class="gauge-band" style={bandStyle}></span>}</div>{marks.map((m) => (
-    <span class="gauge-tick" style={`left:${at(m.v)}%`}><span class="gauge-num">{fmt(m.v, s)}</span></span>
+<div class="scale" role="img" aria-label={`눈금 ${fmt(s.min, s)}에서 ${fmt(s.max, s)}까지${betterLabel}`}>
+  {ends && <div class="scale-ends">{ends.map((label) => <span class:list={{ good: label === '좋음' }}>{label}</span>)}</div>}
+  <div class="scale-bar"><div class={`scale-track dir-${s.dir}`}>{bandStyle && <span class="scale-band" style={bandStyle}></span>}</div>{s.marks.map((m) => (
+    <span class="tick" style={`left:${at(m.v)}%`}><span class="tick-num">{fmt(m.v, s)}</span></span>
   ))}{s.avg && (
-    <span class="gauge-avg" style={`left:${at(s.avg.v)}%`}><span class="gauge-avg-tag">평균</span><span class="plate"></span></span>
+    <span class="avg" style={`left:${at(s.avg.v)}%`}><span class="avg-tag">평균</span><span class="plate"></span></span>
   )}</div>
-  {ends && <div class="gauge-ends">{ends.map((label) => <span>{label}</span>)}</div>}
 </div>
-<dl class="key">{marks.map((m) => <div><dt>{fmt(m.v, s)}</dt><dd>{m.t}</dd></div>)}</dl>
+{/* 눈금 숫자의 뜻. 평균은 막대의 마커와 위쪽 평균 줄에 이미 있으므로 다시 적지 않는다. */}
+<dl class="legend">{legend.map((m) => <div><dt>{fmt(m.v, s)}</dt><dd>{m.t}</dd></div>)}</dl>
 {s.note && <p class="scale-note">{s.note}</p>}

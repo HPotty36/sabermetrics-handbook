@@ -1,11 +1,16 @@
 ---
-// 모든 페이지의 틀. 머리글(검색), 검색 결과, 넓은 화면의 왼쪽 사다리 목록, 본문.
-// 글꼴은 Pretendard 하나다. npm 패키지로 사이트에서 직접 내보내서 오프라인(PWA)과 앱에서도 같은 글꼴로 보인다.
-// 유니코드 조각으로 나뉘어 있어 쓰는 글자의 조각만 받는다.
+// 모든 페이지의 틀. 책의 머리글처럼 쓴 상단 줄(검색), 실밥 구분선, 검색 결과, 데스크톱 왼쪽 차례, 본문.
+// 글꼴은 npm 패키지로 사이트에서 직접 내보낸다. 오프라인(PWA)과 앱에서도 같은 글꼴로 보인다.
+// 본문은 본명조(Noto Serif KR), 작은 안내 글은 Pretendard, 제목 글자와 숫자는 Big Shoulders다.
+// 두 한글 글꼴은 유니코드 조각으로 나뉘어 있어 쓰는 글자의 조각만 받는다.
+import '@fontsource-variable/noto-serif-kr';
 import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
+import '@fontsource/big-shoulders-display/600';
+import '@fontsource/big-shoulders-display/800';
 import '../styles/global.css';
-import LadderIndex from '../components/LadderIndex.astro';
+import Foot from '../components/Foot.astro';
 import SearchResults from '../components/SearchResults.astro';
+import TermIndex from '../components/TermIndex.astro';
 import { loadHandbook } from '../lib/handbook.ts';
 import { base, homeHref, isAppBuild, termHref } from '../lib/paths.ts';
 import { toSearchEntry } from '../lib/search.ts';
@@ -28,32 +33,34 @@ const searchIndex = JSON.stringify(terms.map((t) => toSearchEntry(t, termHref(t.
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>{title}</title>
 <meta name="description" content={description}>
-<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#121212" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FBF9F4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#171614" media="(prefers-color-scheme: dark)">
 <link rel="icon" href={`${base}favicon.svg`} type="image/svg+xml">
 <link rel="apple-touch-icon" href={`${base}icons/apple-touch-icon.png`}>
 <link rel="manifest" href={`${base}manifest.webmanifest`}>
 </head>
 <body data-view={view}>
-<header class="top">
-  <div class="top-inner">
-    <a class="brand" href={homeHref} aria-label="세이버메트릭스 핸드북 처음으로"><img src={`${base}favicon.svg`} width="26" height="26" alt=""><span>세이버<span class="long">메트릭스</span> 핸드북</span></a>
-    <div class="search" role="search">
-      <svg class="search-icon" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.75" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M13 13l4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-      <input id="q" type="search" autocomplete="off" enterkeyhint="go" placeholder="용어 찾기" aria-label="용어 찾기" aria-controls="results">
-    </div>
+<header class="runhead">
+  <div class="runhead-inner">
+    <a class="brand" href={homeHref} aria-label="세이버메트릭스 핸드북 처음으로"><img src={`${base}favicon.svg`} width="22" height="22" alt=""><span>세이버<span class="long">메트릭스</span> 핸드북</span></a>
+    <label class="search" for="q"><span class="search-label">찾기</span><input id="q" type="search" autocomplete="off" enterkeyhint="go" placeholder="OPS, 블라스트" aria-label="용어 찾기" aria-controls="results"></label>
   </div>
+  <div class="stitch" aria-hidden="true"></div>
 </header>
 
 <SearchResults />
 <div class="page">
-  <aside class="side" aria-label="사다리"><p class="side-title">사다리</p><LadderIndex current={current} /></aside>
-  <main class="main" id="main"><slot /></main>
+  <aside class="contents" aria-label="차례">
+    <p class="contents-title">차례</p>
+    <TermIndex current={current} />
+  </aside>
+  <main class="main" id="main"><slot /><Foot /></main>
 </div>
 
 <script type="application/json" id="search-index" is:inline set:html={searchIndex} />
 <script>
   import '../scripts/search-box.ts';
+  import '../scripts/term-index.ts';
 </script>
 {import.meta.env.PROD && !isAppBuild && (
   // 설치형 웹앱(PWA): 오프라인에서도 열리도록 서비스 워커를 등록한다.

@@ -7,12 +7,8 @@ import { formatIssues, validateHandbook } from './validate.ts';
 
 export type TermEntry = Term & { id: string };
 
-/** 목록에서 이름 옆에 붙이는 풀이. 이름이 이미 한국어 이름이면(타율, 블라스트) 붙이지 않는다. 영문은 용어 페이지에만 쓴다. */
-export const gloss = (t: Pick<Term, 'chip' | 'ko'>) => (t.ko.startsWith(t.chip) ? '' : t.ko);
-
-/** 용어 페이지 제목 아래에 적는 다른 이름들. 한국어 이름, 약어, 영문 이름 중 제목(chip)과 겹치지 않는 것. */
-export const otherNames = (t: Pick<Term, 'chip' | 'ko' | 'abbr' | 'en'>) =>
-  [...new Set([t.ko, t.abbr, t.en])].filter((n) => n !== t.chip);
+/** 목록에서 칩 옆에 붙이는 이름. 한글 이름이 칩과 같거나 칩으로 시작하면(어택 앵글) 영문 이름을 쓴다. */
+export const subName = (t: Pick<Term, 'chip' | 'ko' | 'en'>) => (t.ko.startsWith(t.chip) ? t.en : t.ko);
 
 export interface Handbook {
   /** 레벨 순, 같은 레벨 안에서는 order 순 */
