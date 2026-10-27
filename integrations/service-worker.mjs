@@ -5,7 +5,8 @@ import { readFile, readdir, writeFile } from 'node:fs/promises';
 import { join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const SKIP = [/\.woff2$/, /\.map$/, /^sw\.js$/];
+// 글꼴 조각(쓰일 때 저장), 소스맵, 서비스 워커 자신, 그리고 OS만 쓰는 그림(iOS 실행 화면, 설치 창의 화면 사진)은 미리 저장하지 않는다.
+const SKIP = [/\.woff2$/, /\.map$/, /^sw\.js$/, /^splash\//, /^screenshots\//];
 
 /**
  * dist 기준 상대 경로 목록을 미리 저장할 URL 목록으로 바꾼다. `x/index.html`은 `x/`가 된다.

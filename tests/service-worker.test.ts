@@ -12,6 +12,8 @@ test('빌드 파일을 미리 저장할 URL로 바꾼다', () => {
     'manifest.webmanifest',
     'favicon.svg',
     'sw.js',
+    'splash/apple-1290x2796-light.png',
+    'screenshots/ko-home.webp',
   ];
   assert.deepEqual(precacheUrls(files, '/'), [
     '/',

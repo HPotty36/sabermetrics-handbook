@@ -26,12 +26,12 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
     - `en/terms/<id>.json`: 같은 용어의 영어 글(컬렉션 `termsEn`). 숫자와 출처 URL은 한국어 파일 것을 쓰고, `validateEnglish`(`src/lib/validate.ts`)가 짝을 검사한다. `loadHandbook(lang)`이 언어별로 합쳐 `LocalTerm`으로 준다.
     - `stubs.json`(준비 중, 지금은 0개), `ladders.json`(사다리 9개): 순서가 있는 목록이라 컬렉션이 아니라 `src/lib/handbook.ts`에서 읽는다. 사다리는 파일에 적힌 순서대로 화면에 나온다. 둘 다 영어 이름(`en`)이 있다.
   - 스키마는 `src/lib/schema.ts`(zod), 파일 사이의 참조 검사는 `src/lib/validate.ts`다. 어긋나면 `astro build`가 실패한다. `npm test`는 빌드 없이 같은 검사를 돌린다.
-  - 클라이언트 스크립트는 이것뿐이다. `src/scripts/search-box.ts`(검색: 넓은 화면은 왼쪽 단 입력란, 폰은 아래쪽 알약의 찾기 화면과 키보드 높이 맞추기), `src/scripts/term-index.ts`(`/terms/`의 레벨·분야 고르기), `src/scripts/prefs.ts`(다크 모드 단추, 고른 언어 저장), 용어 페이지의 인라인 스크립트(읽는 순서), `Base.astro`의 인라인 스크립트 셋(첫 화면 전에 저장된 다크 모드 붙이기, 영어를 고른 사람이 밖에서 한국어 홈에 오면 영어 홈으로 보내기, 서비스 워커 등록).
+  - 클라이언트 스크립트는 이것뿐이다. `src/scripts/search-box.ts`(검색: 넓은 화면은 왼쪽 단 입력란, 폰은 아래쪽 알약의 찾기 화면과 키보드 높이 맞추기), `src/scripts/term-index.ts`(`/terms/`의 레벨·분야 고르기), `src/scripts/prefs.ts`(다크 모드 단추, 고른 언어 저장, 앱 설치 단추), 용어 페이지의 인라인 스크립트(읽는 순서), `Base.astro`의 인라인 스크립트 셋(첫 화면 전에 저장된 다크 모드 붙이기, 영어를 고른 사람이 밖에서 한국어 홈에 오면 영어 홈으로 보내기, 서비스 워커 등록).
     - 화면 문구가 필요한 스크립트는 페이지가 data-*로 넘긴다(`data-no-match`, `data-found`, `data-empty`). 스크립트 안에는 문구를 두지 않는다.
     - 저장소: localStorage `sh-order`(읽는 순서), `sh-theme`(light/dark, 없으면 기기 설정), `sh-lang`(ko/en), sessionStorage `sh-index`(레벨·분야).
   - 스타일은 `src/styles/global.css`다. 프로토타입 CSS에서 출발했다. 맨 위 주석에 디자인 언어를 요약해 두었다.
   - 글꼴은 npm 패키지로 직접 내보낸다(`Base.astro`에서 불러옴). 한글과 본문은 모두 `pretendard`, 표제·표제어·숫자는 Big Shoulders(Fontsource)다. Pretendard는 유니코드 조각으로 나뉘어 쓰는 조각만 받는다. `astro.config.mjs`의 작은 Vite 플러그인이 Fontsource의 woff를 빼고 woff2만 남긴다.
-  - PWA: `public/manifest.webmanifest`(한국어, start_url `/`)와 `public/en/manifest.webmanifest`(영어, start_url `/en/`), 아이콘(`public/icons/*.png`), 서비스 워커. 서비스 워커는 빌드가 끝나면 `integrations/service-worker.mjs`가 `dist/sw.js`로 만든다. 페이지·CSS·아이콘은 설치 때 미리 저장하고, 글꼴 조각은 쓰일 때 저장한다. 페이지는 네트워크 우선(3초 안에 안 오면 저장본), 없는 페이지는 오프라인에서 그 언어의 홈으로 대신한다. 저장본을 찾을 때 Vary를 보지 않는다(모듈 스크립트는 Origin 헤더를 붙여 요청하므로, 서버가 `Vary: Origin`을 보내면 미리 저장한 것과 짝이 안 맞아 오프라인에서 스크립트가 빠졌다. 2026-10-27에 고쳤다).
+  - PWA: `public/manifest.webmanifest`(한국어, start_url `/`)와 `public/en/manifest.webmanifest`(영어, start_url `/en/`), 아이콘(`public/icons/*.png`), 서비스 워커. 설치 창과 iOS 홈 화면은 아래 ‘설치’에 있다. 서비스 워커는 빌드가 끝나면 `integrations/service-worker.mjs`가 `dist/sw.js`로 만든다. 페이지·CSS·아이콘은 설치 때 미리 저장하고, 글꼴 조각은 쓰일 때 저장한다. 페이지는 네트워크 우선(3초 안에 안 오면 저장본), 없는 페이지는 오프라인에서 그 언어의 홈으로 대신한다. 저장본을 찾을 때 Vary를 보지 않는다(모듈 스크립트는 Origin 헤더를 붙여 요청하므로, 서버가 `Vary: Origin`을 보내면 미리 저장한 것과 짝이 안 맞아 오프라인에서 스크립트가 빠졌다. 2026-10-27에 고쳤다).
   - 배포: https://sabermetrics-handbook.pages.dev/ . Cloudflare Pages에 Git으로 연결했다(프로덕션 브랜치 `main`, 빌드 명령 `npm run build`, 출력 `dist`). `main`에 합치면 다시 배포되고, 다른 브랜치는 미리보기 배포가 된다.
     - 대시보드의 ‘새로운 것을 만들기’에서 GitHub를 바로 고르면 Workers가 만들어진다. Workers 주소에는 계정 서브도메인이 붙으므로 쓰지 않는다. 화면 아래 ‘레거시 Pages 워크플로’의 ‘Pages로 계속’으로 만든다.
     - 2026-10-26에 배포 주소를 확인했다. 파일 418개가 로컬 빌드와 같았다. Chromium에서 검색·필터·읽는 순서가 동작했고, 1280px·400px에서 가로 스크롤이 없었고, 설치 가능 판정에 오류가 없었다. 서버에 닿지 않게 한 뒤에도 방문하지 않은 용어 페이지, 홈, 없는 주소(→ 홈), 글꼴, 검색이 동작했다.
@@ -64,7 +64,8 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
    - 남은 미확인 항목(리그 VAA 평균, FanGraphs 리그 xFIP·SIERA 등)은 `verified-facts.md`의 ‘확인하지 못한 것’에 있다. www.fangraphs.com은 봇 차단 때문에 이 작업 환경에서 열리지 않았다.
 4. ~~PWA를 붙인다. manifest, 서비스 워커, 오프라인 캐시가 필요하다.~~ 끝났다.
    - 2026-10-15에 Chromium으로 확인했다. 서버를 끈 상태에서 방문하지 않은 용어 페이지, 홈, 없는 주소(→ 홈), 글꼴, 검색이 모두 동작했다.
-   - 남은 것: 실제 Android Chrome·iOS Safari에서 배포 주소를 열어 ‘홈 화면에 추가’와 오프라인을 눈으로 확인한다.
+   - 2026-10-27에 설치를 다듬었다(아래 ‘설치’): 설정의 ‘앱 설치’ 단추, iOS 안내 시트와 실행 화면, manifest의 화면 사진과 바로 가기.
+   - 남은 것: 실제 Android Chrome·iOS Safari에서 배포 주소를 열어 ‘앱 설치’, 홈 화면 아이콘 이름, iOS 실행 화면, 바로 가기, 오프라인을 눈으로 확인한다.
    - manifest와 아이콘 경로는 `/` 기준이다. `base`를 바꾸면 manifest도 함께 고친다.
 5. ~~Capacitor로 Android/iOS를 감싼다.~~ 2026-10-15에 프로젝트를 만들었다. 빌드는 아직이다.
    - `android/`, `ios/`(Swift Package Manager)를 만들었다. 아이콘과 스플래시는 `npm run icons`로 만든다(아래 ‘앱 아이콘’).
@@ -80,7 +81,7 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
 `src/styles/global.css`의 `:root` 토큰과 맨 위 주석이 원본이다. 지금 디자인은 ‘인쇄된 핸드북’ 위에 시안 A ‘사다리 선’을 얹고, 이름과 글꼴을 앱답게 바꾼 것이다(2026-10-27). 바뀐 과정은 아래 소제목에 있다.
 
 - 색:
-  - paper(상아색 종이, 라이트 #FBF9F4·다크 #000000 완전한 검정), ink, muted, line(가는 선), groove(실밥 이음매) 토큰과 별색 seam(실밥 빨강 #C42638, 다크 #F0606B)이다. glass(반투명 종이색)와 float-shadow는 아래쪽 알약에만 쓴다.
+  - paper(상아색 종이, 라이트 #FBF9F4·다크 #000000 완전한 검정), ink, muted, line(가는 선), groove(실밥 이음매) 토큰과 별색 seam(실밥 빨강 #C42638, 다크 #F0606B)이다. glass(반투명 종이색)와 float-shadow는 아래쪽에 뜨는 것(알약, iOS 설치 안내 시트)에만 쓴다.
   - 빨강은 실밥, 지금 위치(지금 용어의 역, 고른 메뉴, 고르기의 밑줄), 숫자 눈금의 평균 마커와 이상적 구간에만 쓴다.
   - 레벨은 색이 아니라 글자(기본·중급·심화)로만 표시한다.
 - 글꼴(두 가지, 역할을 섞지 않는다):
@@ -193,6 +194,22 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
 - 다크 모드: paper #000000, line #2C2B29, groove #4A4741, 아래쪽 알약은 반투명 짙은 회색(rgba(30,30,30,.84)). 앱 스플래시 다크도 검정으로 다시 만들었다(`npm run icons`). 브라우저 막대 색(theme-color)도 고른 쪽을 따른다.
 - 빨간 하이라이트: 고른 것의 밑줄을 맨 위 실밥과 같은 바느질로 바꿨다(위 ‘디자인 기준’). 크기 네 가지를 3배로 그려 비교했고, 끝의 실이 잘리지 않게 칸 수를 맞춘다(`mask-repeat: round`).
 - 확인: 60페이지 × 400·1280px × 라이트·다크에서 가로 스크롤과 오류가 없었다. 영어 페이지에 한글(언어 이름 ‘한국어’ 빼고)이 없고, 한국어 페이지에 영어 정식 이름이 없다. 언어 이동, 고른 언어로 다시 열기, 다크 모드 유지(새로 고침, 다른 페이지, 다른 언어), 두 언어 이름으로 찾기, 앱용 빌드의 영어 링크, 서버를 끈 상태의 영어 페이지를 Chromium으로 확인했다.
+
+### 설치 (2026-10-27, 다섯 번째)
+
+사용자 요청: ‘이거 PWA로 만들어줘’. 사이트는 이미 설치할 수 있었지만(Chrome 설치 판정 오류 없음) 화면에 설치 길이 없었고, iPhone은 자동 안내가 없다. 그래서 설치를 눈에 보이게 하고, 설치한 뒤를 앱답게 했다.
+
+- 설정에 ‘앱 설치’(영어 ‘Install app’) 단추. 넓은 화면은 왼쪽 단 설정의 맨 아래(아래 화살표 아이콘), 폰은 맨 위 오른쪽 줄의 맨 앞(글자만, 44px).
+  - Chrome·Edge·삼성 인터넷: `beforeinstallprompt`가 와야 단추가 보이고, 누르면 브라우저의 설치 창이 뜬다. 브라우저가 알아서 띄우는 작은 설치 안내는 막고 이 단추로 띄운다.
+  - iOS(iPadOS 포함): 설치 API가 없어 단추가 늘 보이고, 누르면 아래쪽에 안내 시트(`<dialog>`, 아래쪽 알약과 같은 glass)가 뜬다: 공유 버튼(없으면 ⋯ 메뉴의 ‘공유’) → ‘홈 화면에 추가’. 닫기, 바깥 누르기, Esc로 닫는다.
+  - 이미 설치한 앱으로 열었으면(`display-mode: standalone`, iOS `navigator.standalone`) 단추가 없다. 앱(Capacitor) 빌드에는 단추와 시트를 아예 넣지 않는다. 설치 API가 없는 브라우저(Firefox 등)에서도 안 보인다.
+- manifest:
+  - `screenshots`: 설치 창에 보이는 화면 사진. 폰(narrow, 780×1688) 셋(홈, FIP, 주제)과 넓은 화면(wide, 1280×800) 하나, 언어마다 따로(`public/screenshots/{ko,en}-*.webp`). Playwright로 빌드 결과를 찍어 WebP로 저장했다. 디자인이 바뀌면 다시 찍는다.
+  - `shortcuts`: 앱 아이콘을 길게 누르면 주제, 용어, 다른 언어. 아이콘은 앱 아이콘처럼 빨간 바탕에 흰 선(`public/icons/shortcut-*.png`). 언어 바로 가기는 `?lang=ko`/`?lang=en`으로 고른 언어를 저장한다(영어를 골랐던 사람이 ‘한국어’ 바로 가기를 눌러도 영어 홈으로 되돌아가지 않게).
+  - `launch_handler`: 이미 열려 있으면 그 창을 쓴다.
+- iOS 홈 화면: `apple-mobile-web-app-title`(‘세이버 핸드북’, ‘Saber Handbook’), `apple-mobile-web-app-capable`·`mobile-web-app-capable`, 상태 표시줄 `default`. 실행 화면(`apple-touch-startup-image`)은 iPhone 화면 크기 10가지 × 라이트·다크 20장(`public/splash/`)이다. 목록은 `src/lib/pwa.ts`, 그림은 `scripts/make-icons.mjs`가 만든다. 새 iPhone이 나오면 목록에 더한다. iPad는 넣지 않았다(실행 화면 없이 흰 화면).
+- 서비스 워커는 OS만 쓰는 그림(`splash/`, `screenshots/`)을 미리 저장하지 않는다.
+- 확인(Chromium): 두 언어 모두 설치 판정·manifest 오류가 없고, 화면 사진과 바로 가기 아이콘이 모두 열린다. 설치 이벤트를 흉내 내서 단추가 나오고 설치 창을 띄우는 것, iPhone 사용자 에이전트에서 안내 시트가 열리고 닫히는 것, 설치한 화면에서 단추가 없는 것, 언어 바로 가기를 확인했다. 실제 기기의 설치 화면은 아직 눈으로 보지 못했다.
 
 ### 앱 아이콘 (2026-10-26)
 

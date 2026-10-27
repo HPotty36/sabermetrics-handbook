@@ -83,22 +83,34 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .rail-nav a[aria-current]{color:var(--ink);font-weight:700}
 
 /* 설정(언어, 다크 모드). 넓은 화면은 왼쪽 단 메뉴 아래, 폰은 화면 맨 위 오른쪽 */
-.pref-lang,.pref-theme{display:flex;align-items:center;gap:8px;border:0;background:none;padding:0;color:var(--muted);text-decoration:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.pref-lang,.pref-theme,.pref-install{display:flex;align-items:center;gap:8px;border:0;background:none;padding:0;color:var(--muted);font:inherit;text-decoration:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.pref-install[hidden]{display:none}
 .pref-theme svg{fill:none;flex:none}
 .pref-theme[aria-pressed="true"] svg{fill:currentColor}
-@media (hover:hover){.pref-lang:hover,.pref-theme:hover{color:var(--ink)}}
+@media (hover:hover){.pref-lang:hover,.pref-theme:hover,.pref-install:hover{color:var(--ink)}}
 @media (min-width:1024px){
   .prefs{display:grid;justify-items:start;margin-top:20px;padding-top:14px;border-top:1px solid var(--line);font:600 15px/1.5 var(--font-sans)}
-  .pref-lang,.pref-theme{padding:6px 0 9px}
+  .pref-lang,.pref-theme,.pref-install{padding:6px 0 9px}
   .pref-theme[aria-pressed="true"]{color:var(--ink);font-weight:700}
 }
 @media (max-width:1023px){
   .page{position:relative}
   .prefs{position:absolute;z-index:5;top:calc(env(safe-area-inset-top,0px) + 8px);right:max(6px,env(safe-area-inset-right,0px));display:flex;align-items:center;font:600 15px/1 var(--font-sans)}
-  .pref-lang,.pref-theme{justify-content:center;min-width:44px;min-height:44px;padding:0 10px;color:var(--ink)}
-  .pref-lang svg{display:none}
+  .pref-lang,.pref-theme,.pref-install{justify-content:center;min-width:44px;min-height:44px;padding:0 10px;color:var(--ink)}
+  .pref-lang svg,.pref-install svg{display:none}
+  .pref-install{order:-1}
   .pref-theme-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 }
+
+/* iOS의 ‘홈 화면에 추가’ 안내. 아래쪽 알약과 같은 반투명 종이색으로 아래에 뜬다 */
+.install-sheet{position:fixed;inset:auto 0 var(--dock-bottom);width:min(520px,calc(100% - 24px));max-width:none;margin:0 auto;padding:22px 24px 10px;border-radius:28px;color:var(--ink);font:15px/1.6 var(--font-sans)}
+.install-sheet::backdrop{background:rgba(0,0,0,.28)}
+.install-sheet h2{margin:0 0 12px;font-size:19px;font-weight:800;letter-spacing:-.02em}
+.install-sheet ol{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.install-sheet li{display:flex;align-items:flex-start;gap:12px}
+.install-sheet li svg{flex:none;margin-top:1px}
+.install-sheet form{display:flex;justify-content:flex-end;margin:8px -10px 0 0}
+.install-close{min-width:44px;min-height:44px;padding:0 12px;border:0;background:none;color:var(--ink);font:700 15px/1 var(--font-sans);cursor:pointer}
 
 /* 고른 것의 밑줄: 맨 위 실밥을 3/4로 줄인 바느질(가는 이음매 + 빨간 실). 메뉴, 고르기(레벨·분야·읽는 순서), 다크 모드에 쓴다.
    글자 가운데에서 재서 놓으므로 손가락용으로 키운 단추에서도 글자 바로 아래에 온다. 실은 끝에서 잘리지 않게 칸 수를 맞춘다(round). */
