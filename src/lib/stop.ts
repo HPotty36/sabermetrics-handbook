@@ -7,7 +7,7 @@ export interface Stop {
   /** 오른쪽 끝에 붙는 숫자 (공개된 해) */
   note?: string;
   href?: string;
-  state?: 'current' | 'start' | 'stub';
+  state?: 'current' | 'stub';
 }
 
 /** 용어 페이지의 ‘다음’: 사다리에서 바로 다음 용어. */

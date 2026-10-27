@@ -12,7 +12,7 @@ const { ladders } = await loadHandbook();
   <header class="page-head">
     <h1 class="page-title">사다리</h1>
     <Seam />
-    <p class="page-desc">같이 읽으면 좋은 용어를 쉬운 것부터 이었어요. 아래로 갈수록 깊어져요.</p>
+    <p class="page-desc">같이 읽으면 좋은 용어를 쉬운 것부터 이었어요.</p>
   </header>
   <div class="ladder-grid ladder-grid-v">{ladders.map((l) => (
     <section class="ladder" aria-label={`사다리 ${l.name}`}><h2 class="ladder-name">{l.name}<span class="ladder-hint">{l.hint}</span></h2><LadderLine ladder={l} dir="v" /></section>

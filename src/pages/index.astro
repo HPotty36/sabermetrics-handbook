@@ -24,7 +24,7 @@ const recent = terms.filter((t) => t.added).sort(byAddedDesc);
 const recentStubs = stubs.filter((s) => s.added).sort(byAddedDesc);
 const deep = terms.filter((t) => t.level === 3 && !t.added);
 
-const firstStops = beginner.map((t) => stop(t, t === start ? { state: 'start' } : {}));
+const firstStops = beginner.map((t) => stop(t));
 const knownStops: Stop[] = [
   ...recent.map((t) => stop(t, { note: `${t.added}년` })),
   ...recentStubs.map((s): Stop => ({ id: s.id, name: s.chip, sub: '준비 중', note: `${s.added}년`, state: 'stub' })),
@@ -40,7 +40,7 @@ const knownStops: Stop[] = [
     <p class="mast-sub">야구 기록 용어 {terms.length}개</p>
   </header>
 
-  {/* 두 입구는 각각 하나의 선이다. 처음이라면은 OPS에서 출발한다. */}
+  {/* 두 입구는 각각 하나의 사다리 선이다. 처음이라면은 OPS가 맨 위다. */}
   <div class="doors">
     <section class="door" aria-labelledby="door-first">
       <h2 id="door-first">처음이라면</h2>

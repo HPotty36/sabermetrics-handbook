@@ -1,6 +1,7 @@
 // 검색.
 // - 넓은 화면: 왼쪽 단 입력란에 검색어를 넣으면 본문 자리에 맞는 용어가 나온다. 지우면 보던 자리로 돌아간다.
-// - 폰: 아래쪽 알약의 찾기 단추를 누르면 맨 위에 입력란, 그 아래에 용어 목록이 화면을 덮는다. 검색어를 넣으면 목록을 거른다.
+// - 폰: 아래쪽 알약의 찾기 단추를 누르면 알약이 입력란과 닫기 단추로 바뀌고(iOS 26처럼 아래쪽), 용어 목록이 그 위로 화면을 덮는다.
+//   검색어를 넣으면 목록을 거른다. 키보드가 올라오면 입력란도 키보드 위로 올린다.
 import { ALL_CATS, search, type SearchEntry } from '../lib/search.ts';
 
 const entries: SearchEntry[] = JSON.parse(document.getElementById('search-index')!.textContent!);
@@ -47,9 +48,18 @@ function render(composing = false) {
   for (const [id, li] of rows) li.hidden = !ids.has(id);
   list.hidden = found.length === 0;
   empty.hidden = found.length > 0;
-  empty.textContent = `‘${q}’에 맞는 용어가 없어요.`;
+  empty.textContent = `‘${q}’에 맞는 용어가 없어요. 약어나 우리말 이름으로 찾아 보세요.`;
   status.textContent = found.length ? `용어 ${found.length}개` : empty.textContent;
 }
+
+// 키보드 높이. 화면 아래에 붙은 입력란을 키보드 위로 올린다(브라우저가 키보드만큼 화면을 줄여 주지 않을 때).
+const viewport = window.visualViewport;
+function syncKeyboard() {
+  const kb = open && viewport ? Math.max(0, window.innerHeight - viewport.height - viewport.offsetTop) : 0;
+  document.documentElement.style.setProperty('--kb', `${Math.round(kb)}px`);
+}
+viewport?.addEventListener('resize', syncKeyboard);
+viewport?.addEventListener('scroll', syncKeyboard);
 
 function openSheet() {
   open = true;
@@ -58,6 +68,7 @@ function openSheet() {
   input.focus();
   render();
   results.scrollTop = 0;
+  syncKeyboard();
 }
 
 function close() {
@@ -66,6 +77,7 @@ function close() {
   document.body.toggleAttribute('data-search-open', false);
   input.blur();
   render();
+  syncKeyboard();
 }
 
 document.querySelectorAll('[data-open-search]').forEach((b) => b.addEventListener('click', openSheet));

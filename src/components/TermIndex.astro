@@ -6,11 +6,6 @@ import { termHref } from '../lib/paths.ts';
 import { CATS, LEVELS } from '../lib/schema.ts';
 import { ALL_CATS } from '../lib/search.ts';
 
-interface Props {
-  current?: string;
-}
-
-const { current } = Astro.props;
 const { terms } = await loadHandbook();
 const levels = [1, 2, 3] as const;
 const levelFilters = [0, 1, 2, 3] as const;
@@ -19,17 +14,17 @@ const cats = [ALL_CATS, ...CATS];
 <div data-term-index>
   <div class="filters">
     <p class="toggles" role="group" aria-label="레벨"><span class="toggles-label">레벨</span>{levelFilters.map((l) => (
-      <button type="button" data-level={l} aria-pressed={l === 0 ? 'true' : 'false'}>{l ? LEVELS[l] : '전부'}</button>
+      <button type="button" data-level={l} aria-pressed={l === 0 ? 'true' : 'false'}>{l ? LEVELS[l] : '전체'}</button>
     ))}</p>
     <p class="toggles" role="group" aria-label="분야"><span class="toggles-label">분야</span>{cats.map((c) => (
-      <button type="button" data-cat={c} aria-pressed={c === ALL_CATS ? 'true' : 'false'}>{c === ALL_CATS ? '전부' : c}</button>
+      <button type="button" data-cat={c} aria-pressed={c === ALL_CATS ? 'true' : 'false'}>{c === ALL_CATS ? '전체' : c}</button>
     ))}</p>
   </div>
   <ul class="rows toc">{levels.map((l) => (
     <>
       <li class="toc-group" data-group={l}>{LEVELS[l]}</li>
       {terms.filter((t) => t.level === l).map((t) => (
-        <li data-id={t.id}><a class="toc-row" href={termHref(t.id)} aria-current={t.id === current ? 'page' : undefined}><span class="toc-abbr">{t.chip}</span><span class="toc-ko">{subName(t)}</span></a></li>
+        <li data-id={t.id}><a class="toc-row" href={termHref(t.id)}><span class="toc-abbr">{t.chip}</span><span class="toc-ko">{subName(t)}</span></a></li>
       ))}
     </>
   ))}</ul>

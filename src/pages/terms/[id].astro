@@ -5,7 +5,7 @@ import Scale from '../../components/Scale.astro';
 import Seam from '../../components/Seam.astro';
 import Sec from '../../components/Sec.astro';
 import Base from '../../layouts/Base.astro';
-import { fmt } from '../../lib/format.ts';
+import { avgCaption, fmt } from '../../lib/format.ts';
 import { loadHandbook, subName } from '../../lib/handbook.ts';
 import { ladderPlaces } from '../../lib/ladder.ts';
 import { termHref } from '../../lib/paths.ts';
@@ -47,7 +47,7 @@ const related = t.related.filter((id) => !inLadders.has(id)).map((id) => termMap
         <p class="names"><span class="names-ko">{t.ko}</span>{t.en !== t.abbr && t.en !== t.ko && <span class="names-en" lang="en">{t.en}</span>}</p>
         <Seam />
         <p class="def">{t.summary}</p>
-        {t.scale?.avg && <p class="avg-inline"><b>{fmt(t.scale.avg.v, t.scale)}</b>{t.scale.avg.t}</p>}
+        {t.scale?.avg && <p class="avg-inline"><b>{fmt(t.scale.avg.v, t.scale)}</b>{avgCaption(t.scale.avg, t.scale)}</p>}
         <p class="toggles order-row" role="group" aria-label="읽는 순서"><span class="toggles-label">읽는 순서</span><button type="button" data-order="easy" aria-pressed="true">쉽게 먼저</button><button type="button" data-order="deep" aria-pressed="false">깊게 먼저</button></p>
       </header>
 
@@ -101,7 +101,7 @@ const related = t.related.filter((id) => !inLadders.has(id)).map((id) => termMap
 
     <aside class="margin" aria-label="곁들여 볼 것">
       {t.scale?.avg && (
-        <div class="mnote mnote-avg"><p class="mnote-title">평균</p><p class="avg-num">{fmt(t.scale.avg.v, t.scale)}</p><p class="mnote-small">{t.scale.avg.t}</p></div>
+        <div class="mnote mnote-avg"><p class="mnote-title">평균</p><p class="avg-num">{fmt(t.scale.avg.v, t.scale)}</p><p class="mnote-small">{avgCaption(t.scale.avg, t.scale)}</p></div>
       )}
       {related.length > 0 && (
         <div class="mnote"><p class="mnote-title">같이 보기</p><ul class="see-also">{related.map((r) => (
