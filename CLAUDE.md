@@ -119,6 +119,12 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
 - 마지막 확인 날짜: MDN(‘last modified’), Investopedia(‘Updated’, ‘Fact checked’)가 신뢰 표시로 쓴다. 용어마다 날짜 필드가 필요하다.
 - 본문 17px: [토스피드](https://toss.im/tossfeed/article/beginning-of-tps)는 본문 17px·행간 1.6·폭 700px, MLB 용어집은 16px·1.5다. 지금(16px·1.7)도 범위 안이라 두었다.
 
+## 작업 방식
+
+- 작업이 끝나면 브랜치에 푸시하고 PR을 만들어 `main`에 바로 합친다. 따로 묻지 않는다(사용자 요청, 2026-10-27).
+  - 합치기 전에 `npm test`, `npm run check`, `npm run build`가 통과하고, PR의 Cloudflare Pages 미리보기 검사가 성공했는지 확인한다.
+  - 합친 뒤 배포 주소에서 바뀐 내용이 보이는지 확인한다.
+
 ## 지켜야 할 것
 
 - 설명 문장은 직접 쓴다. FanGraphs, MLB 용어집 등 외부 문장을 번역하거나 옮기지 않는다.
