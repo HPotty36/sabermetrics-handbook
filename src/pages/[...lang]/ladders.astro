@@ -1,0 +1,23 @@
+---
+// 주제(사다리) 전체. 홈의 가로 선을 세로로 펴서 용어마다 풀이까지 적는다. 아래쪽 알약의 ‘주제’가 여기로 온다.
+import LadderLine from '../../components/LadderLine.astro';
+import Seam from '../../components/Seam.astro';
+import Base from '../../layouts/Base.astro';
+import { loadHandbook } from '../../lib/handbook.ts';
+import { fill, langPaths, ui, type Lang } from '../../lib/i18n.ts';
+
+export const getStaticPaths = langPaths;
+
+const { lang } = Astro.props as { lang: Lang };
+const s = ui(lang);
+const { ladders } = await loadHandbook(lang);
+---
+<Base lang={lang} title={`${s.ladders} | ${s.siteName}`} description={fill(s.laddersDescription, { n: ladders.length })} view="ladders" tab="ladders">
+  <header class="page-head">
+    <h1 class="page-title">{s.ladders}</h1>
+    <Seam />
+  </header>
+  <div class="ladder-grid ladder-grid-v">{ladders.map((l) => (
+    <section class="ladder" aria-label={l.name}><h2 class="ladder-name">{l.name}</h2><LadderLine lang={lang} ladder={l} dir="v" /></section>
+  ))}</div>
+</Base>

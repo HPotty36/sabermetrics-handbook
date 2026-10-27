@@ -1,0 +1,22 @@
+{
+  "name": "Swing Timing",
+  "aliases": ["Miss Distance", "Perfect Contact%", "Flawed Swing%", "early swing", "late swing"],
+  "summary": "A set of metrics that breaks down whether a swing was in sync with the ball, in time and position, when the bat got closest to it.",
+  "easy": [
+    "Whiffs come in different kinds. Some swings start well before the pitch arrives, some are at the wrong height, and some let the ball get in on the hands. They all miss, but for different reasons.",
+    "Swing timing splits those cases apart. Each swing gets three separate calls: early or late, above or below the ball, and centered on the bat or not. Together they show where a hitter's swing is going wrong."
+  ],
+  "deep": [
+    "This arrived in Statcast bat tracking in June 2026. Each swing is graded at its closest point to the ball, in three directions: time (early, on time or late), vertical (over, lined up or under), and horizontal (tied up, centered or flail, meaning the ball was in toward the hands, on the middle, or out toward the end). The barrel is on time within ±7 ms of perfect timing, lined up within ±2 inches of the ball vertically, and centered within ±4 inches side to side.",
+    "Whiffs also get a Miss Distance: the distance in inches between the ball and the bat's barrel half at that closest point. Bunts are excluded. It separates a near miss from a wild one.",
+    "Out of all swings, Perfect Contact% is the portion that made contact with all three directions right, and Flawed Swing% is the portion that missed with none of them right. Pitchers get the same numbers, read as the sort of swings they drew out of hitters."
+  ],
+  "myth": {
+    "claim": "Most swings and misses come from being late.",
+    "truth": "Swinging too early or at the wrong height produces misses too. A different cause means a different fix, even when the whiff rates match."
+  },
+  "sources": [
+    { "t": "Baseball Savant changelog · June 2026 swing timing", "u": "https://baseballsavant.mlb.com/changelog/2026-06-09-swing-timing-miss-distance" },
+    { "t": "Baseball Savant · Swing Timing leaderboard", "u": "https://baseballsavant.mlb.com/leaderboard/bat-tracking/swing-timing-miss-distance" }
+  ]
+}

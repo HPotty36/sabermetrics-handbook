@@ -1,0 +1,19 @@
+{
+  "name": "Spin Rate",
+  "aliases": ["spin", "rpm", "active spin", "spin efficiency", "gyro spin"],
+  "summary": "How many times per minute the ball rotates as it leaves the pitcher's hand, measured in rpm.",
+  "easy": [
+    "A pitch spins on its way to the plate, and the spin bends its path. Heavy backspin keeps a fastball from dropping as much, and a curveball with more spin breaks harder.",
+    "More spin gives a pitch room to move more. Not all of it turns into movement, though, and that's where spin rate gets harder to read."
+  ],
+  "deep": [
+    "Only the part of the spin whose axis is perpendicular to the ball's flight actually moves it. Spin around the line of flight itself, the way a bullet spins (gyro spin), adds almost no movement. The fraction of total spin that does produce movement is called active spin, or spin efficiency.",
+    "So a pitcher can spin the ball hard and still get middling IVB (induced vertical break, the vertical movement that comes from spin) when the efficiency is low. To judge a four-seamer's ride, you're better off going straight to IVB. MLB four-seamers averaged 2,314 rpm in 2026, close to the 2,323 rpm of 2025.",
+    "From the 2020 season on, active spin has been calculated from spin measured directly at release. Figures from the older method, which worked backward from the ball's movement, are still published separately, so a comparison only holds when both numbers come from the same method."
+  ],
+  "sources": [
+    { "t": "MLB.com Glossary · Spin Rate", "u": "https://www.mlb.com/glossary/statcast/spin-rate" },
+    { "t": "MLB.com Glossary · Active Spin", "u": "https://www.mlb.com/glossary/statcast/active-spin" },
+    { "t": "Baseball Savant · Statcast Search (2026 four-seamers, league level)", "u": "https://baseballsavant.mlb.com/statcast_search?hfPT=FF%7C&hfGT=R%7C&hfSea=2026%7C&player_type=pitcher&group_by=league&chk_stats_velocity=on&chk_stats_spin_rate=on" }
+  ]
+}

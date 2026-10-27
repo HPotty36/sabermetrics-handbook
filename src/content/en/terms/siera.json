@@ -1,0 +1,23 @@
+{
+  "name": "Skill-Interactive Earned Run Average",
+  "aliases": ["skill interactive era"],
+  "summary": "An ERA estimate built from strikeouts, walks and the mix of ground balls and fly balls, with the formula also accounting for how those pieces interact. The result is in ERA units.",
+  "easy": [
+    "FIP and xFIP, two other ERA estimators, add strikeouts, walks and home runs (or fly balls) as separate pieces. On the field those pieces aren't independent. A pitcher with a high strikeout rate usually gives up weaker contact, too, when the ball does get put in play.",
+    "SIERA's formula accounts for that overlap, which is why it's generally considered a slightly better read than FIP or xFIP on strikeout pitchers and heavy ground-ball pitchers."
+  ],
+  "deep": [
+    "The inputs are strikeouts per plate appearance, walks per plate appearance, and ground balls minus fly balls (the original version in the MLB glossary also subtracts infield pop-ups). Squared terms and cross terms sit on top of those to model the interactions, such as how much a ground ball is worth as the strikeout rate climbs.",
+    "Like xFIP, it doesn't use home runs allowed directly. Where xFIP plugs the same HR/FB rate in for every pitcher, though, SIERA builds in the tendency of high-strikeout pitchers to give up fewer homers and fewer hits.",
+    "It was first published at Baseball Prospectus, and the version most people use now is FanGraphs' revision. The two versions use different formulas and give different values, so say whose SIERA you're quoting."
+  ],
+  "myth": {
+    "claim": "SIERA is a forecast of next season's ERA.",
+    "truth": "It estimates a pitcher's skill in a given season from results he has already put up. It's useful when looking ahead, but it has no input for age, injuries or a change in velocity."
+  },
+  "sources": [
+    { "t": "FanGraphs Library · SIERA", "u": "https://library.fangraphs.com/pitching/siera/" },
+    { "t": "MLB.com Glossary · Skill-Interactive Earned Run Average", "u": "https://www.mlb.com/glossary/advanced-stats/skill-interactive-earned-run-average" },
+    { "t": "FanGraphs · New SIERA, Part Two (revised formula)", "u": "https://blogs.fangraphs.com/new-siera-part-two-of-five-unlocking-underrated-pitching-skills/" }
+  ]
+}

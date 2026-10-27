@@ -1,0 +1,34 @@
+{
+  "name": "Stuff Plus",
+  "aliases": ["stuff", "Location+", "Pitching+"],
+  "summary": "Grades a pitch on its physical traits alone, leaving out where it was thrown. An average pitch scores 100.",
+  "easy": [
+    "It puts a number on what scouts mean when they say a pitcher has good stuff. Two fastballs thrown equally hard can score very differently depending on their movement, release point and how they pair with the pitcher's other pitches. Anything above 120 gets called elite.",
+    "Two companion scores go with it. Location+ grades command, and Pitching+ also takes the count into account."
+  ],
+  "scale": {
+    "avg": "Average 100",
+    "marks": [
+      { "v": 80, "t": "Weak" },
+      { "v": 110, "t": "Strong" },
+      { "v": 120, "t": "Elite" },
+      { "v": 130, "t": "Top tier" }
+    ],
+    "note": "Within one pitch type, 10 points is roughly one standard deviation."
+  },
+  "deep": [
+    "Eno Sarris and Max Bay developed the model from earlier research, and FanGraphs publishes it. Its inputs are release point, velocity, vertical and horizontal movement, spin rate, and how far each pitch is from the primary fastball in velocity, movement and spin axis.",
+    "Grades are given per pitch type, and the pitcher's overall score blends them, weighted by usage.",
+    "Pitching+ is not an average of Stuff+ and Location+. It's its own model, adding location, count and batter handedness to the pitch traits. The scores also become reliable at different speeds. Stuff+ is usable after roughly the first 80 pitches of the year, while Location+ needs about 400 to get as stable. Looking at Stuff+ first when the season opens makes sense."
+  ],
+  "myth": {
+    "claim": "Pitchers with high Stuff+ get good results.",
+    "truth": "Great stuff can still get hit if the pitcher can't command it or his pitch usage is predictable."
+  },
+  "leagues": [
+    { "lg": "KBO and NPB", "t": "Running the same model takes tracking data for every pitch. Where little of that data is public, fans have a hard time calculating it themselves." }
+  ],
+  "sources": [
+    { "t": "FanGraphs Library · Stuff+, Location+, Pitching+ Primer", "u": "https://library.fangraphs.com/pitching/stuff-location-and-pitching-primer/" }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "name": "Fielding Independent Pitching",
+  "summary": "A number built only from outcomes the pitcher decides on his own (home runs, walks, hit batters and strikeouts), put on the same scale as ERA.",
+  "easy": [
+    "ERA (earned run average) has two other things mixed in: the skill of the fielders behind the pitcher, and the luck of where batted balls happen to land.",
+    "FIP looks only at results the defense can't touch. If a pitcher's ERA is in the 4s but his FIP is in the low 3s, he probably didn't pitch badly. More likely the defense and the bounces went against him."
+  ],
+  "scale": {
+    "avg": "2026 MLB average 4.17 (set equal to league ERA)",
+    "marks": [
+      { "v": 2.92, "t": "Elite" },
+      { "v": 3.34, "t": "Good" },
+      { "v": 3.75, "t": "Above average" },
+      { "v": 4.59, "t": "Below average" },
+      { "v": 5.21, "t": "Poor" }
+    ],
+    "note": "Reads like ERA. The ranges are approximate and assume a starter's full season."
+  },
+  "formula": {
+    "expr": "FIP = (13×HR + 3×(BB + HBP) − 2×K) ÷ IP + C",
+    "vars": [
+      ["HR", "home runs allowed"],
+      ["BB", "walks"],
+      ["HBP", "hit batters"],
+      ["K", "strikeouts"],
+      ["IP", "innings pitched"],
+      ["C", "league constant (3.10 for 2026 MLB)"]
+    ]
+  },
+  "deep": [
+    "The 13, 3 and 2 in the formula roughly reflect the run value of a home run, a walk or hit batter, and a strikeout. The constant C at the end is reset every year so the league's overall FIP matches its ERA. For 2026 MLB it was 3.10.",
+    "FIP often predicts next year's ERA better than this year's ERA does. Home runs carry plenty of luck, though, and xFIP deals with that by estimating home runs from the pitcher's fly balls and how often fly balls leave the park around the league."
+  ],
+  "myth": {
+    "claim": "FIP shows a pitcher's skill more accurately than ERA.",
+    "truth": "Usually, but a knack for getting weak contact over and over doesn't show up in it. Some pitchers keep their ERA below their FIP year after year."
+  },
+  "leagues": [
+    {
+      "lg": "KBO and NPB",
+      "t": "Every league gets its own constant C. Runs are scarcer in some leagues than others, so borrowing the MLB value skews the result."
+    }
+  ],
+  "sources": [
+    { "t": "FanGraphs Library · FIP", "u": "https://library.fangraphs.com/pitching/fip/" },
+    { "t": "FanGraphs · Guts (FIP constants by season)", "u": "https://www.fangraphs.com/guts.aspx?type=cn" },
+    { "t": "FanGraphs Library · ERA-, FIP-, xFIP-", "u": "https://library.fangraphs.com/pitching/era-fip-xfip/" },
+    { "t": "Baseball-Reference · 2026 MLB pitching (league averages)", "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-pitching.shtml" }
+  ]
+}

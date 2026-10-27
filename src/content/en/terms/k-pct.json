@@ -1,0 +1,29 @@
+{
+  "name": "Strikeout Rate",
+  "aliases": ["strikeout percentage", "K/PA", "K/9", "strikeouts per nine"],
+  "summary": "The share of a player's plate appearances ending in a strikeout. Pitchers want it high, hitters want it low.",
+  "easy": [
+    "A strikeout is over before the ball is ever put in play. No fielder and no lucky bounce gets involved, just the pitcher and the hitter. Counting raw strikeouts would favor pitchers who throw more innings and hitters who come up more often, so the total gets divided by plate appearances. Fifty strikeouts in 200 plate appearances works out to a 25% K%."
+  ],
+  "formula": {
+    "expr": "K% = K ÷ PA",
+    "vars": [
+      ["K", "strikeouts"],
+      ["PA", "plate appearances (for pitchers, batters faced)"]
+    ]
+  },
+  "deep": [
+    "Strikeouts per nine innings (K/9) was the standard pitcher stat for a long time. The trouble is that K/9 doesn't account for how many batters a pitcher faced in those innings. Pitchers who put many runners on face more hitters per inning, get more chances at a strikeout, and end up with a K/9 that flatters them. Dividing by batters faced, as K% does, is more accurate.",
+    "It stabilizes quickly. Around 60 plate appearances is enough for a hitter's K% to carry some weight, which makes it a handy one to look at when he seems different early in the season.",
+    "In 2026, 22.1% of MLB plate appearances ended in a strikeout, compared with 22.2% in 2025."
+  ],
+  "myth": {
+    "claim": "A hitter who strikes out a lot is a bad hitter.",
+    "truth": "A hitter can rack up strikeouts and still be a big plus on offense if the walks and extra-base hits are there too. A strikeout is also just one out, while a ball on the ground can turn into a double play."
+  },
+  "sources": [
+    { "t": "FanGraphs Library · K% and BB% (hitters)", "u": "https://library.fangraphs.com/offense/rate-stats/" },
+    { "t": "FanGraphs Library · Strikeout and Walk Rates (pitchers)", "u": "https://library.fangraphs.com/pitching/rate-stats/" },
+    { "t": "MLB.com Glossary · Strikeout Rate", "u": "https://www.mlb.com/glossary/advanced-stats/strikeout-rate" }
+  ]
+}

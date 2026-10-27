@@ -1,0 +1,31 @@
+{
+  "name": "Outs Above Average",
+  "aliases": ["catch probability", "range", "defense"],
+  "summary": "How many more (or fewer) outs a fielder made than an average fielder would have.",
+  "easy": [
+    "An error is charged only on a ball the fielder should have handled and didn't. A slow fielder who never reaches the ball in the first place makes few errors and can end up looking better than he is.",
+    "OAA is built ball by ball, starting from the chance that an average fielder would turn each one into an out. Catch a hard one and you get a big plus. Miss an easy one and you take a big minus."
+  ],
+  "scale": {
+    "avg": "League average 0 (by design)",
+    "marks": [
+      { "v": -10, "t": "Weak" },
+      { "v": 5, "t": "Good" },
+      { "v": 10, "t": "Elite" },
+      { "v": 15, "t": "Top of the league" }
+    ],
+    "note": "Rough cutoffs for one season, comparing players at the same position."
+  },
+  "deep": [
+    "In the outfield, catch probability comes from things like how far the fielder has to run, how long the ball hangs in the air and how close the wall is. Infielders were added in 2020, and for them it uses the distance and time to reach the ball along with the batter-runner's speed.",
+    "Catch a ball with a 25% catch probability and you get +0.75. Miss it and it's −0.25. Miss one at 95% and it's −0.95. OAA is the sum of those over the season.",
+    "Throwing arm and catcher framing don't figure into OAA. Fielding Run Value is a separate stat that folds those in and puts everything in runs."
+  ],
+  "myth": {
+    "claim": "Fielders with a high fielding percentage are good defenders.",
+    "truth": "Fielding percentage only counts mistakes on the balls a fielder actually handled. A fielder with little range never gets a glove on the hard chances, so his fielding percentage often comes out higher."
+  },
+  "sources": [
+    { "t": "MLB.com Glossary · Outs Above Average", "u": "https://www.mlb.com/glossary/statcast/outs-above-average" }
+  ]
+}

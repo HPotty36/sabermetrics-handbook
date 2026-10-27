@@ -1,0 +1,21 @@
+---
+// 용어 전체 목록. 레벨별로 묶고 레벨·분야로 고를 수 있다(scripts/term-index.ts). 아래쪽 알약의 ‘용어’가 여기로 온다.
+import Seam from '../../../components/Seam.astro';
+import TermIndex from '../../../components/TermIndex.astro';
+import Base from '../../../layouts/Base.astro';
+import { loadHandbook } from '../../../lib/handbook.ts';
+import { fill, langPaths, ui, type Lang } from '../../../lib/i18n.ts';
+
+export const getStaticPaths = langPaths;
+
+const { lang } = Astro.props as { lang: Lang };
+const s = ui(lang);
+const { terms } = await loadHandbook(lang);
+---
+<Base lang={lang} title={`${s.terms} | ${s.siteName}`} description={fill(s.termsDescription, { n: terms.length })} view="terms" tab="terms">
+  <header class="page-head">
+    <h1 class="page-title">{s.terms}</h1>
+    <Seam />
+  </header>
+  <TermIndex lang={lang} />
+</Base>

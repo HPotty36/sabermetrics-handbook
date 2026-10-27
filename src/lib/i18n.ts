@@ -1,0 +1,132 @@
+// 화면 문구. 한국어(사이트 루트 /)와 영어(/en/)가 같은 키를 쓴다.
+// 이름은 무엇이 있는지만 말한다(CLAUDE.md ‘이름과 글꼴’). 용어 본문은 src/content/에 따로 있다.
+
+export const LANGS = ['ko', 'en'] as const;
+export type Lang = (typeof LANGS)[number];
+
+/** 다른 언어 */
+export const otherLang = (lang: Lang): Lang => (lang === 'ko' ? 'en' : 'ko');
+
+/** 언어 고르기에 보이는 이름. 언제나 그 언어로 적는다. */
+export const LANG_NAMES: Record<Lang, string> = { ko: '한국어', en: 'English' };
+
+/** `{name}` 자리에 값을 넣는다. */
+export const fill = (s: string, vars: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? ''));
+
+const ko = {
+  siteName: '세이버메트릭스 핸드북',
+  home: '홈',
+  ladders: '주제',
+  terms: '용어',
+  railLabel: '찾기와 메뉴',
+  menu: '메뉴',
+  prefs: '설정',
+  searchPlaceholder: '용어 검색',
+  searchLabel: '용어 찾기',
+  closeSearch: '검색 닫기',
+  results: '찾은 용어',
+  noMatch: '‘{q}’에 맞는 용어가 없어요.',
+  found: '용어 {n}개',
+  filterEmpty: '이 조건에 맞는 용어는 아직 없어요.',
+  next: '다음',
+  nextTerms: '다음 용어',
+  term: '용어',
+  basics: '기본 지표',
+  advanced: '심화 지표',
+  topics: '주제',
+  season: '{season} MLB 시즌 기준',
+  stub: '준비 중',
+  year: '{year}년',
+  introduced: '{year}년 도입',
+  level: '레벨',
+  category: '분야',
+  all: '전체',
+  levels: { 1: '기본', 2: '중급', 3: '심화' },
+  cats: { 타격: '타격', 투구: '투구', 수비: '수비', 종합: '종합', 트래킹: '트래킹' },
+  readingOrder: '읽는 순서',
+  easyFirst: '쉬운 설명 먼저',
+  deepFirst: '자세한 설명 먼저',
+  easy: '쉬운 설명',
+  scale: '수치 기준',
+  deep: '자세한 설명',
+  myth: '흔한 오해',
+  leagues: '리그별 차이',
+  related: '관련 용어',
+  sources: '출처',
+  margin: '곁들여 볼 것',
+  average: '평균',
+  avgTag: '평균',
+  strip: '{name}, {total}개 중 {pos}번째',
+  better: '좋음',
+  worse: '나쁨',
+  scaleRange: '눈금 {min}에서 {max}까지',
+  higherBetter: ', 클수록 좋음',
+  lowerBetter: ', 작을수록 좋음',
+  darkMode: '다크 모드',
+  homeDescription: 'OPS, FIP, xwOBA 같은 야구 기록 용어 {n}개를 쉬운 설명과 자세한 설명으로 나눠 정리한 한국어 용어집.',
+  laddersDescription: '같이 읽으면 좋은 야구 기록 용어를 기본부터 심화까지 이은 주제 {n}개.',
+  termsDescription: '세이버메트릭스 용어 {n}개를 기본·중급·심화로 나눈 목록.',
+};
+
+export type UI = typeof ko;
+
+const en: UI = {
+  siteName: 'Sabermetrics Handbook',
+  home: 'Home',
+  ladders: 'Topics',
+  terms: 'Terms',
+  railLabel: 'Search and menu',
+  menu: 'Menu',
+  prefs: 'Settings',
+  searchPlaceholder: 'Search terms',
+  searchLabel: 'Find a term',
+  closeSearch: 'Close search',
+  results: 'Matching terms',
+  noMatch: 'No terms match “{q}”.',
+  found: 'Terms found: {n}',
+  filterEmpty: 'No terms match these filters yet.',
+  next: 'Next',
+  nextTerms: 'Next terms',
+  term: 'term',
+  basics: 'Basic stats',
+  advanced: 'Advanced stats',
+  topics: 'Topics',
+  season: 'Based on the {season} MLB season',
+  stub: 'Coming soon',
+  year: '{year}',
+  introduced: 'Introduced {year}',
+  level: 'Level',
+  category: 'Category',
+  all: 'All',
+  levels: { 1: 'Basic', 2: 'Intermediate', 3: 'Advanced' },
+  cats: { 타격: 'Hitting', 투구: 'Pitching', 수비: 'Fielding', 종합: 'Overall', 트래킹: 'Tracking' },
+  readingOrder: 'Reading order',
+  easyFirst: 'Simple first',
+  deepFirst: 'Detailed first',
+  easy: 'Simple explanation',
+  scale: 'Benchmarks',
+  deep: 'Detailed explanation',
+  myth: 'Common misconception',
+  leagues: 'Across leagues',
+  related: 'Related terms',
+  sources: 'Sources',
+  margin: 'Side notes',
+  average: 'Average',
+  avgTag: 'Avg',
+  strip: '{name}, {pos} of {total}',
+  better: 'Better',
+  worse: 'Worse',
+  scaleRange: 'Scale from {min} to {max}',
+  higherBetter: ', higher is better',
+  lowerBetter: ', lower is better',
+  darkMode: 'Dark mode',
+  homeDescription: 'Plain explanations of {n} baseball stats, from OPS and FIP to xwOBA, each written twice: once simply, once in detail.',
+  laddersDescription: '{n} topics that line up related baseball stats from basic to advanced.',
+  termsDescription: 'All {n} sabermetrics terms, grouped as basic, intermediate and advanced.',
+};
+
+export const UI_STRINGS: Record<Lang, UI> = { ko, en };
+export const ui = (lang: Lang): UI => UI_STRINGS[lang];
+
+/** 페이지의 getStaticPaths. 한국어는 사이트 루트(lang 없음), 영어는 /en/ 아래에 만든다. */
+export const langPaths = () => LANGS.map((lang) => ({ params: { lang: lang === 'ko' ? undefined : lang }, props: { lang } }));

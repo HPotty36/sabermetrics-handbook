@@ -3,14 +3,16 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
 import { basename } from 'node:path';
-import { laddersSchema, stubsSchema, termSchema } from '../src/lib/schema.ts';
-import { validateHandbook } from '../src/lib/validate.ts';
+import { laddersSchema, stubsSchema, termEnSchema, termSchema } from '../src/lib/schema.ts';
+import { validateEnglish, validateHandbook } from '../src/lib/validate.ts';
 
 const dir = new URL('../src/content/', import.meta.url);
 const readJson = (path: string | URL) => JSON.parse(readFileSync(path, 'utf8'));
 
 const termFiles = readdirSync(new URL('terms/', dir)).filter((f) => f.endsWith('.json'));
 const terms = termFiles.map((f) => ({ id: basename(f, '.json'), raw: readJson(new URL(`terms/${f}`, dir)) }));
+const enFiles = readdirSync(new URL('en/terms/', dir)).filter((f) => f.endsWith('.json'));
+const enTerms = enFiles.map((f) => ({ id: basename(f, '.json'), raw: readJson(new URL(`en/terms/${f}`, dir)) }));
 const stubs = readJson(new URL('stubs.json', dir));
 const ladders = readJson(new URL('ladders.json', dir));
 
@@ -19,6 +21,18 @@ test('용어 파일이 스키마를 통과한다', () => {
     const r = termSchema.safeParse(raw);
     assert.ok(r.success, `${id}: ${r.error?.message}`);
   }
+});
+
+test('영어 파일이 스키마를 통과하고 한국어 파일과 짝이 맞는다', () => {
+  for (const { id, raw } of enTerms) {
+    const r = termEnSchema.safeParse(raw);
+    assert.ok(r.success, `en/${id}: ${r.error?.message}`);
+  }
+  const problems = validateEnglish(
+    terms.map(({ id, raw }) => ({ id, ...raw })),
+    enTerms.map(({ id, raw }) => ({ id, ...raw })),
+  );
+  assert.deepEqual(problems, []);
 });
 
 test('stubs와 ladders가 스키마를 통과한다', () => {

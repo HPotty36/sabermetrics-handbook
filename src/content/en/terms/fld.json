@@ -1,0 +1,31 @@
+{
+  "name": "Fielding Percentage",
+  "aliases": ["fielding pct", "errors"],
+  "summary": "How often a fielder handles a chance without making an error.",
+  "easy": [
+    "Fielding percentage is the oldest attempt to grade defense with a number. Putouts (outs a fielder records himself), assists (throws that help get an out) and errors are all counted as chances, and the number you get is the share of those chances that weren't errors.",
+    "Range never enters into it. A ball the fielder can't reach isn't counted as a chance, so someone too slow to get to the tough plays also avoids the errors that come with them, and his percentage comes out higher, if anything."
+  ],
+  "formula": {
+    "expr": "FPCT = (PO + A) ÷ (PO + A + E)",
+    "vars": [
+      ["PO", "putouts (outs recorded directly)"],
+      ["A", "assists (throws that help record an out)"],
+      ["E", "errors"]
+    ]
+  },
+  "deep": [
+    "An error goes in the book when the official scorer rules that a fielder of average ability would have made the play. Watching the same ball, one scorer might rule an error and another a hit.",
+    "What a good fielding percentage looks like depends heavily on position. A first baseman records most of his outs by catching throws, while a shortstop has to field hard grounders and then make the throw himself, so putting the two side by side on one number doesn't work. Across MLB, fielding percentage was .985 in 2026 and .986 in 2025.",
+    "For range, look at Outs Above Average (OAA), which grades every ball in play by how hard it was to field. Defensive value that also takes in throwing and catcher framing is counted in runs, by stats like Fielding Run Value."
+  ],
+  "myth": {
+    "claim": "Errors show exactly how poorly a fielder played.",
+    "truth": "An error is a scorer's ruling, not a measurement. One play can be scored either way, and a ball nobody reached never gets ruled on in the first place."
+  },
+  "sources": [
+    { "t": "MLB.com Glossary · Fielding Percentage", "u": "https://www.mlb.com/glossary/standard-stats/fielding-percentage" },
+    { "t": "MLB.com Glossary · Outs Above Average", "u": "https://www.mlb.com/glossary/statcast/outs-above-average" },
+    { "t": "Baseball-Reference · 2026 MLB fielding (league averages)", "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-fielding.shtml" }
+  ]
+}

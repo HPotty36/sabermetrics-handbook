@@ -1,15 +1,23 @@
 ---
 // 검색 결과. 모든 용어를 그려 두고 숨겨 두었다가, 검색어가 생기면 scripts/search-box.ts가 맞는 것만 순서대로 보인다.
-// 넓은 화면에서는 본문 자리에, 폰에서는 화면을 덮는 검색 화면에 나온다.
-import { loadHandbook, subName } from '../lib/handbook.ts';
-import { termHref } from '../lib/paths.ts';
+// 넓은 화면에서는 본문 자리에, 폰에서는 화면을 덮는 검색 화면에 나온다. 안내 문구는 data-*로 스크립트에 넘긴다.
+import { loadHandbook } from '../lib/handbook.ts';
+import { ui, type Lang } from '../lib/i18n.ts';
+import { paths } from '../lib/paths.ts';
 
-const { terms } = await loadHandbook();
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const s = ui(lang);
+const { termHref } = paths(lang);
+const { terms } = await loadHandbook(lang);
 ---
-<section class="results" id="results" aria-label="찾은 용어" hidden>
+<section class="results" id="results" aria-label={s.results} data-no-match={s.noMatch} data-found={s.found} hidden>
   <p class="sr-only" role="status"></p>
   <ul class="hits">{terms.map((t) => (
-    <li data-id={t.id}><a class="hit" href={termHref(t.id)}><span class="hit-head"><span class="hit-name">{t.chip}</span><span class="hit-sub">{subName(t)}</span></span><span class="hit-sum">{t.summary}</span></a></li>
+    <li data-id={t.id}><a class="hit" href={termHref(t.id)}><span class="hit-head"><span class="hit-name">{t.chip}</span>{t.sub && <span class="hit-sub">{t.sub}</span>}</span><span class="hit-sum">{t.summary}</span></a></li>
   ))}</ul>
   <p class="empty" hidden></p>
 </section>

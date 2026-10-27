@@ -1,0 +1,31 @@
+{
+  "name": "Weighted Runs Created Plus",
+  "aliases": ["wRC", "weighted runs created"],
+  "summary": "The run value a hitter created, adjusted for league and ballpark and scaled so the league average is 100. A 120 means 20% more runs than an average hitter.",
+  "easy": [
+    "Some ballparks favor hitters, and in some years the whole league leans toward pitching. An identical OPS is worth a different amount depending on where and when it was put up.",
+    "wRC+ strips those differences out, leaving only how much better or worse someone hit than the average hitter. It's the first number people reach for when they line up hitters from different seasons and different parks."
+  ],
+  "scale": {
+    "avg": "League average 100 (by definition)",
+    "marks": [
+      { "v": 60, "t": "Very poor" },
+      { "v": 80, "t": "Poor" },
+      { "v": 115, "t": "Above average" },
+      { "v": 140, "t": "All-Star level" },
+      { "v": 160, "t": "Best in the league" }
+    ]
+  },
+  "deep": [
+    "It starts from wOBA. Compare a hitter's wOBA with the league's to turn it into runs above average (wRAA), adjust for park effects and the league's run environment, then take the ratio to league average and multiply by 100.",
+    "Pitchers' plate appearances are removed from the league average it's measured against, so 100 means an average position player.",
+    "Baserunning, defense and the difficulty of a position aren't part of it. This is hitting alone."
+  ],
+  "myth": {
+    "claim": "Two players with the same wRC+ are worth about the same.",
+    "truth": "A first baseman or DH carries a light defensive load and a shortstop a heavy one. At the same wRC+, their overall value can be quite different."
+  },
+  "sources": [
+    { "t": "FanGraphs Library · wRC and wRC+", "u": "https://library.fangraphs.com/offense/wrc/" }
+  ]
+}

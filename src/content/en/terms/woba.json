@@ -1,0 +1,44 @@
+{
+  "name": "Weighted On-Base Average",
+  "summary": "An on-base average that weights each way of reaching base, from a walk or single up to a home run, by how many runs it's actually worth.",
+  "easy": [
+    "OPS (on-base plus slugging) leaves the gap between a single and a home run to the slugging formula, which counts a single as 1 and a homer as 4. In real games, one home run doesn't produce as many runs as four singles.",
+    "wOBA instead weights each result by how many runs it produced on average in real games. It's scaled to look like on-base percentage, so you can read it the same way. At .340 you have a good hitter, and at .400 the MVP talk starts."
+  ],
+  "scale": {
+    "avg": "2026 MLB average .316",
+    "marks": [
+      { "v": 0.29, "t": "Poor" },
+      { "v": 0.34, "t": "Good hitter" },
+      { "v": 0.37, "t": "Upper tier" },
+      { "v": 0.4, "t": "MVP level" }
+    ]
+  },
+  "formula": {
+    "expr": "wOBA = (wBB×uBB + wHBP×HBP + w1B×1B + w2B×2B + w3B×3B + wHR×HR) ÷ (AB + BB − IBB + SF + HBP)",
+    "vars": [
+      ["uBB", "unintentional walks (walks minus intentional walks)"],
+      ["w○", "run weight for each result (changes every season)"],
+      ["IBB", "intentional walks"],
+      ["SF", "sacrifice flies"]
+    ]
+  },
+  "deep": [
+    "The weights come from a run expectancy table, which lists how many runs score on average over the rest of an inning for every mix of outs and baserunners. For each result you find how much it raised run expectancy on average, compare that with the value of an out, and then stretch the numbers so the league's wOBA matches its on-base percentage.",
+    "They're recalculated for every league and season. In recent MLB seasons they've hovered around 0.7 for a walk, 0.9 for a single, 1.25 for a double, 1.6 for a triple and 2.0 for a home run. Intentional walks don't count, since the pitcher chose to give them away."
+  ],
+  "myth": {
+    "claim": "The wOBA weights are fixed constants.",
+    "truth": "They move whenever the run environment shifts. FanGraphs publishes a separate set of weights for each season."
+  },
+  "leagues": [
+    {
+      "lg": "KBO and NPB",
+      "t": "The formula doesn't change, but each league scores runs at its own rate, so the weights have to be worked out league by league. MLB weights applied to KBO numbers give the wrong answer."
+    }
+  ],
+  "sources": [
+    { "t": "FanGraphs Library · wOBA", "u": "https://library.fangraphs.com/offense/woba/" },
+    { "t": "FanGraphs · Guts (weights by season)", "u": "https://www.fangraphs.com/guts.aspx?type=cn" }
+  ]
+}

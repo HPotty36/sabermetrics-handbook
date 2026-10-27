@@ -1,0 +1,21 @@
+{
+  "name": "Expected wOBA",
+  "aliases": ["expected weighted on-base average"],
+  "summary": "The wOBA a batter's contact should have produced on average, judged by exit velocity and launch angle rather than by what actually happened to each ball.",
+  "easy": [
+    "Over the first month of a season, a hitter's numbers can rise or fall on where a handful of batted balls happened to land. xwOBA is built on how hard each ball was hit and at what angle, not on where it ended up.",
+    "When a hitter's xwOBA sits above his actual wOBA, he's been getting less than his contact deserved. When it sits below, his results have run ahead of his contact. Both use the same scale."
+  ],
+  "deep": [
+    "Each batted ball is assigned an expected value from how past balls with similar exit velocity and launch angle turned out. Starting in 2019, the hitter's sprint speed is also factored in for some ground balls and weakly hit balls. Walks, strikeouts and hit-by-pitches count at their actual values.",
+    "The basic model leaves out spray direction and the ballpark. A hitter who keeps pulling fly balls over the fence can post an actual wOBA above his xwOBA year after year.",
+    "It works for pitchers too. A pitcher's xwOBA shows how much damage the contact he allowed should have done."
+  ],
+  "myth": {
+    "claim": "The gap between wOBA and xwOBA disappears eventually.",
+    "truth": "It usually narrows. For some hitters, though, a gap lasts several seasons because of things the model doesn't fully capture, like spray direction or foot speed."
+  },
+  "sources": [
+    { "t": "MLB.com Glossary · Expected wOBA", "u": "https://www.mlb.com/glossary/statcast/expected-woba" }
+  ]
+}

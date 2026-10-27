@@ -3,10 +3,10 @@ import assert from 'node:assert/strict';
 import { ALL_CATS, norm, search, toSearchEntry } from '../src/lib/search.ts';
 
 const entries = [
-  { id: 'ops', abbr: 'OPS', chip: 'OPS', ko: '출루율 + 장타율', en: 'On-base Plus Slugging', aliases: ['오피에스'], level: 1, cats: ['타격'], summary: '출루율과 장타율을 더한 값.' },
-  { id: 'fip', abbr: 'FIP', chip: 'FIP', ko: '수비 무관 평균자책점', en: 'Fielding Independent Pitching', level: 2, cats: ['투구'], summary: '투수가 혼자 결정하는 결과만으로 계산한 지표.' },
-  { id: 'oaa', abbr: 'OAA', chip: 'OAA', ko: '평균 대비 아웃 기여', en: 'Outs Above Average', level: 2, cats: ['수비', '트래킹'], summary: '평균적인 수비수와 비교해 아웃을 몇 개 더 잡았는지 센 값.' },
-  { id: 'wrc-plus', abbr: 'wRC+', chip: 'wRC+', ko: '조정 득점 창출력', en: 'Weighted Runs Created Plus', level: 2, cats: ['타격'], summary: '리그 평균을 100으로 맞춘 지표.' },
+  { id: 'ops', searchNames: ['OPS', '출루율 + 장타율', 'On-base Plus Slugging', '오피에스'], level: 1, cats: ['타격'], summary: '출루율과 장타율을 더한 값.' },
+  { id: 'fip', searchNames: ['FIP', '수비 무관 평균자책점', 'Fielding Independent Pitching'], level: 2, cats: ['투구'], summary: '투수가 혼자 결정하는 결과만으로 계산한 지표.' },
+  { id: 'oaa', searchNames: ['OAA', '평균 대비 아웃 기여', 'Outs Above Average'], level: 2, cats: ['수비', '트래킹'], summary: '평균적인 수비수와 비교해 아웃을 몇 개 더 잡았는지 센 값.' },
+  { id: 'wrc-plus', searchNames: ['wRC+', '조정 득점 창출력', 'Weighted Runs Created Plus'], level: 2, cats: ['타격'], summary: '리그 평균을 100으로 맞춘 지표.' },
 ].map((t) => toSearchEntry(t, `/terms/${t.id}/`));
 
 const ids = (q: string, level = 0, cat = ALL_CATS) => search(entries, { q, level, cat }).map((e) => e.id);

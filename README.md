@@ -1,66 +1,114 @@
-# 세이버메트릭스 핸드북
+<a href="https://sabermetrics-handbook.pages.dev/en/">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset=".github/assets/banner-dark.png">
+    <img alt="Sabermetrics Handbook" src=".github/assets/banner-light.png">
+  </picture>
+</a>
 
-입문자부터 깊게 아는 팬까지 읽을 수 있게 정리하는 한국어 세이버메트릭스 용어 사전이다.
+<p align="center">
+  <a href="https://sabermetrics-handbook.pages.dev/en/"><b>Open the handbook</b></a> ·
+  <a href="https://sabermetrics-handbook.pages.dev/">한국어</a> ·
+  <a href="README.ko.md">README in Korean</a> ·
+  <a href="CONTRIBUTING.md">Contributing</a>
+</p>
 
-- 모든 용어를 ‘쉬운 설명’과 ‘자세한 설명’ 두 겹으로 쓴다. 읽는 순서는 바꿀 수 있다.
-- 주제(코드에서는 사다리)마다 기본 지표에서 심화 지표까지 한 칸씩 따라간다 (예: 투수 평가 ERA → FIP → xFIP → SIERA).
-- 수치 기준은 눈금 막대와 구간으로 보여 준다. 리그 평균은 2026 MLB 정규시즌 기준이다.
-- 블라스트, 어택 앵글처럼 최근 Statcast에 생긴 지표까지 다룬다.
+<p align="center">
+  <a href="https://sabermetrics-handbook.pages.dev/en/"><img alt="Website" src="https://img.shields.io/badge/site-sabermetrics--handbook.pages.dev-C42638"></a>
+  <img alt="Languages: English and Korean" src="https://img.shields.io/badge/languages-English%20%C2%B7%20%ED%95%9C%EA%B5%AD%EC%96%B4-1D1C1A">
+  <img alt="Installable, works offline" src="https://img.shields.io/badge/PWA-works%20offline-5A0FC8?logo=pwa&logoColor=white">
+  <a href="https://astro.build"><img alt="Built with Astro 7" src="https://img.shields.io/badge/Astro-7-BC52EE?logo=astro&logoColor=white"></a>
+  <img alt="Node 22.22 or later" src="https://img.shields.io/badge/node-%E2%89%A522.22-339933?logo=node.js&logoColor=white">
+</p>
 
-## 상태
+A glossary of baseball stats, from batting average to swing timing. Every term is written twice: a simple explanation for someone meeting the number for the first time, and a detailed one for someone who already uses it and wants to know how it works and where it breaks. The site reads the same in Korean and English.
 
-사이트: https://sabermetrics-handbook.pages.dev/
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/screens-en-dark.png">
+  <img alt="Home, the FIP page and the Topics page on a phone" src=".github/assets/screens-en-light.png">
+</picture>
 
-Astro 정적 사이트로 옮겼고, 설치형 웹앱(PWA)으로 오프라인에서도 열린다. 용어 27개를 썼다.
-`main`에 올라간 내용은 Cloudflare Pages가 빌드해 배포한다(빌드 명령 `npm run build`, 출력 `dist/`).
+## What's inside
+
+- **Two layers per term.** A simple explanation and a detailed one, with a switch for which comes first. The choice is remembered.
+- **Topics.** Related terms lined up from basic to advanced, so you can keep going one step at a time (ERA → FIP → xFIP → SIERA).
+- **Benchmarks.** A scale with the 2026 MLB average and rough ranges for good and bad. Every number links to its source.
+- **Recent Statcast metrics.** Bat speed, blasts, attack angle and swing timing, along with the classics.
+- **Korean and English, light and dark.** Switch language on any page and land on the same term. Dark mode is pitch black.
+- **Works offline.** Install it to your home screen and every page, font and search keeps working without a connection. Android and iOS wrappers use the same build.
+
+## Terms
+
+27 terms in nine topics. A term can sit in more than one topic.
+
+| Topic | From basic to advanced |
+| --- | --- |
+| Hitting | AVG → OPS → wOBA → wRC+ |
+| Player Value | wRC+ → WAR |
+| Contact Quality | Exit Velocity → HardHit% → Barrel → xwOBA |
+| Luck vs. Skill | BABIP → xwOBA |
+| Pitching | ERA → FIP → xFIP → SIERA |
+| Strikeouts and Whiffs | K% → CSW% |
+| Pitch Quality | Velocity → Spin Rate → IVB → VAA → Stuff+ |
+| The Swing | Bat Speed → Blast → Attack Angle → Swing Timing |
+| Fielding | FPCT → OAA |
+
+## Getting started
+
+Node 22.22 or later.
 
 ```sh
 npm install
-npm run dev      # 개발 서버 (http://localhost:4321)
-npm run build    # 정적 빌드 → dist/. 콘텐츠 검사에 걸리면 실패한다
-npm test         # 콘텐츠 검사와 검색·숫자 표기 단위 테스트 (빌드 없이)
-npm run check    # 타입 검사
-npm run cap:sync # 앱용 빌드(dist-app/)를 만들어 android/, ios/에 복사
-npx cap open android   # Android Studio에서 열기 (Xcode는 npx cap open ios)
-npm run icons    # assets/icon.svg, public/favicon.svg로 PWA·앱 아이콘과 스플래시를 다시 만든다
+npm run dev        # dev server at http://localhost:4321 (English at /en/)
+npm run build      # static build to dist/; fails if any content check fails
+npm test           # content checks and unit tests, no build needed
+npm run check      # type check
 ```
 
-Node 22.22 이상이 필요하다.
+The Android and iOS projects wrap the same site with [Capacitor](https://capacitorjs.com):
 
-## 구조
-
-```
-src/content/terms/<id>.json   용어 1개 = 파일 1개 (콘텐츠 원본)
-src/content/stubs.json        준비 중 용어
-src/content/ladders.json      사다리, 화면 이름 ‘주제’ (적힌 순서대로 화면에 나온다)
-src/lib/schema.ts             콘텐츠 스키마 (zod)
-src/lib/validate.ts           파일 사이의 참조와 눈금 범위 검사
-src/pages/                    홈(/), 주제(/ladders/), 용어 목록(/terms/), 용어(/terms/<id>/)
-src/scripts/search-box.ts     검색 (브라우저)
-src/scripts/term-index.ts     /terms/의 레벨·분야 고르기 (브라우저)
-src/styles/global.css         스타일 (프로토타입에서 출발)
-integrations/                 빌드 후 서비스 워커(dist/sw.js) 생성
-public/                       manifest, 아이콘
-capacitor.config.ts           앱 설정 (Capacitor)
-android/, ios/                네이티브 앱 프로젝트
-assets/                       앱 아이콘 원본(icon.svg)과 스플래시 PNG (@capacitor/assets 입력)
-scripts/make-icons.mjs        아이콘 SVG → PNG
-prototype/index.html          동작과 디자인의 기준이 되는 단일 HTML 프로토타입
-docs/content-guide.md         용어 스키마와 작성 규칙
-docs/verified-facts.md        원 자료와 대조해 확인한 수치와 정의
-CLAUDE.md                     Claude Code용 프로젝트 안내
+```sh
+npm run cap:sync       # app build (dist-app/) copied into android/ and ios/
+npx cap open android   # or: npx cap open ios
+npm run icons          # regenerate PWA and app icons from assets/icon.svg and public/favicon.svg
 ```
 
-## 로드맵
+`main` deploys to Cloudflare Pages. Other branches get preview deployments.
 
-1. ~~정적 사이트로 이전 (Astro, 용어별 페이지)~~ 끝
-2. ~~설치형 웹앱 (PWA, 오프라인)~~ 끝
-3. Android/iOS 앱 (Capacitor) — 프로젝트는 만들었고, 로컬 빌드와 기기 확인이 남았다
+## How it's built
 
-웹앱과 앱은 같은 사이트를 그대로 확장한다.
+An [Astro](https://astro.build) static site with almost no JavaScript: search, the term filters, the reading-order switch and the dark mode toggle are the only scripts. Each page is generated twice, at `/` in Korean and at `/en/` in English, from one template.
 
-## 콘텐츠 원칙
+```
+src/content/terms/<id>.json      one term: shared data (level, scale numbers, source URLs) and the Korean text
+src/content/en/terms/<id>.json   the English text for the same term
+src/content/ladders.json         topics, in the order they appear
+src/lib/schema.ts                content schema (zod)
+src/lib/validate.ts              cross-file checks, including Korean and English staying in step
+src/lib/i18n.ts                  interface text in both languages
+src/pages/[...lang]/             home, topics, term list and term pages for both languages
+src/scripts/                     search, filters, settings (the only client scripts)
+src/styles/global.css            design tokens and styles
+integrations/                    builds the service worker (dist/sw.js) after each build
+docs/content-guide.md            how to write a term (Korean)
+docs/verified-facts.md           numbers and definitions checked against sources (Korean)
+```
 
-- 설명 문장은 모두 직접 쓴다. 외부 글을 옮기거나 번역하지 않는다.
-- 정의와 공식의 원 출처(FanGraphs Library, MLB.com Glossary, Baseball Savant 등)는 용어마다 링크한다.
-- 실제 선수 기록은 예시로 쓰지 않는다.
+The build stops if anything is off: a missing field, a scale mark out of range, a link to a term that doesn't exist, or an English file whose numbers or sources don't match the Korean one.
+
+## Content rules
+
+- Every explanation is original writing. Nothing is translated or copied from FanGraphs, MLB.com or anywhere else.
+- Definitions and formulas link to their original source.
+- No real player stats as examples. Examples use made-up numbers.
+- No number goes in without a source. League averages name their season, currently the 2026 MLB regular season.
+
+## Contributing
+
+Corrections are the most useful thing you can send. If a number, definition or source looks wrong, [open an issue](../../issues/new/choose) with a link to the source. See [CONTRIBUTING.md](CONTRIBUTING.md) for adding terms and working on the code.
+
+## Roadmap
+
+1. ~~Static site (Astro)~~
+2. ~~Installable web app that works offline~~
+3. ~~English edition~~
+4. Android and iOS apps: projects are set up; device builds and store release are next.

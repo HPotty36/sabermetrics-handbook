@@ -1,0 +1,30 @@
+{
+  "name": "Batting Average",
+  "aliases": ["BA", "batting avg"],
+  "summary": "Hits divided by at-bats. Plate appearances that aren't at-bats, like walks, hit-by-pitches and sacrifices, are left out.",
+  "easy": [
+    "Batting average is the oldest number in baseball and the one everybody has heard of. Being a .300 hitter is practically a title of its own.",
+    "It misses two things, though. A walk doesn't count at all, and a single and a home run each count as one hit. Take a .300 hitter who never walks and only hits singles, and a .260 hitter who draws plenty of walks and hits for extra bases. Batting average gives you no way to sort out which of them helps his team more."
+  ],
+  "formula": {
+    "expr": "AVG = H ÷ AB",
+    "vars": [
+      ["H", "hits"],
+      ["AB", "at-bats = plate appearances − walks − hit by pitch − sacrifice bunts − sacrifice flies − catcher's interference"]
+    ]
+  },
+  "deep": [
+    "Walks and hit-by-pitches come out of at-bats but go into on-base percentage, so a hitter's OBP is usually higher than his average. When the gap between the two is unusually wide, he's drawing walks or getting plunked often.",
+    "Average rises and falls with whether balls in play drop for hits. Over a whole season, well-struck balls get caught and bloop singles fall in, again and again, so one hitter's average can move quite a bit from year to year. Pull out just that swing and you have BABIP.",
+    "It still has its uses. It's the starting point for judging how well a hitter makes contact, and a slash line of average, OBP and slugging (.280/.350/.450, say) gives you a quick sketch of what kind of hitter he is. MLB as a whole hit .244 in 2026, nearly identical to the 2025 mark of .245."
+  ],
+  "myth": {
+    "claim": "The higher a hitter's batting average, the more he contributes on offense.",
+    "truth": "A lower-average hitter who walks a lot and hits for power can be the bigger run producer."
+  },
+  "sources": [
+    { "t": "MLB.com Glossary · Batting Average", "u": "https://www.mlb.com/glossary/standard-stats/batting-average" },
+    { "t": "FanGraphs Library · Stats to Avoid: Batting Average", "u": "https://library.fangraphs.com/stats-to-avoid-batting-average/" },
+    { "t": "Baseball-Reference · 2026 MLB batting (league averages)", "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-batting.shtml" }
+  ]
+}

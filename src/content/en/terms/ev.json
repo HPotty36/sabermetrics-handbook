@@ -1,0 +1,25 @@
+{
+  "name": "Exit Velocity",
+  "aliases": ["EV", "exit velo", "average exit velocity"],
+  "summary": "The speed of the ball as it comes off the bat. It measures how hard each batted ball was hit.",
+  "easy": [
+    "Hard contact sends the ball off the bat fast. Fielders get less time to react, so it's tougher to turn into an out, and at the right angle it carries over the fence.",
+    "The number has nothing to do with how the play turned out. A clean hit and a line drive caught for an out are judged the same way, by how hard they were struck. That means a hard-hit ball that happened to find a glove still gets its due."
+  ],
+  "deep": [
+    "Statcast clocks every batted ball that's put in play, whether it ends up a hit, an out or an error. A player's average exit velocity is the mean of all of them.",
+    "Going by the average alone shortchanges hitters who often mis-hit the ball. That's why it's paired with hard-hit rate, which counts how many hard-hit balls there were, and barrels, which look at speed and launch angle together.",
+    "MLB hitters averaged 88.8 mph (about 142.9 km/h) in 2026, a small drop from 2025's 89.4 mph."
+  ],
+  "myth": {
+    "claim": "The harder a ball is hit, the better the batted ball.",
+    "truth": "A rocket pounded into the ground often ends up a routine groundout. To do real damage, the angle has to be right as well."
+  },
+  "leagues": [
+    { "lg": "KBO", "t": "Ball-by-ball tracking data isn't released to the public in any real depth. Beyond the readings for individual batted balls shown on broadcasts, player averages are hard to verify yourself." }
+  ],
+  "sources": [
+    { "t": "MLB.com Glossary · Exit Velocity", "u": "https://www.mlb.com/glossary/statcast/exit-velocity" },
+    { "t": "Baseball Savant · 2026 league averages", "u": "https://baseballsavant.mlb.com/league?season=2026" }
+  ]
+}

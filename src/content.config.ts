@@ -1,6 +1,6 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
-import { termSchema } from './lib/schema.ts';
+import { termEnSchema, termSchema } from './lib/schema.ts';
 
 export const collections = {
   // 용어 1개 = 파일 1개. 파일 이름이 id이고 URL(/terms/<id>/)이 된다.
@@ -13,5 +13,14 @@ export const collections = {
       generateId: ({ entry }) => entry.replace(/\.json$/, ''),
     }),
     schema: termSchema,
+  }),
+  // 같은 용어의 영어 글. 파일 이름(id)이 terms/의 것과 짝을 이룬다.
+  termsEn: defineCollection({
+    loader: glob({
+      pattern: '*.json',
+      base: './src/content/en/terms',
+      generateId: ({ entry }) => entry.replace(/\.json$/, ''),
+    }),
+    schema: termEnSchema,
   }),
 };

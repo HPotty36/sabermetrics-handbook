@@ -1,26 +1,29 @@
 ---
 // 숫자 눈금 막대. 평균은 홈플레이트 모양 마커로 표시한다.
 import { fmt, pos } from '../lib/format.ts';
+import { fill, ui, type Lang } from '../lib/i18n.ts';
 import type { Scale } from '../lib/schema.ts';
 
 interface Props {
+  lang: Lang;
   scale: Scale;
 }
 
-const { scale: s } = Astro.props;
+const { lang, scale: s } = Astro.props;
+const u = ui(lang);
 const at = (v: number) => pos(v, s);
 const bandStyle = s.band && `left:${at(s.band[0])}%;width:${(Number(at(s.band[1])) - Number(at(s.band[0]))).toFixed(2)}%`;
 const legend = [...s.marks].sort((a, b) => a.v - b.v);
-// Baseball Savant 퍼센타일 막대처럼 막대 양 끝에 ‘나쁨 · 좋음’을 적는다. 빨간 쪽이 좋은 쪽이다.
-const ends = { high: ['나쁨', '좋음'], low: ['좋음', '나쁨'], none: null }[s.dir];
-const betterLabel = { high: ', 클수록 좋음', low: ', 작을수록 좋음', none: '' }[s.dir];
+// Baseball Savant 퍼센타일 막대처럼 막대 양 끝에 ‘나쁨 · 좋음’을 적는다. 좋은 쪽을 진하게 쓴다.
+const ends = { high: [u.worse, u.better], low: [u.better, u.worse], none: null }[s.dir];
+const betterLabel = { high: u.higherBetter, low: u.lowerBetter, none: '' }[s.dir];
 ---
-<div class="scale" role="img" aria-label={`눈금 ${fmt(s.min, s)}에서 ${fmt(s.max, s)}까지${betterLabel}`}>
-  {ends && <div class="scale-ends">{ends.map((label) => <span class:list={{ good: label === '좋음' }}>{label}</span>)}</div>}
+<div class="scale" role="img" aria-label={fill(u.scaleRange, { min: fmt(s.min, s), max: fmt(s.max, s) }) + betterLabel}>
+  {ends && <div class="scale-ends">{ends.map((label) => <span class:list={{ good: label === u.better }}>{label}</span>)}</div>}
   <div class="scale-bar"><div class={`scale-track dir-${s.dir}`}>{bandStyle && <span class="scale-band" style={bandStyle}></span>}</div>{s.marks.map((m) => (
     <span class="tick" style={`left:${at(m.v)}%`}><span class="tick-num">{fmt(m.v, s)}</span></span>
   ))}{s.avg && (
-    <span class="avg" style={`left:${at(s.avg.v)}%`}><span class="avg-tag">평균</span><span class="plate"></span></span>
+    <span class="avg" style={`left:${at(s.avg.v)}%`}><span class="avg-tag">{u.avgTag}</span><span class="plate"></span></span>
   )}</div>
 </div>
 {/* 눈금 숫자의 뜻. 평균은 막대의 마커와 위쪽 평균 줄에 이미 있으므로 다시 적지 않는다. */}

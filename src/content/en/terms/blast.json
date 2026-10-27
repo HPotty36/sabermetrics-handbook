@@ -1,0 +1,25 @@
+{
+  "name": "Blast",
+  "aliases": ["blasts", "squared up", "squared-up rate", "bat speed", "bat tracking"],
+  "summary": "A swing that is both fast and squared up. Statcast bat tracking keeps a separate count of them as its mark of a good swing.",
+  "easy": [
+    "Swing hard and mishit it, and the ball won't go far. Square it up on a slow swing, and there isn't much behind it. A blast is a swing that gets both right. In 2024, roughly 10% of competitive swings and 27% of batted balls were blasts."
+  ],
+  "formula": {
+    "expr": "Squared-up rate (%) + bat speed (mph) ≥ 164",
+    "vars": [
+      ["Example", "89% + 75 mph = 164 → blast"],
+      ["Shortcut", "the two numbers average 82 or higher"]
+    ]
+  },
+  "deep": [
+    "A swing is squared up when its exit velocity reaches at least 80% of the most it could have been, given the bat speed and the pitch speed.",
+    "Bat speed is clocked six inches from the head of the bat. Player averages come only from competitive swings, such as each hitter's fastest 90%, and any swing at 75 mph or more also goes down as a fast swing.",
+    "Bat tracking showed up on Baseball Savant in May 2024, with records starting in the second half of 2023."
+  ],
+  "sources": [
+    { "t": "MLB.com Glossary · Blasts", "u": "https://www.mlb.com/glossary/statcast/bat-tracking-blasts" },
+    { "t": "MLB.com Glossary · Squared-Up", "u": "https://www.mlb.com/glossary/statcast/squared-up" },
+    { "t": "Baseball Savant · Bat Tracking", "u": "https://baseballsavant.mlb.com/leaderboard/bat-tracking" }
+  ]
+}

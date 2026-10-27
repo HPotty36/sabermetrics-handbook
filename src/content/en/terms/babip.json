@@ -1,0 +1,42 @@
+{
+  "name": "Batting Average on Balls In Play",
+  "summary": "The rate at which balls hit into fair territory, home runs aside, become hits.",
+  "easy": [
+    "Some days a hitter squares one up and it goes straight to the shortstop. Other days a jam shot drops in between the second baseman and the right fielder. Luck and defense play a big part in whether a ball in play turns into a hit.",
+    "BABIP isolates that piece. If a hitter's BABIP is way above where it normally sits, the likelier story is that his balls have been finding holes, not that he suddenly got better."
+  ],
+  "scale": {
+    "avg": "2026 MLB average .290",
+    "marks": [
+      { "v": 0.26, "t": "Low" },
+      { "v": 0.32, "t": "High" }
+    ],
+    "note": "When a pitcher's BABIP is low, or a hitter's is high, luck probably played a part. For hitters, their own career BABIP is a better comparison than the league average."
+  },
+  "formula": {
+    "expr": "BABIP = (H − HR) ÷ (AB − K − HR + SF)",
+    "vars": [
+      ["H", "hits"],
+      ["HR", "home runs"],
+      ["AB", "at-bats"],
+      ["K", "strikeouts"],
+      ["SF", "sacrifice flies"]
+    ]
+  },
+  "deep": [
+    "Home runs come out because they're beyond any fielder's reach. Sacrifice flies go into the denominator because they're balls in play.",
+    "A pitcher's BABIP jumps around from season to season and has little relationship to what it will be the following year. For pitchers, then, the working assumption is that it drifts back toward league average. When a pitcher's ERA and FIP are far apart, start with his BABIP and strand rate (LOB%).",
+    "Hitters are another story. Speedy hitters and line-drive hitters can hold an above-average BABIP for several years running, so part of a hitter's BABIP is skill."
+  ],
+  "myth": {
+    "claim": "A high BABIP is just luck.",
+    "truth": "For pitchers it mostly is. For hitters, quality of contact and foot speed also push BABIP up."
+  },
+  "leagues": [
+    { "lg": "KBO and NPB", "t": "Each league has its own run environment and level of defense, so average BABIP differs from league to league. A KBO player should be measured against the KBO average." }
+  ],
+  "sources": [
+    { "t": "FanGraphs Library · BABIP", "u": "https://library.fangraphs.com/pitching/babip/" },
+    { "t": "FanGraphs · Guts (league averages)", "u": "https://www.fangraphs.com/guts.aspx?type=cn" }
+  ]
+}
