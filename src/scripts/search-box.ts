@@ -48,7 +48,7 @@ function render(composing = false) {
   for (const [id, li] of rows) li.hidden = !ids.has(id);
   list.hidden = found.length === 0;
   empty.hidden = found.length > 0;
-  empty.textContent = `‘${q}’에 맞는 용어가 없어요. 약어나 우리말 이름으로 찾아 보세요.`;
+  empty.textContent = `‘${q}’에 맞는 용어가 없어요.`;
   status.textContent = found.length ? `용어 ${found.length}개` : empty.textContent;
 }
 

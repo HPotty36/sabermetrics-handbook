@@ -1,8 +1,8 @@
 /* 디자인의 원본. ‘인쇄된 핸드북’(2026-10-27) 위에 시안 A ‘사다리 선’을 얹었다(2026-10-27).
-   - 종이와 글: 상아색 종이, 명조 본문(Noto Serif KR), 작은 안내 글은 Pretendard, 표제와 숫자는 Big Shoulders.
-   - 야구만의 표시는 세 가지뿐이다: 페이지 제목 아래의 실밥(.seam), 사다리의 선과 역(.line), 숫자 눈금의 홈플레이트 평균 마커(.plate).
+   - 종이와 글: 상아색 종이, 한글과 본문은 Pretendard(토스 같은 앱의 고딕), 표제·표제어·숫자는 Big Shoulders.
+   - 야구만의 표시는 세 가지뿐이다: 페이지 제목 아래의 실밥(.seam), 주제(사다리)의 선과 역(.line), 숫자 눈금의 홈플레이트 평균 마커(.plate).
    - 빨강(seam)은 실밥, 지금 위치(지금 역, 고른 메뉴, 고른 읽는 순서), 평균 마커에만 쓴다.
-   - 맨 위 머리글은 없다. 넓은 화면은 왼쪽 단(.rail)에 이름·찾기·메뉴, 폰은 아래쪽에 떠 있는 알약(.dock, iOS 26 탭 막대).
+   - 맨 위 머리글은 없다. 넓은 화면은 왼쪽 단(.rail)에 찾기·메뉴, 폰은 아래쪽에 떠 있는 알약(.dock, iOS 26 탭 막대).
    카드(테두리 상자), 타일, 색 점, 그라데이션은 쓰지 않는다. 그림자와 둥근 알약은 떠 있는 아래쪽 알약에만 쓴다.
    자세한 내용은 CLAUDE.md ‘디자인 기준’. */
 :root{
@@ -15,10 +15,9 @@
   --glass:rgba(251,249,244,.94);
   --glass-edge:rgba(29,28,26,.10);
   --float-shadow:0 10px 30px rgba(29,28,26,.14),0 1px 3px rgba(29,28,26,.10);
-  --font-serif:"Noto Serif KR Variable","Noto Serif KR","AppleMyungjo","Batang",serif;
   --font-sans:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
   --font-display:"Big Shoulders Display","Pretendard Variable","Arial Narrow",sans-serif;
-  --row-name:600 17.5px/1.45 var(--font-serif);
+  --row-name:600 17px/1.45 var(--font-sans);
   --row-sub:13px/1.5 var(--font-sans);
   --dock-h:60px;
   --dock-bottom:max(14px,env(safe-area-inset-bottom,0px));
@@ -42,7 +41,7 @@
 
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-serif);font-size:17px;line-height:1.85;word-break:keep-all;overflow-wrap:break-word;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-sans);font-size:17px;line-height:1.7;letter-spacing:-.01em;word-break:keep-all;overflow-wrap:break-word;-webkit-font-smoothing:antialiased}
 /* 머리글이 없으므로, 앱과 홈 화면 웹앱에서 상태 표시줄 아래로 글이 비치지 않게 종이색으로 가린다(브라우저에서는 높이가 0이다). */
 body::before{content:"";position:fixed;z-index:30;top:0;left:0;right:0;height:env(safe-area-inset-top,0px);background:var(--paper)}
 a{color:inherit;text-decoration-thickness:1px;text-underline-offset:4px;text-decoration-color:var(--line)}
@@ -67,8 +66,6 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 
 /* 왼쪽 단(넓은 화면): 이름, 찾기, 메뉴 */
 @media (min-width:1024px){.rail{display:block;position:sticky;top:0;align-self:start;padding:44px 0 32px}}
-.brand{display:flex;align-items:center;gap:9px;margin-bottom:26px;text-decoration:none;font-weight:700;font-size:15px;line-height:1.35;letter-spacing:-.02em}
-.brand img{display:block;flex:none}
 .finder{display:flex;align-items:center;gap:14px}
 .finder-field{position:relative;display:block;flex:1;min-width:0}
 .finder-field svg{position:absolute;left:0;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
@@ -88,7 +85,7 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
    키보드가 올라오면 --kb(scripts/search-box.ts)만큼 같이 올라간다. */
 @media (max-width:1023px){
   .rail{display:block;height:0}
-  .brand,.rail-nav,.finder{display:none}
+  .rail-nav,.finder{display:none}
   body[data-search-open]{overflow:hidden}
   body[data-search-open] .finder{display:flex;position:fixed;z-index:26;left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));bottom:calc(var(--dock-bottom) + var(--kb,0px));max-width:520px;margin:0 auto;gap:10px}
   body[data-search-open] .finder-field{display:flex;align-items:center;height:var(--dock-h);padding:0 18px;border-radius:999px;background:var(--glass);-webkit-backdrop-filter:blur(20px) saturate(1.8);backdrop-filter:blur(20px) saturate(1.8);border:.5px solid var(--glass-edge);box-shadow:var(--float-shadow)}
@@ -108,7 +105,7 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .hit-head{display:flex;align-items:baseline;gap:10px;min-width:0}
 .hit-name{flex:none;font:var(--row-name)}
 .hit-sub{min-width:0;font:var(--row-sub);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hit-sum{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-top:2px;font-size:15px;line-height:1.7;color:var(--muted)}
+.hit-sum{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-top:2px;font-size:15px;line-height:1.55;color:var(--muted)}
 @media (hover:hover){.hit:hover .hit-name{text-decoration:underline;text-decoration-color:var(--ink)}}
 .empty{margin:20px 0;font:15px/1.6 var(--font-sans);color:var(--muted)}
 
@@ -168,25 +165,21 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .mast-edition{margin:0 0 6px;font:700 13.5px/1.4 var(--font-sans);color:var(--muted)}
 .mast-title{margin:0 0 10px;font-family:var(--font-display);font-weight:800;font-size:clamp(56px,9.4vw,108px);line-height:.86;letter-spacing:.005em;text-transform:uppercase}
 .mast-title span{display:block}
-.mast-sub{margin:10px 0 0;font:15px/1.65 var(--font-sans);color:var(--muted)}
 
-/* 다른 페이지의 제목(사다리, 용어): 명조 굵은 제목, 그 아래 실밥 */
-.page-head{margin-bottom:30px}
-.page-title{margin:0 0 10px;font-size:36px;line-height:1.3;font-weight:900;letter-spacing:-.03em}
-.page-desc{margin:10px 0 0;font:15px/1.65 var(--font-sans);color:var(--muted)}
+/* 다른 페이지의 제목(주제, 용어): iOS 큰 제목처럼 굵은 탭 이름, 그 아래 실밥 */
+.page-head{margin-bottom:28px}
+.page-title{margin:0 0 10px;font-size:34px;line-height:1.3;font-weight:800;letter-spacing:-.03em}
 
-/* 홈의 두 입구와 사다리 */
+/* 홈의 두 입구(기본 지표, 심화 지표)와 주제 */
 .doors{display:grid;grid-template-columns:minmax(0,1fr);gap:44px}
 @media (min-width:760px){.doors{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:56px}}
 .door{min-width:0}
-.door h2,.ladders h2{margin:0 0 4px;font-size:23px;line-height:1.4}
-.door-desc{margin:0 0 14px;font:14.5px/1.65 var(--font-sans);color:var(--muted)}
+.door h2,.ladders h2{margin:0 0 10px;font-size:22px;line-height:1.4;font-weight:800;letter-spacing:-.03em}
 .ladders{margin-top:60px}
 .ladder-grid{display:grid;grid-template-columns:minmax(0,1fr);column-gap:48px}
 @media (min-width:760px){.ladder-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .ladder{min-width:0;padding:14px 0 6px;border-top:1px solid var(--line)}
 .ladder-name{margin:0 0 12px;font-size:17px;font-weight:700;line-height:1.5;letter-spacing:-.01em}
-.ladder-hint{margin-left:8px;font:400 13px/1.5 var(--font-sans);color:var(--muted)}
 .ladder-grid-v .ladder{padding:14px 0 20px}
 .ladder-grid-v .ladder-name{margin-bottom:8px}
 
@@ -225,7 +218,7 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .names-ko{font-size:23px;font-weight:700;letter-spacing:-.03em;line-height:1.4}
 .names-en{font:15px/1.4 var(--font-sans);color:var(--muted)}
 .term-head .seam{margin-top:16px}
-.def{margin:16px 0 0;font-size:19.5px;line-height:1.7;font-weight:500;letter-spacing:-.015em}
+.def{margin:16px 0 0;font-size:19.5px;line-height:1.6;font-weight:500;letter-spacing:-.015em}
 .avg-inline{display:flex;align-items:baseline;gap:10px;margin:16px 0 0;font:13.5px/1.5 var(--font-sans);color:var(--muted)}
 .avg-inline b{font:800 34px/1 var(--font-display);color:var(--ink)}
 @media (min-width:1180px){.avg-inline{display:none}}
@@ -260,7 +253,7 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .legend{display:grid;grid-template-columns:max-content minmax(0,1fr);align-items:baseline;gap:0 14px;margin:16px 0 0;max-width:36em}
 .legend div{display:contents}
 .legend dt{font:600 19px/1.75 var(--font-display);text-align:right;font-variant-numeric:tabular-nums}
-.legend dd{margin:0;font-size:15.5px;line-height:1.75}
+.legend dd{margin:0;font-size:15.5px;line-height:1.6}
 .scale-note{margin:12px 0 0;max-width:36em;font:13.5px/1.7 var(--font-sans);color:var(--muted)}
 
 .myth{margin:0 0 14px;padding:2px 0 2px 18px;border-left:3px solid var(--ink)}
@@ -281,7 +274,7 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 /* 오른쪽 여백의 곁주 */
 .margin{font:13.5px/1.6 var(--font-sans)}
 @media (min-width:1180px){.margin{position:sticky;top:48px;padding-top:6px}}
-@media (max-width:1179px){.margin{margin-top:44px;display:grid;gap:28px}.mnote-title{margin:0 0 12px;font:700 21px/1.4 var(--font-serif);letter-spacing:-.02em;color:var(--ink)}}
+@media (max-width:1179px){.margin{margin-top:44px;display:grid;gap:28px}.mnote-title{margin:0 0 12px;font:700 21px/1.4 var(--font-sans);letter-spacing:-.02em;color:var(--ink)}}
 .mnote{margin-bottom:30px}
 .mnote-title{margin:0 0 6px;font-weight:700;font-size:12.5px;color:var(--muted)}
 .mnote-avg{display:none}
@@ -302,7 +295,3 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
   .see-also li{padding:5px 0}
   .toc-row{padding:11px 0}
 }
-
-/* 맨 아래 작은 글 */
-.foot{margin-top:72px;padding-top:14px;border-top:1px solid var(--ink);max-width:44em;font:13px/1.75 var(--font-sans);color:var(--muted)}
-.foot p{margin:0}

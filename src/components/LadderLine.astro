@@ -1,5 +1,5 @@
 ---
-// 사다리 하나를 선으로 그린다. 왼쪽(위)이 기본, 오른쪽(아래)이 심화다.
+// 주제(사다리) 하나를 선으로 그린다. 왼쪽(위)이 기본, 오른쪽(아래)이 심화다.
 import Line from './Line.astro';
 import { loadHandbook, subName } from '../lib/handbook.ts';
 import { termHref } from '../lib/paths.ts';
@@ -22,4 +22,4 @@ const stops: Stop[] = ladder.steps.map((id) => {
   return { id, name: t.chip, sub: subName(t), href: termHref(id), state: id === current ? 'current' : undefined };
 });
 ---
-<Line stops={stops} dir={dir} label={`사다리 ‘${ladder.name}’`} />
+<Line stops={stops} dir={dir} label={ladder.name} />

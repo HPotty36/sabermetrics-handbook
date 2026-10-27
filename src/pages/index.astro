@@ -10,15 +10,15 @@ import type { Stop } from '../lib/stop.ts';
 
 const { terms, stubs, ladders, termMap } = await loadHandbook();
 
-// ‘처음이라면’ 입구는 OPS에서 시작한다.
+// 첫 번째 입구 ‘기본 지표’는 OPS에서 시작한다.
 const start = termMap.get('ops');
-if (!start) throw new Error('홈 ‘처음이라면’ 입구의 시작 용어(terms/ops.json)가 없다');
+if (!start) throw new Error('홈 ‘기본 지표’의 시작 용어(terms/ops.json)가 없다');
 
 type T = (typeof terms)[number];
 const stop = (t: T, extra: Partial<Stop> = {}): Stop => ({ id: t.id, name: t.chip, sub: subName(t), href: termHref(t.id), ...extra });
 
 const beginner = [start, ...terms.filter((t) => t.level === 1 && t !== start)];
-// ‘이미 안다면’: 최근에 생긴 지표(작성된 것, 준비 중인 것) 다음에 심화 용어.
+// 두 번째 입구 ‘심화 지표’: 최근에 생긴 지표(작성된 것, 준비 중인 것) 다음에 나머지 심화 용어.
 const byAddedDesc = (a: { added?: number }, b: { added?: number }) => b.added! - a.added!;
 const recent = terms.filter((t) => t.added).sort(byAddedDesc);
 const recentStubs = stubs.filter((s) => s.added).sort(byAddedDesc);
@@ -37,28 +37,24 @@ const knownStops: Stop[] = [
     <p class="mast-edition">{SEASON} MLB 시즌 기준</p>
     <h1 class="mast-title" aria-label={SITE_NAME}><span lang="en">Sabermetrics</span><span lang="en">Handbook</span></h1>
     <Seam />
-    <p class="mast-sub">야구 기록 용어 {terms.length}개</p>
   </header>
 
-  {/* 두 입구는 각각 하나의 사다리 선이다. 처음이라면은 OPS가 맨 위다. */}
+  {/* 두 입구(제품 방향의 ‘처음이라면’, ‘이미 안다면’)는 각각 세로 선 하나다. 기본 지표는 OPS가 맨 위다. */}
   <div class="doors">
     <section class="door" aria-labelledby="door-first">
-      <h2 id="door-first">처음이라면</h2>
-      <p class="door-desc">중계 화면에 자주 나오는 숫자들이에요. OPS에서 시작하세요.</p>
-      <Line stops={firstStops} dir="v" label="처음이라면" />
+      <h2 id="door-first">기본 지표</h2>
+      <Line stops={firstStops} dir="v" label="기본 지표" />
     </section>
     <section class="door" aria-labelledby="door-known">
-      <h2 id="door-known">이미 안다면</h2>
-      <p class="door-desc">최근 몇 년 사이 Statcast에 새로 생긴 지표와, 이름은 들어 봤어도 계산은 헷갈리는 것들이에요.</p>
-      <Line stops={knownStops} dir="v" label="이미 안다면" />
+      <h2 id="door-known">심화 지표</h2>
+      <Line stops={knownStops} dir="v" label="심화 지표" />
     </section>
   </div>
 
   <section class="ladders" aria-labelledby="ladders-title">
-    <h2 id="ladders-title">사다리</h2>
-    <p class="door-desc">같이 읽으면 좋은 용어를 쉬운 것부터 이었어요.</p>
+    <h2 id="ladders-title">주제</h2>
     <div class="ladder-grid">{ladders.map((l) => (
-      <div class="ladder"><h3 class="ladder-name">{l.name}<span class="ladder-hint">{l.hint}</span></h3><LadderLine ladder={l} dir="h" /></div>
+      <div class="ladder"><h3 class="ladder-name">{l.name}</h3><LadderLine ladder={l} dir="h" /></div>
     ))}</div>
   </section>
 </Base>
