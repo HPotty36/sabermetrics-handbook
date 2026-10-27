@@ -3,8 +3,12 @@
 //   첫 화면 전에 저장된 값을 붙이는 일은 Base.astro의 인라인 스크립트가 한다.
 // - 언어: 링크라서 스크립트 없이도 옮겨 간다. 고른 언어를 localStorage(sh-lang)에 둬서, 다음에 앱이나 홈 화면 웹앱을 열면
 //   한국어 홈이 영어 홈으로 보낸다(Base.astro).
-// - 앱 설치(PWA): Chrome·Edge·삼성 인터넷처럼 설치를 띄울 수 있는 브라우저는 beforeinstallprompt가 오면 단추를 보이고,
-//   누르면 브라우저의 설치 창을 띄운다. iOS는 그런 API가 없어 단추를 누르면 ‘홈 화면에 추가’ 방법을 시트로 보인다.
+// - 앱 설치(PWA): Chrome·Edge·삼성 인터넷처럼 설치를 띄울 수 있는 브라우저는 beforeinstallprompt가 오면 그 창을 띄운다.
+//   설치 창을 띄울 수 없는 곳에서는 단추를 누르면 방법을 아래쪽 시트로 보인다.
+//   - iOS: 설치 API가 없다. 공유 → 홈 화면에 추가.
+//   - 안드로이드: 크롬은 페이지를 누르고 30초쯤 본 뒤에야 beforeinstallprompt를 보낸다. 그 전에도 단추를 보이고 브라우저 메뉴로 안내한다.
+//     크롬은 시크릿 탭, 다른 앱 안의 크롬 탭(Custom Tab)에서는 설치 메뉴를 숨기고, 설치가 진행 중이면 흐리게 둔다.
+//   - 다른 앱 안의 브라우저(카카오톡, 네이버, 인스타그램 등): 설치할 수 없다. 브라우저로 여는 링크를 준다.
 //   이미 설치한 앱(standalone)으로 열었으면 단추를 보이지 않는다.
 const THEME_KEY = 'sh-theme';
 const LANG_KEY = 'sh-lang';
@@ -73,14 +77,43 @@ interface InstallPromptEvent extends Event {
 const installButtons = document.querySelectorAll<HTMLButtonElement>('[data-install]');
 const installSheet = document.querySelector<HTMLDialogElement>('[data-install-sheet]');
 const standalone = window.matchMedia('(display-mode: standalone)').matches || (navigator as { standalone?: boolean }).standalone === true;
+const ua = navigator.userAgent;
 // iPadOS는 Mac처럼 알리므로 터치로 가린다.
-const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
+const ios = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+const android = /Android/.test(ua);
+const kakao = /KAKAOTALK/i.test(ua);
+// 다른 앱 안의 브라우저. 안드로이드 WebView는 사용자 에이전트에 ‘; wv)’가 붙는다.
+const inApp = kakao || /NAVER\(inapp|Instagram|FBAN|FBAV|FB_IAB|\bLine\/|DaumApps|BAND\/|everytimeApp|; wv\)/.test(ua);
+const platform = inApp ? 'inapp' : ios ? 'ios' : android ? 'android' : null;
 let deferred: InstallPromptEvent | null = null;
 
 const showInstall = (show: boolean) => installButtons.forEach((b) => (b.hidden = !show));
 
+/** 다른 앱 안의 브라우저에서 바깥 브라우저로 여는 주소. 카카오톡은 자체 주소, 안드로이드는 크롬 인텐트(없으면 기본 브라우저). */
+function openOutsideHref(): string | null {
+  const here = location.href;
+  if (kakao) return `kakaotalk://web/openExternal?url=${encodeURIComponent(here)}`;
+  if (android) {
+    const rest = location.host + location.pathname + location.search;
+    return `intent://${rest}#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=${encodeURIComponent(here)};end`;
+  }
+  return null;
+}
+
+function openHelp() {
+  if (!installSheet || !platform) return;
+  installSheet.querySelectorAll<HTMLElement>('[data-help]').forEach((el) => (el.hidden = el.dataset.help !== platform));
+  installSheet.setAttribute('aria-labelledby', `install-title-${platform}`);
+  const open = installSheet.querySelector<HTMLAnchorElement>('[data-install-open]')!;
+  const href = platform === 'inapp' ? openOutsideHref() : null;
+  open.hidden = !href;
+  if (href) open.href = href;
+  installSheet.querySelector<HTMLElement>('[data-inapp-hint]')!.hidden = Boolean(href);
+  installSheet.showModal();
+}
+
 if (!standalone && installButtons.length) {
-  if (ios && installSheet) showInstall(true);
+  if (platform && installSheet) showInstall(true);
   window.addEventListener('beforeinstallprompt', (e) => {
     // 브라우저가 알아서 띄우는 작은 설치 안내 대신 설정의 단추로 띄운다.
     e.preventDefault();
@@ -98,10 +131,10 @@ if (!standalone && installButtons.length) {
         deferred = null;
         await prompt.prompt();
         await prompt.userChoice;
-        // 설치 창은 한 번만 띄울 수 있다(브라우저 규칙). 거절했으면 브라우저가 다음에 다시 알려 줄 때 단추가 다시 나온다.
-        showInstall(false);
-      } else if (installSheet) {
-        installSheet.showModal();
+        // 설치 창은 한 번만 띄울 수 있다(브라우저 규칙). 안내가 있는 기기(폰)는 단추를 남겨 두고 다음에는 방법을 보인다.
+        if (!platform) showInstall(false);
+      } else {
+        openHelp();
       }
     }),
   );

@@ -200,7 +200,7 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
 사용자 요청: ‘이거 PWA로 만들어줘’. 사이트는 이미 설치할 수 있었지만(Chrome 설치 판정 오류 없음) 화면에 설치 길이 없었고, iPhone은 자동 안내가 없다. 그래서 설치를 눈에 보이게 하고, 설치한 뒤를 앱답게 했다.
 
 - 설정에 ‘앱 설치’(영어 ‘Install app’) 단추. 넓은 화면은 왼쪽 단 설정의 맨 아래(아래 화살표 아이콘), 폰은 맨 위 오른쪽 줄의 맨 앞(글자만, 44px).
-  - Chrome·Edge·삼성 인터넷: `beforeinstallprompt`가 와야 단추가 보이고, 누르면 브라우저의 설치 창이 뜬다. 브라우저가 알아서 띄우는 작은 설치 안내는 막고 이 단추로 띄운다.
+  - Chrome·Edge·삼성 인터넷: `beforeinstallprompt`가 오면 단추로 브라우저의 설치 창을 띄운다. 브라우저가 알아서 띄우는 작은 설치 안내는 막고 이 단추로 띄운다. 데스크톱은 이벤트가 와야 단추가 보이고, 폰은 늘 보인다(아래 ‘안드로이드’).
   - iOS(iPadOS 포함): 설치 API가 없어 단추가 늘 보이고, 누르면 아래쪽에 안내 시트(`<dialog>`, 아래쪽 알약과 같은 glass)가 뜬다: 공유 버튼(없으면 ⋯ 메뉴의 ‘공유’) → ‘홈 화면에 추가’. 닫기, 바깥 누르기, Esc로 닫는다.
   - 이미 설치한 앱으로 열었으면(`display-mode: standalone`, iOS `navigator.standalone`) 단추가 없다. 앱(Capacitor) 빌드에는 단추와 시트를 아예 넣지 않는다. 설치 API가 없는 브라우저(Firefox 등)에서도 안 보인다.
 - manifest:
@@ -209,6 +209,12 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
   - `launch_handler`: 이미 열려 있으면 그 창을 쓴다.
 - iOS 홈 화면: `apple-mobile-web-app-title`(‘세이버 핸드북’, ‘Saber Handbook’), `apple-mobile-web-app-capable`·`mobile-web-app-capable`, 상태 표시줄 `default`. 실행 화면(`apple-touch-startup-image`)은 iPhone 화면 크기 10가지 × 라이트·다크 20장(`public/splash/`)이다. 목록은 `src/lib/pwa.ts`, 그림은 `scripts/make-icons.mjs`가 만든다. 새 iPhone이 나오면 목록에 더한다. iPad는 넣지 않았다(실행 화면 없이 흰 화면).
 - 서비스 워커는 OS만 쓰는 그림(`splash/`, `screenshots/`)을 미리 저장하지 않는다.
+- 안드로이드(같은 날, 사용자 제보 ‘PC에서는 설치되는데 안드로이드 크롬에서는 설치 기능이 막혀 있었다’):
+  - 사이트는 안드로이드 크롬 사용자 에이전트로도 설치 판정·manifest 오류가 없었다(헤더, 아이콘 크기, 서비스 워커 모두 정상). 요즘 안드로이드 크롬은 manifest가 없는 사이트도 설치 메뉴를 보인다.
+  - Chromium 소스(`AppMenuPropertiesDelegateImpl.shouldShowHomeScreenMenuItem`, `buildAddToHomescreenListItem`)를 보면 설치 메뉴는 시크릿 탭, 홈 화면 앱이 바로 가기를 지원하지 않을 때 숨고, 같은 앱의 설치(WebAPK)가 진행 중이면 흐려진다. 다른 앱에서 링크를 열면 그 앱 안의 브라우저나 Custom Tab이라 메뉴에 설치가 없다. 갤럭시는 설치한 웹앱이 홈 화면 대신 앱 목록에 생기기도 한다.
+  - 그래서 안드로이드에서는 설치 이벤트(`beforeinstallprompt`, 크롬은 페이지를 한 번 누르고 30초쯤 본 뒤에 보낸다)를 기다리지 않고 단추를 보인다. 이벤트가 왔으면 설치 창, 아니면(또는 한 번 띄운 뒤에는) 브라우저 메뉴로 안내하는 시트와 위 경우들을 짧게 적은 메모를 보인다.
+  - 다른 앱 안의 브라우저(카카오톡, 네이버, 인스타그램, 페이스북, 라인, 다음, 밴드, 에브리타임, 안드로이드 WebView)는 ‘브라우저에서 열기’ 시트를 보이고 바깥 브라우저로 여는 링크를 준다: 카카오톡은 `kakaotalk://web/openExternal?url=`, 안드로이드는 크롬 인텐트(`intent://…;package=com.android.chrome;S.browser_fallback_url=…`). iOS의 다른 앱은 링크 대신 그 앱 메뉴의 ‘Safari로 열기’를 안내한다.
+  - 시트는 하나(`[data-install-sheet]`)이고 경우마다 `[data-help="ios|android|inapp"]` 하나만 보인다.
 - 확인(Chromium): 두 언어 모두 설치 판정·manifest 오류가 없고, 화면 사진과 바로 가기 아이콘이 모두 열린다. 설치 이벤트를 흉내 내서 단추가 나오고 설치 창을 띄우는 것, iPhone 사용자 에이전트에서 안내 시트가 열리고 닫히는 것, 설치한 화면에서 단추가 없는 것, 언어 바로 가기를 확인했다. 실제 기기의 설치 화면은 아직 눈으로 보지 못했다.
 
 ### 앱 아이콘 (2026-10-26)
