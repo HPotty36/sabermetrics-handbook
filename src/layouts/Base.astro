@@ -130,6 +130,7 @@ const current = (id: string) => (id !== tab ? undefined : view === 'term' ? 'tru
           <li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="5.5" r="1.7" fill="currentColor"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/><circle cx="12" cy="18.5" r="1.7" fill="currentColor"/></svg>{s.installAndroidMenu}</li>
           <li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 3.5v11M7.5 10l4.5 4.5 4.5-4.5M4.5 15.5v3.5h15v-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>{s.installAndroidAdd}</li>
         </ol>
+        <p class="install-blocked" data-blocked-note hidden>{s.installBlocked}</p>
         <p class="install-note">{s.installAndroidNote}</p>
       </div>
       <div class="install-help" data-help="inapp" hidden>

@@ -8,6 +8,7 @@
 //   - iOS: 설치 API가 없다. 공유 → 홈 화면에 추가.
 //   - 안드로이드: 크롬은 페이지를 누르고 30초쯤 본 뒤에야 beforeinstallprompt를 보낸다. 그 전에도 단추를 보이고 브라우저 메뉴로 안내한다.
 //     크롬은 시크릿 탭, 다른 앱 안의 크롬 탭(Custom Tab)에서는 설치 메뉴를 숨기고, 설치가 진행 중이면 흐리게 둔다.
+//     광고 차단 앱이 manifest 링크를 지웠으면 그 사실을 함께 알린다.
 //   - 다른 앱 안의 브라우저(카카오톡, 네이버, 인스타그램 등): 설치할 수 없다. 브라우저로 여는 링크를 준다.
 //   이미 설치한 앱(standalone)으로 열었으면 단추를 보이지 않는다.
 const THEME_KEY = 'sh-theme';
@@ -109,6 +110,9 @@ function openHelp() {
   open.hidden = !href;
   if (href) open.href = href;
   installSheet.querySelector<HTMLElement>('[data-inapp-hint]')!.hidden = Boolean(href);
+  // 광고 차단 앱(AdGuard의 ‘Mobile App Banners’ 필터 등)은 HTML에서 manifest 링크를 지운다.
+  // 그러면 크롬은 사이트 루트가 아닌 페이지를 바로 가기로만 만들 수 있다(‘이 앱을 설치할 수 없습니다’).
+  installSheet.querySelector<HTMLElement>('[data-blocked-note]')!.hidden = Boolean(document.querySelector('link[rel~="manifest"]'));
   installSheet.showModal();
 }
 
