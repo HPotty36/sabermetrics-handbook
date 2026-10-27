@@ -34,7 +34,7 @@ A glossary of baseball stats, from batting average to swing timing. Every term i
 - **Benchmarks.** A scale with the 2026 MLB average and rough ranges for good and bad. Every number links to its source.
 - **Recent Statcast metrics.** Bat speed, blasts, attack angle and swing timing, along with the classics.
 - **Korean and English, light and dark.** Switch language on any page and land on the same term. Dark mode is pitch black.
-- **Works offline.** Install it to your home screen and every page, font and search keeps working without a connection. Android and iOS wrappers use the same build.
+- **Installs like an app.** Tap “Install app” in the settings (on iPhone it shows how to add it to the Home Screen). Once installed, every page, font and search works without a connection, and long-pressing the icon jumps to Topics, Terms or the other language. Android and iOS wrappers use the same build.
 
 ## Terms
 
