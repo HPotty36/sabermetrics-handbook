@@ -1,10 +1,9 @@
 ---
 import Chain from '../components/Chain.astro';
 import LadderName from '../components/LadderName.astro';
-import TermIndex from '../components/TermIndex.astro';
+import TermRow from '../components/TermRow.astro';
 import Base from '../layouts/Base.astro';
-import { loadHandbook, subName } from '../lib/handbook.ts';
-import { termHref } from '../lib/paths.ts';
+import { loadHandbook } from '../lib/handbook.ts';
 import { SEASON, SITE_NAME } from '../lib/site.ts';
 
 const { terms, stubs, ladders, termMap } = await loadHandbook();
@@ -13,7 +12,7 @@ const { terms, stubs, ladders, termMap } = await loadHandbook();
 const start = termMap.get('ops');
 if (!start) throw new Error('홈 ‘처음이라면’ 입구의 시작 용어(terms/ops.json)가 없다');
 
-const beginner = terms.filter((t) => t.level === 1);
+const beginner = [start, ...terms.filter((t) => t.level === 1 && t !== start)];
 // ‘이미 안다면’: 최근에 생긴 지표(작성된 것, 준비 중인 것) 다음에 심화 용어.
 const byAddedDesc = (a: { added?: number }, b: { added?: number }) => b.added! - a.added!;
 const recent = terms.filter((t) => t.added).sort(byAddedDesc);
@@ -21,54 +20,29 @@ const recentStubs = stubs.filter((s) => s.added).sort(byAddedDesc);
 const deep = terms.filter((t) => t.level === 3 && !t.added);
 ---
 <Base title={SITE_NAME} description={`OPS, FIP, xwOBA 같은 야구 기록 용어 ${terms.length}개를 쉬운 설명과 자세한 설명으로 나눠 정리한 한국어 용어집.`} view="home">
-  {/* 표제: Butterick의 Practical Typography 첫 화면처럼 좁은 대문자 제목, 굵은 선, 판 표시 */}
-  <header class="titleblock">
-    <p class="tb-edition">{SEASON} 시즌판</p>
-    <h1 class="tb-title" aria-label={SITE_NAME}><span lang="en">Sabermetrics</span><span lang="en">Handbook</span></h1>
-    <p class="tb-sub">세이버메트릭스 핸드북 · 야구 기록 용어 {terms.length}개</p>
-  </header>
-
-  <section class="note-list" aria-labelledby="howto">
-    <h2 id="howto">일러두기</h2>
-    <ol>
-      <li>용어마다 설명이 두 개예요. ‘쉽게 말하면’은 처음 보는 사람을 위한 것이고, ‘깊게 보면’은 계산법이나 잘못 읽기 쉬운 부분까지 궁금한 사람을 위한 거예요. 이미 아는 용어라면 용어 페이지에서 ‘깊게 먼저’를 눌러 두세요. 다음에 와도 그 순서로 보여요.</li>
-      <li>‘사다리’는 같이 읽으면 좋은 용어를 쉬운 것부터 줄 세운 거예요. ERA를 알고 나면 FIP가 왜 나왔는지 금방 보여요.</li>
-      <li>리그 평균은 {SEASON}년 MLB 정규시즌 기록이에요. KBO는 평균이 달라서 그대로 견주면 안 돼요.</li>
-    </ol>
-  </section>
-
+  <h1 class="sr-only">{SITE_NAME}</h1>
   <div class="doors">
-    <section class="door">
-      <h2>처음이라면</h2>
-      <p class="door-desc">중계 화면에 자주 나오는 숫자들이에요. 하나만 고르라면 OPS부터 보세요.</p>
-      <ul class="door-list">{beginner.map((t) => (
-        <li><a href={termHref(t.id)}>{t.chip}</a><span>{subName(t)}</span></li>
-      ))}</ul>
-      <p class="door-go"><a href={termHref(start.id)}>OPS부터 읽기 →</a></p>
+    <section class="door" aria-labelledby="door-first">
+      <h2 id="door-first">처음이라면</h2>
+      <p class="door-desc">중계 화면에 자주 나오는 숫자예요.</p>
+      <ul class="rows">{beginner.map((t) => <li><TermRow term={t} /></li>)}</ul>
     </section>
-    <section class="door">
-      <h2>이미 안다면</h2>
-      <p class="door-desc">최근 몇 년 사이 Statcast에 새로 생긴 지표와, 이름은 들어 봤어도 계산은 헷갈리는 것들이에요.</p>
-      <ul class="door-list">{recent.map((t) => (
-        <li><a href={termHref(t.id)}>{t.chip}</a><span>{subName(t)}</span><span class="door-year">{t.added}년</span></li>
-      ))}{recentStubs.map((s) => (
-        <li class="is-stub">{s.chip}<span>준비 중</span><span class="door-year">{s.added}년</span></li>
-      ))}{deep.map((t) => (
-        <li><a href={termHref(t.id)}>{t.chip}</a><span>{subName(t)}</span></li>
-      ))}</ul>
+    <section class="door" aria-labelledby="door-known">
+      <h2 id="door-known">이미 안다면</h2>
+      <p class="door-desc">최근 몇 년 사이 Statcast에 생긴 지표와 심화 용어예요.</p>
+      <ul class="rows">{recent.map((t) => <li><TermRow term={t} note={`${t.added}년`} /></li>)}{recentStubs.map((s) => (
+        <li><span class="row is-stub"><span class="row-head"><span class="row-name">{s.chip}</span><span class="row-note">{s.added}년</span></span><span class="row-sum">준비 중이에요.</span></span></li>
+      ))}{deep.map((t) => <li><TermRow term={t} /></li>)}</ul>
     </section>
   </div>
 
-  <section class="ladders" aria-labelledby="ladders-title">
+  <section class="ladders" id="ladders" aria-labelledby="ladders-title">
     <h2 id="ladders-title">사다리</h2>
-    <p class="ladders-desc">왼쪽에서 오른쪽으로 갈수록 깊어져요.</p>
+    <p class="door-desc">같이 읽으면 좋은 용어를 쉬운 것부터 이었어요.</p>
     {ladders.map((l) => (
       <div class="ladder"><LadderName ladder={l} /><Chain steps={l.steps} /></div>
     ))}
   </section>
 
-  <section id="home-index" aria-labelledby="home-index-title">
-    <h2 id="home-index-title">차례</h2>
-    <TermIndex />
-  </section>
+  <p class="home-note">리그 평균은 {SEASON}년 MLB 정규시즌 기준이에요.</p>
 </Base>

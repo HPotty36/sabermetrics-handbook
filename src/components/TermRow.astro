@@ -1,0 +1,15 @@
+---
+// 용어 한 줄: 이름, 풀이, 한 문장 뜻. 홈의 두 입구와 검색 결과에 같은 모양으로 쓴다.
+import { gloss, type TermEntry } from '../lib/handbook.ts';
+import { termHref } from '../lib/paths.ts';
+
+interface Props {
+  term: TermEntry;
+  /** 오른쪽에 작게 붙이는 말 (‘2024년’) */
+  note?: string;
+}
+
+const { term: t, note } = Astro.props;
+const g = gloss(t);
+---
+<a class="row" href={termHref(t.id)}><span class="row-head"><span class="row-name">{t.chip}</span>{g && <span class="row-gloss">{g}</span>}{note && <span class="row-note">{note}</span>}</span><span class="row-sum">{t.summary}</span></a>

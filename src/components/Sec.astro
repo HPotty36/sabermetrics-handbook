@@ -5,6 +5,6 @@ interface Props extends HTMLAttributes<'section'> {
   title: string;
 }
 
-const { title, ...attrs } = Astro.props;
+const { title, class: cls, ...attrs } = Astro.props;
 ---
-<section class="sec" {...attrs}><h2>{title}</h2><slot /></section>
+<section class:list={['sec', cls]} {...attrs}><h2>{title}</h2><slot /></section>

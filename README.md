@@ -36,8 +36,8 @@ src/content/ladders.json      사다리 (적힌 순서대로 화면에 나온다
 src/lib/schema.ts             콘텐츠 스키마 (zod)
 src/lib/validate.ts           파일 사이의 참조와 눈금 범위 검사
 src/pages/                    홈(/)과 용어 페이지(/terms/<id>/)
-src/scripts/term-index.ts     검색·필터 (브라우저)
-src/styles/global.css         스타일 (프로토타입에서 출발)
+src/scripts/search-box.ts     검색 (브라우저)
+src/styles/global.css         스타일 (디자인 토큰의 원본)
 integrations/                 빌드 후 서비스 워커(dist/sw.js) 생성
 public/                       manifest, 아이콘
 capacitor.config.ts           앱 설정 (Capacitor)
