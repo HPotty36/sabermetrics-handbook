@@ -41,7 +41,8 @@ export const termSchema = z.strictObject({
   cats: z.array(z.enum(CATS)).min(1),
   added: year.optional(),
   summary: text,
-  easy: z.array(text).length(2),
+  /** 문단 수는 용어마다 다르게 쓴다(1~3). */
+  easy: z.array(text).min(1).max(3),
   scale: scaleSchema.optional(),
   formula: z
     .strictObject({
@@ -49,7 +50,7 @@ export const termSchema = z.strictObject({
       vars: z.array(z.tuple([text, text])).optional(),
     })
     .optional(),
-  deep: z.array(text).min(2).max(3),
+  deep: z.array(text).min(1).max(4),
   myth: z.strictObject({ claim: text, truth: text }),
   leagues: z.array(z.strictObject({ lg: text, t: text })).optional(),
   related: z.array(id).min(1),

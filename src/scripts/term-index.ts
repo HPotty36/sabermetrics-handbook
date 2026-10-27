@@ -48,8 +48,8 @@ function render() {
   const found = search(entries, state);
   const shown = new Set(found.map((e) => e.id));
   const emptyText = state.q
-    ? `‘${state.q}’에 맞는 용어가 없어요. 약어(FIP), 한글(수비 무관), 영문(fielding)으로 찾을 수 있어요.`
-    : '고른 조건에 맞는 용어가 없어요.';
+    ? `‘${state.q}’로는 못 찾았어요. FIP 같은 약어, ‘수비 무관’ 같은 우리말, fielding 같은 영어로도 찾아져요.`
+    : '이 조건에 맞는 용어는 아직 없어요.';
 
   const shownLevels = new Set(found.map((e) => e.level));
 

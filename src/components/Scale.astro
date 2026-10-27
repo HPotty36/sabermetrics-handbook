@@ -23,5 +23,6 @@ const betterLabel = { high: ', 클수록 좋음', low: ', 작을수록 좋음', 
     <span class="avg" style={`left:${at(s.avg.v)}%`}><span class="avg-tag">평균</span><span class="plate"></span></span>
   )}</div>
 </div>
-<ul class="legend">{s.avg && <li class="is-avg"><b>{fmt(s.avg.v, s)}</b><span>{s.avg.t}</span></li>}{legend.map((m) => <li><b>{fmt(m.v, s)}</b><span>{m.t}</span></li>)}</ul>
+{/* 범례는 책의 차례처럼 뜻과 숫자 사이를 점선으로 잇는다. */}
+<ul class="legend">{s.avg && <li class="is-avg"><span>{s.avg.t}</span><i aria-hidden="true"></i><b>{fmt(s.avg.v, s)}</b></li>}{legend.map((m) => <li><span>{m.t}</span><i aria-hidden="true"></i><b>{fmt(m.v, s)}</b></li>)}</ul>
 {s.note && <p class="scale-note">{s.note}</p>}
