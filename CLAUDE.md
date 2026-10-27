@@ -26,12 +26,12 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
     - `en/terms/<id>.json`: 같은 용어의 영어 글(컬렉션 `termsEn`). 숫자와 출처 URL은 한국어 파일 것을 쓰고, `validateEnglish`(`src/lib/validate.ts`)가 짝을 검사한다. `loadHandbook(lang)`이 언어별로 합쳐 `LocalTerm`으로 준다.
     - `stubs.json`(준비 중, 지금은 0개), `ladders.json`(사다리 9개): 순서가 있는 목록이라 컬렉션이 아니라 `src/lib/handbook.ts`에서 읽는다. 사다리는 파일에 적힌 순서대로 화면에 나온다. 둘 다 영어 이름(`en`)이 있다.
   - 스키마는 `src/lib/schema.ts`(zod), 파일 사이의 참조 검사는 `src/lib/validate.ts`다. 어긋나면 `astro build`가 실패한다. `npm test`는 빌드 없이 같은 검사를 돌린다.
-  - 클라이언트 스크립트는 이것뿐이다. `src/scripts/search-box.ts`(검색: 넓은 화면은 왼쪽 단 입력란, 폰은 아래쪽 알약의 찾기 화면과 키보드 높이 맞추기), `src/scripts/term-index.ts`(`/terms/`의 레벨·분야 고르기), `src/scripts/prefs.ts`(다크 모드 단추, 고른 언어 저장, 앱 설치 단추), 용어 페이지의 인라인 스크립트(읽는 순서), `Base.astro`의 인라인 스크립트 셋(첫 화면 전에 저장된 다크 모드 붙이기, 영어를 고른 사람이 밖에서 한국어 홈에 오면 영어 홈으로 보내기, 서비스 워커 등록).
+  - 클라이언트 스크립트는 이것뿐이다. `src/scripts/search-box.ts`(검색: 넓은 화면은 왼쪽 단 입력란, 폰은 아래쪽 알약의 찾기 화면과 키보드 높이 맞추기), `src/scripts/term-index.ts`(`/terms/`의 레벨·분야 고르기), `src/scripts/prefs.ts`(다크 모드 단추, 고른 언어 저장, 앱 설치 단추), 용어 페이지의 인라인 스크립트(읽는 순서), `Base.astro`의 인라인 스크립트 셋(첫 화면 전에 저장된 다크 모드 붙이기, 영어를 고른 사람이 밖에서 한국어 홈에 오면 영어 홈으로 보내기, 서비스 워커 등록과 나머지 페이지 저장 알림).
     - 화면 문구가 필요한 스크립트는 페이지가 data-*로 넘긴다(`data-no-match`, `data-found`, `data-empty`). 스크립트 안에는 문구를 두지 않는다.
     - 저장소: localStorage `sh-order`(읽는 순서), `sh-theme`(light/dark, 없으면 기기 설정), `sh-lang`(ko/en), sessionStorage `sh-index`(레벨·분야).
   - 스타일은 `src/styles/global.css`다. 프로토타입 CSS에서 출발했다. 맨 위 주석에 디자인 언어를 요약해 두었다.
   - 글꼴은 npm 패키지로 직접 내보낸다(`Base.astro`에서 불러옴). 한글과 본문은 모두 `pretendard`, 표제·표제어·숫자는 Big Shoulders(Fontsource)다. Pretendard는 유니코드 조각으로 나뉘어 쓰는 조각만 받는다. `astro.config.mjs`의 작은 Vite 플러그인이 Fontsource의 woff를 빼고 woff2만 남긴다.
-  - PWA: `public/manifest.webmanifest`(한국어, start_url `/`)와 `public/en/manifest.webmanifest`(영어, start_url `/en/`), 아이콘(`public/icons/*.png`), 서비스 워커. 설치 창과 iOS 홈 화면은 아래 ‘설치’에 있다. 서비스 워커는 빌드가 끝나면 `integrations/service-worker.mjs`가 `dist/sw.js`로 만든다. 페이지·CSS·아이콘은 설치 때 미리 저장하고, 글꼴 조각은 쓰일 때 저장한다. 페이지는 네트워크 우선(3초 안에 안 오면 저장본), 없는 페이지는 오프라인에서 그 언어의 홈으로 대신한다. 저장본을 찾을 때 Vary를 보지 않는다(모듈 스크립트는 Origin 헤더를 붙여 요청하므로, 서버가 `Vary: Origin`을 보내면 미리 저장한 것과 짝이 안 맞아 오프라인에서 스크립트가 빠졌다. 2026-10-27에 고쳤다).
+  - PWA: `public/manifest.webmanifest`(한국어, start_url `/`)와 `public/en/manifest.webmanifest`(영어, start_url `/en/`), 아이콘(`public/icons/*.png`), 서비스 워커. 설치 창과 iOS 홈 화면은 아래 ‘설치’에 있다. 서비스 워커는 빌드가 끝나면 `integrations/service-worker.mjs`가 `dist/sw.js`로 만든다. CSS·JS·아이콘·manifest와 두 홈은 설치 때 저장하고, 나머지 페이지 58개는 페이지가 열리고 3초 뒤 하나씩 저장한다(아래 ‘설치’의 안드로이드 두 번째). 글꼴 조각과 manifest의 화면 사진은 쓰일 때 저장한다. 페이지는 네트워크 우선(3초 안에 안 오면 저장본), 없는 페이지는 오프라인에서 그 언어의 홈으로 대신한다. 저장본을 찾을 때 Vary를 보지 않는다(모듈 스크립트는 Origin 헤더를 붙여 요청하므로, 서버가 `Vary: Origin`을 보내면 미리 저장한 것과 짝이 안 맞아 오프라인에서 스크립트가 빠졌다. 2026-10-27에 고쳤다).
   - 배포: https://sabermetrics-handbook.pages.dev/ . Cloudflare Pages에 Git으로 연결했다(프로덕션 브랜치 `main`, 빌드 명령 `npm run build`, 출력 `dist`). `main`에 합치면 다시 배포되고, 다른 브랜치는 미리보기 배포가 된다.
     - 대시보드의 ‘새로운 것을 만들기’에서 GitHub를 바로 고르면 Workers가 만들어진다. Workers 주소에는 계정 서브도메인이 붙으므로 쓰지 않는다. 화면 아래 ‘레거시 Pages 워크플로’의 ‘Pages로 계속’으로 만든다.
     - 2026-10-26에 배포 주소를 확인했다. 파일 418개가 로컬 빌드와 같았다. Chromium에서 검색·필터·읽는 순서가 동작했고, 1280px·400px에서 가로 스크롤이 없었고, 설치 가능 판정에 오류가 없었다. 서버에 닿지 않게 한 뒤에도 방문하지 않은 용어 페이지, 홈, 없는 주소(→ 홈), 글꼴, 검색이 동작했다.
@@ -208,13 +208,19 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
   - `shortcuts`: 앱 아이콘을 길게 누르면 주제, 용어, 다른 언어. 아이콘은 앱 아이콘처럼 빨간 바탕에 흰 선(`public/icons/shortcut-*.png`). 언어 바로 가기는 `?lang=ko`/`?lang=en`으로 고른 언어를 저장한다(영어를 골랐던 사람이 ‘한국어’ 바로 가기를 눌러도 영어 홈으로 되돌아가지 않게).
   - `launch_handler`: 이미 열려 있으면 그 창을 쓴다.
 - iOS 홈 화면: `apple-mobile-web-app-title`(‘세이버 핸드북’, ‘Saber Handbook’), `apple-mobile-web-app-capable`·`mobile-web-app-capable`, 상태 표시줄 `default`. 실행 화면(`apple-touch-startup-image`)은 iPhone 화면 크기 10가지 × 라이트·다크 20장(`public/splash/`)이다. 목록은 `src/lib/pwa.ts`, 그림은 `scripts/make-icons.mjs`가 만든다. 새 iPhone이 나오면 목록에 더한다. iPad는 넣지 않았다(실행 화면 없이 흰 화면).
-- 서비스 워커는 OS만 쓰는 그림(`splash/`, `screenshots/`)을 미리 저장하지 않는다.
+- 서비스 워커는 OS만 쓰는 그림(`splash/`, `screenshots/`)을 미리 저장하지 않는다. 화면 사진은 처음 받을 때 그 버전의 저장분에 둔다(안드로이드 크롬이 페이지를 열 때마다 받는다).
 - 안드로이드(같은 날, 사용자 제보 ‘PC에서는 설치되는데 안드로이드 크롬에서는 설치 기능이 막혀 있었다’):
   - 사이트는 안드로이드 크롬 사용자 에이전트로도 설치 판정·manifest 오류가 없었다(헤더, 아이콘 크기, 서비스 워커 모두 정상). 요즘 안드로이드 크롬은 manifest가 없는 사이트도 설치 메뉴를 보인다.
   - Chromium 소스(`AppMenuPropertiesDelegateImpl.shouldShowHomeScreenMenuItem`, `buildAddToHomescreenListItem`)를 보면 설치 메뉴는 시크릿 탭, 홈 화면 앱이 바로 가기를 지원하지 않을 때 숨고, 같은 앱의 설치(WebAPK)가 진행 중이면 흐려진다. 다른 앱에서 링크를 열면 그 앱 안의 브라우저나 Custom Tab이라 메뉴에 설치가 없다. 갤럭시는 설치한 웹앱이 홈 화면 대신 앱 목록에 생기기도 한다.
   - 그래서 안드로이드에서는 설치 이벤트(`beforeinstallprompt`, 크롬은 페이지를 한 번 누르고 30초쯤 본 뒤에 보낸다)를 기다리지 않고 단추를 보인다. 이벤트가 왔으면 설치 창, 아니면(또는 한 번 띄운 뒤에는) 브라우저 메뉴로 안내하는 시트와 위 경우들을 짧게 적은 메모를 보인다.
   - 다른 앱 안의 브라우저(카카오톡, 네이버, 인스타그램, 페이스북, 라인, 다음, 밴드, 에브리타임, 안드로이드 WebView)는 ‘브라우저에서 열기’ 시트를 보이고 바깥 브라우저로 여는 링크를 준다: 카카오톡은 `kakaotalk://web/openExternal?url=`, 안드로이드는 크롬 인텐트(`intent://…;package=com.android.chrome;S.browser_fallback_url=…`). iOS의 다른 앱은 링크 대신 그 앱 메뉴의 ‘Safari로 열기’를 안내한다.
   - 시트는 하나(`[data-install-sheet]`)이고 경우마다 `[data-help="ios|android|inapp"]` 하나만 보인다.
+- 안드로이드 두 번째(같은 날, 사용자 화면 사진: `/en/`에서 크롬 메뉴 ‘설치 및 바로가기 만들기’ → ‘설치: 이 앱을 설치할 수 없습니다’, VPN 켜짐):
+  - 요즘 크롬의 메뉴는 ‘설치 및 바로가기 만들기’ 하나이고, 늘 이 시트(Universal Install)를 띄운다. ‘설치할 수 없습니다’는 크롬의 검사(`AddToHomescreenDataFetcher`) 결과가 바로 가기(SHORTCUT)라는 뜻이다. 휴대폰에서는 manifest 없이 설치하는 길(DIY)이 꺼져 있어, 검사에 오류가 하나라도 있거나 12초 안에 끝나지 않으면 바로 가기가 된다.
+  - 시트에 우리 아이콘(maskable)이 나왔으므로 manifest와 아이콘은 받았다. 남는 원인은 그 뒤의 검사(안전한 연결 여부)와 12초 제한이다. 크롬은 검사를 한 줄로 처리하고, 페이지를 열 때 도는 설치 배너 검사가 manifest의 화면 사진까지 받는 동안 메뉴의 검사는 기다린다. 첫 방문에는 서비스 워커가 72개(압축 후 약 650KB)를 한꺼번에 받아 같은 연결을 나눠 썼다.
+  - 그래서 첫 방문을 가볍게 했다: 서비스 워커는 설치 때 14개만 받고, 나머지 페이지는 페이지가 `warm`을 보내면(열리고 3초 뒤, 새 워커가 자리를 잡을 때도) 한 번에 하나씩 받는다. 끊기면 멈추고 다음 방문에 잇는다. 화면 사진은 서비스 워커가 저장해 두어 다음 방문부터는 네트워크를 기다리지 않는다.
+  - 안내 시트의 문구를 지금 크롬 메뉴 이름(‘설치 및 바로가기 만들기’)에 맞추고, ‘이 앱을 설치할 수 없습니다’가 나오면 잠시 뒤 다시 하라고 적었다.
+  - 원인을 실제 기기에서 확정하지는 못했다(이 컨테이너에는 안드로이드 기기·에뮬레이터가 없다). 다시 생기면 VPN을 끄고, 페이지를 다 연 뒤 해 본다.
 - 확인(Chromium): 두 언어 모두 설치 판정·manifest 오류가 없고, 화면 사진과 바로 가기 아이콘이 모두 열린다. 설치 이벤트를 흉내 내서 단추가 나오고 설치 창을 띄우는 것, iPhone 사용자 에이전트에서 안내 시트가 열리고 닫히는 것, 설치한 화면에서 단추가 없는 것, 언어 바로 가기를 확인했다. 실제 기기의 설치 화면은 아직 눈으로 보지 못했다.
 
 ### 앱 아이콘 (2026-10-26)
