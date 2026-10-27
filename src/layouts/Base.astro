@@ -114,14 +114,30 @@ const current = (id: string) => (id !== tab ? undefined : view === 'term' ? 'tru
     </div>
   </aside>
   {!isAppBuild && (
-    // iOS에는 설치를 띄우는 API가 없어 홈 화면에 추가하는 방법을 아래쪽 시트로 알려 준다.
-    <dialog class="install-sheet glass" data-install-sheet aria-labelledby="install-title">
-      <h2 id="install-title">{s.installTitle}</h2>
-      <ol>
-        <li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 14V3.5M8 7.5l4-4 4 4M8.5 10H6v10h12V10h-2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>{s.installShare}</li>
-        <li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 8.5v7M8.5 12h7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>{s.installAdd}</li>
-      </ol>
-      <form method="dialog"><button class="install-close">{s.close}</button></form>
+    // 설치 창을 띄울 수 없을 때(iOS, 아직 설치 이벤트가 오지 않은 안드로이드, 다른 앱 안의 브라우저) 방법을 아래쪽 시트로 알려 준다.
+    // 셋 중 맞는 것 하나만 scripts/prefs.ts가 보인다.
+    <dialog class="install-sheet glass" data-install-sheet>
+      <div class="install-help" data-help="ios" hidden>
+        <h2 id="install-title-ios">{s.installTitle}</h2>
+        <ol>
+          <li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 14V3.5M8 7.5l4-4 4 4M8.5 10H6v10h12V10h-2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>{s.installShare}</li>
+          <li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 8.5v7M8.5 12h7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>{s.installAdd}</li>
+        </ol>
+      </div>
+      <div class="install-help" data-help="android" hidden>
+        <h2 id="install-title-android">{s.installAndroidTitle}</h2>
+        <ol>
+          <li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="12" cy="5.5" r="1.7" fill="currentColor"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/><circle cx="12" cy="18.5" r="1.7" fill="currentColor"/></svg>{s.installAndroidMenu}</li>
+          <li><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 3.5v11M7.5 10l4.5 4.5 4.5-4.5M4.5 15.5v3.5h15v-3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>{s.installAndroidAdd}</li>
+        </ol>
+        <p class="install-note">{s.installAndroidNote}</p>
+      </div>
+      <div class="install-help" data-help="inapp" hidden>
+        <h2 id="install-title-inapp">{s.inAppTitle}</h2>
+        <p>{s.inAppBody}</p>
+        <p class="install-note" data-inapp-hint hidden>{s.inAppHint}</p>
+      </div>
+      <form method="dialog"><a class="install-open" data-install-open hidden>{s.inAppOpen}</a><button class="install-close">{s.close}</button></form>
     </dialog>
   )}
   <SearchResults lang={lang} />

@@ -109,8 +109,12 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .install-sheet ol{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 .install-sheet li{display:flex;align-items:flex-start;gap:12px}
 .install-sheet li svg{flex:none;margin-top:1px}
-.install-sheet form{display:flex;justify-content:flex-end;margin:8px -10px 0 0}
-.install-close{min-width:44px;min-height:44px;padding:0 12px;border:0;background:none;color:var(--ink);font:700 15px/1 var(--font-sans);cursor:pointer}
+.install-help[hidden]{display:none}
+.install-help>p{margin:0}
+.install-note{margin:12px 0 0;font-size:13.5px;line-height:1.6;color:var(--muted)}
+.install-sheet form{display:flex;align-items:center;justify-content:flex-end;gap:4px;margin:8px -10px 0 0}
+.install-close,.install-open{display:inline-flex;align-items:center;min-width:44px;min-height:44px;padding:0 12px;border:0;background:none;color:var(--ink);font:700 15px/1 var(--font-sans);text-decoration:none;cursor:pointer}
+.install-open[hidden]{display:none}
 
 /* 고른 것의 밑줄: 맨 위 실밥을 3/4로 줄인 바느질(가는 이음매 + 빨간 실). 메뉴, 고르기(레벨·분야·읽는 순서), 다크 모드에 쓴다.
    글자 가운데에서 재서 놓으므로 손가락용으로 키운 단추에서도 글자 바로 아래에 온다. 실은 끝에서 잘리지 않게 칸 수를 맞춘다(round). */
