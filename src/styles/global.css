@@ -1,6 +1,7 @@
 /* 디자인의 원본. ‘인쇄된 핸드북’(2026-10-27) 위에 시안 A ‘사다리 선’을 얹었다(2026-10-27).
-   - 종이와 글: 상아색 종이, 한글과 본문은 Pretendard(토스 같은 앱의 고딕), 표제·표제어·숫자는 Big Shoulders.
+   - 종이와 글: 상아색 종이(다크 모드는 완전한 검정), 한글과 본문은 Pretendard(토스 같은 앱의 고딕), 표제·표제어·숫자는 Big Shoulders.
    - 야구만의 표시는 세 가지뿐이다: 페이지 제목 아래의 실밥(.seam), 주제(사다리)의 선과 역(.line), 숫자 눈금의 홈플레이트 평균 마커(.plate).
+     고른 것의 밑줄(메뉴, 고르기, 다크 모드)은 따로 세지 않는다. 실밥을 작게 줄인 같은 바느질이다.
    - 빨강(seam)은 실밥, 지금 위치(지금 역, 고른 메뉴, 고른 읽는 순서), 평균 마커에만 쓴다.
    - 맨 위 머리글은 없다. 넓은 화면은 왼쪽 단(.rail)에 찾기·메뉴, 폰은 아래쪽에 떠 있는 알약(.dock, iOS 26 탭 막대).
    카드(테두리 상자), 타일, 색 점, 그라데이션은 쓰지 않는다. 그림자와 둥근 알약은 떠 있는 아래쪽 알약에만 쓴다.
@@ -24,18 +25,18 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --paper:#171614; --ink:#ECE7DD; --muted:#A29C90; --line:#38352F;
-    --seam:#F0606B; --groove:#4A463F;
-    --glass:rgba(32,30,27,.92); --glass-edge:rgba(236,231,221,.14);
-    --float-shadow:0 10px 30px rgba(0,0,0,.5),0 1px 3px rgba(0,0,0,.4);
+    --paper:#000000; --ink:#F2EFE9; --muted:#9C978E; --line:#2C2B29;
+    --seam:#F0606B; --groove:#4A4741;
+    --glass:rgba(30,30,30,.84); --glass-edge:rgba(255,255,255,.14);
+    --float-shadow:0 10px 30px rgba(0,0,0,.6),0 1px 3px rgba(0,0,0,.5);
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
-  --paper:#171614; --ink:#ECE7DD; --muted:#A29C90; --line:#38352F;
-  --seam:#F0606B; --groove:#4A463F;
-  --glass:rgba(32,30,27,.92); --glass-edge:rgba(236,231,221,.14);
-  --float-shadow:0 10px 30px rgba(0,0,0,.5),0 1px 3px rgba(0,0,0,.4);
+  --paper:#000000; --ink:#F2EFE9; --muted:#9C978E; --line:#2C2B29;
+  --seam:#F0606B; --groove:#4A4741;
+  --glass:rgba(30,30,30,.84); --glass-edge:rgba(255,255,255,.14);
+  --float-shadow:0 10px 30px rgba(0,0,0,.6),0 1px 3px rgba(0,0,0,.5);
   color-scheme:dark;
 }
 
@@ -53,7 +54,7 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 
 /* 쪽 배치. 폰은 한 단, 넓은 화면은 왼쪽 단(.rail) + 본문 */
 .page{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr);padding:env(safe-area-inset-top,0px) max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px))}
-.main{min-width:0;padding:32px 0 calc(var(--dock-h) + var(--dock-bottom) + 96px)}
+.main{min-width:0;padding:64px 0 calc(var(--dock-h) + var(--dock-bottom) + 96px)}
 .results{min-width:0}
 @media (min-width:1024px){
   .page{grid-template-columns:200px minmax(0,1fr);column-gap:64px;padding-left:max(28px,env(safe-area-inset-left,0px));padding-right:max(28px,env(safe-area-inset-right,0px))}
@@ -76,10 +77,38 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
   -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 3.5l9 9M12.5 3.5l-9 9' stroke='%23000' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") center/contain no-repeat;
   mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 3.5l9 9M12.5 3.5l-9 9' stroke='%23000' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") center/contain no-repeat}
 .finder-close{display:none;flex:none;place-items:center;width:var(--dock-h);height:var(--dock-h);padding:0;border-radius:50%;color:var(--ink);cursor:pointer}
-.rail-nav{display:grid;margin-top:24px;font:600 15px/1.5 var(--font-sans)}
-.rail-nav a{padding:5px 0;text-decoration:none;color:var(--muted)}
+.rail-nav{display:grid;justify-items:start;margin-top:24px;font:600 15px/1.5 var(--font-sans)}
+.rail-nav a{padding:6px 0 9px;text-decoration:none;color:var(--muted)}
 @media (hover:hover){.rail-nav a:hover{color:var(--ink)}}
-.rail-nav a[aria-current]{color:var(--ink);font-weight:700;text-decoration:underline;text-decoration-color:var(--seam);text-decoration-thickness:2px;text-underline-offset:5px}
+.rail-nav a[aria-current]{color:var(--ink);font-weight:700}
+
+/* 설정(언어, 다크 모드). 넓은 화면은 왼쪽 단 메뉴 아래, 폰은 화면 맨 위 오른쪽 */
+.pref-lang,.pref-theme{display:flex;align-items:center;gap:8px;border:0;background:none;padding:0;color:var(--muted);text-decoration:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.pref-theme svg{fill:none;flex:none}
+.pref-theme[aria-pressed="true"] svg{fill:currentColor}
+@media (hover:hover){.pref-lang:hover,.pref-theme:hover{color:var(--ink)}}
+@media (min-width:1024px){
+  .prefs{display:grid;justify-items:start;margin-top:20px;padding-top:14px;border-top:1px solid var(--line);font:600 15px/1.5 var(--font-sans)}
+  .pref-lang,.pref-theme{padding:6px 0 9px}
+  .pref-theme[aria-pressed="true"]{color:var(--ink);font-weight:700}
+}
+@media (max-width:1023px){
+  .page{position:relative}
+  .prefs{position:absolute;z-index:5;top:calc(env(safe-area-inset-top,0px) + 8px);right:max(6px,env(safe-area-inset-right,0px));display:flex;align-items:center;font:600 15px/1 var(--font-sans)}
+  .pref-lang,.pref-theme{justify-content:center;min-width:44px;min-height:44px;padding:0 10px;color:var(--ink)}
+  .pref-lang svg{display:none}
+  .pref-theme-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+}
+
+/* 고른 것의 밑줄: 맨 위 실밥을 3/4로 줄인 바느질(가는 이음매 + 빨간 실). 메뉴, 고르기(레벨·분야·읽는 순서), 다크 모드에 쓴다.
+   글자 가운데에서 재서 놓으므로 손가락용으로 키운 단추에서도 글자 바로 아래에 온다. 실은 끝에서 잘리지 않게 칸 수를 맞춘다(round). */
+.rail-nav a,.toggles button,.pref-theme-label{position:relative}
+.rail-nav a[aria-current]::before,.toggles button[aria-pressed="true"]::before,.pref-theme[aria-pressed="true"] .pref-theme-label::before,
+.rail-nav a[aria-current]::after,.toggles button[aria-pressed="true"]::after,.pref-theme[aria-pressed="true"] .pref-theme-label::after{content:"";position:absolute;left:0;right:0;top:50%;height:12px;margin-top:calc(.5em + 1px);pointer-events:none}
+.rail-nav a[aria-current]::before,.toggles button[aria-pressed="true"]::before,.pref-theme[aria-pressed="true"] .pref-theme-label::before{background:linear-gradient(var(--groove),var(--groove)) 0 50%/100% 1px no-repeat}
+.rail-nav a[aria-current]::after,.toggles button[aria-pressed="true"]::after,.pref-theme[aria-pressed="true"] .pref-theme-label::after{background:var(--seam);
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='16' viewBox='0 0 8 16'%3E%3Cpath d='M0.6 1.6Q4.4 3 6.8 6.6M0.6 14.4Q4.4 13 6.8 9.4' stroke='%23000' stroke-width='2.2' stroke-linecap='round' fill='none'/%3E%3C/svg%3E") 0 50%/6px 12px round no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='16' viewBox='0 0 8 16'%3E%3Cpath d='M0.6 1.6Q4.4 3 6.8 6.6M0.6 14.4Q4.4 13 6.8 9.4' stroke='%23000' stroke-width='2.2' stroke-linecap='round' fill='none'/%3E%3C/svg%3E") 0 50%/6px 12px round no-repeat}
 
 /* 폰에서 찾기를 누르면(iOS 26처럼): 아래쪽 알약이 입력란 알약과 닫기 단추로 바뀌고, 용어 목록이 그 위로 화면을 덮는다.
    키보드가 올라오면 --kb(scripts/search-box.ts)만큼 같이 올라간다. */
@@ -184,12 +213,12 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .ladder-grid-v .ladder-name{margin-bottom:8px}
 
 /* 용어 전체 목록: 레벨·분야 고르기와 레벨별 묶음 */
-.filters{display:grid;gap:2px;margin-bottom:22px}
+.filters{display:grid;gap:12px;margin-bottom:26px}
 .toggles{margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:0 12px;font:14px/1.8 var(--font-sans)}
 .toggles-label{margin-right:2px;color:var(--muted)}
 .toggles button{border:0;background:none;padding:0;color:var(--muted);cursor:pointer}
 @media (hover:hover){.toggles button:hover{color:var(--ink)}}
-.toggles button[aria-pressed="true"]{color:var(--ink);font-weight:700;text-decoration:underline;text-decoration-color:var(--seam);text-decoration-thickness:2px;text-underline-offset:5px}
+.toggles button[aria-pressed="true"]{color:var(--ink);font-weight:700}
 .rows{list-style:none;margin:0;padding:0}
 .toc-group{margin:22px 0 0;padding:14px 0 4px;border-top:1px solid var(--line);font-size:17px;font-weight:700;line-height:1.5;letter-spacing:-.01em}
 .toc>li:first-child{margin-top:0}
@@ -215,8 +244,10 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .kicker>*+*::before{content:"·";margin:0 8px;color:var(--line)}
 .headword{margin:0 0 12px;font-family:var(--font-display);font-weight:800;font-size:clamp(64px,10.5vw,112px);line-height:.88;letter-spacing:.005em}
 .names{margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 12px}
-.names-ko{font-size:23px;font-weight:700;letter-spacing:-.03em;line-height:1.4}
-.names-en{font:15px/1.4 var(--font-sans);color:var(--muted)}
+.names-main{font-size:23px;font-weight:700;letter-spacing:-.03em;line-height:1.4}
+.names-alt{font:15px/1.4 var(--font-sans);color:var(--muted)}
+/* 한국어 화면에서 표제어가 한글이면(타율, 타구 속도) 표제 글꼴에 한글이 없어 Pretendard로 쓴다. 고딕은 넓어서 조금 작게 */
+.headword-hangul{font-family:var(--font-sans);font-size:clamp(46px,7.6vw,76px);line-height:1.12;letter-spacing:-.045em}
 .term-head .seam{margin-top:16px}
 .def{margin:16px 0 0;font-size:19.5px;line-height:1.6;font-weight:500;letter-spacing:-.015em}
 .avg-inline{display:flex;align-items:baseline;gap:10px;margin:16px 0 0;font:13.5px/1.5 var(--font-sans);color:var(--muted)}
@@ -291,6 +322,7 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 
 /* 손가락으로 누르는 화면에서는 누르는 곳을 44px 안팎으로 키운다 */
 @media (pointer:coarse){
+  .filters{gap:0}
   .toggles button{min-height:44px}
   .see-also li{padding:5px 0}
   .toc-row{padding:11px 0}

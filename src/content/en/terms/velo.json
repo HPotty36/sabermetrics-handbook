@@ -1,0 +1,27 @@
+{
+  "name": "Pitch Velocity",
+  "aliases": ["velo", "fastball velocity", "four-seam velocity", "perceived velocity", "mph"],
+  "summary": "How fast a pitch is thrown. Statcast measures it at the moment the ball leaves the pitcher's hand.",
+  "easy": [
+    "About as intuitive as pitching stats get. The faster the pitch, the less time the hitter has to decide whether to swing. Put two pitches in the same spot and the faster one is harder to hit.",
+    "Each pitch type reads differently. With a four-seam fastball, more speed is usually an advantage, but with breaking balls and offspeed pitches, the gap from the fastball matters more than raw speed. Any conversation about velocity starts by sorting pitches by type."
+  ],
+  "deep": [
+    "A pitch is at its fastest when it leaves the hand and loses some speed on the way to the plate. Statcast records that peak. Older tracking systems took the reading at a different point, so before comparing with older numbers, check how they were measured.",
+    "Equal velocity doesn't always look equal from the batter's box. The farther out in front a pitcher releases the ball (extension), the sooner it gets to the plate. Perceived velocity is a separate number with extension built in.",
+    "The 2026 MLB four-seam average of 94.8 mph (about 152.6 km/h) was the fastest on record. In 2025 it was 94.5 mph."
+  ],
+  "myth": {
+    "claim": "If you throw hard, hitters can't touch you.",
+    "truth": "Two pitchers can throw equally hard and get very different results depending on movement, the angle the pitch comes in at, and how it plays off the rest of their arsenal."
+  },
+  "leagues": [
+    { "lg": "KBO", "t": "Korean broadcasts and records use km/h. One mph is about 1.609 km/h, so convert the units before setting KBO numbers next to MLB ones." }
+  ],
+  "sources": [
+    { "t": "MLB.com Glossary · Velocity", "u": "https://www.mlb.com/glossary/statcast/velocity" },
+    { "t": "MLB.com Glossary · Perceived Velocity", "u": "https://www.mlb.com/glossary/statcast/perceived-velocity" },
+    { "t": "AP · 2026 four-seam velocity record (via ESPN)", "u": "https://www.espn.com/mlb/story/_/id/50059411/mlb-pitchers-again-set-fastball-velocity-record-948-mph" },
+    { "t": "Baseball Savant · Statcast Search (2026 four-seamers, league level)", "u": "https://baseballsavant.mlb.com/statcast_search?hfPT=FF%7C&hfGT=R%7C&hfSea=2026%7C&player_type=pitcher&group_by=league&chk_stats_velocity=on&chk_stats_spin_rate=on" }
+  ]
+}

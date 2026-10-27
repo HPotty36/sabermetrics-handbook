@@ -1,0 +1,66 @@
+---
+import LadderLine from '../../components/LadderLine.astro';
+import Line from '../../components/Line.astro';
+import Seam from '../../components/Seam.astro';
+import Base from '../../layouts/Base.astro';
+import { loadHandbook, type LocalTerm } from '../../lib/handbook.ts';
+import { fill, langPaths, ui, type Lang } from '../../lib/i18n.ts';
+import { paths } from '../../lib/paths.ts';
+import { SEASON } from '../../lib/site.ts';
+import type { Stop } from '../../lib/stop.ts';
+
+export const getStaticPaths = langPaths;
+
+const { lang } = Astro.props as { lang: Lang };
+const s = ui(lang);
+const { termHref } = paths(lang);
+const { terms, stubs, ladders, termMap } = await loadHandbook(lang);
+
+// 첫 번째 입구 ‘기본 지표’는 OPS에서 시작한다.
+const start = termMap.get('ops');
+if (!start) throw new Error('홈 ‘기본 지표’의 시작 용어(terms/ops.json)가 없다');
+
+const stop = (t: LocalTerm, extra: Partial<Stop> = {}): Stop => ({ id: t.id, name: t.chip, sub: t.sub || undefined, href: termHref(t.id), ...extra });
+const year = (y: number) => fill(s.year, { year: y });
+
+const beginner = [start, ...terms.filter((t) => t.level === 1 && t !== start)];
+// 두 번째 입구 ‘심화 지표’: 최근에 생긴 지표(작성된 것, 준비 중인 것) 다음에 나머지 심화 용어.
+const byAddedDesc = (a: { added?: number }, b: { added?: number }) => b.added! - a.added!;
+const recent = terms.filter((t) => t.added).sort(byAddedDesc);
+const recentStubs = stubs.filter((st) => st.added).sort(byAddedDesc);
+const deep = terms.filter((t) => t.level === 3 && !t.added);
+
+const firstStops = beginner.map((t) => stop(t));
+const knownStops: Stop[] = [
+  ...recent.map((t) => stop(t, { note: year(t.added!) })),
+  ...recentStubs.map((st): Stop => ({ id: st.id, name: st.chip, sub: s.stub, note: year(st.added!), state: 'stub' })),
+  ...deep.map((t) => stop(t)),
+];
+---
+<Base lang={lang} title={s.siteName} description={fill(s.homeDescription, { n: terms.length })} view="home" tab="home">
+  {/* 표제: Butterick의 Practical Typography 첫 화면처럼 좁은 대문자 제목. 그 아래 실밥. 표제는 로고처럼 두 언어 모두 영어로 적는다. */}
+  <header class="masthead">
+    <p class="mast-edition">{fill(s.season, { season: SEASON })}</p>
+    <h1 class="mast-title" aria-label={s.siteName}><span lang="en">Sabermetrics</span><span lang="en">Handbook</span></h1>
+    <Seam />
+  </header>
+
+  {/* 두 입구(제품 방향의 ‘처음이라면’, ‘이미 안다면’)는 각각 세로 선 하나다. 기본 지표는 OPS가 맨 위다. */}
+  <div class="doors">
+    <section class="door" aria-labelledby="door-first">
+      <h2 id="door-first">{s.basics}</h2>
+      <Line stops={firstStops} dir="v" label={s.basics} />
+    </section>
+    <section class="door" aria-labelledby="door-known">
+      <h2 id="door-known">{s.advanced}</h2>
+      <Line stops={knownStops} dir="v" label={s.advanced} />
+    </section>
+  </div>
+
+  <section class="ladders" aria-labelledby="ladders-title">
+    <h2 id="ladders-title">{s.topics}</h2>
+    <div class="ladder-grid">{ladders.map((l) => (
+      <div class="ladder"><h3 class="ladder-name">{l.name}</h3><LadderLine lang={lang} ladder={l} dir="h" /></div>
+    ))}</div>
+  </section>
+</Base>

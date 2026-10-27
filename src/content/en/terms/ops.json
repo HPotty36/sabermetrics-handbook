@@ -1,0 +1,39 @@
+{
+  "name": "On-base Plus Slugging",
+  "aliases": ["OPS+", "on base plus slugging"],
+  "summary": "On-base percentage plus slugging percentage. One number for how often a hitter gets on base and how many bases his hits are worth.",
+  "easy": [
+    "A .300 batting average sounds like a good hitter. But what if he rarely draws a walk and every one of his hits is a single? None of that shows up in the average.",
+    "OPS simply adds on-base percentage and slugging percentage. On-base percentage is how often he reached base safely, and slugging is how many bases he picked up per at-bat. The math is simple enough that broadcasts put it on screen all the time.",
+    "League average is somewhere around .700, and anything past .900 puts a hitter among the best in the league. For anyone just getting into sabermetrics, it's a good first number to learn."
+  ],
+  "scale": {
+    "marks": [
+      { "v": 0.6, "t": "Poor" },
+      { "v": 0.7, "t": "Around average" },
+      { "v": 0.8, "t": "Good" },
+      { "v": 0.9, "t": "Elite" },
+      { "v": 1.0, "t": "MVP caliber" }
+    ],
+    "note": "Approximate cutoffs for one MLB season."
+  },
+  "formula": {
+    "expr": "OPS = OBP + SLG",
+    "vars": [
+      ["OBP", "on-base percentage = (hits + walks + hit by pitch) ÷ (at-bats + walks + hit by pitch + sacrifice flies)"],
+      ["SLG", "slugging percentage = total bases ÷ at-bats"]
+    ]
+  },
+  "deep": [
+    "Adding the two straight up causes two problems. First, the denominators don't match. OBP's denominator includes walks and hit batters, while slugging's is at-bats only. You end up adding two rates measured against different totals.",
+    "The bigger problem is weighting. In terms of runs, a point of OBP is worth more than a point of slugging, and many analyses put it at about 1.7 to 1.8 times as much. So OPS slightly underrates on-base specialists and gives a bit of extra credit to power hitters.",
+    "There's also OPS+, which adjusts for league average and park effects so that 100 is average. Like OPS, bigger is better, and it's the version to use when comparing hitters from different eras or home parks."
+  ],
+  "myth": {
+    "claim": "Two hitters with the same OPS are equally good.",
+    "truth": "One hitter with a .400 OBP and .400 slugging and another with a .300 OBP and .500 slugging both have an .800 OPS. In most cases the first one creates more runs."
+  },
+  "sources": [
+    { "t": "FanGraphs Library · OPS and OPS+", "u": "https://library.fangraphs.com/offense/ops/" }
+  ]
+}

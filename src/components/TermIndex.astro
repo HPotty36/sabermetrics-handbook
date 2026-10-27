@@ -1,30 +1,38 @@
 ---
 // 용어 전체 목록(/terms/). Butterick의 Practical Typography 차례처럼 굵은 묶음 제목(레벨) 아래에 용어를 글자로만 늘어놓는다.
-// 이름은 다른 목록과 같이 chip(중계·팬이 쓰는 말)을 쓴다. 레벨·분야 고르기는 scripts/term-index.ts가 처리한다.
-import { loadHandbook, subName } from '../lib/handbook.ts';
-import { termHref } from '../lib/paths.ts';
-import { CATS, LEVELS } from '../lib/schema.ts';
+// 이름은 다른 목록과 같은 chip이다. 레벨·분야 고르기는 scripts/term-index.ts가 처리한다.
+import { loadHandbook } from '../lib/handbook.ts';
+import { ui, type Lang } from '../lib/i18n.ts';
+import { paths } from '../lib/paths.ts';
+import { CATS } from '../lib/schema.ts';
 import { ALL_CATS } from '../lib/search.ts';
 
-const { terms } = await loadHandbook();
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const s = ui(lang);
+const { termHref } = paths(lang);
+const { terms } = await loadHandbook(lang);
 const levels = [1, 2, 3] as const;
 const levelFilters = [0, 1, 2, 3] as const;
-const cats = [ALL_CATS, ...CATS];
+const cats = [ALL_CATS, ...CATS] as const;
 ---
-<div data-term-index>
+<div data-term-index data-empty={s.filterEmpty}>
   <div class="filters">
-    <p class="toggles" role="group" aria-label="레벨"><span class="toggles-label">레벨</span>{levelFilters.map((l) => (
-      <button type="button" data-level={l} aria-pressed={l === 0 ? 'true' : 'false'}>{l ? LEVELS[l] : '전체'}</button>
+    <p class="toggles" role="group" aria-label={s.level}><span class="toggles-label">{s.level}</span>{levelFilters.map((l) => (
+      <button type="button" data-level={l} aria-pressed={l === 0 ? 'true' : 'false'}>{l ? s.levels[l] : s.all}</button>
     ))}</p>
-    <p class="toggles" role="group" aria-label="분야"><span class="toggles-label">분야</span>{cats.map((c) => (
-      <button type="button" data-cat={c} aria-pressed={c === ALL_CATS ? 'true' : 'false'}>{c === ALL_CATS ? '전체' : c}</button>
+    <p class="toggles" role="group" aria-label={s.category}><span class="toggles-label">{s.category}</span>{cats.map((c) => (
+      <button type="button" data-cat={c} aria-pressed={c === ALL_CATS ? 'true' : 'false'}>{c === ALL_CATS ? s.all : s.cats[c]}</button>
     ))}</p>
   </div>
   <ul class="rows toc">{levels.map((l) => (
     <>
-      <li class="toc-group" data-group={l}>{LEVELS[l]}</li>
+      <li class="toc-group" data-group={l}>{s.levels[l]}</li>
       {terms.filter((t) => t.level === l).map((t) => (
-        <li data-id={t.id}><a class="toc-row" href={termHref(t.id)}><span class="toc-abbr">{t.chip}</span><span class="toc-ko">{subName(t)}</span></a></li>
+        <li data-id={t.id}><a class="toc-row" href={termHref(t.id)}><span class="toc-abbr">{t.chip}</span>{t.sub && <span class="toc-ko">{t.sub}</span>}</a></li>
       ))}
     </>
   ))}</ul>

@@ -1,0 +1,34 @@
+{
+  "name": "Wins Above Replacement",
+  "aliases": ["fWAR", "bWAR", "replacement level"],
+  "summary": "An estimate of how many fewer games a team would have won with a readily available fill-in, a replacement player, in this player's place.",
+  "easy": [
+    "Hitting, baserunning, defense and the difficulty of the position all get converted into wins and added together. That's what makes it possible to put a shortstop and a designated hitter, or a starting pitcher and a closer, on the same list.",
+    "The baseline isn't an average player. A replacement player is the kind a team can pick up cheaply from the minors or the bench. A WAR of 0 doesn't mean average. It means anybody could fill the spot. The usual feel is that an everyday regular should be good for about 2 a season."
+  ],
+  "scale": {
+    "marks": [
+      { "v": 0, "t": "Replacement level" },
+      { "v": 2, "t": "Regular" },
+      { "v": 4, "t": "Core regular" },
+      { "v": 5, "t": "All-Star" },
+      { "v": 6, "t": "MVP candidate" }
+    ],
+    "note": "Based on a full season of playing time."
+  },
+  "deep": [
+    "The general shape: take the runs from hitting, baserunning and defense, add adjustments for position, league and replacement level, and convert those runs into wins. Roughly 10 runs make a win, and that ratio shifts somewhat with each year's run environment.",
+    "WAR is closer to the name of a method than to one formula. FanGraphs' fWAR values pitchers by FIP, and Baseball-Reference's bWAR uses the runs they actually allowed. As a result, a pitcher who had luck on his side often has the higher bWAR, and one who didn't often has the higher fWAR.",
+    "Defensive metrics take a long time to build up a reliable sample. In a single season's WAR, the defensive share carries an especially wide margin of error."
+  ],
+  "myth": {
+    "claim": "A half-win gap in WAR settles which of two players was better.",
+    "truth": "It's an estimate, so it comes with error. Over one season, players within about a win of each other are safer to treat as roughly equal."
+  },
+  "leagues": [
+    { "lg": "KBO", "t": "KBO WAR also differs depending on who calculates it, so the same player can come out with different values. When you quote a number, note whose it is." }
+  ],
+  "sources": [
+    { "t": "FanGraphs Library · WAR", "u": "https://library.fangraphs.com/misc/war/" }
+  ]
+}

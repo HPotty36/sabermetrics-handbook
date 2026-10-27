@@ -48,8 +48,8 @@ function render(composing = false) {
   for (const [id, li] of rows) li.hidden = !ids.has(id);
   list.hidden = found.length === 0;
   empty.hidden = found.length > 0;
-  empty.textContent = `‘${q}’에 맞는 용어가 없어요.`;
-  status.textContent = found.length ? `용어 ${found.length}개` : empty.textContent;
+  empty.textContent = (results.dataset.noMatch ?? '').replace('{q}', q);
+  status.textContent = found.length ? (results.dataset.found ?? '').replace('{n}', String(found.length)) : empty.textContent;
 }
 
 // 키보드 높이. 화면 아래에 붙은 입력란을 키보드 위로 올린다(브라우저가 키보드만큼 화면을 줄여 주지 않을 때).

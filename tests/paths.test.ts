@@ -22,3 +22,13 @@ test('base 끝의 / 유무와 상관없이 같은 주소를 만든다', () => {
   assert.equal(makePaths('/handbook', false).termHref('ops'), '/handbook/terms/ops/');
   assert.equal(makePaths('/handbook/', true).homeHref, '/handbook/index.html');
 });
+
+test('영어 페이지는 /en/ 아래에 있다', () => {
+  const p = makePaths('/', false, 'en');
+  assert.equal(p.homeHref, '/en/');
+  assert.equal(p.termHref('fip'), '/en/terms/fip/');
+  assert.equal(p.laddersHref, '/en/ladders/');
+  assert.equal(p.termsHref, '/en/terms/');
+  assert.equal(p.base, '/', 'manifest와 아이콘은 언어와 상관없이 사이트 루트에 있다');
+  assert.equal(makePaths('/', true, 'en').termHref('ops'), '/en/terms/ops/index.html');
+});

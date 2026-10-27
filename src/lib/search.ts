@@ -1,5 +1,6 @@
 // 검색과 필터. 빌드 때 색인을 만들고, 브라우저에서 같은 함수로 거른다.
 
+/** 분야 고르기에서 ‘전체’를 뜻하는 값. 화면에 보이는 이름은 i18n.ts에 있다. */
 export const ALL_CATS = '전체';
 
 export function norm(s: string): string {
@@ -11,7 +12,7 @@ export interface SearchEntry {
   href: string;
   level: number;
   cats: string[];
-  /** 약어, 표기, 한글·영문 이름, 별칭을 정규화해 이은 것 */
+  /** 약어, 표기, 한국어·영어 이름, 별칭을 정규화해 이은 것 */
   name: string;
   summary: string;
 }
@@ -26,13 +27,11 @@ export interface SearchQuery {
 
 interface Searchable {
   id: string;
-  abbr: string;
-  chip: string;
-  ko: string;
-  en: string;
-  aliases?: string[];
+  /** 두 언어의 이름과 별칭 */
+  searchNames: string[];
   level: number;
   cats: string[];
+  /** 지금 화면 언어의 한 줄 정의 */
   summary: string;
 }
 
@@ -42,7 +41,7 @@ export function toSearchEntry(t: Searchable, href: string): SearchEntry {
     href,
     level: t.level,
     cats: t.cats,
-    name: norm([t.abbr, t.chip, t.ko, t.en, ...(t.aliases ?? [])].join('|')),
+    name: norm(t.searchNames.join('|')),
     summary: norm(t.summary),
   };
 }

@@ -1,0 +1,31 @@
+{
+  "name": "Barrel",
+  "aliases": ["barrel rate", "barrel%"],
+  "summary": "A batted ball whose exit velocity and launch angle land in the combination that almost always goes for extra bases.",
+  "easy": [
+    "It's a ball caught on the sweet spot of the bat, hit hard and lifted at just the right angle. Most of these become extra-base hits or home runs.",
+    "That makes the rate at which a hitter barrels the ball a fairly good read on his power. Barrels pile up faster than home runs, so early in the season they're a handy way to check whether a hitter has really added pop."
+  ],
+  "scale": {
+    "avg": "2026 MLB average 7.7% (2025: 8.6%)",
+    "marks": [
+      { "v": 4, "t": "Low" },
+      { "v": 10, "t": "Top tier" },
+      { "v": 15, "t": "Elite power" }
+    ],
+    "note": "Barrels per batted ball (BBE)."
+  },
+  "deep": [
+    "A barrel needs an exit velocity of at least 98 mph. At 98 mph only launch angles from 26 to 30 degrees qualify, and the window widens as the ball comes off faster, reaching 8 to 50 degrees at 116 mph.",
+    "The boundaries were set so that comparable batted balls produce at least a .500 batting average and a 1.500 slugging percentage. The definition was introduced alongside Statcast in 2016.",
+    "Before comparing barrel rates, check which one you're looking at. Barrels per batted ball (Barrel/BBE) and barrels per plate appearance (Barrel/PA) are both in use."
+  ],
+  "myth": {
+    "claim": "A barrel is a home run.",
+    "truth": "Most go for extra bases, but a fair number get caught at the wall in a deep park or end up as doubles."
+  },
+  "sources": [
+    { "t": "MLB.com Glossary · Barrel", "u": "https://www.mlb.com/glossary/statcast/barrel" },
+    { "t": "Baseball Savant · 2026 league averages", "u": "https://baseballsavant.mlb.com/league?season=2026" }
+  ]
+}

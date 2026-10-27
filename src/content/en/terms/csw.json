@@ -1,0 +1,34 @@
+{
+  "name": "Called Strikes + Whiffs",
+  "aliases": ["CSW rate", "C+SwStr%", "called strikes plus whiffs"],
+  "summary": "The percentage of all pitches that are either taken for a called strike or swung at and missed.",
+  "easy": [
+    "A strikeout only shows up once the plate appearance is over. CSW% is tallied pitch by pitch, counting each one that got the better of the hitter.",
+    "Every pitch adds to the sample, so it fills in fast. A game or two is enough to get a rough idea of whether a pitcher's stuff was working that day. Clearing 30% marks a good pitcher, and somewhere around 32% is dominant."
+  ],
+  "scale": {
+    "avg": "2026 MLB average 27% (FanGraphs C+SwStr%)",
+    "marks": [
+      { "v": 25, "t": "Low" },
+      { "v": 30, "t": "Good" },
+      { "v": 32, "t": "Dominant" }
+    ]
+  },
+  "formula": {
+    "expr": "CSW% = (called strikes + whiffs) ÷ total pitches",
+    "vars": [
+      ["whiffs", "includes foul tips"]
+    ]
+  },
+  "deep": [
+    "Nick Pollack of Pitcher List came up with it in 2018, and it spread after Alex Fast wrote an introduction to it the next year. FanGraphs carries the same number under the name C+SwStr%.",
+    "Called strikes and whiffs are earned in different ways. Pitchers who pile up whiffs usually win with stuff, while pitchers who pile up called strikes tend to win with command and sequencing. Split the two apart and a pair of pitchers at the same 30% can turn out to be very different."
+  ],
+  "myth": {
+    "claim": "A high CSW% makes for a good pitcher.",
+    "truth": "It leaves out walks and the quality of contact. A pitch that floats over the middle of the plate counts as a called strike just the same if the hitter takes it."
+  },
+  "sources": [
+    { "t": "Pitcher List · CSW Rate introduction", "u": "https://pitcherlist.com/csw-rate-an-intro-to-an-important-new-metric" }
+  ]
+}

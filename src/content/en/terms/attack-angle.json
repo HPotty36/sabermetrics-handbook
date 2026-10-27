@@ -1,0 +1,33 @@
+{
+  "name": "Attack Angle",
+  "aliases": ["swing path", "swing path tilt", "attack direction", "ideal attack angle"],
+  "summary": "Whether the bat is traveling up or down, and how steeply, at the instant its sweet spot meets the ball.",
+  "easy": [
+    "If the bat is rising a little when it meets the ball, line drives and well-struck fly balls come more easily. Chop down too much and grounders follow. Uppercut too much and you're popping it straight up.",
+    "Launch angle is the angle of the ball after it's hit. Attack angle is the direction the bat was moving at contact, so it's a measure of the swing itself. Somewhere between 5 and 20 degrees is generally considered ideal."
+  ],
+  "scale": {
+    "avg": "Rough MLB average 10°",
+    "marks": [
+      { "v": 0, "t": "Level at contact" },
+      { "v": 5, "t": "Ideal range begins" },
+      { "v": 20, "t": "Ideal range ends" }
+    ],
+    "note": "The ideal range is 5 to 20°. About half of swings across the league fall inside it."
+  },
+  "deep": [
+    "It came out in May 2025, in a batch of new Statcast swing metrics. The others in that batch were swing path tilt (how steep the bat's path is just before contact, about 32° on average) and attack direction (left or right at contact, slightly toward the pull side on average).",
+    "Ideal attack angle rate is what fraction of swings land between 5 and 20 degrees.",
+    "June 2026 brought more, including swing timing (early or late) and Miss Distance, which measures how badly a whiff missed."
+  ],
+  "myth": {
+    "claim": "A higher attack angle means more power.",
+    "truth": "It has to fit the angle of the incoming pitch. If the bat's angle nearly matches the pitch's vertical approach angle (VAA), the bat stays in the ball's path longer and solid contact becomes more likely."
+  },
+  "sources": [
+    { "t": "MLB.com Glossary · Attack Angle", "u": "https://www.mlb.com/glossary/statcast/attack-angle" },
+    { "t": "MLB.com Glossary · Ideal Attack Angle", "u": "https://www.mlb.com/glossary/statcast/ideal-attack-angle" },
+    { "t": "Baseball Savant changelog · May 2025 swing metrics", "u": "https://baseballsavant.mlb.com/changelog/2025-05-20-swing-path-attack-angle" },
+    { "t": "Baseball Savant changelog · June 2026 swing timing", "u": "https://baseballsavant.mlb.com/changelog/2026-06-09-swing-timing-miss-distance" }
+  ]
+}

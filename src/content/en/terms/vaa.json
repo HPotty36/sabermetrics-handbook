@@ -1,0 +1,26 @@
+{
+  "name": "Vertical Approach Angle",
+  "aliases": ["approach angle", "flat fastball", "high fastball"],
+  "summary": "The downward angle of a pitch as it reaches home plate. The closer to 0°, the flatter it comes in.",
+  "easy": [
+    "Almost every pitch is still falling when it arrives, so the number is negative, and −4° is “flatter” than −6°.",
+    "High in the zone, a flat four-seamer stays above the path the hitter is expecting. The bat passes under the ball, so whiffs and pop-ups go up."
+  ],
+  "scale": {
+    "avg": "MLB average for four-seamers −4.9° (about −4.8 to −5.0°)",
+    "marks": [
+      { "v": -5.5, "t": "Steep" },
+      { "v": -4.0, "t": "Flat" },
+      { "v": -3.5, "t": "Very flat" }
+    ],
+    "note": "Four-seamers only. Pitch height moves the angle a lot, so only compare pitches thrown at similar heights."
+  },
+  "deep": [
+    "Throw a pitch higher and its angle gets flatter naturally. For comparing pitchers, people use a VAA adjusted for pitch height. Without it, anyone who just pitches high a lot gets more credit than he deserves.",
+    "A flat angle comes from a low release height, long extension, high velocity and plenty of induced vertical break (IVB). A shorter pitcher or one with a low arm slot can have a high fastball that plays much better than you'd guess.",
+    "Pitches built to drop, like curveballs and sinkers, are the opposite case. A steep angle is what makes them work, so flatter isn't always better."
+  ],
+  "sources": [
+    { "t": "FanGraphs · A Visualized Primer on Vertical Approach Angle", "u": "https://blogs.fangraphs.com/a-visualized-primer-on-vertical-approach-angle-vaa/" }
+  ]
+}

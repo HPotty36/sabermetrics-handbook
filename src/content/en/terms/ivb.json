@@ -1,0 +1,32 @@
+{
+  "name": "Induced Vertical Break",
+  "aliases": ["ride", "rising fastball", "vertical movement"],
+  "summary": "The up-and-down movement a pitch gets from its spin alone, with gravity taken out. Measured in inches.",
+  "easy": [
+    "No fastball truly rises. A \"rising fastball\" carries so much backspin that it sinks less than a normal pitch would.",
+    "IVB is the size of that missing drop. The more IVB a four-seamer has, the higher it crosses the plate compared with where the hitter expects it, and from the batter's box the ball seems to jump. On a four-seamer, anything over 18 inches is strong ride."
+  ],
+  "scale": {
+    "avg": "MLB four-seamer average about 16 inches",
+    "marks": [
+      { "v": 13, "t": "Less ride" },
+      { "v": 18, "t": "Strong ride" },
+      { "v": 20, "t": "Elite ride" }
+    ],
+    "note": "For four-seam fastballs. Sinkers and two-seamers work the other way: the less IVB, the better they do their job."
+  },
+  "deep": [
+    "Take the actual path the tracking system measured, subtract the drop due to gravity, and what's left is IVB. Vertical Break, the total drop with gravity left in, is a different stat, so a movement figure without a label could be either one.",
+    "Spin rate doesn't decide it alone. How much of a pitch's spin becomes movement (spin efficiency) and which way the axis points matter as well. High-spin four-seamers with nothing-special IVB are common."
+  ],
+  "myth": {
+    "claim": "Higher spin makes the ball rise more.",
+    "truth": "If spin efficiency is low, even a high spin rate won't add up to much vertical movement. IVB itself is the more accurate number for ride."
+  },
+  "leagues": [
+    { "lg": "KBO", "t": "Pitch-level tracking data isn't public in enough detail to confirm IVB from an official source. For import pitchers with MLB experience, their Baseball Savant data is a useful reference." }
+  ],
+  "sources": [
+    { "t": "MLB.com Glossary · Induced Vertical Break", "u": "https://www.mlb.com/glossary/statcast/induced-vertical-break" }
+  ]
+}

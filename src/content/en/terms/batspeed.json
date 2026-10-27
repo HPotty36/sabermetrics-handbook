@@ -1,0 +1,19 @@
+{
+  "name": "Bat Speed",
+  "aliases": ["swing speed", "fast swing rate", "Fast Swing%", "competitive swings", "bat tracking"],
+  "summary": "How quickly the hitter swings, in mph, measured 6 inches in from the end of the barrel.",
+  "easy": [
+    "Exit velocity, which is how hard a ball gets hit, also depends on the pitch's velocity and on how cleanly the hitter caught it. Neither of those affects bat speed, which comes from the swing alone.",
+    "A fast swing is the foundation of hard contact. Even before any results come in, you can get a decent read on a hitter's approach from the swing alone: selling out for power, or just trying to make contact."
+  ],
+  "deep": [
+    "Season averages use only a hitter's competitive swings: his fastest 90%, plus any swing that reached both 60 mph in bat speed and 90 mph in exit velocity. The point is to keep check swings, and swings where he was only trying to get the bat on the ball, from dragging the number down.",
+    "Swings of 75 mph and up are tallied as fast swings, and the rate of them is Fast Swing%. Competitive swings across MLB averaged 72.1 mph in 2026, and the fast-swing rate was 26.6%, a little up from 2025 (71.8 mph and 24.6%).",
+    "Baseball Savant made bat tracking data public in May 2024. It covers games from the 2023 All-Star break onward."
+  ],
+  "sources": [
+    { "t": "Baseball Savant · Bat Tracking", "u": "https://baseballsavant.mlb.com/leaderboard/bat-tracking" },
+    { "t": "MLB.com Glossary · Fast Swing Rate", "u": "https://www.mlb.com/glossary/statcast/fast-swing-rate" },
+    { "t": "Baseball Savant · Bat Tracking (2026, league level)", "u": "https://baseballsavant.mlb.com/leaderboard/bat-tracking?minSwings=q&seasonStart=2026&seasonEnd=2026&type=league&gameType=Regular" }
+  ]
+}

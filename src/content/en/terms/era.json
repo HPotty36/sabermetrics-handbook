@@ -1,0 +1,42 @@
+{
+  "name": "Earned Run Average",
+  "summary": "How many earned runs a pitcher allows per nine innings. Runs that score because of fielding errors don't count.",
+  "easy": [
+    "The pitching stat you'll see most often. A pitcher who gives up 2 earned runs in 6 innings has a 3.00 ERA (2 × 9 ÷ 6). Lower is better.",
+    "Not every run counts. Runs that score because of an error aren't blamed on the pitcher, and whatever is left are the earned runs. The catch is that plenty of defensive mistakes never get scored as errors. If a fielder is a step slow and a catchable ball drops for a hit, that run lands on the pitcher. That gap is a big reason stats like FIP exist."
+  ],
+  "scale": {
+    "avg": "2026 MLB average 4.17 (2025: 4.15)",
+    "marks": [
+      { "v": 2.92, "t": "Elite" },
+      { "v": 3.34, "t": "Good" },
+      { "v": 3.75, "t": "Above average" },
+      { "v": 4.59, "t": "Below average" },
+      { "v": 5.21, "t": "Poor" }
+    ],
+    "note": "Rough ranges for a starting pitcher over a full season, not adjusted for park. Relievers usually come in lower."
+  },
+  "formula": {
+    "expr": "ERA = 9 × ER ÷ IP",
+    "vars": [
+      ["ER", "earned runs"],
+      ["IP", "innings pitched"]
+    ]
+  },
+  "deep": [
+    "The official scorer decides what is earned. The scorer replays the inning as if the errors and passed balls hadn't happened, and only runs that would have scored anyway stay earned. The same run can go either way depending on that call.",
+    "If a pitcher leaves with runners on base and one of them scores later, the run is charged to the pitcher who put him on. So a starter's ERA depends partly on whether the reliever behind him strands those runners. A reliever who works one inning at a time can see his ERA jump after just a few of these.",
+    "In the end, ERA has defense and luck baked in. FIP keeps only the outcomes a pitcher controls on his own, xFIP also swaps in a league-average home run rate, and SIERA adds the kind of contact allowed."
+  ],
+  "myth": {
+    "claim": "A low ERA means the pitcher pitched well.",
+    "truth": "ERA also comes out low for a pitcher with a good defense behind him, a pitcher-friendly home park, or simply a lucky season."
+  },
+  "sources": [
+    { "t": "MLB.com Glossary · Earned Run Average", "u": "https://www.mlb.com/glossary/standard-stats/earned-run-average" },
+    { "t": "MLB.com Glossary · Earned Run", "u": "https://www.mlb.com/glossary/standard-stats/earned-run" },
+    { "t": "FanGraphs Library · ERA", "u": "https://library.fangraphs.com/pitching/era/" },
+    { "t": "Baseball-Reference · 2026 MLB pitching (league averages)", "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-pitching.shtml" },
+    { "t": "FanGraphs Library · ERA-, FIP-, xFIP-", "u": "https://library.fangraphs.com/pitching/era-fip-xfip/" }
+  ]
+}

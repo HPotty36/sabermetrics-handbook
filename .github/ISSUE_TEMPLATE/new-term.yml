@@ -1,0 +1,21 @@
+name: Suggest a term
+description: A stat or metric the handbook should explain.
+labels: [new term]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Term
+      placeholder: e.g. Sprint Speed
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why it's worth adding
+      description: Where people run into it, and which topic it fits.
+  - type: textarea
+    id: sources
+    attributes:
+      label: Sources
+      description: Where the definition and formula are published (FanGraphs Library, MLB.com Glossary, Baseball Savant, ...).

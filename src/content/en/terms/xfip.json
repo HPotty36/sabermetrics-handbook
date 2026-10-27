@@ -1,0 +1,47 @@
+{
+  "name": "Expected Fielding Independent Pitching",
+  "aliases": ["expected FIP", "xFIP-"],
+  "summary": "FIP with actual home runs swapped for expected ones: fly balls allowed times the league-average rate of home runs per fly ball. It reads on the ERA scale.",
+  "easy": [
+    "To get defense and luck out of the picture, FIP counts only home runs, walks and strikeouts. But even home runs involve a good deal of luck. The same fly ball can ride the wind out of the park, or get run down on the warning track in a big stadium.",
+    "xFIP replaces a pitcher's home runs with the number he would have allowed if his fly balls had left the yard at the league-average rate. It's useful for sizing up a pitcher who gave up an unusually large (or small) number of homers in a season."
+  ],
+  "scale": {
+    "marks": [
+      { "v": 2.92, "t": "Elite" },
+      { "v": 3.34, "t": "Good" },
+      { "v": 3.75, "t": "Above average" },
+      { "v": 4.59, "t": "Below average" },
+      { "v": 5.21, "t": "Poor" }
+    ],
+    "note": "It shares FIP's constant, so it lands on the ERA scale. Cutoffs are loose, sized for a season's worth of starts."
+  },
+  "formula": {
+    "expr": "xFIP = (13×(FB × lgHR/FB) + 3×(BB + HBP) − 2×K) ÷ IP + C",
+    "vars": [
+      ["FB", "fly balls allowed"],
+      ["lgHR/FB", "league-average home runs per fly ball"],
+      ["BB", "walks"],
+      ["HBP", "hit batters"],
+      ["K", "strikeouts"],
+      ["IP", "innings pitched"],
+      ["C", "the same league constant as FIP (3.10 for 2026 MLB)"]
+    ]
+  },
+  "deep": [
+    "Apart from the home run term, it's identical to FIP. The coefficients and the league constant are FIP's own, which is why its values line up with ERA.",
+    "The assumption underneath is that pitchers have very little control over how many of their fly balls become home runs. That holds for most of them. It breaks down for a pitcher who keeps getting weak fly balls, or one whose home park gives up a lot of homers.",
+    "There's no park adjustment. xFIP- is the version that adjusts for park and league and sets 100 as average."
+  ],
+  "myth": {
+    "claim": "xFIP is more accurate than FIP because it removes home run luck too.",
+    "truth": "Wiping out home run luck also wipes out any real skill at avoiding home runs. Pitchers who get soft fly balls sometimes hold their FIP and ERA under their xFIP for a stretch of seasons."
+  },
+  "sources": [
+    { "t": "FanGraphs Library · xFIP", "u": "https://library.fangraphs.com/pitching/xfip/" },
+    { "t": "MLB.com Glossary · Expected Fielding Independent Pitching", "u": "https://www.mlb.com/glossary/advanced-stats/expected-fielding-independent-pitching" },
+    { "t": "FanGraphs · Guts (FIP constants by season)", "u": "https://www.fangraphs.com/guts.aspx?type=cn" },
+    { "t": "FanGraphs Library · ERA-, FIP-, xFIP-", "u": "https://library.fangraphs.com/pitching/era-fip-xfip/" },
+    { "t": "Baseball-Reference · 2026 MLB pitching (league averages)", "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-pitching.shtml" }
+  ]
+}

@@ -1,6 +1,7 @@
 [
   {
     "name": "타격 평가",
+    "en": "Hitting",
     "hint": "얼마나 잘 쳤나",
     "steps": [
       "avg",
@@ -11,6 +12,7 @@
   },
   {
     "name": "선수 가치",
+    "en": "Player Value",
     "hint": "타격에서 선수 전체로",
     "steps": [
       "wrc-plus",
@@ -19,6 +21,7 @@
   },
   {
     "name": "타구의 질",
+    "en": "Contact Quality",
     "hint": "얼마나 잘 맞혔나",
     "steps": [
       "ev",
@@ -29,6 +32,7 @@
   },
   {
     "name": "운과 실력",
+    "en": "Luck vs. Skill",
     "hint": "결과와 내용 구분하기",
     "steps": [
       "babip",
@@ -37,6 +41,7 @@
   },
   {
     "name": "투수 평가",
+    "en": "Pitching",
     "hint": "수비와 운을 뺀 실점 능력",
     "steps": [
       "era",
@@ -47,6 +52,7 @@
   },
   {
     "name": "삼진과 헛스윙",
+    "en": "Strikeouts and Whiffs",
     "hint": "타석 결과보다 잘게",
     "steps": [
       "k-pct",
@@ -55,6 +61,7 @@
   },
   {
     "name": "구위 분석",
+    "en": "Pitch Quality",
     "hint": "공이 왜 안 맞나",
     "steps": [
       "velo",
@@ -66,6 +73,7 @@
   },
   {
     "name": "스윙 분석",
+    "en": "The Swing",
     "hint": "배트가 어떻게 지나갔나",
     "steps": [
       "batspeed",
@@ -76,6 +84,7 @@
   },
   {
     "name": "수비 평가",
+    "en": "Fielding",
     "hint": "얼마나 많이 잡았나",
     "steps": [
       "fld",

@@ -2,7 +2,6 @@
   "abbr": "BABIP",
   "chip": "BABIP",
   "ko": "인플레이 타구 타율",
-  "en": "Batting Average on Balls In Play",
   "aliases": [
     "바빕",
     "인플레이타율",

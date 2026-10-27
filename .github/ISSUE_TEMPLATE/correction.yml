@@ -1,0 +1,36 @@
+name: Fix a fact or number
+description: A definition, formula, league average or source looks wrong.
+labels: [correction]
+body:
+  - type: input
+    id: term
+    attributes:
+      label: Term
+      description: The term's name or page link.
+      placeholder: https://sabermetrics-handbook.pages.dev/en/terms/fip/
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What looks wrong
+      description: Quote the sentence or number, and say what it should be.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Source
+      description: A link that shows the right value. For league averages, say which season.
+    validations:
+      required: true
+  - type: dropdown
+    id: language
+    attributes:
+      label: Which version
+      options:
+        - English
+        - Korean
+        - Both
+    validations:
+      required: true

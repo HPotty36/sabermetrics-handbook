@@ -1,0 +1,28 @@
+{
+  "name": "Hard-Hit Rate",
+  "aliases": ["hard hit", "hard-hit%", "95 mph"],
+  "summary": "The share of a hitter's batted balls that come off the bat at 95 mph or faster.",
+  "easy": [
+    "Average exit velocity (how fast the ball leaves the bat) gets dragged down easily by a few weak dribblers. Hard-hit rate sets those aside and counts only how often the ball is hit hard.",
+    "The line is drawn at 95 mph because results on contact get noticeably better from that speed up. A hitter with a high hard-hit rate and poor numbers may just have been unlucky."
+  ],
+  "formula": {
+    "expr": "HardHit% = batted balls at 95+ mph ÷ BBE",
+    "vars": [
+      ["BBE", "batted ball events: balls in play that became hits, outs or errors"]
+    ]
+  },
+  "deep": [
+    "The denominator is batted balls, not plate appearances. Strikeouts and walks are left out, so a hitter who strikes out a lot can still post a high hard-hit rate.",
+    "Speed is all that matters here, not angle. A 95 mph grounder counts as hard-hit. For the batted balls that turn into extra-base hits, barrels combine exit velocity with launch angle.",
+    "The 2026 MLB average was 38.6%, a clear drop from 40.9% in 2025. League-wide average exit velocity and barrel rate fell that season as well."
+  ],
+  "myth": {
+    "claim": "Lots of hard-hit balls means lots of power.",
+    "truth": "Hitters who pound hard grounders also post high hard-hit rates. Power shows up in barrel rate and slugging percentage, not this number by itself."
+  },
+  "sources": [
+    { "t": "MLB.com Glossary · Hard-hit Rate", "u": "https://www.mlb.com/glossary/statcast/hard-hit-rate" },
+    { "t": "Baseball Savant · 2026 league averages", "u": "https://baseballsavant.mlb.com/league?season=2026" }
+  ]
+}

@@ -1,6 +1,6 @@
 # 세이버메트릭스 핸드북
 
-세이버메트릭스 용어를 입문자부터 깊게 아는 팬까지 읽을 수 있게 정리하는 한국어 용어 사전이다.
+세이버메트릭스 용어를 입문자부터 깊게 아는 팬까지 읽을 수 있게 정리하는 용어 사전이다. 한국어가 기본이고(사이트 루트 `/`), 같은 내용의 영어판이 `/en/`에 있다.
 claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 옮겼다.
 
 ## 제품 방향 (바꾸지 말 것)
@@ -12,21 +12,26 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
 - 용어 페이지의 읽는 순서 전환(‘쉬운 설명 먼저’ / ‘자세한 설명 먼저’)은 유지한다. 선택은 브라우저에 저장한다.
 - 사다리는 기본 → 심화로 한 칸씩 깊어지는 용어 순서다. 홈과 용어 페이지 양쪽에서 핵심 탐색 수단이다. 화면에서는 ‘주제’라고 부르고, 사다리마다 ‘투수 평가’처럼 주제 이름만 붙인다.
 - 홈의 입구는 두 개다. 처음 보는 사람용(기본 용어, OPS부터)과 이미 아는 사람용(최근 Statcast 지표와 심화 용어)이다. 화면 이름은 ‘기본 지표’, ‘심화 지표’다.
+- 한국어와 영어는 같은 사이트, 같은 구조다. 용어를 더하거나 고치면 두 언어를 함께 고친다(빌드가 짝을 검사한다). 어느 페이지에서든 언어를 바꾸면 같은 페이지의 다른 언어로 간다.
 - 위 개념의 이름(사다리, 처음이라면, 이미 안다면, 쉽게/깊게)은 화면에 그대로 쓰지 않는다. 독자를 가정하거나 비유를 드러내는 이름이 어색하다는 사용자 요청(2026-10-27)이다. 화면에는 무엇이 있는지만 말하는 이름을 쓴다.
 
 ## 지금 있는 것
 
 - Astro 7 정적 사이트다. Node 22.22 이상. `npm run dev`, `npm run build`(결과는 `dist/`), `npm test`, `npm run check`.
   - 앱(Capacitor 8): `npm run cap:sync`가 앱용 빌드(`dist-app/`)를 만들어 `android/`, `ios/`에 복사한다. 앱의 로컬 서버는 확장자 없는 주소를 모두 홈 `index.html`로 보내므로(Android `WebViewLocalServer`, iOS 라우터), 앱용 빌드(`astro build --mode app`)만 페이지 링크에 `index.html`까지 적는다(`src/lib/make-paths.ts`). 웹 빌드의 주소는 그대로다. 앱에서는 서비스 워커를 등록하지 않는다.
-  - 라우트: `src/pages/index.astro`(홈 `/`), `src/pages/ladders.astro`(사다리 전체 ‘주제’ `/ladders/`), `src/pages/terms/index.astro`(용어 전체 `/terms/`), `src/pages/terms/[id].astro`(용어 `/terms/<id>/`).
+  - 라우트: `src/pages/[...lang]/` 아래 템플릿 하나로 한국어(`/`)와 영어(`/en/`) 페이지를 함께 만든다(`langPaths`, `src/lib/i18n.ts`). `index.astro`(홈), `ladders.astro`(사다리 전체 ‘주제’ `/ladders/`), `terms/index.astro`(용어 전체 `/terms/`), `terms/[id].astro`(용어 `/terms/<id>/`). 페이지 수는 언어마다 30개, 모두 60개다.
+  - 화면 문구는 `src/lib/i18n.ts`에 두 언어가 같은 키로 있다. 링크는 `paths(lang)`(`src/lib/paths.ts`, `make-paths.ts`)로 만든다.
   - 콘텐츠의 원본은 `src/content/`다.
-    - `terms/<id>.json`: 용어 1개 = 파일 1개(27개). 파일 이름이 id다. 콘텐츠 컬렉션으로 읽는다.
-    - `stubs.json`(준비 중, 지금은 0개), `ladders.json`(사다리 9개): 순서가 있는 목록이라 컬렉션이 아니라 `src/lib/handbook.ts`에서 읽는다. 사다리는 파일에 적힌 순서대로 화면에 나온다.
+    - `terms/<id>.json`: 용어 1개 = 파일 1개(27개). 파일 이름이 id다. 언어와 상관없는 값(레벨, 눈금 숫자, 출처 URL)과 한국어 글. 콘텐츠 컬렉션 `terms`로 읽는다.
+    - `en/terms/<id>.json`: 같은 용어의 영어 글(컬렉션 `termsEn`). 숫자와 출처 URL은 한국어 파일 것을 쓰고, `validateEnglish`(`src/lib/validate.ts`)가 짝을 검사한다. `loadHandbook(lang)`이 언어별로 합쳐 `LocalTerm`으로 준다.
+    - `stubs.json`(준비 중, 지금은 0개), `ladders.json`(사다리 9개): 순서가 있는 목록이라 컬렉션이 아니라 `src/lib/handbook.ts`에서 읽는다. 사다리는 파일에 적힌 순서대로 화면에 나온다. 둘 다 영어 이름(`en`)이 있다.
   - 스키마는 `src/lib/schema.ts`(zod), 파일 사이의 참조 검사는 `src/lib/validate.ts`다. 어긋나면 `astro build`가 실패한다. `npm test`는 빌드 없이 같은 검사를 돌린다.
-  - 클라이언트 스크립트는 네 가지뿐이다. `src/scripts/search-box.ts`(검색: 넓은 화면은 왼쪽 단 입력란, 폰은 아래쪽 알약의 찾기 화면과 키보드 높이 맞추기), `src/scripts/term-index.ts`(`/terms/`의 레벨·분야 고르기), 용어 페이지의 인라인 스크립트(읽는 순서), 서비스 워커 등록(빌드 결과에서만, `Base.astro`).
+  - 클라이언트 스크립트는 이것뿐이다. `src/scripts/search-box.ts`(검색: 넓은 화면은 왼쪽 단 입력란, 폰은 아래쪽 알약의 찾기 화면과 키보드 높이 맞추기), `src/scripts/term-index.ts`(`/terms/`의 레벨·분야 고르기), `src/scripts/prefs.ts`(다크 모드 단추, 고른 언어 저장), 용어 페이지의 인라인 스크립트(읽는 순서), `Base.astro`의 인라인 스크립트 셋(첫 화면 전에 저장된 다크 모드 붙이기, 영어를 고른 사람이 밖에서 한국어 홈에 오면 영어 홈으로 보내기, 서비스 워커 등록).
+    - 화면 문구가 필요한 스크립트는 페이지가 data-*로 넘긴다(`data-no-match`, `data-found`, `data-empty`). 스크립트 안에는 문구를 두지 않는다.
+    - 저장소: localStorage `sh-order`(읽는 순서), `sh-theme`(light/dark, 없으면 기기 설정), `sh-lang`(ko/en), sessionStorage `sh-index`(레벨·분야).
   - 스타일은 `src/styles/global.css`다. 프로토타입 CSS에서 출발했다. 맨 위 주석에 디자인 언어를 요약해 두었다.
   - 글꼴은 npm 패키지로 직접 내보낸다(`Base.astro`에서 불러옴). 한글과 본문은 모두 `pretendard`, 표제·표제어·숫자는 Big Shoulders(Fontsource)다. Pretendard는 유니코드 조각으로 나뉘어 쓰는 조각만 받는다. `astro.config.mjs`의 작은 Vite 플러그인이 Fontsource의 woff를 빼고 woff2만 남긴다.
-  - PWA: `public/manifest.webmanifest`, 아이콘(`public/icons/*.png`), 서비스 워커. 서비스 워커는 빌드가 끝나면 `integrations/service-worker.mjs`가 `dist/sw.js`로 만든다. 페이지·CSS·아이콘은 설치 때 미리 저장하고, 글꼴 조각은 쓰일 때 저장한다. 페이지는 네트워크 우선(3초 안에 안 오면 저장본), 없는 페이지는 오프라인에서 홈으로 대신한다.
+  - PWA: `public/manifest.webmanifest`(한국어, start_url `/`)와 `public/en/manifest.webmanifest`(영어, start_url `/en/`), 아이콘(`public/icons/*.png`), 서비스 워커. 서비스 워커는 빌드가 끝나면 `integrations/service-worker.mjs`가 `dist/sw.js`로 만든다. 페이지·CSS·아이콘은 설치 때 미리 저장하고, 글꼴 조각은 쓰일 때 저장한다. 페이지는 네트워크 우선(3초 안에 안 오면 저장본), 없는 페이지는 오프라인에서 그 언어의 홈으로 대신한다. 저장본을 찾을 때 Vary를 보지 않는다(모듈 스크립트는 Origin 헤더를 붙여 요청하므로, 서버가 `Vary: Origin`을 보내면 미리 저장한 것과 짝이 안 맞아 오프라인에서 스크립트가 빠졌다. 2026-10-27에 고쳤다).
   - 배포: https://sabermetrics-handbook.pages.dev/ . Cloudflare Pages에 Git으로 연결했다(프로덕션 브랜치 `main`, 빌드 명령 `npm run build`, 출력 `dist`). `main`에 합치면 다시 배포되고, 다른 브랜치는 미리보기 배포가 된다.
     - 대시보드의 ‘새로운 것을 만들기’에서 GitHub를 바로 고르면 Workers가 만들어진다. Workers 주소에는 계정 서브도메인이 붙으므로 쓰지 않는다. 화면 아래 ‘레거시 Pages 워크플로’의 ‘Pages로 계속’으로 만든다.
     - 2026-10-26에 배포 주소를 확인했다. 파일 418개가 로컬 빌드와 같았다. Chromium에서 검색·필터·읽는 순서가 동작했고, 1280px·400px에서 가로 스크롤이 없었고, 설치 가능 판정에 오류가 없었다. 서버에 닿지 않게 한 뒤에도 방문하지 않은 용어 페이지, 홈, 없는 주소(→ 홈), 글꼴, 검색이 동작했다.
@@ -41,7 +46,7 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
 ## 다음 작업 (권장 순서)
 
 1. ~~Astro 프로젝트로 옮긴다 (정적 빌드).~~ 끝났다.
-   - 클라이언트 스크립트는 검색, 필터, 읽는 순서 전환에만 쓴다. 이 원칙은 계속 지킨다.
+   - 클라이언트 스크립트는 검색, 필터, 읽는 순서 전환, 설정(다크 모드, 언어)에만 쓴다. 이 원칙은 계속 지킨다.
 2. 프로토타입과 화면이 같은지 확인한다. 데스크톱은 사이드바, 모바일은 한 열이고 라이트·다크를 모두 본다.
    - 2026-10-15에 Chromium 스크린숏으로 자동 비교했다. 모든 페이지 × 1280px·400px × 라이트·다크에서 안티에일리어싱 오차(색값 ±1, 몇 픽셀)를 빼면 같았고, 400px에서 가로 스크롤도 없었다. 실제 기기(iOS Safari, Android Chrome)에서 눈으로 보는 확인이 남았다.
    - 그 뒤 레퍼런스를 참고해 화면을 다시 디자인했다(‘디자인 기준’ 참고). 이제 프로토타입은 토큰 이름과 동작의 기준이고, 화면은 같지 않다.
@@ -75,7 +80,7 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
 `src/styles/global.css`의 `:root` 토큰과 맨 위 주석이 원본이다. 지금 디자인은 ‘인쇄된 핸드북’ 위에 시안 A ‘사다리 선’을 얹고, 이름과 글꼴을 앱답게 바꾼 것이다(2026-10-27). 바뀐 과정은 아래 소제목에 있다.
 
 - 색:
-  - paper(상아색 종이, 라이트 #FBF9F4·다크 #171614), ink, muted, line(가는 선), groove(실밥 이음매) 토큰과 별색 seam(실밥 빨강 #C42638, 다크 #F0606B)이다. glass(반투명 종이색)와 float-shadow는 아래쪽 알약에만 쓴다.
+  - paper(상아색 종이, 라이트 #FBF9F4·다크 #000000 완전한 검정), ink, muted, line(가는 선), groove(실밥 이음매) 토큰과 별색 seam(실밥 빨강 #C42638, 다크 #F0606B)이다. glass(반투명 종이색)와 float-shadow는 아래쪽 알약에만 쓴다.
   - 빨강은 실밥, 지금 위치(지금 용어의 역, 고른 메뉴, 고르기의 밑줄), 숫자 눈금의 평균 마커와 이상적 구간에만 쓴다.
   - 레벨은 색이 아니라 글자(기본·중급·심화)로만 표시한다.
 - 글꼴(두 가지, 역할을 섞지 않는다):
@@ -88,7 +93,7 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
   - 사다리 선(`.line`, `Line.astro`·`LadderLine.astro`): 3px 잉크 선 위에 17px 고리를 역처럼 찍는다. 지금 용어는 빨간 점, 준비 중은 점선 고리다. 세로 선은 홈의 두 입구와 주제 페이지, 가로 선은 홈의 주제 묶음과 용어 페이지 맨 위에 쓴다.
   - 숫자 눈금의 홈플레이트 모양 평균 마커.
   - 앱 아이콘은 장식이 아니라 로고라 따로 센다. 홈 화면·탭 아이콘에만 쓰고 화면 안에는 넣지 않는다. 아래 ‘앱 아이콘’ 참고.
-- 고른 것은 한 가지로 그린다: 글자 버튼, 굵게 + 빨간 밑줄(읽는 순서, 레벨·분야, 넓은 화면 메뉴). 폰 아래쪽 알약의 탭만 iOS 관례대로 옅은 알약 바탕 + 빨간 글자다.
+- 고른 것은 한 가지로 그린다: 글자 버튼, 굵게 + 실밥 밑줄(읽는 순서, 레벨·분야, 넓은 화면 메뉴, 넓은 화면의 다크 모드). 실밥 밑줄은 맨 위 실밥을 3/4로 줄인 것(6×12px 칸, 가는 이음매 + 빨간 실)이고, 글자 가운데에서 재서 놓으므로 44px로 키운 단추에서도 글자 바로 아래에 온다. 폰 아래쪽 알약의 탭만 iOS 관례대로 옅은 알약 바탕 + 빨간 글자다.
 - 묶음 제목(주제 이름, 용어 목록의 레벨)은 위에 가는 선, 굵게 17px이다.
 - 마우스를 올렸을 때의 밑줄은 `@media (hover:hover)` 안에만 둔다(터치 화면에서 눌린 뒤 남지 않게).
 - 폰에서 누르는 곳은 44px 안팎이다.
@@ -173,6 +178,22 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
 - 넓은 화면 왼쪽 단의 로고와 이름을 뺐다. 왼쪽 단은 찾기와 메뉴뿐이다. 이름은 홈 표제가 맡는다.
 - 글꼴: 본명조를 빼고 한글은 모두 Pretendard다(`@fontsource-variable/noto-serif-kr` 제거). 본문은 17px·행간 1.7, 정의는 19.5px 500·1.6이다. 표제·표제어·숫자의 Big Shoulders는 그대로다.
 
+### 영어판과 설정 (2026-10-27, 네 번째)
+
+사용자 요청: 영어판을 만들고, 한국어판의 불필요한 영어를 정리하고, 다크 모드를 완전한 검정으로, 한/영과 다크 모드 단추를 달고, 빨간 하이라이트를 위쪽 실밥처럼, 유명 저장소를 참고해 GitHub 저장소를 꾸미되 기본 언어는 영어로.
+
+- 영어판: `/en/` 아래에 같은 페이지가 있다. 영어 글 27개는 한국어 글을 옮겨 새로 썼다(숫자, 사실, 출처는 한국어 파일 그대로). 영어 화면의 표제어와 목록 이름은 `abbr`, 풀이는 영어 정식 이름이다.
+  - 주제 이름: Hitting, Player Value, Contact Quality, Luck vs. Skill, Pitching, Strikeouts and Whiffs, Pitch Quality, The Swing, Fielding. 레벨: Basic, Intermediate, Advanced. 분야: Hitting, Pitching, Fielding, Overall, Tracking.
+  - 화면 이름: Basic stats, Advanced stats, Topics, Terms, Simple explanation, Detailed explanation, Simple first / Detailed first, Benchmarks, Common misconception, Across leagues, Related terms, Sources.
+- 한국어판의 불필요한 영어를 뺐다.
+  - 목록 풀이에 영어 정식 이름(Batting Average, Exit Velocity)을 쓰지 않는다. 한국어 이름이 칩과 같으면 풀이 없이 이름만 적는다.
+  - 용어 페이지 표제어는 칩(팬이 부르는 이름)이다: 타율, 타구 속도, 스윙 타이밍처럼 한글이면 Pretendard로 조금 작게(`.headword-hangul`), ERA처럼 약어면 그대로 Big Shoulders다. 표제어 아래에는 한국어 이름과, 칩이 한글일 때 약어(AVG, FPCT, HardHit%)만 작게 적는다. 영어 정식 이름은 영어판에만 있다.
+  - 남긴 영어: 홈 표제 ‘SABERMETRICS HANDBOOK’(로고처럼 쓰는 표제 글꼴, 한글이 없는 글꼴), 약어(ERA, wOBA), 출처 제목(원문 사이트 이름), 검색 별칭(화면에 안 보인다).
+- 설정: 넓은 화면은 왼쪽 단 메뉴 아래(지구본 + 다른 언어 이름, 달 + ‘다크 모드’), 폰은 화면 맨 위 오른쪽(다른 언어 이름, 달 단추, 각 44px). 폰은 이 줄 때문에 본문 위 여백이 32px에서 64px이 됐다. 언어는 같은 페이지의 다른 언어로 가는 링크라 스크립트 없이도 된다.
+- 다크 모드: paper #000000, line #2C2B29, groove #4A4741, 아래쪽 알약은 반투명 짙은 회색(rgba(30,30,30,.84)). 앱 스플래시 다크도 검정으로 다시 만들었다(`npm run icons`). 브라우저 막대 색(theme-color)도 고른 쪽을 따른다.
+- 빨간 하이라이트: 고른 것의 밑줄을 맨 위 실밥과 같은 바느질로 바꿨다(위 ‘디자인 기준’). 크기 네 가지를 3배로 그려 비교했고, 끝의 실이 잘리지 않게 칸 수를 맞춘다(`mask-repeat: round`).
+- 확인: 60페이지 × 400·1280px × 라이트·다크에서 가로 스크롤과 오류가 없었다. 영어 페이지에 한글(언어 이름 ‘한국어’ 빼고)이 없고, 한국어 페이지에 영어 정식 이름이 없다. 언어 이동, 고른 언어로 다시 열기, 다크 모드 유지(새로 고침, 다른 페이지, 다른 언어), 두 언어 이름으로 찾기, 앱용 빌드의 영어 링크, 서버를 끈 상태의 영어 페이지를 Chromium으로 확인했다.
+
 ### 앱 아이콘 (2026-10-26)
 
 - 위에서 내려다본 홈플레이트와 양쪽 타석을 seam 빨강 바탕에 흰 선으로 그렸다. 홈플레이트는 실제 비율(폭 17, 옆변 8.5)이다.
@@ -181,13 +202,16 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
 
 보고도 넣지 않은 것 (넣으려면 먼저 확인받는다)
 
-- 테마 선택(라이트·다크·자동): [MDN](https://developer.mozilla.org/en-US/docs/Glossary/Cache), [Wikipedia](https://en.wikipedia.org/wiki/On-base_plus_slugging)에 있다. CSS는 `data-theme`을 이미 지원하지만 클라이언트 스크립트가 하나 늘어난다.
+- 테마 선택의 ‘자동’: 다크 모드 단추(2026-10-27, 사용자 요청)는 라이트·다크 두 가지다. 고르기 전에는 기기 설정을 따르지만, 한 번 고르면 ‘자동’으로 돌아가는 단추는 없다.
 - 마지막 확인 날짜: MDN(‘last modified’), Investopedia(‘Updated’, ‘Fact checked’)가 신뢰 표시로 쓴다. 용어마다 날짜 필드가 필요하다.
 - 본문 17px: [토스피드](https://toss.im/tossfeed/article/beginning-of-tps)는 본문 17px·행간 1.6·폭 700px, MLB 용어집은 16px·1.5다. 지금(16px·1.7)도 범위 안이라 두었다.
 
 ## 작업 방식
 
 - 작업이 끝나면 브랜치에 푸시하고 PR을 만들어 `main`에 바로 합친다. 따로 묻지 않는다(사용자 요청, 2026-10-27).
+- 저장소의 기본 언어는 영어다(사용자 요청, 2026-10-27). README.md, CONTRIBUTING.md, `.github/`의 템플릿, 커밋 메시지, PR 제목과 본문은 영어로 쓴다. README.ko.md는 README.md와 같은 내용으로 함께 고친다. 이 파일(CLAUDE.md)과 `docs/`는 한국어로 둔다.
+  - README 그림(`.github/assets/`)은 사이트 화면과 같은 글꼴로 Playwright 스크린숏을 찍어 만들었다: 표제 그림(banner-light/dark, 1280×400), 폰 화면 세 장(screens-{en,ko}-{light,dark}, 홈·FIP·주제), 소셜 미리보기(social-preview, 1280×640). 디자인이나 용어 수가 바뀌면 다시 찍는다.
+  - 저장소 설정(About 설명, 웹사이트, 토픽, 소셜 미리보기 그림)은 이 환경의 도구로 바꿀 수 없어 사용자가 GitHub 설정에서 바꾼다.
   - 합치기 전에 `npm test`, `npm run check`, `npm run build`가 통과하고, PR의 Cloudflare Pages 미리보기 검사가 성공했는지 확인한다.
   - 합친 뒤 배포 주소에서 바뀐 내용이 보이는지 확인한다.
 

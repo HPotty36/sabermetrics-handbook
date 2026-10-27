@@ -1,4 +1,5 @@
 // 빌드 때 콘텐츠를 검사하는 순수 함수. Astro에 의존하지 않아 테스트에서 바로 불러 쓴다.
+import { avgCaption, fmt, type Fmt } from './format.ts';
 
 export const ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
@@ -112,4 +113,74 @@ export function validateHandbook({ terms, stubs, ladders }: HandbookRefs): strin
 /** 스키마 오류를 `파일 › 경로: 메시지` 줄로 바꾼다. */
 export function formatIssues(file: string, issues: { path: PropertyKey[]; message: string }[]): string[] {
   return issues.map((i) => `${file}${i.path.length ? ` › ${i.path.map(String).join('.')}` : ''}: ${i.message}`);
+}
+
+const HANGUL = /[ᄀ-ᇿ㄰-㆏가-힣]/;
+
+/** 영어 글에 한글이 섞였는지 본다(옮기다 남은 문장을 잡는다). 문제가 있는 글의 경로를 돌려준다. */
+export function hangulPaths(value: unknown, path: (string | number)[] = []): string[] {
+  if (typeof value === 'string') return HANGUL.test(value) ? [path.join('.') || '(값)'] : [];
+  if (Array.isArray(value)) return value.flatMap((v, i) => hangulPaths(v, [...path, i]));
+  if (value && typeof value === 'object') return Object.entries(value).flatMap(([k, v]) => hangulPaths(v, [...path, k]));
+  return [];
+}
+
+interface KoSide {
+  id: string;
+  scale?: { fmt: Fmt; unit?: string; avg?: { v: number; t: string }; marks: { v: number }[]; note?: string };
+  formula?: unknown;
+  myth?: unknown;
+  leagues?: unknown[];
+  sources: { u: string }[];
+}
+
+interface EnSide {
+  id: string;
+  scale?: { avg?: string; marks: { v: number }[]; note?: string };
+  formula?: unknown;
+  myth?: unknown;
+  leagues?: unknown[];
+  sources: { u: string }[];
+}
+
+/**
+ * 한국어 용어 파일과 영어 파일이 짝이 맞는지 본다.
+ * 영어 파일은 글만 옮긴 것이므로 숫자(눈금, 평균), 출처 URL, 있고 없는 부분(눈금, 수식, 오해, 리그)이 같아야 한다.
+ */
+export function validateEnglish(ko: KoSide[], en: EnSide[]): string[] {
+  const problems: string[] = [];
+  const enMap = new Map(en.map((e) => [e.id, e]));
+  const koIds = new Set(ko.map((t) => t.id));
+  for (const e of en) {
+    if (!koIds.has(e.id)) problems.push(`en/terms/${e.id}.json: 같은 id의 한국어 파일(terms/${e.id}.json)이 없다`);
+  }
+  for (const t of ko) {
+    const where = `en/terms/${t.id}.json`;
+    const e = enMap.get(t.id);
+    if (!e) {
+      problems.push(`${where}: 영어 파일이 없다. 용어마다 영어 글이 있어야 한다`);
+      continue;
+    }
+    for (const p of hangulPaths(e)) if (p !== 'id') problems.push(`${where} › ${p}: 영어 글에 한글이 있다`);
+    for (const k of ['scale', 'formula', 'myth'] as const) {
+      if (Boolean(t[k]) !== Boolean(e[k])) problems.push(`${where} › ${k}: 한국어 파일에 ${t[k] ? '있는데 없다' : '없는데 있다'}`);
+    }
+    if ((t.leagues?.length ?? 0) !== (e.leagues?.length ?? 0)) problems.push(`${where} › leagues: 한국어 파일과 개수가 다르다`);
+    if (t.scale && e.scale) {
+      const ks = t.scale;
+      const es = e.scale;
+      if (Boolean(ks.avg) !== Boolean(es.avg)) problems.push(`${where} › scale.avg: 한국어 파일과 있고 없음이 다르다`);
+      if (Boolean(ks.note) !== Boolean(es.note)) problems.push(`${where} › scale.note: 한국어 파일과 있고 없음이 다르다`);
+      const values = (ms: { v: number }[]) => ms.map((m) => m.v).sort((a, b) => a - b).join(',');
+      if (values(ks.marks) !== values(es.marks)) problems.push(`${where} › scale.marks: 눈금 숫자(v)가 한국어 파일과 다르다`);
+      // 화면은 평균 설명에서 큰 숫자와 겹치는 부분을 뺀다(avgCaption). 한국어에 숫자가 있으면 영어에도 같은 표기로 있어야 한다.
+      const koHasNumber = ks.avg && avgCaption(ks.avg, ks) !== ks.avg.t;
+      if (ks.avg && es.avg && koHasNumber && avgCaption({ v: ks.avg.v, t: es.avg }, ks) === es.avg) {
+        problems.push(`${where} › scale.avg: 평균 숫자 ${fmt(ks.avg.v, ks)}가 글에 그대로 들어 있어야 한다`);
+      }
+    }
+    const urls = (ss: { u: string }[]) => ss.map((s) => s.u).join('\n');
+    if (urls(t.sources) !== urls(e.sources)) problems.push(`${where} › sources: 출처 URL이 한국어 파일과 같은 순서로 같아야 한다`);
+  }
+  return problems;
 }

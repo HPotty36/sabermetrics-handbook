@@ -1,4 +1,5 @@
-// 넓은 화면 왼쪽 차례의 레벨·분야 고르기. 검색은 scripts/search-box.ts가 따로 맡는다.
+// 용어 전체 목록(/terms/)의 레벨·분야 고르기. 검색은 scripts/search-box.ts가 따로 맡는다.
+// 화면 문구는 페이지 언어로 data-empty에 적혀 온다.
 // 페이지를 옮겨 다녀도 고른 것이 유지되도록 sessionStorage에 둔다.
 import { ALL_CATS, search, type SearchEntry, type SearchQuery } from '../lib/search.ts';
 
@@ -40,7 +41,7 @@ function render() {
     for (const g of ix.groups) g.hidden = !shownLevels.has(Number(g.dataset.group));
     ix.list.hidden = found.length === 0;
     ix.empty.hidden = found.length > 0;
-    ix.empty.textContent = '이 조건에 맞는 용어는 아직 없어요.';
+    ix.empty.textContent = ix.root.dataset.empty ?? '';
     ix.levelChips.forEach((c) => c.setAttribute('aria-pressed', String(Number(c.dataset.level) === state.level)));
     ix.catChips.forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.cat === state.cat)));
   }

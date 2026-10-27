@@ -1,25 +1,27 @@
 ---
 // 주제(사다리) 하나를 선으로 그린다. 왼쪽(위)이 기본, 오른쪽(아래)이 심화다.
 import Line from './Line.astro';
-import { loadHandbook, subName } from '../lib/handbook.ts';
-import { termHref } from '../lib/paths.ts';
-import type { Ladder } from '../lib/schema.ts';
+import { loadHandbook, type LocalLadder } from '../lib/handbook.ts';
+import { ui, type Lang } from '../lib/i18n.ts';
+import { paths } from '../lib/paths.ts';
 import type { Stop } from '../lib/stop.ts';
 
 interface Props {
-  ladder: Ladder;
+  lang: Lang;
+  ladder: LocalLadder;
   dir: 'v' | 'h';
   /** 지금 보고 있는 용어 */
   current?: string;
 }
 
-const { ladder, dir, current } = Astro.props;
-const { termMap, stubMap } = await loadHandbook();
+const { lang, ladder, dir, current } = Astro.props;
+const { termMap, stubMap } = await loadHandbook(lang);
+const { termHref } = paths(lang);
 
 const stops: Stop[] = ladder.steps.map((id) => {
   const t = termMap.get(id);
-  if (!t) return { id, name: stubMap.get(id)!.chip, sub: '준비 중', state: 'stub' };
-  return { id, name: t.chip, sub: subName(t), href: termHref(id), state: id === current ? 'current' : undefined };
+  if (!t) return { id, name: stubMap.get(id)!.chip, sub: ui(lang).stub, state: 'stub' };
+  return { id, name: t.chip, sub: t.sub || undefined, href: termHref(id), state: id === current ? 'current' : undefined };
 });
 ---
 <Line stops={stops} dir={dir} label={ladder.name} />
