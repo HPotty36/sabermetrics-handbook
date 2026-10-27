@@ -1,5 +1,7 @@
 ---
-// 모든 페이지의 틀. 책의 머리글처럼 쓴 상단 줄(검색), 실밥 구분선, 검색 결과, 데스크톱 왼쪽 차례, 본문.
+// 모든 페이지의 틀. 맨 위 머리글은 두지 않는다.
+// 넓은 화면: 왼쪽 단에 이름, 찾기, 메뉴(처음·사다리·용어). 폰: 아래쪽에 떠 있는 알약(iOS 26 탭 막대처럼) 하나에 같은 메뉴와 찾기 단추.
+// 용어 페이지에서는 알약 위에 사다리의 ‘다음’ 용어를 작은 알약으로 띄운다(iOS 26 탭 막대 위 액세서리).
 // 글꼴은 npm 패키지로 사이트에서 직접 내보낸다. 오프라인(PWA)과 앱에서도 같은 글꼴로 보인다.
 // 본문은 본명조(Noto Serif KR), 작은 안내 글은 Pretendard, 제목 글자와 숫자는 Big Shoulders다.
 // 두 한글 글꼴은 유니코드 조각으로 나뉘어 있어 쓰는 글자의 조각만 받는다.
@@ -10,21 +12,32 @@ import '@fontsource/big-shoulders-display/800';
 import '../styles/global.css';
 import Foot from '../components/Foot.astro';
 import SearchResults from '../components/SearchResults.astro';
-import TermIndex from '../components/TermIndex.astro';
 import { loadHandbook } from '../lib/handbook.ts';
-import { base, homeHref, isAppBuild, termHref } from '../lib/paths.ts';
+import { base, homeHref, isAppBuild, laddersHref, termHref, termsHref } from '../lib/paths.ts';
 import { toSearchEntry } from '../lib/search.ts';
+import type { NextStop } from '../lib/stop.ts';
 
 interface Props {
   title: string;
   description: string;
-  view: 'home' | 'term';
-  current?: string;
+  view: 'home' | 'term' | 'ladders' | 'terms';
+  /** 메뉴에서 칠할 곳. 용어 페이지는 ‘용어’에 속한다. */
+  tab: 'home' | 'ladders' | 'terms';
+  /** 용어 페이지: 사다리의 다음 용어 */
+  next?: NextStop;
 }
 
-const { title, description, view, current } = Astro.props;
+const { title, description, view, tab, next } = Astro.props;
 const { terms } = await loadHandbook();
 const searchIndex = JSON.stringify(terms.map((t) => toSearchEntry(t, termHref(t.id)))).replace(/</g, '\\u003c');
+
+// 메뉴. 지금 페이지면 aria-current="page", 용어 페이지에서 ‘용어’는 aria-current="true"(그 묶음 안에 있다는 뜻)다.
+const menu = [
+  { id: 'home', label: '처음', href: homeHref },
+  { id: 'ladders', label: '사다리', href: laddersHref },
+  { id: 'terms', label: '용어', href: termsHref },
+] as const;
+const current = (id: string) => (id !== tab ? undefined : view === 'term' ? 'true' : 'page');
 ---
 <!doctype html>
 <html lang="ko">
@@ -40,21 +53,37 @@ const searchIndex = JSON.stringify(terms.map((t) => toSearchEntry(t, termHref(t.
 <link rel="manifest" href={`${base}manifest.webmanifest`}>
 </head>
 <body data-view={view}>
-<header class="runhead">
-  <div class="runhead-inner">
-    <a class="brand" href={homeHref} aria-label="세이버메트릭스 핸드북 처음으로"><img src={`${base}favicon.svg`} width="22" height="22" alt=""><span>세이버<span class="long">메트릭스</span> 핸드북</span></a>
-    <label class="search" for="q"><span class="search-label">찾기</span><input id="q" type="search" autocomplete="off" enterkeyhint="go" placeholder="OPS, 블라스트" aria-label="용어 찾기" aria-controls="results"></label>
-  </div>
-  <div class="stitch" aria-hidden="true"></div>
-</header>
-
-<SearchResults />
 <div class="page">
-  <aside class="contents" aria-label="차례">
-    <p class="contents-title">차례</p>
-    <TermIndex current={current} />
+  <aside class="rail" aria-label="메뉴와 찾기">
+    <a class="brand" href={homeHref}><img src={`${base}favicon.svg`} width="24" height="24" alt=""><span>세이버메트릭스 핸드북</span></a>
+    <div class="finder" role="search">
+      <label class="finder-field"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 15.5l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><input id="q" type="search" autocomplete="off" enterkeyhint="go" placeholder="OPS, 블라스트" aria-label="용어 찾기" aria-controls="results"></label>
+      <button type="button" class="finder-close" data-close-search>닫기</button>
+    </div>
+    <nav class="rail-nav" aria-label="메뉴">{menu.map((m) => (
+      <a href={m.href} aria-current={current(m.id)}>{m.label}</a>
+    ))}</nav>
   </aside>
+  <SearchResults />
   <main class="main" id="main"><slot /><Foot /></main>
+</div>
+
+{/* 폰의 아래쪽 알약. 넓은 화면에서는 숨기고 왼쪽 단이 같은 일을 한다. */}
+<div class="dock">
+  {next && (
+    <a class="dock-next glass" href={next.href}><span class="dock-next-label">다음<span class="sr-only"> 용어, 사다리 ‘{next.ladder}’</span></span><b>{next.name}</b><span class="dock-next-sub">{next.sub}</span><span class="dock-next-arrow" aria-hidden="true">→</span></a>
+  )}
+  <div class="dock-row">
+    <nav class="tabs glass" aria-label="메뉴">{menu.map((m) => (
+      <a class="tab" href={m.href} aria-current={current(m.id)}>
+        {m.id === 'home' && <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M5 4.5h14v7.5l-7 7.5-7-7.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>}
+        {m.id === 'ladders' && <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M12 6.5v11" stroke="currentColor" stroke-width="2.2"/><circle cx="12" cy="4.5" r="2.4" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="12" r="2.4" fill="currentColor" stroke="currentColor" stroke-width="1.8"/><circle cx="12" cy="19.5" r="2.4" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>}
+        {m.id === 'terms' && <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M9 6.5h11M9 12h11M9 17.5h11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="4.75" cy="6.5" r="1.25" fill="currentColor"/><circle cx="4.75" cy="12" r="1.25" fill="currentColor"/><circle cx="4.75" cy="17.5" r="1.25" fill="currentColor"/></svg>}
+        <span>{m.label}</span>
+      </a>
+    ))}</nav>
+    <button type="button" class="tab-search glass" data-open-search aria-label="용어 찾기" aria-controls="results"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 15.5l5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+  </div>
 </div>
 
 <script type="application/json" id="search-index" is:inline set:html={searchIndex} />
