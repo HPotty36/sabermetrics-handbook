@@ -2,9 +2,9 @@
 
 입문자부터 깊게 아는 팬까지 읽을 수 있게 정리하는 한국어 세이버메트릭스 용어 사전이다.
 
-- 모든 용어를 ‘쉽게 말하면’과 ‘깊게 보면’ 두 겹으로 쓴다. 읽는 순서는 바꿀 수 있다.
-- 사다리로 기본 지표에서 심화 지표까지 한 칸씩 따라간다 (예: ERA → FIP → xFIP → SIERA).
-- 숫자 읽는 법은 눈금 막대와 구간으로 보여 준다. 리그 평균은 2026 MLB 정규시즌 기준이다.
+- 모든 용어를 ‘쉬운 설명’과 ‘자세한 설명’ 두 겹으로 쓴다. 읽는 순서는 바꿀 수 있다.
+- 주제(코드에서는 사다리)마다 기본 지표에서 심화 지표까지 한 칸씩 따라간다 (예: 투수 평가 ERA → FIP → xFIP → SIERA).
+- 수치 기준은 눈금 막대와 구간으로 보여 준다. 리그 평균은 2026 MLB 정규시즌 기준이다.
 - 블라스트, 어택 앵글처럼 최근 Statcast에 생긴 지표까지 다룬다.
 
 ## 상태
@@ -32,10 +32,10 @@ Node 22.22 이상이 필요하다.
 ```
 src/content/terms/<id>.json   용어 1개 = 파일 1개 (콘텐츠 원본)
 src/content/stubs.json        준비 중 용어
-src/content/ladders.json      사다리 (적힌 순서대로 화면에 나온다)
+src/content/ladders.json      사다리, 화면 이름 ‘주제’ (적힌 순서대로 화면에 나온다)
 src/lib/schema.ts             콘텐츠 스키마 (zod)
 src/lib/validate.ts           파일 사이의 참조와 눈금 범위 검사
-src/pages/                    홈(/)과 용어 페이지(/terms/<id>/)
+src/pages/                    홈(/), 주제(/ladders/), 용어 목록(/terms/), 용어(/terms/<id>/)
 src/scripts/search-box.ts     검색 (브라우저)
 src/scripts/term-index.ts     /terms/의 레벨·분야 고르기 (브라우저)
 src/styles/global.css         스타일 (프로토타입에서 출발)

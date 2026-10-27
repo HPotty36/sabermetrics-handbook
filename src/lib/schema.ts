@@ -4,7 +4,7 @@
 import { z } from 'astro/zod';
 import { ID_PATTERN, scaleIssues } from './validate.ts';
 
-export const LEVELS = { 1: '입문', 2: '중급', 3: '심화' } as const;
+export const LEVELS = { 1: '기본', 2: '중급', 3: '심화' } as const;
 export const CATS = ['타격', '투구', '수비', '종합', '트래킹'] as const;
 export const UNITS = ['%', '°', ' in'] as const;
 
