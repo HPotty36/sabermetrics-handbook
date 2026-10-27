@@ -4,6 +4,10 @@ export interface Paths {
   homeHref: string;
   /** 앞쪽 base가 붙은 사이트 루트. manifest, 아이콘처럼 확장자가 있는 파일에 쓴다. */
   base: string;
+  /** 사다리 전체 페이지 */
+  laddersHref: string;
+  /** 용어 전체 목록 페이지 */
+  termsHref: string;
   termHref(id: string): string;
 }
 
@@ -17,6 +21,8 @@ export function makePaths(base: string, explicitIndex: boolean): Paths {
   return {
     base: root,
     homeHref: root + page,
+    laddersHref: `${root}ladders/${page}`,
+    termsHref: `${root}terms/${page}`,
     termHref: (id) => `${root}terms/${id}/${page}`,
   };
 }

@@ -15,3 +15,14 @@ export function fmt(v: number, s: { fmt: Fmt; unit?: string }): string {
 export function pos(v: number, s: { min: number; max: number }): string {
   return (((v - s.min) / (s.max - s.min)) * 100).toFixed(2);
 }
+
+/**
+ * 평균 설명에서, 옆에 크게 따로 적는 평균 숫자를 뺀 말.
+ * ‘2026 MLB 평균 4.17 (2025년 4.15)’ → ‘2026 MLB 평균 (2025년 4.15)’. 숫자가 그대로 들어 있지 않으면 설명을 그대로 둔다.
+ */
+export function avgCaption(avg: { v: number; t: string }, s: { fmt: Fmt; unit?: string }): string {
+  const n = fmt(avg.v, s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const re = new RegExp(`(^|[^\\d.])${n}(?![\\d])`);
+  if (!re.test(avg.t)) return avg.t;
+  return avg.t.replace(re, '$1').replace(/\s{2,}/g, ' ').replace(/\s+\)/g, ')').trim();
+}

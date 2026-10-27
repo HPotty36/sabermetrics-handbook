@@ -1,0 +1,25 @@
+---
+// 사다리 선. 굵은 잉크 선 위에 역(동그라미)을 찍는다. 세로(v)는 홈 입구와 사다리 페이지, 가로(h)는 홈의 사다리 묶음과 용어 페이지 맨 위에 쓴다.
+// 지금 용어는 빨간 점(is-current), 준비 중은 점선 고리(is-stub)다.
+import type { Stop } from '../lib/stop.ts';
+
+interface Props {
+  stops: Stop[];
+  dir: 'v' | 'h';
+  label?: string;
+}
+
+const { stops, dir, label } = Astro.props;
+---
+<ol class:list={['line', `line-${dir}`]} style={dir === 'h' ? `--n:${stops.length}` : undefined} aria-label={label}>{stops.map((s) => {
+  const body = (
+    <><span class="stop-dot" aria-hidden="true"></span><span class="stop-name">{s.name}</span>{s.sub && <span class="stop-sub">{s.sub}</span>}{s.note && <span class="stop-note">{s.note}</span>}</>
+  );
+  return (
+    <li class:list={['stop', s.state && `is-${s.state}`]} aria-current={s.state === 'current' ? 'step' : undefined}>{s.href && s.state !== 'current' ? (
+      <a class="stop-link" href={s.href}>{body}</a>
+    ) : (
+      <span class="stop-link">{body}</span>
+    )}</li>
+  );
+})}</ol>
