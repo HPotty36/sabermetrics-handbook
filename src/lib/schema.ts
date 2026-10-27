@@ -51,7 +51,7 @@ export const termSchema = z.strictObject({
     })
     .optional(),
   deep: z.array(text).min(1).max(4),
-  myth: z.strictObject({ claim: text, truth: text }),
+  myth: z.strictObject({ claim: text, truth: text }).optional(),
   leagues: z.array(z.strictObject({ lg: text, t: text })).optional(),
   related: z.array(id).min(1),
   sources: z.array(z.strictObject({ t: text, u: z.url({ protocol: /^https?$/ }) })).min(1),

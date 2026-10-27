@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { ALL_CATS, norm, search, toSearchEntry } from '../src/lib/search.ts';
+import { norm, search, toSearchEntry } from '../src/lib/search.ts';
 
 const entries = [
   { id: 'ops', abbr: 'OPS', chip: 'OPS', ko: '출루율 + 장타율', en: 'On-base Plus Slugging', aliases: ['오피에스'], level: 1, cats: ['타격'], summary: '출루율과 장타율을 더한 값.' },
@@ -9,7 +9,7 @@ const entries = [
   { id: 'wrc-plus', abbr: 'wRC+', chip: 'wRC+', ko: '조정 득점 창출력', en: 'Weighted Runs Created Plus', level: 2, cats: ['타격'], summary: '리그 평균을 100으로 맞춘 지표.' },
 ].map((t) => toSearchEntry(t, `/terms/${t.id}/`));
 
-const ids = (q: string, level = 0, cat = ALL_CATS) => search(entries, { q, level, cat }).map((e) => e.id);
+const ids = (q: string) => search(entries, q).map((e) => e.id);
 
 test('norm은 대소문자, 공백, 기호를 무시한다', () => {
   assert.equal(norm('wRC+'), 'wrc');
@@ -36,8 +36,6 @@ test('이름이 맞는 용어를 요약만 맞는 용어보다 앞에 둔다', (
   assert.deepEqual(ids('평균'), ['fip', 'oaa', 'wrc-plus']);
 });
 
-test('레벨과 분야로 거른다', () => {
-  assert.deepEqual(ids('', 2), ['fip', 'oaa', 'wrc-plus']);
-  assert.deepEqual(ids('', 0, '타격'), ['ops', 'wrc-plus']);
-  assert.deepEqual(ids('', 1, '수비'), []);
+test('맞는 용어가 없으면 빈 목록이다', () => {
+  assert.deepEqual(ids('없는용어'), []);
 });
