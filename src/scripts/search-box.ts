@@ -1,20 +1,22 @@
 // 검색. 검색어가 있으면 페이지 내용을 감추고 머리글 바로 아래에 맞는 용어만 보인다. 지우면 보던 자리로 돌아간다.
-import { search, type SearchEntry } from '../lib/search.ts';
+import { ALL_CATS, search, type SearchEntry } from '../lib/search.ts';
 
 const entries: SearchEntry[] = JSON.parse(document.getElementById('search-index')!.textContent!);
 const input = document.getElementById('q') as HTMLInputElement;
 const results = document.getElementById('results')!;
-const list = results.querySelector<HTMLUListElement>('.rows')!;
+const list = results.querySelector<HTMLUListElement>('.hits')!;
 const rows = new Map(Array.from(list.querySelectorAll<HTMLLIElement>('li[data-id]'), (li) => [li.dataset.id!, li]));
 const empty = results.querySelector<HTMLElement>('.empty')!;
 const status = results.querySelector<HTMLElement>('[role="status"]')!;
+
+const find = (q: string) => search(entries, { q, level: 0, cat: ALL_CATS });
 
 let searching = false;
 let scrollBefore = 0;
 
 function render(composing = false) {
   const q = input.value.trim();
-  const found = q ? search(entries, q) : [];
+  const found = q ? find(q) : [];
   // 한글을 조합하는 중(‘ㅂ’)에는 맞는 게 없다는 말이 깜박이지 않게 앞의 결과를 그대로 둔다.
   if (composing && q && found.length === 0) return;
 
@@ -41,7 +43,7 @@ input.addEventListener('compositionend', () => render());
 
 input.addEventListener('keydown', (e) => {
   if (e.key === 'Enter' && !e.isComposing) {
-    const first = search(entries, input.value)[0];
+    const first = find(input.value)[0];
     if (input.value.trim() && first) {
       input.blur();
       location.href = first.href;

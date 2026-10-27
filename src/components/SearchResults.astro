@@ -1,13 +1,15 @@
 ---
 // 검색 결과. 모든 용어를 그려 두고 숨겨 두었다가, 검색어가 생기면 scripts/search-box.ts가 맞는 것만 순서대로 보인다.
-// 검색하는 동안은 페이지 내용 대신 이 목록이 머리글 바로 아래에 나온다(네이버 사전 앱처럼).
-import TermRow from './TermRow.astro';
-import { loadHandbook } from '../lib/handbook.ts';
+// 검색하는 동안은 페이지 내용 대신 이 목록이 머리글 바로 아래에 나온다.
+import { loadHandbook, subName } from '../lib/handbook.ts';
+import { termHref } from '../lib/paths.ts';
 
 const { terms } = await loadHandbook();
 ---
 <section class="results" id="results" aria-label="찾은 용어" hidden>
   <p class="sr-only" role="status"></p>
-  <ul class="rows">{terms.map((t) => <li data-id={t.id}><TermRow term={t} /></li>)}</ul>
+  <ul class="hits">{terms.map((t) => (
+    <li data-id={t.id}><a class="hit" href={termHref(t.id)}><span class="hit-head"><span class="hit-name">{t.chip}</span><span class="hit-sub">{subName(t)}</span></span><span class="hit-sum">{t.summary}</span></a></li>
+  ))}</ul>
   <p class="empty" hidden></p>
 </section>
