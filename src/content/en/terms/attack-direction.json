@@ -1,0 +1,28 @@
+{
+  "name": "Attack Direction",
+  "aliases": ["pull", "oppo", "bat direction"],
+  "summary": "The left-right direction the bat's sweet spot is moving at the moment it meets the ball, as an angle.",
+  "easy": [
+    "A line from home plate to straightaway center is 0 degrees. If the bat is heading toward the hitter's pull side (left field for a righty), it's recorded as 'pull,' and toward the other way as 'oppo.'",
+    "It's tied directly to timing. The bat keeps turning through the swing, so meeting the ball early, out front, moves the angle toward pull, and meeting it late moves it toward oppo."
+  ],
+  "scale": {
+    "avg": "2026 MLB average 2° (pull side; 2025: 2°)",
+    "marks": [
+      { "v": -10, "t": "Oppo extreme" },
+      { "v": 0, "t": "Center" },
+      { "v": 15, "t": "Pull extreme" }
+    ],
+    "note": "Pull is plotted as + and oppo as −. The ends show the usual range of season averages."
+  },
+  "deep": [
+    "It came out in May 2025, together with attack angle and swing path tilt. Attack angle is the bat's up-or-down direction at contact; attack direction is its left-or-right direction at the same moment. On a whiff, it's measured where bat and ball crossed paths.",
+    "The MLB average is about 2 degrees toward pull, and season averages range from about 15 degrees pull to 10 degrees oppo. Some hitters sit right around 0.",
+    "It isn't the direction of the batted ball. The bat can be moving toward the pull side and the ball can still go elsewhere, depending on where it hit the bat and where the pitch was."
+  ],
+  "sources": [
+    { "t": "MLB.com Glossary · Attack Direction", "u": "https://www.mlb.com/glossary/statcast/attack-direction" },
+    { "t": "Baseball Savant changelog · May 2025 swing metrics", "u": "https://baseballsavant.mlb.com/changelog/2025-05-20-swing-path-attack-angle" },
+    { "t": "Baseball Savant · Swing Path (2026, league level)", "u": "https://baseballsavant.mlb.com/leaderboard/bat-tracking/swing-path-attack-angle?gameType=Regular&minSwings=q&seasonStart=2026&seasonEnd=2026&type=league" }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "name": "Chase Rate",
+  "aliases": ["O-Swing%", "chase percentage", "outside swing rate"],
+  "summary": "How often a hitter swings at pitches outside the strike zone.",
+  "easy": [
+    "Swinging at a pitch outside the zone rarely produces good contact, and laying off it means a ball. A hitter who keeps chasing gives the pitcher no reason to throw him strikes.",
+    "Lower is better for hitters, higher is better for pitchers. A pitcher with a high chase rate is good at throwing pitches that look like strikes and then aren't."
+  ],
+  "scale": {
+    "avg": "2026 MLB average 30.5% (2025: 28.2%)",
+    "marks": [
+      { "v": 22.1, "t": "Top 10%" },
+      { "v": 30.3, "t": "Median" },
+      { "v": 38.0, "t": "Bottom 10%" }
+    ],
+    "note": "From the hitter's side. Distribution of the 135 qualified hitters in 2026."
+  },
+  "formula": {
+    "expr": "Chase% = swings at pitches outside the zone ÷ pitches outside the zone"
+  },
+  "deep": [
+    "The math is the same as FanGraphs' O-Swing%. Each data source draws the zone a little differently, though, so the two sites' numbers don't quite match.",
+    "League chase rate rose to 30.5% in 2026 from 28.2% in 2025, while the share of pitches in the zone dropped from 50.6% to 47.5%.",
+    "Laying off pitches outside the zone isn't enough if a hitter also takes everything inside it, because he falls behind in the count. That's why it gets read alongside the rate of swings at pitches in the zone (Z-Swing%)."
+  ],
+  "sources": [
+    { "t": "FanGraphs Library · Plate Discipline", "u": "https://library.fangraphs.com/offense/plate-discipline/" },
+    { "t": "Baseball Savant · 2026 league averages", "u": "https://baseballsavant.mlb.com/league?season=2026" },
+    { "t": "Baseball Savant · 2026 custom leaderboard (qualified hitters)", "u": "https://baseballsavant.mlb.com/leaderboard/custom?year=2026&type=batter&min=q&selections=pa,on_base_percent,slg_percent,isolated_power,bb_percent,xba,sweet_spot_percent,oz_swing_percent,whiff_percent" }
+  ]
+}

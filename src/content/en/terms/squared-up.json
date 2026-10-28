@@ -1,0 +1,28 @@
+{
+  "name": "Squared-Up Rate",
+  "aliases": ["squared up", "squared-up percentage"],
+  "summary": "The share of swings that reach at least 80% of the top exit velocity possible for that bat speed and pitch speed.",
+  "easy": [
+    "Swing just as hard and catch the ball off the end of the bat or near the hands, and it comes off weak. Squared-up looks at how much of the exit velocity that swing and that pitch made possible the hitter actually got.",
+    "Reach 80% or more and it counts as a squared-up swing. It doesn't take a hard swing: a slow curveball met squarely by an easy swing, for a single up the middle, can qualify."
+  ],
+  "scale": {
+    "avg": "2026 MLB average 24.7% (2025: 25.5%)",
+    "marks": [
+      { "v": 20.0, "t": "Bottom 10%" },
+      { "v": 25.0, "t": "Median" },
+      { "v": 31.7, "t": "Top 10%" }
+    ],
+    "note": "Per swing; distribution of the 209 qualified hitters in 2026 bat tracking. Per contact, the 2026 average was 32.3%."
+  },
+  "deep": [
+    "The maximum exit velocity only comes when the ball meets the sweet spot, about 4 to 9 inches from the end of the bat. Comparing actual exit velocity with that maximum tells you, in reverse, where on the bat the ball was hit.",
+    "The leaderboard shows two versions, per swing and per contact. Whiffs count as 0% only in the per-swing version, so it always comes out lower.",
+    "In the first month of 2024, league-wide, squared-up balls hit .371 and slugged .656, while balls that weren't squared up hit .126 and slugged .142. Squared-up contact on a fast swing is counted separately as a blast."
+  ],
+  "sources": [
+    { "t": "MLB.com Glossary · Squared-Up", "u": "https://www.mlb.com/glossary/statcast/squared-up" },
+    { "t": "Baseball Savant · Bat Tracking (2026, league level)", "u": "https://baseballsavant.mlb.com/leaderboard/bat-tracking?minSwings=q&seasonStart=2026&seasonEnd=2026&type=league&gameType=Regular" },
+    { "t": "Baseball Savant · Bat Tracking (2026 qualified hitters)", "u": "https://baseballsavant.mlb.com/leaderboard/bat-tracking?gameType=Regular&minSwings=q&seasonStart=2026&seasonEnd=2026&type=batter" }
+  ]
+}

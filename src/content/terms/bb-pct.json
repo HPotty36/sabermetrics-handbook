@@ -1,0 +1,91 @@
+{
+  "abbr": "BB%",
+  "chip": "BB%",
+  "ko": "볼넷 비율",
+  "aliases": [
+    "볼넷률",
+    "볼넷%",
+    "볼넷 허용률",
+    "walk rate",
+    "BB/9"
+  ],
+  "level": 1,
+  "order": 43,
+  "cats": [
+    "타격",
+    "투구"
+  ],
+  "summary": "타석 가운데 볼넷으로 끝난 비율. 투수는 상대한 타자 가운데 볼넷으로 내보낸 비율이다.",
+  "easy": [
+    "타자에게 볼넷은 눈으로 얻는 출루다. 볼과 스트라이크를 잘 가리고, 불리한 카운트에서도 참을 수 있어야 쌓인다.",
+    "투수에게는 반대다. 볼넷은 공이 맞지도 않았는데 주자를 내보내는 일이라 수비가 도와줄 방법이 없다. 투수의 BB%는 낮을수록 좋다."
+  ],
+  "scale": {
+    "min": 2,
+    "max": 18,
+    "dir": "high",
+    "fmt": "dec1",
+    "unit": "%",
+    "avg": {
+      "v": 8.9,
+      "t": "2026 MLB 평균 8.9% (2025년 8.4%)"
+    },
+    "marks": [
+      {
+        "v": 5.7,
+        "t": "하위 10%"
+      },
+      {
+        "v": 9.2,
+        "t": "가운데"
+      },
+      {
+        "v": 13.2,
+        "t": "상위 10%"
+      }
+    ],
+    "note": "타자 기준이다. 2026 규정 타석 타자 135명의 분포다."
+  },
+  "formula": {
+    "expr": "BB% = BB ÷ PA",
+    "vars": [
+      [
+        "BB",
+        "볼넷"
+      ],
+      [
+        "PA",
+        "타석 (투수는 상대한 타자 수)"
+      ]
+    ]
+  },
+  "deep": [
+    "투수의 볼넷은 오랫동안 9이닝당 볼넷(BB/9)으로 셌다. 이닝으로 나누면 안타를 많이 맞는 투수는 이닝마다 타자를 더 상대하니 숫자가 흔들린다. 상대한 타자 수로 나누는 BB%가 볼넷 습관만 따로 보여 준다.",
+    "2026년 리그 평균은 8.9%로 2025년(8.4%)보다 눈에 띄게 올랐다.",
+    "장타자는 볼넷도 삼진도 많은 편이다. 투수가 정면 승부를 피하고, 크게 휘두르다 헛치는 일도 잦다. 맞히는 데 집중하는 타자는 대개 둘 다 적다."
+  ],
+  "related": [
+    "k-pct",
+    "obp",
+    "k-bb",
+    "chase"
+  ],
+  "sources": [
+    {
+      "t": "MLB.com Glossary · Walk Rate",
+      "u": "https://www.mlb.com/glossary/advanced-stats/walk-rate"
+    },
+    {
+      "t": "FanGraphs Library · K% and BB% (타자)",
+      "u": "https://library.fangraphs.com/offense/rate-stats/"
+    },
+    {
+      "t": "Baseball-Reference · 2026 MLB 타격 (리그 평균)",
+      "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-batting.shtml"
+    },
+    {
+      "t": "Baseball Savant · 2026 커스텀 리더보드 (규정 타석)",
+      "u": "https://baseballsavant.mlb.com/leaderboard/custom?year=2026&type=batter&min=q&selections=pa,on_base_percent,slg_percent,isolated_power,bb_percent,xba,sweet_spot_percent,oz_swing_percent,whiff_percent"
+    }
+  ]
+}

@@ -32,25 +32,34 @@ A glossary of baseball stats, from batting average to swing timing. Every term i
 - **Two layers per term.** A simple explanation and a detailed one, with a switch for which comes first. The choice is remembered.
 - **Topics.** Related terms lined up from basic to advanced, so you can keep going one step at a time (ERA → FIP → xFIP → SIERA).
 - **Benchmarks.** A scale with the 2026 MLB average and rough ranges for good and bad. Every number links to its source.
-- **Recent Statcast metrics.** Bat speed, blasts, attack angle and swing timing, along with the classics.
+- **Recent Statcast metrics.** Bat speed, swing length, attack direction, arm angle, swing timing and the 2026 ABS challenge, along with the classics.
 - **Korean and English, light and dark.** Switch language on any page and land on the same term. Dark mode is pitch black.
 - **Installs like an app.** Tap “Install app” in the settings (on iPhone it shows how to add it to the Home Screen). Once installed, every page, font and search works without a connection, and long-pressing the icon jumps to Topics, Terms or the other language. Android and iOS wrappers use the same build.
 
 ## Terms
 
-27 terms in nine topics. A term can sit in more than one topic.
+62 terms in 18 topics. A term can sit in more than one topic.
 
 | Topic | From basic to advanced |
 | --- | --- |
 | Hitting | AVG → OPS → wOBA → wRC+ |
-| Player Value | wRC+ → WAR |
-| Contact Quality | Exit Velocity → HardHit% → Barrel → xwOBA |
-| Luck vs. Skill | BABIP → xwOBA |
-| Pitching | ERA → FIP → xFIP → SIERA |
-| Strikeouts and Whiffs | K% → CSW% |
+| On-Base and Power | OBP → SLG → ISO → OPS |
+| Plate Discipline | BB% → K% → Chase% → Whiff% |
+| Contact Quality | Exit Velocity → Launch Angle → HardHit% → Sweet Spot% → Barrel |
+| Luck vs. Skill | BABIP → xBA → xwOBA → xERA |
+| The Swing | Bat Speed → Swing Length → Blast → Attack Angle → Swing Timing |
+| Swing Path | Attack Angle → Attack Direction → Swing Path Tilt → Squared-Up% |
+| Baserunning | Sprint Speed → Baserunning Run Value → BsR |
+| Pitching | ERA → WHIP → ERA+ → FIP |
+| Defense-Independent Pitching | FIP → xFIP → SIERA → xERA |
+| Strikeouts and Whiffs | K% → K-BB% → CSW% → Whiff% |
 | Pitch Quality | Velocity → Spin Rate → IVB → VAA → Stuff+ |
-| The Swing | Bat Speed → Blast → Attack Angle → Swing Timing |
-| Fielding | FPCT → OAA |
+| Release and Spin | Extension → Arm Angle → Spin Rate → Active Spin |
+| Pitch Models | Stuff+ → Location+ → Pitching+ |
+| Fielding | FPCT → Arm Strength → OAA → DRS → FRV |
+| Catcher Defense | Pop Time → Blocking → Framing → ABS Challenge |
+| Player Value | wRC+ → WAR |
+| Context and Wins | RE24 → WPA → LI |
 
 ## Getting started
 

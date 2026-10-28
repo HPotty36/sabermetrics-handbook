@@ -1,0 +1,72 @@
+{
+  "abbr": "Swing Path Tilt",
+  "chip": "스윙 틸트",
+  "ko": "스윙 틸트 (스윙 궤적의 기울기)",
+  "aliases": [
+    "스윙틸트",
+    "스윙 패스",
+    "스윙패스",
+    "어퍼 스윙",
+    "레벨 스윙",
+    "swing path",
+    "swing tilt"
+  ],
+  "level": 3,
+  "order": 94,
+  "cats": [
+    "타격",
+    "트래킹"
+  ],
+  "added": 2025,
+  "summary": "공과 만나기 직전 40ms 동안 배트가 그린 궤적이 땅과 이루는 각도.",
+  "easy": [
+    "‘레벨 스윙’, ‘어퍼 스윙’ 할 때의 그 기울기다. 0도면 배트가 지면과 나란히 지나가는 완전히 평평한 스윙이고, 90도면 골프처럼 세워서 도는 스윙이다.",
+    "타자들의 평균은 32도쯤이고, 시즌 평균으로는 20도 안팎의 평평한 스윙부터 50도 안팎의 가파른 스윙까지 있다. 어느 쪽이 좋은 게 아니라 스윙의 종류다."
+  ],
+  "scale": {
+    "min": 15,
+    "max": 55,
+    "dir": "none",
+    "fmt": "int",
+    "unit": "°",
+    "avg": {
+      "v": 32,
+      "t": "2026 MLB 평균 32° (2025년 32°)"
+    },
+    "marks": [
+      {
+        "v": 20,
+        "t": "평평한 편"
+      },
+      {
+        "v": 50,
+        "t": "가파른 편"
+      }
+    ],
+    "note": "양 끝 눈금은 MLB 용어집이 적은 시즌 평균의 대략적인 범위다."
+  },
+  "deep": [
+    "같은 타자도 코스에 따라 기울기가 바뀐다. 높은 공에는 평평해지고 낮은 공에는 가팔라진다.",
+    "어택 앵글과 헷갈리기 쉽다. 틸트는 접촉 직전 스윙 전체가 그리는 면의 기울기이고, 어택 앵글은 접촉하는 순간 배트 중심이 위로 가는지 아래로 가는지다.",
+    "Statcast 스윙 지표 묶음으로 2025년 5월에 나왔고, 데이터는 배트 트래킹이 시작된 2023년 올스타 휴식기 이후부터 있다."
+  ],
+  "related": [
+    "attack-angle",
+    "attack-direction",
+    "batspeed"
+  ],
+  "sources": [
+    {
+      "t": "MLB.com Glossary · Swing Path Tilt",
+      "u": "https://www.mlb.com/glossary/statcast/swing-path-tilt"
+    },
+    {
+      "t": "Baseball Savant 변경 기록 · 2025년 5월 스윙 지표",
+      "u": "https://baseballsavant.mlb.com/changelog/2025-05-20-swing-path-attack-angle"
+    },
+    {
+      "t": "Baseball Savant · 스윙 궤적 (2026 리그 단위)",
+      "u": "https://baseballsavant.mlb.com/leaderboard/bat-tracking/swing-path-attack-angle?gameType=Regular&minSwings=q&seasonStart=2026&seasonEnd=2026&type=league"
+    }
+  ]
+}

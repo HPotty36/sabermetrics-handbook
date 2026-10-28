@@ -1,6 +1,6 @@
 {
   "name": "Attack Angle",
-  "aliases": ["swing path", "swing path tilt", "attack direction", "ideal attack angle"],
+  "aliases": ["ideal attack angle"],
   "summary": "Whether the bat is traveling up or down, and how steeply, at the instant its sweet spot meets the ball.",
   "easy": [
     "If the bat is rising a little when it meets the ball, line drives and well-struck fly balls come more easily. Chop down too much and grounders follow. Uppercut too much and you're popping it straight up.",

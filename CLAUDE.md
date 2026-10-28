@@ -19,19 +19,19 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
 
 - Astro 7 정적 사이트다. Node 22.22 이상. `npm run dev`, `npm run build`(결과는 `dist/`), `npm test`, `npm run check`.
   - 앱(Capacitor 8): `npm run cap:sync`가 앱용 빌드(`dist-app/`)를 만들어 `android/`, `ios/`에 복사한다. 앱의 로컬 서버는 확장자 없는 주소를 모두 홈 `index.html`로 보내므로(Android `WebViewLocalServer`, iOS 라우터), 앱용 빌드(`astro build --mode app`)만 페이지 링크에 `index.html`까지 적는다(`src/lib/make-paths.ts`). 웹 빌드의 주소는 그대로다. 앱에서는 서비스 워커를 등록하지 않는다.
-  - 라우트: `src/pages/[...lang]/` 아래 템플릿 하나로 한국어(`/`)와 영어(`/en/`) 페이지를 함께 만든다(`langPaths`, `src/lib/i18n.ts`). `index.astro`(홈), `ladders.astro`(사다리 전체 ‘주제’ `/ladders/`), `terms/index.astro`(용어 전체 `/terms/`), `terms/[id].astro`(용어 `/terms/<id>/`). 페이지 수는 언어마다 30개, 모두 60개다.
+  - 라우트: `src/pages/[...lang]/` 아래 템플릿 하나로 한국어(`/`)와 영어(`/en/`) 페이지를 함께 만든다(`langPaths`, `src/lib/i18n.ts`). `index.astro`(홈), `ladders.astro`(사다리 전체 ‘주제’ `/ladders/`), `terms/index.astro`(용어 전체 `/terms/`), `terms/[id].astro`(용어 `/terms/<id>/`). 페이지 수는 언어마다 65개, 모두 130개다.
   - 화면 문구는 `src/lib/i18n.ts`에 두 언어가 같은 키로 있다. 링크는 `paths(lang)`(`src/lib/paths.ts`, `make-paths.ts`)로 만든다.
   - 콘텐츠의 원본은 `src/content/`다.
-    - `terms/<id>.json`: 용어 1개 = 파일 1개(27개). 파일 이름이 id다. 언어와 상관없는 값(레벨, 눈금 숫자, 출처 URL)과 한국어 글. 콘텐츠 컬렉션 `terms`로 읽는다.
+    - `terms/<id>.json`: 용어 1개 = 파일 1개(62개). 파일 이름이 id다. 언어와 상관없는 값(레벨, 눈금 숫자, 출처 URL)과 한국어 글. 콘텐츠 컬렉션 `terms`로 읽는다.
     - `en/terms/<id>.json`: 같은 용어의 영어 글(컬렉션 `termsEn`). 숫자와 출처 URL은 한국어 파일 것을 쓰고, `validateEnglish`(`src/lib/validate.ts`)가 짝을 검사한다. `loadHandbook(lang)`이 언어별로 합쳐 `LocalTerm`으로 준다.
-    - `stubs.json`(준비 중, 지금은 0개), `ladders.json`(사다리 9개): 순서가 있는 목록이라 컬렉션이 아니라 `src/lib/handbook.ts`에서 읽는다. 사다리는 파일에 적힌 순서대로 화면에 나온다. 둘 다 영어 이름(`en`)이 있다.
+    - `stubs.json`(준비 중, 지금은 0개), `ladders.json`(사다리 18개): 순서가 있는 목록이라 컬렉션이 아니라 `src/lib/handbook.ts`에서 읽는다. 사다리는 파일에 적힌 순서대로 화면에 나온다. 둘 다 영어 이름(`en`)이 있다.
   - 스키마는 `src/lib/schema.ts`(zod), 파일 사이의 참조 검사는 `src/lib/validate.ts`다. 어긋나면 `astro build`가 실패한다. `npm test`는 빌드 없이 같은 검사를 돌린다.
   - 클라이언트 스크립트는 이것뿐이다. `src/scripts/search-box.ts`(검색: 넓은 화면은 왼쪽 단 입력란, 폰은 아래쪽 알약의 찾기 화면과 키보드 높이 맞추기), `src/scripts/term-index.ts`(`/terms/`의 레벨·분야 고르기), `src/scripts/prefs.ts`(다크 모드 단추, 고른 언어 저장, 앱 설치 단추), 용어 페이지의 인라인 스크립트(읽는 순서), `Base.astro`의 인라인 스크립트 셋(첫 화면 전에 저장된 다크 모드 붙이기, 영어를 고른 사람이 밖에서 한국어 홈에 오면 영어 홈으로 보내기, 서비스 워커 등록과 나머지 페이지 저장 알림).
     - 화면 문구가 필요한 스크립트는 페이지가 data-*로 넘긴다(`data-no-match`, `data-found`, `data-empty`). 스크립트 안에는 문구를 두지 않는다.
     - 저장소: localStorage `sh-order`(읽는 순서), `sh-theme`(light/dark, 없으면 기기 설정), `sh-lang`(ko/en), sessionStorage `sh-index`(레벨·분야).
   - 스타일은 `src/styles/global.css`다. 프로토타입 CSS에서 출발했다. 맨 위 주석에 디자인 언어를 요약해 두었다.
   - 글꼴은 npm 패키지로 직접 내보낸다(`Base.astro`에서 불러옴). 한글과 본문은 모두 `pretendard`, 표제·표제어·숫자는 Big Shoulders(Fontsource)다. Pretendard는 유니코드 조각으로 나뉘어 쓰는 조각만 받는다. `astro.config.mjs`의 작은 Vite 플러그인이 Fontsource의 woff를 빼고 woff2만 남긴다.
-  - PWA: `public/manifest.webmanifest`(한국어, start_url `/`)와 `public/en/manifest.webmanifest`(영어, start_url `/en/`), 아이콘(`public/icons/*.png`), 서비스 워커. 설치 창과 iOS 홈 화면은 아래 ‘설치’에 있다. 서비스 워커는 빌드가 끝나면 `integrations/service-worker.mjs`가 `dist/sw.js`로 만든다. CSS·JS·아이콘·manifest와 두 홈은 설치 때 저장하고, 나머지 페이지 58개는 페이지가 열리고 3초 뒤 하나씩 저장한다(아래 ‘설치’의 안드로이드 두 번째). 글꼴 조각과 manifest의 화면 사진은 쓰일 때 저장한다. 페이지는 네트워크 우선(3초 안에 안 오면 저장본), 없는 페이지는 오프라인에서 그 언어의 홈으로 대신한다. 저장본을 찾을 때 Vary를 보지 않는다(모듈 스크립트는 Origin 헤더를 붙여 요청하므로, 서버가 `Vary: Origin`을 보내면 미리 저장한 것과 짝이 안 맞아 오프라인에서 스크립트가 빠졌다. 2026-10-27에 고쳤다).
+  - PWA: `public/manifest.webmanifest`(한국어, start_url `/`)와 `public/en/manifest.webmanifest`(영어, start_url `/en/`), 아이콘(`public/icons/*.png`), 서비스 워커. 설치 창과 iOS 홈 화면은 아래 ‘설치’에 있다. 서비스 워커는 빌드가 끝나면 `integrations/service-worker.mjs`가 `dist/sw.js`로 만든다. CSS·JS·아이콘·manifest와 두 홈은 설치 때 저장하고, 나머지 페이지 128개는 페이지가 열리고 3초 뒤 하나씩 저장한다(아래 ‘설치’의 안드로이드 두 번째). 글꼴 조각과 manifest의 화면 사진은 쓰일 때 저장한다. 페이지는 네트워크 우선(3초 안에 안 오면 저장본), 없는 페이지는 오프라인에서 그 언어의 홈으로 대신한다. 저장본을 찾을 때 Vary를 보지 않는다(모듈 스크립트는 Origin 헤더를 붙여 요청하므로, 서버가 `Vary: Origin`을 보내면 미리 저장한 것과 짝이 안 맞아 오프라인에서 스크립트가 빠졌다. 2026-10-27에 고쳤다).
   - 배포: https://sabermetrics-handbook.pages.dev/ . Cloudflare Pages에 Git으로 연결했다(프로덕션 브랜치 `main`, 빌드 명령 `npm run build`, 출력 `dist`). `main`에 합치면 다시 배포되고, 다른 브랜치는 미리보기 배포가 된다.
     - 대시보드의 ‘새로운 것을 만들기’에서 GitHub를 바로 고르면 Workers가 만들어진다. Workers 주소에는 계정 서브도메인이 붙으므로 쓰지 않는다. 화면 아래 ‘레거시 Pages 워크플로’의 ‘Pages로 계속’으로 만든다.
     - 2026-10-26에 배포 주소를 확인했다. 파일 418개가 로컬 빌드와 같았다. Chromium에서 검색·필터·읽는 순서가 동작했고, 1280px·400px에서 가로 스크롤이 없었고, 설치 가능 판정에 오류가 없었다. 서버에 닿지 않게 한 뒤에도 방문하지 않은 용어 페이지, 홈, 없는 주소(→ 홈), 글꼴, 검색이 동작했다.
@@ -227,6 +227,22 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
   - 필터를 피해 가지는 않는다(사용자가 켠 차단이다). 대신 manifest 링크가 없으면 안드로이드 안내 시트에 ‘광고 차단 앱이 설치 정보를 지웠다, 이 사이트에서 끄고 새로 고친 뒤 다시’를 보인다(`[data-blocked-note]`). ‘두 번째’에서 넣은 ‘잠시 뒤 다시 해 보세요’는 뺐다.
   - AdGuard를 켠 채 설치하려면 AdGuard의 사용자 규칙에 `sabermetrics-handbook.pages.dev$@$link[rel="manifest"]`를 넣거나 ‘Mobile App Banners’ 필터를 끈다.
 - 확인(Chromium): 두 언어 모두 설치 판정·manifest 오류가 없고, 화면 사진과 바로 가기 아이콘이 모두 열린다. 설치 이벤트를 흉내 내서 단추가 나오고 설치 창을 띄우는 것, iPhone 사용자 에이전트에서 안내 시트가 열리고 닫히는 것, 설치한 화면에서 단추가 없는 것, 언어 바로 가기를 확인했다. 실제 기기의 설치 화면은 아직 눈으로 보지 못했다.
+
+### 용어 62개 (2026-10-28)
+
+사용자 요청: 다음 버전 계획의 지표 후보 가운데 ‘사이트 접근이 안 돼서 정확한 설명이 안 되는 것을 빼고 다 넣어 달라’. 계획의 29개와 보류 후보(WHIP, 스위트 스팟%, DRS, Location+, Pitching+, ABS 챌린지)까지 35개를 더했고, 원문에 접근하지 못해 뺀 것은 없다. 확인한 값과 출처는 `docs/verified-facts.md`의 ‘2026-10-28 새 용어 35개’에 있다.
+
+- 더한 용어: 출루율, 장타율, ISO, BB%, K-BB%, ERA+, WHIP, 발사각, 스위트 스팟%, 체이스%, 헛스윙%, 스프린트 스피드, 송구 속도, 팝 타임, xBA, xERA, 스윙 길이, 스퀘어드업%, 어택 디렉션, 스윙 틸트, 익스텐션, 팔 각도, 액티브 스핀, FRV, 블로킹, 프레이밍, 주루 득점 가치, RE24, WPA, LI, BsR, DRS, Location+, Pitching+, ABS 챌린지.
+  - `added`: 스윙 길이·스퀘어드업%·팔 각도 2024, 어택 디렉션·스윙 틸트 2025, ABS 챌린지 2026.
+  - 주루 용어(스프린트 스피드, 주루 득점 가치, BsR)는 분야를 ‘종합’에 둔다. 분야를 새로 만들지 않았다.
+  - 어택 앵글의 별칭에서 따로 용어가 생긴 이름(스윙 틸트, 어택 디렉션)을 뺐고, 기존 용어 17개의 관련 용어에 새 용어를 더했다. 기존 글은 고치지 않았다.
+- 주제 18개(한 주제 5칸 이하): 타격 평가, 출루와 장타, 선구안, 타구의 질, 운과 실력, 스윙 분석, 스윙 궤적, 주루, 투수 평가, 수비 무관 지표, 삼진과 헛스윙, 구위 분석, 릴리스와 회전, 투구 모델, 수비 평가, 포수 수비, 선수 가치, 상황과 승리. ‘투수 평가’는 ERA → WHIP → ERA+ → FIP가 됐고, xFIP·SIERA는 ‘수비 무관 지표’로 옮겼다. ‘타구의 질’의 xwOBA는 ‘운과 실력’에 남았다.
+- 수치 기준의 구간: FanGraphs 경험칙 표의 평균이 2026 실제 평균과 맞으면(출루율, WHIP) 표를 쓰고, 아니면 2026 Savant 리더보드의 선수 분포(하위 10%, 가운데, 상위 10%)로 정했다(`docs/content-guide.md`의 `scale`). 단위 ` ft`, ` ft/s`를 더했다. 팝 타임은 단위 없이 ‘단위는 초’를 메모에 적는다.
+- 화면에서 바뀐 것(최소한만):
+  - 홈 두 입구는 12개씩만 보이고, 끝에 ‘용어 전체 →’(영어 ‘All terms’, `/terms/`)를 단다. 기본 지표가 14개, 심화 지표가 28개로 늘어 폰 홈이 너무 길어져서다(계획 페이지의 ‘입구마다 자르고 용어 전체 링크’).
+  - 홈 주제 묶음의 가로 선에서 긴 이름(스프린트 스피드, 주루 득점 가치)이 옆 이름과 겹쳐서, 띄어쓰기에서 두 줄로 넘어가게 했다(`word-break: keep-all`).
+  - README 표·그림, manifest 화면 사진을 다시 찍었다.
+- 계획에서 아직 하지 않은 것(사용자 결정 대기): 넓은 화면의 실밥 강조 통일, 읽은 진도 표시, 2D/3D 그림, 주제 페이지 분야 고르기와 홈 주제 묶음 정리.
 
 ### 앱 아이콘 (2026-10-26)
 

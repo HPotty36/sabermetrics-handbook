@@ -1,0 +1,18 @@
+{
+  "name": "Arm Strength",
+  "aliases": ["throw velocity", "ARM"],
+  "summary": "How fast a fielder's throw is moving when it leaves his hand. The leaderboard averages his max-effort throws.",
+  "easy": [
+    "It's 'he's got a cannon' turned into a number. A thrown ball is fastest the instant it leaves the hand, so that's where it's measured.",
+    "Outfielders often throw on the run, so their throws can come in faster than a pitcher's, who throws from a standstill on the mound."
+  ],
+  "deep": [
+    "Averaging every throw would mix in lots of soft tosses, so the leaderboard keeps only the hardest ones for each position: the top 1% for first basemen, the top 5% for second, third and short, and the top 10% for outfielders. Catchers are listed separately on the pop time leaderboard, using their top 10%.",
+    "Speed isn't everything. A throw that's off target or bounces a few times arrives late no matter how hard it started. The value of actually throwing runners out or holding them is counted in runs by the throwing part of Fielding Run Value.",
+    "The data starts in 2020, the first season of Hawk-Eye tracking."
+  ],
+  "sources": [
+    { "t": "MLB.com Glossary · Arm Strength", "u": "https://www.mlb.com/glossary/statcast/arm-strength" },
+    { "t": "Baseball Savant · Arm Strength leaderboard", "u": "https://baseballsavant.mlb.com/leaderboard/arm-strength" }
+  ]
+}

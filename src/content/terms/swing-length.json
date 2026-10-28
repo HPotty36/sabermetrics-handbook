@@ -1,0 +1,73 @@
+{
+  "abbr": "Swing Length",
+  "chip": "스윙 길이",
+  "ko": "스윙 길이",
+  "aliases": [
+    "스윙길이",
+    "짧은 스윙",
+    "간결한 스윙",
+    "swing length"
+  ],
+  "level": 2,
+  "order": 67,
+  "cats": [
+    "타격",
+    "트래킹"
+  ],
+  "added": 2024,
+  "summary": "스윙을 시작해 공과 만날 때까지 배트 머리가 움직인 거리(피트).",
+  "easy": [
+    "‘간결한 스윙’, ‘스윙이 크다’는 말을 거리로 잰 값이다. 공까지 가는 길이 짧으면 공을 더 오래 보고 늦게 출발해도 된다.",
+    "MLB 평균은 7.3피트(약 2.2m)쯤이다. 짧은 스윙은 잘 맞히고, 긴 스윙은 덜 맞히는 대신 맞으면 멀리 간다."
+  ],
+  "scale": {
+    "min": 5.5,
+    "max": 9,
+    "dir": "none",
+    "fmt": "dec1",
+    "unit": " ft",
+    "avg": {
+      "v": 7.3,
+      "t": "2026 MLB 평균 7.3 ft (2025년 7.3 ft)"
+    },
+    "marks": [
+      {
+        "v": 6.8,
+        "t": "짧은 쪽 10%"
+      },
+      {
+        "v": 7.8,
+        "t": "긴 쪽 10%"
+      }
+    ],
+    "note": "2026 배트 트래킹 규정 타자 209명의 분포다. 시즌 평균으로는 6피트 조금 아래부터 8.5피트 넘게까지 퍼진다."
+  },
+  "deep": [
+    "배트 트래킹이 잡히기 시작한 순간(대개 접촉 150ms쯤 전)부터 접촉까지, 배트 머리가 3차원 공간에서 움직인 거리를 모두 더한다. 2024년 5월 배트 트래킹과 함께 공개됐다.",
+    "2024년 첫 달 MLB 전체로 보면 평균보다 짧은 스윙은 타율 .258·장타율 .359·헛스윙% 19%, 긴 스윙은 타율 .235·장타율 .422·헛스윙% 30%였다. 맞히는 쪽과 멀리 보내는 쪽을 맞바꾸는 모양이 숫자로 보인다.",
+    "배트 스피드와 겹치는 데가 있지만 둘은 다른 값이다. 길이가 같은 스윙도 배트 스피드는 크게 다를 수 있다."
+  ],
+  "myth": {
+    "claim": "짧은 스윙이 좋은 스윙이다.",
+    "truth": "맞히기는 쉬워도 장타는 줄어든다. 어느 쪽이 나은지는 타자의 힘과 역할에 달렸다."
+  },
+  "related": [
+    "batspeed",
+    "whiff",
+    "squared-up"
+  ],
+  "sources": [
+    {
+      "t": "MLB.com Glossary · Swing Length",
+      "u": "https://www.mlb.com/glossary/statcast/swing-length"
+    },
+    {
+      "t": "Baseball Savant · Bat Tracking (2026 리그 단위)",
+      "u": "https://baseballsavant.mlb.com/leaderboard/bat-tracking?minSwings=q&seasonStart=2026&seasonEnd=2026&type=league&gameType=Regular"
+    },
+    {
+      "t": "Baseball Savant · Bat Tracking (2026 규정 타자)",
+      "u": "https://baseballsavant.mlb.com/leaderboard/bat-tracking?gameType=Regular&minSwings=q&seasonStart=2026&seasonEnd=2026&type=batter"
+    }
+  ]
+}

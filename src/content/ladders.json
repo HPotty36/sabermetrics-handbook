@@ -11,12 +11,25 @@
     ]
   },
   {
-    "name": "선수 가치",
-    "en": "Player Value",
-    "hint": "타격에서 선수 전체로",
+    "name": "출루와 장타",
+    "en": "On-Base and Power",
+    "hint": "얼마나 자주 나가고 얼마나 멀리 쳤나",
     "steps": [
-      "wrc-plus",
-      "war"
+      "obp",
+      "slg",
+      "iso",
+      "ops"
+    ]
+  },
+  {
+    "name": "선구안",
+    "en": "Plate Discipline",
+    "hint": "어떤 공에 방망이를 냈나",
+    "steps": [
+      "bb-pct",
+      "k-pct",
+      "chase",
+      "whiff"
     ]
   },
   {
@@ -25,9 +38,10 @@
     "hint": "얼마나 잘 맞혔나",
     "steps": [
       "ev",
+      "launch-angle",
       "hardhit",
-      "barrel",
-      "xwoba"
+      "sweet-spot",
+      "barrel"
     ]
   },
   {
@@ -36,18 +50,64 @@
     "hint": "결과와 내용 구분하기",
     "steps": [
       "babip",
-      "xwoba"
+      "xba",
+      "xwoba",
+      "xera"
+    ]
+  },
+  {
+    "name": "스윙 분석",
+    "en": "The Swing",
+    "hint": "배트가 어떻게 지나갔나",
+    "steps": [
+      "batspeed",
+      "swing-length",
+      "blast",
+      "attack-angle",
+      "timing"
+    ]
+  },
+  {
+    "name": "스윙 궤적",
+    "en": "Swing Path",
+    "hint": "배트가 어느 쪽으로 움직였나",
+    "steps": [
+      "attack-angle",
+      "attack-direction",
+      "swing-tilt",
+      "squared-up"
+    ]
+  },
+  {
+    "name": "주루",
+    "en": "Baserunning",
+    "hint": "다리로 만든 점수",
+    "steps": [
+      "sprint-speed",
+      "baserunning",
+      "bsr"
     ]
   },
   {
     "name": "투수 평가",
     "en": "Pitching",
-    "hint": "수비와 운을 뺀 실점 능력",
+    "hint": "실점과 출루 허용",
     "steps": [
       "era",
+      "whip",
+      "era-plus",
+      "fip"
+    ]
+  },
+  {
+    "name": "수비 무관 지표",
+    "en": "Defense-Independent Pitching",
+    "hint": "수비와 운을 뺀 실점 능력",
+    "steps": [
       "fip",
       "xfip",
-      "siera"
+      "siera",
+      "xera"
     ]
   },
   {
@@ -56,7 +116,9 @@
     "hint": "타석 결과보다 잘게",
     "steps": [
       "k-pct",
-      "csw"
+      "k-bb",
+      "csw",
+      "whiff"
     ]
   },
   {
@@ -72,14 +134,24 @@
     ]
   },
   {
-    "name": "스윙 분석",
-    "en": "The Swing",
-    "hint": "배트가 어떻게 지나갔나",
+    "name": "릴리스와 회전",
+    "en": "Release and Spin",
+    "hint": "공을 어디서 어떻게 놓았나",
     "steps": [
-      "batspeed",
-      "blast",
-      "attack-angle",
-      "timing"
+      "extension",
+      "arm-angle",
+      "spin",
+      "active-spin"
+    ]
+  },
+  {
+    "name": "투구 모델",
+    "en": "Pitch Models",
+    "hint": "구위와 제구를 점수로",
+    "steps": [
+      "stuff-plus",
+      "location-plus",
+      "pitching-plus"
     ]
   },
   {
@@ -88,7 +160,40 @@
     "hint": "얼마나 많이 잡았나",
     "steps": [
       "fld",
-      "oaa"
+      "arm-strength",
+      "oaa",
+      "drs",
+      "frv"
+    ]
+  },
+  {
+    "name": "포수 수비",
+    "en": "Catcher Defense",
+    "hint": "받고, 막고, 던지기",
+    "steps": [
+      "pop-time",
+      "blocking",
+      "framing",
+      "abs-challenge"
+    ]
+  },
+  {
+    "name": "선수 가치",
+    "en": "Player Value",
+    "hint": "타격에서 선수 전체로",
+    "steps": [
+      "wrc-plus",
+      "war"
+    ]
+  },
+  {
+    "name": "상황과 승리",
+    "en": "Context and Wins",
+    "hint": "언제 해냈나",
+    "steps": [
+      "re24",
+      "wpa",
+      "li"
     ]
   }
 ]

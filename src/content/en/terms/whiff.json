@@ -1,0 +1,34 @@
+{
+  "name": "Whiff Rate",
+  "aliases": ["whiff percentage", "swing and miss rate", "SwStr%"],
+  "summary": "Of the pitches a hitter swings at, the share he misses completely.",
+  "easy": [
+    "The key is the denominator: swings, not pitches. Swing ten times and miss three, and the whiff rate is 30%. Pitches he just watches don't count at all.",
+    "For a pitcher, it shows how hard his stuff is to hit. For a hitter, how often he connects when he does swing. Pitchers and hitters with lots of strikeouts usually have high numbers here first."
+  ],
+  "scale": {
+    "avg": "2026 MLB average 25.1% (2025: 25.3%)",
+    "marks": [
+      { "v": 15.3, "t": "Top 10%" },
+      { "v": 23.9, "t": "Median" },
+      { "v": 32.4, "t": "Bottom 10%" }
+    ],
+    "note": "From the hitter's side; for pitchers, higher is better. Distribution of the 135 qualified hitters in 2026."
+  },
+  "formula": {
+    "expr": "Whiff% = swinging misses ÷ swings",
+    "vars": [
+      ["swings", "misses, fouls and balls in play added together"]
+    ]
+  },
+  "deep": [
+    "SwStr%, a FanGraphs favorite, divides swinging strikes by all pitches. The names get mixed up all the time, but the scales are different: FanGraphs' rule-of-thumb average for SwStr% is 9.5%, while the 2026 Savant average whiff rate was 25.1%.",
+    "A high whiff rate doesn't automatically make a bad hitter. Big swingers accept the misses in exchange for driving the ball when they connect.",
+    "On the pitching side it's usually broken out by pitch type. The same pitcher's slider and four-seamer can have very different whiff rates."
+  ],
+  "sources": [
+    { "t": "FanGraphs Library · Plate Discipline", "u": "https://library.fangraphs.com/offense/plate-discipline/" },
+    { "t": "Baseball Savant · 2026 league averages", "u": "https://baseballsavant.mlb.com/league?season=2026" },
+    { "t": "Baseball Savant · 2026 custom leaderboard (qualified hitters)", "u": "https://baseballsavant.mlb.com/leaderboard/custom?year=2026&type=batter&min=q&selections=pa,on_base_percent,slg_percent,isolated_power,bb_percent,xba,sweet_spot_percent,oz_swing_percent,whiff_percent" }
+  ]
+}

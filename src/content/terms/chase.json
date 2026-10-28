@@ -1,0 +1,78 @@
+{
+  "abbr": "Chase%",
+  "chip": "체이스%",
+  "ko": "존 밖 스윙 비율",
+  "aliases": [
+    "체이스",
+    "체이스율",
+    "볼 스윙",
+    "chase rate",
+    "O-Swing%",
+    "오스윙"
+  ],
+  "level": 2,
+  "order": 47,
+  "cats": [
+    "타격",
+    "투구"
+  ],
+  "summary": "스트라이크 존 밖으로 온 공에 타자가 방망이를 낸 비율.",
+  "easy": [
+    "존 밖 공은 쳐도 좋은 타구가 나오기 어렵고, 참으면 볼이 된다. 그런 공에 자주 손이 나가는 타자에게는 투수가 굳이 스트라이크를 던질 필요가 없다.",
+    "타자는 낮을수록, 투수는 높을수록 좋다. 투수의 체이스%가 높다는 건 스트라이크처럼 오다가 빠지는 공을 잘 던진다는 뜻이다."
+  ],
+  "scale": {
+    "min": 12,
+    "max": 48,
+    "dir": "low",
+    "fmt": "dec1",
+    "unit": "%",
+    "avg": {
+      "v": 30.5,
+      "t": "2026 MLB 평균 30.5% (2025년 28.2%)"
+    },
+    "marks": [
+      {
+        "v": 22.1,
+        "t": "상위 10%"
+      },
+      {
+        "v": 30.3,
+        "t": "가운데"
+      },
+      {
+        "v": 38.0,
+        "t": "하위 10%"
+      }
+    ],
+    "note": "타자 기준이다. 2026 규정 타석 타자 135명의 분포다."
+  },
+  "formula": {
+    "expr": "Chase% = 존 밖 공에 한 스윙 ÷ 존 밖 투구"
+  },
+  "deep": [
+    "FanGraphs의 O-Swing%와 계산은 같다. 다만 존을 어디에 긋느냐가 데이터마다 달라서 두 사이트의 숫자가 조금씩 어긋난다.",
+    "2026년 리그 평균은 30.5%로 2025년(28.2%)보다 높았고, 같은 기간 존 안으로 들어온 투구의 비율은 50.6%에서 47.5%로 내려갔다.",
+    "존 밖을 잘 참아도 존 안 공까지 흘려보내면 카운트가 불리해진다. 그래서 존 안 공에 스윙한 비율(Z-Swing%)과 나란히 놓고 읽는다."
+  ],
+  "related": [
+    "bb-pct",
+    "whiff",
+    "k-pct",
+    "csw"
+  ],
+  "sources": [
+    {
+      "t": "FanGraphs Library · Plate Discipline",
+      "u": "https://library.fangraphs.com/offense/plate-discipline/"
+    },
+    {
+      "t": "Baseball Savant · 2026 리그 평균",
+      "u": "https://baseballsavant.mlb.com/league?season=2026"
+    },
+    {
+      "t": "Baseball Savant · 2026 커스텀 리더보드 (규정 타석)",
+      "u": "https://baseballsavant.mlb.com/leaderboard/custom?year=2026&type=batter&min=q&selections=pa,on_base_percent,slg_percent,isolated_power,bb_percent,xba,sweet_spot_percent,oz_swing_percent,whiff_percent"
+    }
+  ]
+}

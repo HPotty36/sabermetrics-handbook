@@ -1,0 +1,35 @@
+{
+  "name": "Win Probability Added",
+  "aliases": ["win expectancy", "WE", "+WPA", "-WPA"],
+  "summary": "The change in a team's chance of winning from before a play to after it, credited to the batter and pitcher involved.",
+  "easy": [
+    "A home run that breaks a tie in the ninth and one that comes with a ten-run lead don't weigh the same. WPA measures the difference in win probability.",
+    "If a team's chance of winning is 40% before a plate appearance and a double pushes it to 70%, the batter gets +0.30 and the pitcher −0.30. Add those up over a season for the player's WPA; +1 means one win more than average."
+  ],
+  "scale": {
+    "avg": "Average 0.0 (by definition)",
+    "marks": [
+      { "v": -3, "t": "Very poor" },
+      { "v": 1, "t": "Typical regular" },
+      { "v": 3, "t": "Good" },
+      { "v": 6, "t": "Elite" }
+    ],
+    "note": "Rough cutoffs for a regular over one season (FanGraphs rules of thumb). League average is 0 by definition."
+  },
+  "formula": {
+    "expr": "WPA = win probability after the play − win probability before the play"
+  },
+  "deep": [
+    "Whatever the batter gains, the pitcher loses, so at the end of a game the winning team's players add up to +0.5 and the losing team's to −0.5. Defense isn't split out; it all goes to the pitcher, so position players' WPA moves only with their hitting and baserunning.",
+    "It measures how much a player's performance mattered, not how well he played. Players who get lots of big chances can pile up big totals in either direction. FanGraphs treats WPA as a number for telling the story of games and advises against using it to predict anything.",
+    "FanGraphs also splits a season's WPA into the sum of the good plays (+WPA) and the sum of the bad ones (−WPA)."
+  ],
+  "myth": {
+    "claim": "Players with a high WPA are clutch.",
+    "truth": "A big WPA records that a player got lots of big chances and came through in them. There's little evidence that it's a skill that carries over from year to year."
+  },
+  "sources": [
+    { "t": "FanGraphs Library · WPA", "u": "https://library.fangraphs.com/misc/wpa/" },
+    { "t": "MLB.com Glossary · Win Probability Added", "u": "https://www.mlb.com/glossary/advanced-stats/win-probability-added" }
+  ]
+}

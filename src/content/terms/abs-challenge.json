@@ -1,0 +1,93 @@
+{
+  "abbr": "ABS Challenge",
+  "chip": "ABS 챌린지",
+  "ko": "ABS 챌린지",
+  "aliases": [
+    "ABS",
+    "로봇 심판",
+    "자동 볼 판정",
+    "챌린지",
+    "판정 번복",
+    "automated ball-strike"
+  ],
+  "level": 2,
+  "order": 95,
+  "cats": [
+    "종합",
+    "트래킹"
+  ],
+  "added": 2026,
+  "summary": "볼·스트라이크 판정이 불리하게 나왔을 때 타자, 투수, 포수가 추적 기술로 다시 판정해 달라고 요청할 수 있게 한 2026년 MLB 제도.",
+  "easy": [
+    "공은 여전히 심판이 판정한다. 판정에 이의가 있으면 그 타석의 타자나 투수·포수가 챌린지를 신청하고, Statcast와 같은 Hawk-Eye 추적으로 다시 판정한다. 감독과 코치, 다른 선수는 끼어들 수 없다.",
+    "팀마다 경기당 두 번으로 시작하고, 판정을 뒤집으면 횟수가 줄지 않는다. 두 번 틀리면 그 경기에서는 더 못 한다. 연장전에는 이닝마다 한 번씩을 새로 받는다."
+  ],
+  "scale": {
+    "min": 30,
+    "max": 70,
+    "dir": "none",
+    "fmt": "dec1",
+    "unit": "%",
+    "avg": {
+      "v": 53.9,
+      "t": "2026 MLB 평균 성공률 53.9%"
+    },
+    "marks": [
+      {
+        "v": 39.7,
+        "t": "투수"
+      },
+      {
+        "v": 48.9,
+        "t": "타자"
+      },
+      {
+        "v": 58.6,
+        "t": "포수"
+      }
+    ],
+    "note": "정규시즌 기준이다. 챌린지 10,557번 가운데 5,686번이 뒤집혔다."
+  },
+  "deep": [
+    "ABS 존은 폭이 홈플레이트와 같은 17인치이고, 높이는 선수의 키(신발 없이 잰 키)로 정한다. 위는 키의 53.5%, 아래는 27%다. 공이 홈플레이트 앞이 아니라 한가운데를 지날 때의 위치로 판정한다. 야수가 마운드에 올라와 있을 때는 챌린지를 할 수 없다.",
+    "Baseball Savant는 2026년 2월 ABS 대시보드와 리더보드를 열었다. 성공률만이 아니라, 신청할 수 있었던 판정 가운데 실제로 신청한 비율(챌린지율)과 뒤집을 수 있었던 판정을 얼마나 챙겼는지도 보여 준다. 성공률이 높아도 거의 신청하지 않은 포수는 챌린지로 만든 가치가 작다.",
+    "Savant는 신청할 수 있는 판정(챌린지가 남아 있을 때 자기 쪽에 불리하게 나온 볼·스트라이크)이 전체 투구의 약 50%, 그 가운데 해 볼 만한 공은 전체의 약 5%라고 본다. 판정이 바뀔 때의 득점 가치가 상황마다 달라서, 큰 순간일수록 덜 확신해도 신청할 만하다. 득점 가치가 0.3점인 판정이면 뒤집힐 확률이 40%만 돼도 손해가 아니다."
+  ],
+  "myth": {
+    "claim": "ABS는 로봇 심판이 모든 공을 판정하는 것이다.",
+    "truth": "MLB의 2026년 방식은 챌린지다. 심판이 모든 공을 판정하고, 신청이 들어온 공만 기계로 다시 본다."
+  },
+  "leagues": [
+    {
+      "lg": "KBO",
+      "t": "KBO는 2024시즌에 프로 리그 가운데 처음으로 ABS를 들여 볼·스트라이크 판정 자체를 기계가 한다. 심판 판정에 이의를 걸 때만 기계가 보는 MLB 방식과 다르다."
+    }
+  ],
+  "related": [
+    "framing",
+    "chase",
+    "frv"
+  ],
+  "sources": [
+    {
+      "t": "Baseball Savant · 2026 ABS 대시보드 (정규시즌)",
+      "u": "https://baseballsavant.mlb.com/abs?year=2026&gameType=regular&level=mlb"
+    },
+    {
+      "t": "Baseball Savant · ABS 지표 설명",
+      "u": "https://baseballsavant.mlb.com/abs-metrics-documentation"
+    },
+    {
+      "t": "Baseball Savant 변경 기록 · 2026년 2월 ABS 대시보드",
+      "u": "https://baseballsavant.mlb.com/changelog/2026-02-26-abs-challenge-dashboard-leaderboard"
+    },
+    {
+      "t": "Baseball Savant 변경 기록 · 2026년 10월 ABS·FRV",
+      "u": "https://baseballsavant.mlb.com/changelog/2026-10-08-abs-leaderboard-update-frv"
+    },
+    {
+      "t": "arXiv · KBO 리그 데이터로 본 ABS의 영향 (2024)",
+      "u": "https://arxiv.org/abs/2407.15779"
+    }
+  ]
+}

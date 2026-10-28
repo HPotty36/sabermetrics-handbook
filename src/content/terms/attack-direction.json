@@ -1,0 +1,75 @@
+{
+  "abbr": "Attack Direction",
+  "chip": "어택 디렉션",
+  "ko": "어택 디렉션 (배트 진행 방향)",
+  "aliases": [
+    "어택디렉션",
+    "당겨치기",
+    "밀어치기",
+    "attack direction",
+    "pull",
+    "oppo"
+  ],
+  "level": 3,
+  "order": 92,
+  "cats": [
+    "타격",
+    "트래킹"
+  ],
+  "added": 2025,
+  "summary": "배트의 스위트 스팟이 공과 만나는 순간 좌우로 어느 쪽을 향해 움직이고 있었는지 나타낸 각도.",
+  "easy": [
+    "홈에서 중견수 쪽으로 그은 선을 0도로 두고, 배트가 당겨 치는 쪽(우타자라면 좌익수 쪽)으로 가고 있었으면 ‘당겨 치는 쪽(pull)’, 반대쪽이면 ‘밀어 치는 쪽(oppo)’으로 적는다.",
+    "타이밍과 바로 이어진다. 스윙하는 동안 배트 방향은 계속 돌아가니, 앞에서 일찍 맞히면 당겨 치는 쪽으로, 늦게 맞히면 밀어 치는 쪽으로 각도가 옮겨 간다."
+  ],
+  "scale": {
+    "min": -12,
+    "max": 18,
+    "dir": "none",
+    "fmt": "int",
+    "unit": "°",
+    "avg": {
+      "v": 2,
+      "t": "2026 MLB 평균 2° (당겨 치는 쪽, 2025년 2°)"
+    },
+    "marks": [
+      {
+        "v": -10,
+        "t": "밀어 치는 쪽 끝"
+      },
+      {
+        "v": 0,
+        "t": "가운데"
+      },
+      {
+        "v": 15,
+        "t": "당겨 치는 쪽 끝"
+      }
+    ],
+    "note": "당겨 치는 쪽을 +, 밀어 치는 쪽을 −로 놓았다. 양 끝은 시즌 평균으로 흔히 보이는 범위다."
+  },
+  "deep": [
+    "어택 앵글, 스윙 틸트와 함께 2025년 5월에 공개됐다. 어택 앵글이 접촉 순간 배트의 위아래 방향이라면 어택 디렉션은 같은 순간의 좌우 방향이다. 헛스윙이면 배트와 공이 서로 지나친 지점에서 잰다.",
+    "리그 평균은 2도쯤 당겨 치는 쪽이고, 시즌 평균으로는 15도 당겨 치는 쪽부터 10도 밀어 치는 쪽까지 퍼진다. 가운데(0도) 근처에 머무는 경우도 있다.",
+    "타구 방향과는 다르다. 배트가 당겨 치는 쪽으로 가고 있어도 공이 배트의 어디에 맞았는지, 투구가 어느 코스였는지에 따라 타구는 다른 쪽으로 갈 수 있다."
+  ],
+  "related": [
+    "attack-angle",
+    "swing-tilt",
+    "timing"
+  ],
+  "sources": [
+    {
+      "t": "MLB.com Glossary · Attack Direction",
+      "u": "https://www.mlb.com/glossary/statcast/attack-direction"
+    },
+    {
+      "t": "Baseball Savant 변경 기록 · 2025년 5월 스윙 지표",
+      "u": "https://baseballsavant.mlb.com/changelog/2025-05-20-swing-path-attack-angle"
+    },
+    {
+      "t": "Baseball Savant · 스윙 궤적 (2026 리그 단위)",
+      "u": "https://baseballsavant.mlb.com/leaderboard/bat-tracking/swing-path-attack-angle?gameType=Regular&minSwings=q&seasonStart=2026&seasonEnd=2026&type=league"
+    }
+  ]
+}

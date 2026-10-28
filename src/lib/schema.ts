@@ -7,7 +7,7 @@ import { z } from 'astro/zod';
 import { ID_PATTERN, scaleIssues } from './validate.ts';
 
 export const CATS = ['타격', '투구', '수비', '종합', '트래킹'] as const;
-export const UNITS = ['%', '°', ' in'] as const;
+export const UNITS = ['%', '°', ' in', ' ft', ' ft/s'] as const;
 
 const text = z.string().trim().min(1);
 const id = z.string().regex(ID_PATTERN, 'id는 kebab-case로 쓴다');

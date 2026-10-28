@@ -1,0 +1,28 @@
+{
+  "name": "Defensive Runs Saved",
+  "aliases": ["Fielding Bible", "UZR", "runs saved"],
+  "summary": "How many more runs a fielder saved than the average player at his position.",
+  "easy": [
+    "Picture a center fielder sprinting to catch a ball that other center fielders catch only 70% of the time. He gets +0.3 for the catch, and −0.7 if he misses it. Add that up over a season and convert it to runs, and you have the core of DRS.",
+    "Beyond range, it scores throwing (holding and throwing out runners), double plays, handling bunts, robbing homers at the wall and controlling the running game, and adds the pieces together. +5 means five fewer runs allowed than an average player at that position."
+  ],
+  "scale": {
+    "avg": "Average 0 (by definition)",
+    "marks": [
+      { "v": -15, "t": "Very poor" },
+      { "v": -10, "t": "Poor" },
+      { "v": 10, "t": "Good" },
+      { "v": 15, "t": "Gold Glove caliber" }
+    ],
+    "note": "Rough cutoffs for one season, comparing players at the same position (FanGraphs rules of thumb)."
+  },
+  "deep": [
+    "It's built on batted-ball location and type data recorded by hand by Baseball Info Solutions (BIS), so some scorer error comes with it. That's a different starting point from OAA and FRV, which come from Statcast tracking.",
+    "The idea matches FanGraphs' UZR, with slightly different math. DRS rates each play's difficulty on a rolling one-year basis while UZR uses several years of data, and DRS also covers pitchers and catchers. So the two sometimes disagree about the same player.",
+    "A few months of data bounce around a lot. FanGraphs says it takes one to three years before it becomes fairly reliable."
+  ],
+  "sources": [
+    { "t": "FanGraphs Library · DRS", "u": "https://library.fangraphs.com/defense/drs/" },
+    { "t": "MLB.com Glossary · Defensive Runs Saved", "u": "https://www.mlb.com/glossary/advanced-stats/defensive-runs-saved" }
+  ]
+}

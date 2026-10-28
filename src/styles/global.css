@@ -205,7 +205,7 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .line-h .stop-sub{display:none}
 .ladder-grid .line-h{grid-template-columns:repeat(var(--n),20%)}
 .ladder-grid .line-h::before{left:10%;right:auto;width:calc((var(--n) - 1) * 20%)}
-.ladder-grid .line-h .stop-name{font-size:14px;white-space:nowrap}
+.ladder-grid .line-h .stop-name{font-size:14px;word-break:keep-all}
 
 /* 홈 표제: 좁은 대문자 제목, 그 아래 실밥 */
 .masthead{margin-bottom:44px}
@@ -221,6 +221,8 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .doors{display:grid;grid-template-columns:minmax(0,1fr);gap:44px}
 @media (min-width:760px){.doors{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:56px}}
 .door{min-width:0}
+.door-more{display:inline-flex;align-items:center;gap:8px;min-height:44px;margin-top:2px;padding-left:31px;font:var(--row-name);text-decoration:none}
+@media (hover:hover){.door-more:hover{text-decoration:underline;text-decoration-color:var(--ink);text-underline-offset:4px}}
 .door h2,.ladders h2{margin:0 0 10px;font-size:22px;line-height:1.4;font-weight:800;letter-spacing:-.03em}
 .ladders{margin-top:60px}
 .ladder-grid{display:grid;grid-template-columns:minmax(0,1fr);column-gap:48px}

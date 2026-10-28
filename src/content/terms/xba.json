@@ -1,0 +1,76 @@
+{
+  "abbr": "xBA",
+  "chip": "xBA",
+  "ko": "기대 타율",
+  "aliases": [
+    "엑스비에이",
+    "기대타율",
+    "expected batting average",
+    "hit probability"
+  ],
+  "level": 2,
+  "order": 55,
+  "cats": [
+    "타격",
+    "트래킹"
+  ],
+  "summary": "타구 속도와 발사각이 비슷한 타구가 과거에 안타가 된 비율로 계산한 타율.",
+  "easy": [
+    "총알 같은 라인드라이브도 야수 정면으로 가면 아웃이고, 빗맞은 공도 야수 사이에 떨어지면 안타다. 타율은 결과만 세지만 xBA는 맞는 순간의 내용으로 센다.",
+    "타구마다 ‘이런 타구는 보통 몇 %가 안타가 됐나’를 매기고, 삼진은 그대로 아웃으로 넣어 시즌 값을 낸다. 실제 타율이 xBA보다 한참 높으면 운이 따랐을 수 있고, 낮으면 그 반대일 수 있다."
+  ],
+  "scale": {
+    "min": 0.19,
+    "max": 0.32,
+    "dir": "high",
+    "fmt": "dec3",
+    "avg": {
+      "v": 0.243,
+      "t": "2026 MLB 평균 .243 (2025년 .243)"
+    },
+    "marks": [
+      {
+        "v": 0.224,
+        "t": "하위 10%"
+      },
+      {
+        "v": 0.255,
+        "t": "가운데"
+      },
+      {
+        "v": 0.283,
+        "t": "상위 10%"
+      }
+    ],
+    "note": "2026 규정 타석 타자 135명의 분포다."
+  },
+  "deep": [
+    "기준 자료는 Statcast가 전 구장에 깔린 2015년 이후의 타구다. 2019년부터는 땅볼이나 빗맞은 타구에 타자의 시즌 스프린트 스피드도 넣어서, 발 빠른 타자의 내야안타를 어느 정도 반영한다.",
+    "타구 방향은 넣지 않는다. 늘 비슷한 방향으로 타구를 보내서 수비 위치에 자주 걸리는 타자는 실제 타율이 해마다 xBA보다 낮게 나올 수 있다.",
+    "2017~18년에는 Hit Probability라는 이름으로 확률(%)을 보여 주다가, 2019년에 타율 눈금으로 바꿔 xBA가 됐다. 같은 방식으로 장타율을 낸 xSLG, 출루의 가치까지 넣은 xwOBA가 있다."
+  ],
+  "myth": {
+    "claim": "xBA보다 타율이 높은 타자는 곧 떨어진다.",
+    "truth": "평균 쪽으로 돌아가는 경향이 있을 뿐 꼭 맞춰지지는 않는다. 수비 위치나 구장처럼 xBA가 모르는 요인이 꾸준히 작용하는 타자도 있다."
+  },
+  "related": [
+    "avg",
+    "babip",
+    "xwoba",
+    "sprint-speed"
+  ],
+  "sources": [
+    {
+      "t": "MLB.com Glossary · Expected Batting Average",
+      "u": "https://www.mlb.com/glossary/statcast/expected-batting-average"
+    },
+    {
+      "t": "Baseball Savant · 2026 리그 평균",
+      "u": "https://baseballsavant.mlb.com/league?season=2026"
+    },
+    {
+      "t": "Baseball Savant · 2026 커스텀 리더보드 (규정 타석)",
+      "u": "https://baseballsavant.mlb.com/leaderboard/custom?year=2026&type=batter&min=q&selections=pa,on_base_percent,slg_percent,isolated_power,bb_percent,xba,sweet_spot_percent,oz_swing_percent,whiff_percent"
+    }
+  ]
+}

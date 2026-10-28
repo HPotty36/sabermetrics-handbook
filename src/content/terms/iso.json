@@ -1,0 +1,94 @@
+{
+  "abbr": "ISO",
+  "chip": "ISO",
+  "ko": "순장타율",
+  "aliases": [
+    "아이소",
+    "순수 장타력",
+    "isolated power"
+  ],
+  "level": 2,
+  "order": 15,
+  "cats": [
+    "타격"
+  ],
+  "summary": "장타율에서 타율을 뺀 값. 단타를 걷어 내고 타수당 몇 루를 더 갔는지만 남긴다.",
+  "easy": [
+    "타율 .300에 장타율 .400인 타자와 타율 .250에 장타율 .450인 타자가 있다. ISO로 보면 앞쪽은 .100, 뒤쪽은 .200이다. 안타는 앞쪽이 많이 쳐도 공을 멀리 보내는 쪽은 뒤쪽이다.",
+    "단타는 0, 2루타는 1, 3루타는 2, 홈런은 3으로 센 것과 같다. .200을 넘기면 확실한 장타자로 본다."
+  ],
+  "scale": {
+    "min": 0.05,
+    "max": 0.3,
+    "dir": "high",
+    "fmt": "dec3",
+    "avg": {
+      "v": 0.156,
+      "t": "2026 MLB 평균 .156 (2025년 .159)"
+    },
+    "marks": [
+      {
+        "v": 0.114,
+        "t": "하위 10%"
+      },
+      {
+        "v": 0.168,
+        "t": "가운데"
+      },
+      {
+        "v": 0.238,
+        "t": "상위 10%"
+      }
+    ],
+    "note": "2026 규정 타석 타자 135명의 분포다."
+  },
+  "formula": {
+    "expr": "ISO = SLG − AVG = (2B + 2×3B + 3×HR) ÷ AB",
+    "vars": [
+      [
+        "2B",
+        "2루타"
+      ],
+      [
+        "3B",
+        "3루타"
+      ],
+      [
+        "HR",
+        "홈런"
+      ],
+      [
+        "AB",
+        "타수"
+      ]
+    ]
+  },
+  "deep": [
+    "구장이나 리그를 보정하지 않는다. 타자에게 유리한 구장을 홈으로 쓰면 그만큼 올라가고, 공이 덜 뻗는 해에는 리그 전체가 내려간다.",
+    "ISO가 같다고 같은 타자는 아니다. 타율 .250·장타율 .450과 타율 .350·장타율 .550은 둘 다 .200이지만 뒤쪽이 훨씬 좋은 타자다. ISO가 알려 주는 건 실력의 크기보다 타자의 유형이다.",
+    "표본이 많이 필요하다. FanGraphs는 550타석쯤 쌓여야 앞으로의 ISO를 예측할 수 있다고 본다."
+  ],
+  "related": [
+    "slg",
+    "barrel",
+    "hardhit"
+  ],
+  "sources": [
+    {
+      "t": "MLB.com Glossary · Isolated Power",
+      "u": "https://www.mlb.com/glossary/advanced-stats/isolated-power"
+    },
+    {
+      "t": "FanGraphs Library · ISO",
+      "u": "https://library.fangraphs.com/offense/iso/"
+    },
+    {
+      "t": "Baseball-Reference · 2026 MLB 타격 (리그 평균)",
+      "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-batting.shtml"
+    },
+    {
+      "t": "Baseball Savant · 2026 커스텀 리더보드 (규정 타석)",
+      "u": "https://baseballsavant.mlb.com/leaderboard/custom?year=2026&type=batter&min=q&selections=pa,on_base_percent,slg_percent,isolated_power,bb_percent,xba,sweet_spot_percent,oz_swing_percent,whiff_percent"
+    }
+  ]
+}

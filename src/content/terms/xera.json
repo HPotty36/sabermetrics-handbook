@@ -1,0 +1,42 @@
+{
+  "abbr": "xERA",
+  "chip": "xERA",
+  "ko": "기대 평균자책점",
+  "aliases": [
+    "엑스이알에이",
+    "기대 방어율",
+    "expected ERA"
+  ],
+  "level": 3,
+  "order": 15,
+  "cats": [
+    "투구",
+    "트래킹"
+  ],
+  "summary": "투수가 허용한 타구의 질과 삼진·볼넷으로 계산한 xwOBA를 평균자책점 눈금으로 바꾼 값.",
+  "easy": [
+    "평균자책점은 수비가 잡아 준 공과 놓친 공, 구장의 크기까지 다 반영한 결과다. xERA는 맞은 타구의 속도와 발사각, 그리고 삼진·볼넷·몸에 맞는 공만 가지고 ‘이 정도면 몇 점을 줬어야 했나’를 계산한다.",
+    "실제 평균자책점과 나란히 놓으라고 만든 숫자다. 평균자책점이 xERA보다 한참 낮으면 수비나 운 덕을 봤을 수 있다."
+  ],
+  "deep": [
+    "계산은 단순하다. 투수의 피xwOBA를 평균자책점 눈금으로 1:1로 옮긴다. FIP와 생각은 같지만, FIP는 홈런이 아닌 타구를 아예 빼고 xERA는 맞은 타구 하나하나의 질을 넣는다.",
+    "MLB 용어집은 xERA가 꼭 앞날을 예측하는 숫자는 아니라고 적었다. 실제 평균자책점과 크게 벌어지면 그 투수가 어떻게 실점을 막았는지 들여다볼 신호로 쓰라는 것이다.",
+    "타구 방향과 구장은 모른다. 야수가 서 있는 쪽으로 땅볼을 꾸준히 유도하는 투수, 넓은 구장을 홈으로 쓰는 투수는 실제 평균자책점이 xERA보다 계속 낮게 나올 수 있다."
+  ],
+  "related": [
+    "era",
+    "fip",
+    "xwoba",
+    "siera"
+  ],
+  "sources": [
+    {
+      "t": "MLB.com Glossary · Expected ERA",
+      "u": "https://www.mlb.com/glossary/statcast/expected-era"
+    },
+    {
+      "t": "Baseball Savant · 기대 기록 리더보드 (투수)",
+      "u": "https://baseballsavant.mlb.com/leaderboard/expected_statistics?type=pitcher"
+    }
+  ]
+}

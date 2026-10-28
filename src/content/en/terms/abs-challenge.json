@@ -1,0 +1,37 @@
+{
+  "name": "ABS Challenge",
+  "aliases": ["automated ball-strike", "ABS", "robot umpire", "challenge system"],
+  "summary": "MLB's 2026 system that lets the batter, pitcher or catcher challenge a ball-strike call that went against them and have it reviewed by tracking technology.",
+  "easy": [
+    "The umpire still calls every pitch. If the batter, pitcher or catcher disputes a call, he can challenge it, and the pitch is re-judged using the same Hawk-Eye tracking that powers Statcast. Managers, coaches and other players can't get involved.",
+    "Each team starts a game with two challenges and keeps a challenge when it wins one. After two wrong challenges, it's out for the game. In extra innings, each team gets one new challenge per inning."
+  ],
+  "scale": {
+    "avg": "2026 MLB average success rate 53.9%",
+    "marks": [
+      { "v": 39.7, "t": "Pitchers" },
+      { "v": 48.9, "t": "Batters" },
+      { "v": 58.6, "t": "Catchers" }
+    ],
+    "note": "Regular season. Of 10,557 challenges, 5,686 were overturned."
+  },
+  "deep": [
+    "The ABS zone is 17 inches wide, the same as home plate, and its height is set from each player's measured height without cleats: the top at 53.5% and the bottom at 27%. The call is based on where the ball is as it crosses the middle of the plate, not the front. No challenges are allowed while a position player is pitching.",
+    "Baseball Savant launched an ABS dashboard and leaderboard in February 2026. Beyond success rate, they show challenge rate (how many challengeable calls a player actually challenged) and how many overturnable calls he cashed in. A catcher who wins most of his challenges but rarely challenges ends up with little challenge value.",
+    "Savant estimates that about half of all pitches are challenge opportunities (a called pitch against you with a challenge left), and about 5% are worth a real look. Because run values differ by situation, the bigger the moment, the less certainty a challenge needs: when the call is worth 0.3 runs, a 40% chance of an overturn is enough to break even."
+  ],
+  "myth": {
+    "claim": "ABS means a robot calls every pitch.",
+    "truth": "MLB's 2026 version is a challenge system. The umpire calls every pitch, and only challenged pitches get re-judged by the machine."
+  },
+  "leagues": [
+    { "lg": "KBO", "t": "The KBO became the first professional league to adopt ABS, in 2024, and there the machine makes the ball-strike call itself. That differs from MLB, where the machine only looks at challenged calls." }
+  ],
+  "sources": [
+    { "t": "Baseball Savant · 2026 ABS dashboard (regular season)", "u": "https://baseballsavant.mlb.com/abs?year=2026&gameType=regular&level=mlb" },
+    { "t": "Baseball Savant · ABS metrics documentation", "u": "https://baseballsavant.mlb.com/abs-metrics-documentation" },
+    { "t": "Baseball Savant changelog · February 2026 ABS dashboard", "u": "https://baseballsavant.mlb.com/changelog/2026-02-26-abs-challenge-dashboard-leaderboard" },
+    { "t": "Baseball Savant changelog · October 2026 ABS and FRV", "u": "https://baseballsavant.mlb.com/changelog/2026-10-08-abs-leaderboard-update-frv" },
+    { "t": "arXiv · Impact of ABS, a case study on KBO League data (2024)", "u": "https://arxiv.org/abs/2407.15779" }
+  ]
+}

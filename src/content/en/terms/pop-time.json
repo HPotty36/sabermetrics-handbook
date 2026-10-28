@@ -1,0 +1,26 @@
+{
+  "name": "Pop Time",
+  "aliases": ["catcher pop time", "POP", "exchange time"],
+  "summary": "How long it takes a catcher, on a steal attempt, to get the ball from his mitt to the base.",
+  "easy": [
+    "It runs from the pop of the pitch hitting the mitt to the moment the fielder at second would catch the throw. Shorter is better.",
+    "A strong arm alone won't do it. Footwork coming up out of the crouch, the transfer from glove to hand, and throw speed all add up."
+  ],
+  "scale": {
+    "avg": "2026 leaderboard average 1.94",
+    "marks": [
+      { "v": 1.88, "t": "Top 10%" },
+      { "v": 2.0, "t": "Bottom 10%" }
+    ],
+    "note": "In seconds. Throws on stolen-base attempts of second, distribution from the 2026 Savant leaderboard (94 catchers with 5+ attempts)."
+  },
+  "deep": [
+    "If a throw is caught in front of or beyond the middle of the bag, Statcast uses the ball's speed to project when it would have reached the center. That keeps throws of different lengths comparable.",
+    "The Savant leaderboard shows a 2026 average of 1.94 seconds on attempts at second, while its explainer text says the MLB average is 2.0. Exchange time and throw speed are listed separately too.",
+    "A good pop time doesn't stop every steal. The runner's speed, the throw's accuracy and how quickly the pitcher gets the ball to the plate all decide the outcome."
+  ],
+  "sources": [
+    { "t": "MLB.com Glossary · Pop Time", "u": "https://www.mlb.com/glossary/statcast/pop-time" },
+    { "t": "Baseball Savant · 2026 Pop Time leaderboard", "u": "https://baseballsavant.mlb.com/leaderboard/poptime?year=2026" }
+  ]
+}

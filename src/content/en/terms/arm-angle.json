@@ -1,0 +1,28 @@
+{
+  "name": "Arm Angle",
+  "aliases": ["arm slot", "sidearm", "submarine", "three-quarters", "over the top"],
+  "summary": "The angle from horizontal of a line between the pitcher's throwing shoulder and the ball at release.",
+  "easy": [
+    "It turns words like over the top, three-quarters and sidearm into one number. 90 degrees is straight over the top, 0 is a sidearm delivery at shoulder height, and anything below 0 means the hand is lower than the shoulder at release, a submarine delivery.",
+    "Arm angle changes the axis the ball spins on, and with it the shape of the movement."
+  ],
+  "scale": {
+    "avg": "2026 league average 37° (RHP 37.1°, LHP 38.0°)",
+    "marks": [
+      { "v": 0, "t": "Horizontal (sidearm)" },
+      { "v": 23, "t": "Lowest 10%" },
+      { "v": 52, "t": "Highest 10%" },
+      { "v": 90, "t": "Vertical" }
+    ],
+    "note": "Distribution of the 276 pitchers on the 2026 Savant arm angle leaderboard."
+  },
+  "deep": [
+    "The angle comes from the position of the throwing shoulder and the position of the ball at release. That lets you compare how pitchers use their arms regardless of height or where they stand on the rubber.",
+    "It went public on Baseball Savant in September 2024, with data back to 2020. Some pitchers drop or raise their arm several degrees from one year to the next, and it makes those changes easy to check.",
+    "It's not the same as release height. A tall pitcher can release the ball high with a low arm, and a shorter one can get to the same height by going straight up. The MLB average release height in 2024 was 5.8 feet."
+  ],
+  "sources": [
+    { "t": "Baseball Savant · 2026 Arm Angle leaderboard", "u": "https://baseballsavant.mlb.com/leaderboard/pitcher-arm-angles?season=2026" },
+    { "t": "MLB.com · How arm slot and arm angle affect pitches (September 2024)", "u": "https://www.mlb.com/news/how-arm-slot-and-arm-angle-affect-pitches" }
+  ]
+}

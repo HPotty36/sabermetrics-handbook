@@ -1,0 +1,29 @@
+{
+  "name": "Base Running",
+  "aliases": ["BsR", "wSB", "UBR", "wGDP", "baserunning runs"],
+  "summary": "FanGraphs' baserunning value, combining steals, other baserunning and avoiding double plays into runs. Zero is average.",
+  "easy": [
+    "Steals, going first to third, and grounding into double plays are hard to compare on their own. BsR turns all three into runs above or below average and adds them up.",
+    "About 10 runs make a win, and this is exactly the baserunning piece of FanGraphs' WAR. Zero is average, so a negative number means runs lost on the bases."
+  ],
+  "formula": {
+    "expr": "BsR = wSB + UBR + wGDP",
+    "vars": [
+      ["wSB", "run value of stolen bases and caught stealing"],
+      ["UBR", "baserunning other than steals (taking extra bases, tagging up and so on)"],
+      ["wGDP", "run value of hitting into fewer (or more) double plays than average"]
+    ]
+  },
+  "deep": [
+    "In wSB a stolen base is fixed at 0.2 runs every year, while the value of a caught stealing shifts with that season's run environment (the run value of an out). UBR credits the change in run expectancy from a runner's advancement, compared with how often the average runner advances in the same spot.",
+    "UBR data starts in 2002, so earlier BsR comes from steals and caught stealing alone. Before the 1950s caught stealing wasn't reliably recorded, so those values need extra care.",
+    "A season doesn't hold many baserunning plays, so one year of BsR doesn't predict the next very well. It aims at the same thing as Statcast's baserunning run value, but the math differs and so do the numbers."
+  ],
+  "myth": {
+    "claim": "Stealing lots of bases means a player is a good baserunner.",
+    "truth": "Forty steals with 25 caught stealing is worth less than 20 steals with two caught. A runner has to succeed about two-thirds of the time just to help his team."
+  },
+  "sources": [
+    { "t": "FanGraphs Library · BsR", "u": "https://library.fangraphs.com/offense/bsr/" }
+  ]
+}

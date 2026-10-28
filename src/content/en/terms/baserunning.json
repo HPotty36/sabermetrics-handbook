@@ -1,0 +1,17 @@
+{
+  "name": "Baserunning Run Value",
+  "aliases": ["baserunning runs", "extra bases taken", "stolen base value"],
+  "summary": "Runs a baserunner creates (or costs) by stealing bases and taking extra bases.",
+  "easy": [
+    "Going first to third on a single, or tagging and scoring on a fly ball, doesn't show up anywhere in a box score. Baserunning run value turns plays like that into runs.",
+    "A stolen base is worth +0.2 runs and a caught stealing or pickoff −0.45. Getting caught costs more than twice what a steal gains, so a runner who runs a lot and gets thrown out a lot ends up in the red."
+  ],
+  "deep": [
+    "Steals are given a success probability based on the pitcher and catcher the runner went against. For other plays, the odds of taking the extra base come from runner speed, the outfielder's arm, the runner's position and the distances from the ball and the bases, and the runner is credited depending on whether he advanced, was thrown out or held.",
+    "Zero is average. It aims at the same thing as FanGraphs' BsR, but the methods and data differ, so the numbers come out different.",
+    "If sprint speed is how fast a player's legs are, this is how much of that speed he turned into runs. A slower runner with good judgment can still come out positive."
+  ],
+  "sources": [
+    { "t": "Baseball Savant · Baserunning Run Value leaderboard", "u": "https://baseballsavant.mlb.com/leaderboard/baserunning-run-value" }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "name": "Slugging Percentage",
+  "aliases": ["slugging", "total bases"],
+  "summary": "Total bases per at-bat. A single counts as 1, a double 2, a triple 3 and a home run 4.",
+  "easy": [
+    "Batting average counts a single and a home run the same: one hit. Slugging adds up how many bases each hit was worth. A hitter with one home run in 10 at-bats is batting .100 but slugging .400.",
+    "Despite the name, it isn't really a percentage. It's average bases per at-bat, so it can go above 1, and in theory as high as 4.000, a home run every time up."
+  ],
+  "scale": {
+    "avg": "2026 MLB average .400 (2025: .404)",
+    "marks": [
+      { "v": 0.359, "t": "Bottom 10%" },
+      { "v": 0.427, "t": "Median" },
+      { "v": 0.5, "t": "Top 10%" }
+    ],
+    "note": "Distribution of the 135 qualified hitters in 2026. Qualified hitters are mostly regulars, so the median sits above league average."
+  },
+  "formula": {
+    "expr": "SLG = (1B + 2×2B + 3×3B + 4×HR) ÷ AB",
+    "vars": [
+      ["1B", "singles"],
+      ["2B", "doubles"],
+      ["3B", "triples"],
+      ["HR", "home runs"],
+      ["AB", "at-bats (walks, hit by pitch and sacrifices excluded)"]
+    ]
+  },
+  "deep": [
+    "Walks and hit-by-pitches aren't in it at all. OBP tells you how often a hitter gets on, slugging how far he goes when he hits, so the two fill each other's gaps.",
+    "Treating a double as exactly two singles and a homer as four doesn't match run values. In terms of runs, a double is worth less than two singles and a home run less than four. It's still easy to compute and good enough for a rough read on power, so it shows up everywhere.",
+    "Subtract batting average from slugging and you're left with power alone, singles stripped out. That's ISO."
+  ],
+  "sources": [
+    { "t": "MLB.com Glossary · Slugging Percentage", "u": "https://www.mlb.com/glossary/standard-stats/slugging-percentage" },
+    { "t": "Baseball-Reference · 2026 MLB batting (league averages)", "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-batting.shtml" },
+    { "t": "Baseball Savant · 2026 custom leaderboard (qualified hitters)", "u": "https://baseballsavant.mlb.com/leaderboard/custom?year=2026&type=batter&min=q&selections=pa,on_base_percent,slg_percent,isolated_power,bb_percent,xba,sweet_spot_percent,oz_swing_percent,whiff_percent" }
+  ]
+}

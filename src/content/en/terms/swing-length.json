@@ -1,0 +1,31 @@
+{
+  "name": "Swing Length",
+  "aliases": ["short swing", "long swing"],
+  "summary": "How far the head of the bat travels, in feet, from the start of the swing to contact.",
+  "easy": [
+    "It puts a distance on phrases like 'short, compact swing' or 'long swing.' The shorter the path to the ball, the longer a hitter can watch the pitch before starting.",
+    "The MLB average is about 7.3 feet. Short swings make contact more easily; long swings miss more but travel farther when they connect."
+  ],
+  "scale": {
+    "avg": "2026 MLB average 7.3 ft (2025: 7.3 ft)",
+    "marks": [
+      { "v": 6.8, "t": "Shortest 10%" },
+      { "v": 7.8, "t": "Longest 10%" }
+    ],
+    "note": "Distribution of the 209 qualified hitters in 2026 bat tracking. Season averages range from just under 6 feet to more than 8.5."
+  },
+  "deep": [
+    "It adds up the total distance the head of the bat travels in three dimensions, from the first frame of bat tracking (usually about 150 milliseconds before contact) to contact. It went public with bat tracking in May 2024.",
+    "In the first month of 2024, league-wide, shorter-than-average swings hit .258 and slugged .359 with a 19% whiff rate, while longer swings hit .235 and slugged .422 with a 30% whiff rate. The trade between contact and power is right there in the numbers.",
+    "It overlaps with bat speed but isn't the same thing. Two swings of the same length can differ a lot in bat speed."
+  ],
+  "myth": {
+    "claim": "A short swing is a good swing.",
+    "truth": "It makes contact easier but gives up power. Which is better depends on the hitter's strength and role."
+  },
+  "sources": [
+    { "t": "MLB.com Glossary · Swing Length", "u": "https://www.mlb.com/glossary/statcast/swing-length" },
+    { "t": "Baseball Savant · Bat Tracking (2026, league level)", "u": "https://baseballsavant.mlb.com/leaderboard/bat-tracking?minSwings=q&seasonStart=2026&seasonEnd=2026&type=league&gameType=Regular" },
+    { "t": "Baseball Savant · Bat Tracking (2026 qualified hitters)", "u": "https://baseballsavant.mlb.com/leaderboard/bat-tracking?gameType=Regular&minSwings=q&seasonStart=2026&seasonEnd=2026&type=batter" }
+  ]
+}

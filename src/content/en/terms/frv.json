@@ -1,0 +1,29 @@
+{
+  "name": "Fielding Run Value",
+  "aliases": ["FRV", "defensive run value"],
+  "summary": "Statcast's defensive metrics combined into runs: how many runs a fielder saved compared with an average one.",
+  "easy": [
+    "Outfielders cover ground, catchers earn strikes, infielders turn double plays. Different jobs mean different metrics. FRV turns all of them into runs and adds them up.",
+    "Zero is average, and a positive number is how many fewer runs the team allowed because of him. That puts a catcher, a shortstop and a center fielder on the same scale."
+  ],
+  "formula": {
+    "expr": "FRV = each defensive metric converted to runs and added together",
+    "vars": [
+      ["range", "1 OAA = 0.9 runs in the outfield, 0.75 in the infield"],
+      ["blocking", "1 block = 0.25 runs"],
+      ["framing", "1 strike = 0.125 runs"],
+      ["catcher throwing", "1 stolen base prevented = 0.65 runs"],
+      ["double plays", "1 = 0.4 runs"]
+    ]
+  },
+  "deep": [
+    "Since October 2026, the value catchers create with ABS challenges is part of FRV too. Framing is credited from the umpire's original call, and whatever the challenge changed is added separately.",
+    "Average means average for the position. Plus five at shortstop and plus five at first base each mean five runs better than the typical player there; which position is harder isn't in the number.",
+    "OAA is one piece of FRV, the range piece. Two fielders with the same OAA can end up with different FRVs if they differ in throwing or double plays."
+  ],
+  "sources": [
+    { "t": "MLB.com Glossary · Fielding Run Value", "u": "https://www.mlb.com/glossary/statcast/fielding-run-value" },
+    { "t": "Baseball Savant · Fielding Run Value leaderboard", "u": "https://baseballsavant.mlb.com/leaderboard/fielding-run-value" },
+    { "t": "Baseball Savant changelog · October 2026 ABS and FRV", "u": "https://baseballsavant.mlb.com/changelog/2026-10-08-abs-leaderboard-update-frv" }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "name": "Swing Path Tilt",
+  "aliases": ["swing path", "swing tilt", "uppercut", "level swing"],
+  "summary": "The angle between the ground and the path the bat traces in the 40 milliseconds before contact.",
+  "easy": [
+    "It's the tilt people mean by a 'level swing' or an 'uppercut.' Zero degrees is a perfectly flat swing parallel to the ground, and 90 would be a golf swing.",
+    "The MLB average is about 32 degrees, and season averages run from around 20 for the flattest swings to around 50 for the steepest. Neither end is better; it describes the type of swing."
+  ],
+  "scale": {
+    "avg": "2026 MLB average 32° (2025: 32°)",
+    "marks": [
+      { "v": 20, "t": "Flatter" },
+      { "v": 50, "t": "Steeper" }
+    ],
+    "note": "The end marks are the rough range of season averages given in the MLB glossary."
+  },
+  "deep": [
+    "The same hitter's tilt changes with pitch location: flatter against high pitches, steeper against low ones.",
+    "It's easy to confuse with attack angle. Tilt is the slope of the whole plane the swing traces just before contact; attack angle is whether the sweet spot is moving up or down at the instant of contact.",
+    "It came out in the May 2025 batch of Statcast swing metrics, with data going back to the 2023 All-Star break, when bat tracking began."
+  ],
+  "sources": [
+    { "t": "MLB.com Glossary · Swing Path Tilt", "u": "https://www.mlb.com/glossary/statcast/swing-path-tilt" },
+    { "t": "Baseball Savant changelog · May 2025 swing metrics", "u": "https://baseballsavant.mlb.com/changelog/2025-05-20-swing-path-attack-angle" },
+    { "t": "Baseball Savant · Swing Path (2026, league level)", "u": "https://baseballsavant.mlb.com/leaderboard/bat-tracking/swing-path-attack-angle?gameType=Regular&minSwings=q&seasonStart=2026&seasonEnd=2026&type=league" }
+  ]
+}

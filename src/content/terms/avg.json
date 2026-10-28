@@ -43,7 +43,9 @@
   "related": [
     "ops",
     "babip",
-    "woba"
+    "woba",
+    "obp",
+    "xba"
   ],
   "sources": [
     {

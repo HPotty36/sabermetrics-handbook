@@ -1,0 +1,38 @@
+{
+  "name": "Walks and Hits per Inning Pitched",
+  "aliases": ["walks plus hits per inning"],
+  "summary": "How many runners a pitcher puts on per inning through walks and hits.",
+  "easy": [
+    "A 1.00 WHIP means he allowed about one baserunner per inning. Fewer runners means fewer runs, so lower is better.",
+    "It's easy to compute, which is how it caught on in fantasy baseball first. Today it sits next to ERA on just about every stats site."
+  ],
+  "scale": {
+    "avg": "2026 MLB average 1.30 (2025: 1.29)",
+    "marks": [
+      { "v": 1.0, "t": "Elite" },
+      { "v": 1.1, "t": "Good" },
+      { "v": 1.2, "t": "Above average" },
+      { "v": 1.4, "t": "Below average" },
+      { "v": 1.6, "t": "Very poor" }
+    ],
+    "note": "Rough cutoffs for one season. In 2026 the middle of the range (1.30) matched the actual league average."
+  },
+  "formula": {
+    "expr": "WHIP = (BB + H) ÷ IP",
+    "vars": [
+      ["BB", "walks"],
+      ["H", "hits allowed"],
+      ["IP", "innings pitched"]
+    ]
+  },
+  "deep": [
+    "Hit batters, errors and fielder's choices don't count, and a walk and a home run are each just one runner. Daniel Okrent, the writer who invented rotisserie fantasy baseball, came up with it in 1979 and first called it 'innings pitched ratio.'",
+    "Using innings as the denominator makes it rough. On-base percentage against, which divides by batters faced, measures keeping runners off base more precisely, and wOBA against also weighs what kind of times on base they were. It's still fine for a first impression.",
+    "Hits carry some defense and luck. In a year when a pitcher's BABIP swings, his WHIP swings with it."
+  ],
+  "sources": [
+    { "t": "MLB.com Glossary · Walks and Hits per Inning Pitched", "u": "https://www.mlb.com/glossary/standard-stats/walks-and-hits-per-inning-pitched" },
+    { "t": "FanGraphs Library · WHIP", "u": "https://library.fangraphs.com/pitching/whip/" },
+    { "t": "Baseball-Reference · 2026 MLB pitching (league averages)", "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-pitching.shtml" }
+  ]
+}

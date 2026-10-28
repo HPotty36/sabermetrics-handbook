@@ -34,7 +34,8 @@
   "related": [
     "blast",
     "attack-angle",
-    "ev"
+    "ev",
+    "swing-length"
   ],
   "sources": [
     {

@@ -1,0 +1,26 @@
+{
+  "name": "Leverage Index",
+  "aliases": ["leverage", "high leverage", "pLI", "gmLI"],
+  "summary": "How much win probability could swing on the current plate appearance, compared with an average one. Average is 1.0.",
+  "easy": [
+    "Protecting a one-run lead in the bottom of the ninth is far tenser than protecting one in the third. LI puts a number on that tension: how much the outcome of this plate appearance could move the odds of winning, compared with a typical one.",
+    "1.0 is normal, above 2.0 counts as high leverage, and below 0.85 as low. Only about 10% of real game situations top 2, while 60% are below 1."
+  ],
+  "scale": {
+    "avg": "Average 1.00 (by definition)",
+    "marks": [
+      { "v": 0.85, "t": "Low-medium boundary" },
+      { "v": 2.0, "t": "High leverage begins" }
+    ],
+    "note": "The biggest moments get close to 10."
+  },
+  "deep": [
+    "Tom Tango created it. For the inning, score, outs and runners, you find how much each possible outcome of the plate appearance would change win probability, weight those by how likely each outcome is, and divide by the average swing.",
+    "It's more about how players are used than how good they are. Average LI shows which relievers a manager trusts with the biggest moments and when pinch hitters get sent up.",
+    "Win probability tables shift with the run environment, so the same situation's LI changes a little from year to year, but the average of 1 and the cutoffs stay put."
+  ],
+  "sources": [
+    { "t": "FanGraphs Library · LI", "u": "https://library.fangraphs.com/misc/li/" },
+    { "t": "MLB.com Glossary · Leverage Index", "u": "https://www.mlb.com/glossary/advanced-stats/leverage-index" }
+  ]
+}

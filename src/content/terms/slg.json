@@ -1,0 +1,95 @@
+{
+  "abbr": "SLG",
+  "chip": "장타율",
+  "ko": "장타율",
+  "aliases": [
+    "장타",
+    "루타",
+    "slugging"
+  ],
+  "level": 1,
+  "order": 26,
+  "cats": [
+    "타격"
+  ],
+  "summary": "타수당 평균 몇 루타를 쳤는지 나타낸 값. 단타 1, 2루타 2, 3루타 3, 홈런 4로 센다.",
+  "easy": [
+    "타율은 단타와 홈런을 똑같이 안타 하나로 센다. 장타율은 안타가 몇 루까지 갔는지를 그대로 더한다. 10타수에 홈런 하나만 쳤으면 타율은 .100이지만 장타율은 .400이다.",
+    "이름은 ‘율’이지만 비율이라기보다 타수당 평균 루타 수다. 그래서 1을 넘을 수 있고, 이론상 최대는 매번 홈런을 친 4.000이다."
+  ],
+  "scale": {
+    "min": 0.3,
+    "max": 0.6,
+    "dir": "high",
+    "fmt": "dec3",
+    "avg": {
+      "v": 0.4,
+      "t": "2026 MLB 평균 .400 (2025년 .404)"
+    },
+    "marks": [
+      {
+        "v": 0.359,
+        "t": "하위 10%"
+      },
+      {
+        "v": 0.427,
+        "t": "가운데"
+      },
+      {
+        "v": 0.5,
+        "t": "상위 10%"
+      }
+    ],
+    "note": "2026 규정 타석 타자 135명의 분포다. 규정 타석을 채우는 타자는 대개 주전이라 가운데 값이 리그 평균보다 높다."
+  },
+  "formula": {
+    "expr": "SLG = (1B + 2×2B + 3×3B + 4×HR) ÷ AB",
+    "vars": [
+      [
+        "1B",
+        "단타"
+      ],
+      [
+        "2B",
+        "2루타"
+      ],
+      [
+        "3B",
+        "3루타"
+      ],
+      [
+        "HR",
+        "홈런"
+      ],
+      [
+        "AB",
+        "타수 (볼넷·사구·희생타는 빠진다)"
+      ]
+    ]
+  },
+  "deep": [
+    "볼넷과 몸에 맞는 공은 아예 들어가지 않는다. 출루율이 ‘얼마나 자주’ 쪽이라면 장타율은 ‘칠 때 얼마나 멀리’ 쪽이라 둘이 서로 빈칸을 채운다.",
+    "2루타를 단타의 딱 두 배, 홈런을 네 배로 치는 건 득점 가치와 맞지 않는다. 점수로 따지면 2루타는 단타 두 개에 못 미치고, 홈런도 단타 네 개만큼은 아니다. 그래도 계산이 쉽고 장타력을 대충 가늠하기엔 충분해서 지금도 어디에나 나온다.",
+    "장타율에서 타율을 빼면 단타를 걷어 낸 장타력만 남는다. 그게 ISO다."
+  ],
+  "related": [
+    "obp",
+    "ops",
+    "iso",
+    "barrel"
+  ],
+  "sources": [
+    {
+      "t": "MLB.com Glossary · Slugging Percentage",
+      "u": "https://www.mlb.com/glossary/standard-stats/slugging-percentage"
+    },
+    {
+      "t": "Baseball-Reference · 2026 MLB 타격 (리그 평균)",
+      "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-batting.shtml"
+    },
+    {
+      "t": "Baseball Savant · 2026 커스텀 리더보드 (규정 타석)",
+      "u": "https://baseballsavant.mlb.com/leaderboard/custom?year=2026&type=batter&min=q&selections=pa,on_base_percent,slg_percent,isolated_power,bb_percent,xba,sweet_spot_percent,oz_swing_percent,whiff_percent"
+    }
+  ]
+}
