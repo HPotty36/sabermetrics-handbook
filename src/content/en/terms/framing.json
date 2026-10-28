@@ -1,0 +1,23 @@
+{
+  "name": "Catcher Framing",
+  "aliases": ["framing", "pitch framing", "shadow zone", "strike rate"],
+  "summary": "Runs a catcher saves by receiving borderline pitches in a way that gets them called strikes.",
+  "easy": [
+    "Pitches on the edge of the zone can go either way, depending on the umpire and on how the catcher catches them. Getting those called strikes through the way he receives the ball is framing.",
+    "One pitch makes a real difference. In 2025, MLB hitters had an .806 OPS after a 1-0 count and a .607 OPS after 0-1. Turning one ball into a strike changes the whole plate appearance."
+  ],
+  "deep": [
+    "Statcast splits the area in and around the zone into regions and gives each pitch a probability of being called a strike. More strikes than expected is a plus, fewer is a minus, and each strike is worth 0.125 runs. Park and pitcher adjustments are included.",
+    "Most of the difference happens in the shadow zone, from one ball's width inside the zone to one ball's width outside. League-wide in 2026, 46.5% of taken pitches in the shadow zone were called strikes. The model was updated in 2025 to account for distance from the zone, and the new version runs back to 2018.",
+    "Framing still counts after ABS challenges arrived in 2026. The umpire's original call is used for framing, and whatever a challenge overturns counts separately as the catcher's challenge skill. If the final call is a strike either way, the catcher's total comes out the same."
+  ],
+  "myth": {
+    "claim": "ABS makes framing worthless.",
+    "truth": "MLB's 2026 system is a challenge system, so the umpire's call stands on almost every pitch. Each team starts a game with only two challenges, which limits how many calls can be overturned."
+  },
+  "sources": [
+    { "t": "MLB.com Glossary · Catcher Framing", "u": "https://www.mlb.com/glossary/statcast/catcher-framing" },
+    { "t": "Baseball Savant · 2026 Catcher Framing leaderboard", "u": "https://baseballsavant.mlb.com/catcher_framing?year=2026" },
+    { "t": "Baseball Savant · ABS metrics documentation", "u": "https://baseballsavant.mlb.com/abs-metrics-documentation" }
+  ]
+}

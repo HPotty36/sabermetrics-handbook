@@ -1,0 +1,40 @@
+{
+  "name": "Adjusted ERA",
+  "aliases": ["ERA plus", "ERA-", "adjusted earned run average"],
+  "summary": "ERA rescaled for league average and ballpark so that 100 is average. Higher is better.",
+  "easy": [
+    "A 3.50 ERA is excellent in a high-scoring season and merely fine in a low-scoring one. Whether a pitcher's home park favors hitters or pitchers moves the number too.",
+    "ERA+ strips those differences out and sets league average at 100. A 150 reads as one and a half times league average. Unlike ERA, bigger is better."
+  ],
+  "scale": {
+    "avg": "Average 100 (by definition)",
+    "marks": [
+      { "v": 80, "t": "Very poor" },
+      { "v": 91, "t": "Below average" },
+      { "v": 111, "t": "Above average" },
+      { "v": 125, "t": "Good" },
+      { "v": 143, "t": "Elite" }
+    ],
+    "note": "Rough cutoffs converted from FanGraphs' ERA- rules of thumb for starters. Relievers usually come out higher."
+  },
+  "formula": {
+    "expr": "ERA+ = 100 × lgERA ÷ ERA",
+    "vars": [
+      ["lgERA", "league ERA (park-adjusted)"],
+      ["ERA", "the pitcher's ERA"]
+    ]
+  },
+  "deep": [
+    "Because ERA sits in the denominator, the scale isn't even. Half the league ERA gives you 200, but double the league ERA gives you 50. The number climbs fast on the good side and shrinks slowly on the bad side.",
+    "FanGraphs flips it around with ERA-, which puts ERA on top. 100 is still average, but lower is better. ERA- moves evenly, which makes 'how many percent better than average' easier to read.",
+    "The only adjustments are league and park. A pitcher with a great defense behind him or a lucky season gets a better ERA+ too. Stripping that part out is the job of the FIP family."
+  ],
+  "myth": {
+    "claim": "An ERA+ of 150 means an ERA 50% lower than average.",
+    "truth": "It means an ERA one third lower. With a 4.50 league ERA, a 150 ERA+ is a 3.00 ERA before the park adjustment."
+  },
+  "sources": [
+    { "t": "MLB.com Glossary · Earned Run Average Plus", "u": "https://www.mlb.com/glossary/advanced-stats/earned-run-average-plus" },
+    { "t": "FanGraphs Library · ERA-, FIP-, xFIP-", "u": "https://library.fangraphs.com/pitching/era-fip-xfip/" }
+  ]
+}

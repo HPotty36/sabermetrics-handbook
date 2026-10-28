@@ -1,0 +1,72 @@
+{
+  "abbr": "DRS",
+  "chip": "DRS",
+  "ko": "수비 실점 억제",
+  "aliases": [
+    "디알에스",
+    "디펜시브 런 세이브드",
+    "필딩 바이블",
+    "defensive runs saved",
+    "UZR"
+  ],
+  "level": 3,
+  "order": 105,
+  "cats": [
+    "수비"
+  ],
+  "summary": "같은 포지션의 평균적인 수비수보다 몇 점을 더 막았는지 나타낸 값.",
+  "easy": [
+    "중견수가 전력으로 달려가 잡은 공이 있다고 하자. 비슷한 타구를 다른 중견수들이 70%만 잡았다면 이 수비수는 +0.3을 받고, 놓쳤다면 −0.7을 받는다. 시즌 내내 이렇게 쌓은 점수를 실점으로 바꾼 게 DRS의 뼈대다.",
+    "범위 말고도 송구로 주자를 묶거나 잡은 것, 병살, 번트 처리, 담장 앞 홈런 훔치기, 도루 억제까지 항목마다 점수를 매겨 더한다. +5면 그 포지션 평균보다 5점을 덜 내줬다는 뜻이다."
+  ],
+  "scale": {
+    "min": -20,
+    "max": 20,
+    "dir": "high",
+    "fmt": "int",
+    "avg": {
+      "v": 0,
+      "t": "평균 0 (정의상)"
+    },
+    "marks": [
+      {
+        "v": -15,
+        "t": "매우 나쁨"
+      },
+      {
+        "v": -10,
+        "t": "나쁨"
+      },
+      {
+        "v": 10,
+        "t": "좋음"
+      },
+      {
+        "v": 15,
+        "t": "골드글러브급"
+      }
+    ],
+    "note": "한 시즌, 같은 포지션끼리 비교할 때의 대략적인 구간(FanGraphs 경험칙)이다."
+  },
+  "deep": [
+    "Baseball Info Solutions(BIS)가 사람 손으로 기록한 타구 위치와 종류 데이터를 쓴다. 기록원의 오차가 섞일 수밖에 없고, Statcast 추적 데이터로 계산하는 OAA·FRV와는 출발점이 다르다.",
+    "FanGraphs의 UZR과 생각은 같고 계산이 조금 다르다. DRS는 타구 난이도를 1년 단위로 매기고 UZR은 여러 해 자료를 쓰며, DRS에는 투수와 포수 수비 항목도 있다. 그래서 두 지표가 가끔 같은 선수를 다르게 본다.",
+    "몇 달치 표본으로는 흔들림이 크다. FanGraphs는 1~3년은 쌓여야 꽤 믿을 만하다고 본다."
+  ],
+  "related": [
+    "oaa",
+    "frv",
+    "fld",
+    "war"
+  ],
+  "sources": [
+    {
+      "t": "FanGraphs Library · DRS",
+      "u": "https://library.fangraphs.com/defense/drs/"
+    },
+    {
+      "t": "MLB.com Glossary · Defensive Runs Saved",
+      "u": "https://www.mlb.com/glossary/advanced-stats/defensive-runs-saved"
+    }
+  ]
+}

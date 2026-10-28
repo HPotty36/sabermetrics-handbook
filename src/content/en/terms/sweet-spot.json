@@ -1,0 +1,28 @@
+{
+  "name": "Sweet Spot Rate",
+  "aliases": ["LA SwSp%", "sweet spot percentage"],
+  "summary": "The share of batted balls with a launch angle between 8 and 32 degrees.",
+  "easy": [
+    "When people say a ball came off the sweet spot of the bat, they mean it was hit square. Statcast defined it by launch angle instead of a spot on the bat: anything between 8 and 32 degrees, roughly line drives and low fly balls.",
+    "Balls in that range don't die in the infield like grounders or float up harmlessly like pop-ups. A higher rate means a hitter keeps sending the ball out at angles that tend to become hits."
+  ],
+  "scale": {
+    "avg": "2026 MLB average 33.7% (2025: 34.1%)",
+    "marks": [
+      { "v": 30.4, "t": "Bottom 10%" },
+      { "v": 34.3, "t": "Median" },
+      { "v": 38.7, "t": "Top 10%" }
+    ],
+    "note": "Distribution of the 135 qualified hitters in 2026."
+  },
+  "deep": [
+    "It only looks at the angle, not how hard the ball was hit. That's why the MLB glossary suggests pairing it with hard-hit rate (95 mph or more). Barrels are the category that combines speed and angle.",
+    "Two hitters can have the same average launch angle while one sends most balls between 8 and 32 degrees and the other alternates between grounders and pop-ups. Sweet spot rate shows that difference right away.",
+    "On Baseball Savant leaderboards it's labeled LA SwSp%."
+  ],
+  "sources": [
+    { "t": "MLB.com Glossary · Sweet Spot", "u": "https://www.mlb.com/glossary/statcast/sweet-spot" },
+    { "t": "Baseball Savant · 2026 league averages", "u": "https://baseballsavant.mlb.com/league?season=2026" },
+    { "t": "Baseball Savant · 2026 custom leaderboard (qualified hitters)", "u": "https://baseballsavant.mlb.com/leaderboard/custom?year=2026&type=batter&min=q&selections=pa,on_base_percent,slg_percent,isolated_power,bb_percent,xba,sweet_spot_percent,oz_swing_percent,whiff_percent" }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "name": "Expected Batting Average",
+  "aliases": ["expected BA", "hit probability"],
+  "summary": "A batting average built from how often balls with similar exit velocity and launch angle have gone for hits.",
+  "easy": [
+    "A screaming liner hit right at a fielder is an out, and a blooper that drops between two fielders is a hit. Batting average only counts the results. xBA counts what the contact looked like.",
+    "Each batted ball gets a value for how often balls like it usually become hits, strikeouts go in as outs, and the season number comes from adding those up. If a hitter's actual average is well above his xBA, luck may have helped, and if it's well below, the reverse."
+  ],
+  "scale": {
+    "avg": "2026 MLB average .243 (2025: .243)",
+    "marks": [
+      { "v": 0.224, "t": "Bottom 10%" },
+      { "v": 0.255, "t": "Median" },
+      { "v": 0.283, "t": "Top 10%" }
+    ],
+    "note": "Distribution of the 135 qualified hitters in 2026."
+  },
+  "deep": [
+    "The reference data is every batted ball since 2015, when Statcast went into every park. Since 2019, a hitter's seasonal sprint speed is also factored in on topped and weakly hit balls, which gives some credit for infield hits by fast runners.",
+    "Direction isn't part of it. A hitter who keeps hitting the ball to the same spots, right where fielders stand, can post an actual average below his xBA year after year.",
+    "In 2017 and 2018 it was shown as a percentage called Hit Probability, and in 2019 it moved to the batting-average scale as xBA. The same approach gives xSLG for slugging and xwOBA for overall offense."
+  ],
+  "myth": {
+    "claim": "A hitter batting above his xBA is about to come back down.",
+    "truth": "There's a pull back toward the average, but it doesn't have to even out. Some hitters keep running into factors xBA doesn't know about, like fielder positioning or their home park."
+  },
+  "sources": [
+    { "t": "MLB.com Glossary · Expected Batting Average", "u": "https://www.mlb.com/glossary/statcast/expected-batting-average" },
+    { "t": "Baseball Savant · 2026 league averages", "u": "https://baseballsavant.mlb.com/league?season=2026" },
+    { "t": "Baseball Savant · 2026 custom leaderboard (qualified hitters)", "u": "https://baseballsavant.mlb.com/leaderboard/custom?year=2026&type=batter&min=q&selections=pa,on_base_percent,slg_percent,isolated_power,bb_percent,xba,sweet_spot_percent,oz_swing_percent,whiff_percent" }
+  ]
+}

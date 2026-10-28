@@ -1,0 +1,38 @@
+{
+  "name": "Isolated Power",
+  "aliases": ["isolated slugging", "raw power"],
+  "summary": "Slugging percentage minus batting average. Singles drop out, leaving only the extra bases per at-bat.",
+  "easy": [
+    "Take a .300 hitter slugging .400 and a .250 hitter slugging .450. Their ISOs are .100 and .200. The first one gets more hits, but the second one hits the ball farther.",
+    "It's the same as counting a single as 0, a double as 1, a triple as 2 and a homer as 3. Anything above .200 marks a genuine power hitter."
+  ],
+  "scale": {
+    "avg": "2026 MLB average .156 (2025: .159)",
+    "marks": [
+      { "v": 0.114, "t": "Bottom 10%" },
+      { "v": 0.168, "t": "Median" },
+      { "v": 0.238, "t": "Top 10%" }
+    ],
+    "note": "Distribution of the 135 qualified hitters in 2026."
+  },
+  "formula": {
+    "expr": "ISO = SLG − AVG = (2B + 2×3B + 3×HR) ÷ AB",
+    "vars": [
+      ["2B", "doubles"],
+      ["3B", "triples"],
+      ["HR", "home runs"],
+      ["AB", "at-bats"]
+    ]
+  },
+  "deep": [
+    "There's no park or league adjustment. A hitter-friendly home park pushes it up, and in a year when the ball doesn't carry, the whole league drops.",
+    "The same ISO doesn't mean the same hitter. A .250/.450 hitter and a .350/.550 hitter both come out at .200, and the second one is far better. ISO tells you what kind of hitter someone is more than how good he is.",
+    "It needs a big sample. FanGraphs puts it at around 550 plate appearances before ISO starts predicting future ISO."
+  ],
+  "sources": [
+    { "t": "MLB.com Glossary · Isolated Power", "u": "https://www.mlb.com/glossary/advanced-stats/isolated-power" },
+    { "t": "FanGraphs Library · ISO", "u": "https://library.fangraphs.com/offense/iso/" },
+    { "t": "Baseball-Reference · 2026 MLB batting (league averages)", "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-batting.shtml" },
+    { "t": "Baseball Savant · 2026 custom leaderboard (qualified hitters)", "u": "https://baseballsavant.mlb.com/leaderboard/custom?year=2026&type=batter&min=q&selections=pa,on_base_percent,slg_percent,isolated_power,bb_percent,xba,sweet_spot_percent,oz_swing_percent,whiff_percent" }
+  ]
+}

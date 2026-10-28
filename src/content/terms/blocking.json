@@ -1,0 +1,43 @@
+{
+  "abbr": "Blocking",
+  "chip": "블로킹",
+  "ko": "블로킹",
+  "aliases": [
+    "블로킹",
+    "폭투",
+    "포일",
+    "blocking",
+    "catcher blocking",
+    "blocks above average"
+  ],
+  "level": 2,
+  "order": 78,
+  "cats": [
+    "수비",
+    "트래킹"
+  ],
+  "summary": "포수가 빠지기 쉬운 공을 막아 낸 개수를 평균적인 포수가 막았을 개수와 견준 값.",
+  "easy": [
+    "투수의 공이 땅에 먼저 닿거나 크게 빠지면 포수가 몸으로 막아야 한다. 놓치면 폭투나 포일로 주자가 한 베이스씩 간다.",
+    "블로킹은 공마다 ‘빠질 확률’을 매기고, 그보다 잘 막으면 +, 못 막으면 −를 준다. 빠질 확률 90%짜리를 막아 내면 +0.90, 10%짜리를 막으면 +0.10이다."
+  ],
+  "deep": [
+    "확률은 투구 위치, 구속, 무브먼트, 포수가 앉은 자리, 투수와 타자의 좌우로 계산한다. 폭투와 포일은 합쳐서 보니, 둘을 가르는 기록원의 판단이 결과에 끼지 않는다.",
+    "평균적인 포수가 경기당 40번쯤 블로킹 기회를 맞는다는 기준으로 경기당 비율도 낸다. FRV로 합칠 때는 1개를 0.25점으로 친다."
+  ],
+  "related": [
+    "framing",
+    "pop-time",
+    "frv"
+  ],
+  "sources": [
+    {
+      "t": "Baseball Savant · 포수 블로킹 리더보드",
+      "u": "https://baseballsavant.mlb.com/leaderboard/catcher-blocking"
+    },
+    {
+      "t": "MLB.com Glossary · Fielding Run Value",
+      "u": "https://www.mlb.com/glossary/statcast/fielding-run-value"
+    }
+  ]
+}

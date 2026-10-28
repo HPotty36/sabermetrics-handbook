@@ -1,0 +1,74 @@
+{
+  "abbr": "Active Spin",
+  "chip": "액티브 스핀",
+  "ko": "액티브 스핀",
+  "aliases": [
+    "액티브스핀",
+    "회전 효율",
+    "자이로",
+    "active spin",
+    "spin efficiency",
+    "gyro"
+  ],
+  "level": 3,
+  "order": 45,
+  "cats": [
+    "투구",
+    "트래킹"
+  ],
+  "summary": "투구에 걸린 회전 가운데 공을 움직이는 데 쓰인 회전의 비율.",
+  "easy": [
+    "공에 걸린 회전이 모두 움직임으로 바뀌지는 않는다. 액티브 스핀은 그중 공을 휘게 하는 데 쓰인 회전의 비율이다. 100%면 회전이 남김없이 움직임에 쓰였다는 뜻이다.",
+    "백스핀이든 톱스핀이든 옆으로 도는 회전이든, 공이 날아가는 방향과 직각으로 돌면 모두 액티브 스핀이다. 손목을 비틀어 미식축구 공을 던지듯 놓을수록 진행 방향을 축으로 도는 성분이 늘고 비율이 떨어진다."
+  ],
+  "scale": {
+    "min": 0,
+    "max": 100,
+    "dir": "none",
+    "fmt": "int",
+    "unit": "%",
+    "marks": [
+      {
+        "v": 32,
+        "t": "슬라이더"
+      },
+      {
+        "v": 47,
+        "t": "커터"
+      },
+      {
+        "v": 73,
+        "t": "커브"
+      },
+      {
+        "v": 91,
+        "t": "포심"
+      }
+    ],
+    "note": "2026 Savant 액티브 스핀 리더보드(구종별 50구 이상)에서 구종마다 투수들의 가운데 값이다."
+  },
+  "deep": [
+    "구종마다 보통의 값이 다르다. 2026년 Savant 리더보드에서 투수들의 가운데 값은 포심 90.5%, 체인지업 90.0%, 싱커 87.2%, 커브 73.3%, 스위퍼 50.5%, 커터 47.0%, 슬라이더 31.7%였다. 슬라이더와 커터는 낮은 값이 오히려 그 구종다운 모양이다.",
+    "회전만으로 예상한 움직임과 실제 움직임이 어긋나기도 한다. 실밥이 공 둘레의 공기 흐름을 바꾸는 현상(seam-shifted wake)으로 설명하는데, FanGraphs의 Stuff+는 이 차이를 axis differential이라는 값으로 모델에 넣는다.",
+    "회전수와 곱해 보면 실제로 움직임을 만든 회전을 가늠할 수 있다. 2,400rpm에 액티브 스핀 90%인 포심이면 2,160rpm어치가 움직임에 쓰인 셈이다."
+  ],
+  "related": [
+    "spin",
+    "ivb",
+    "stuff-plus"
+  ],
+  "sources": [
+    {
+      "t": "MLB.com Glossary · Active Spin",
+      "u": "https://www.mlb.com/glossary/statcast/active-spin"
+    },
+    {
+      "t": "Baseball Savant · 2026 액티브 스핀 리더보드",
+      "u": "https://baseballsavant.mlb.com/leaderboard/active-spin?year=2026_spin-based&min=50"
+    },
+    {
+      "t": "FanGraphs Library · Stuff+, Location+, Pitching+ Primer",
+      "u": "https://library.fangraphs.com/pitching/stuff-location-and-pitching-primer/"
+    }
+  ]
+}

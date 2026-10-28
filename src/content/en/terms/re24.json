@@ -1,0 +1,20 @@
+{
+  "name": "Run Expectancy Based on the 24 Base-Out States",
+  "aliases": ["run expectancy", "RE matrix", "REW"],
+  "summary": "How much a plate appearance raised or lowered the inning's expected runs, using the average runs scored from each of the 24 out-and-baserunner situations.",
+  "easy": [
+    "Runner on first with nobody out and runner on first with two out look alike, but the chances of scoring that inning are nothing alike. Zero, one or two outs times eight ways of placing runners makes 24 situations, and there's a table of how many runs score on average from each one through the end of the inning.",
+    "Compare the expected runs before the plate appearance with the expected runs after it, add any runs that scored, and you have that plate appearance's RE24. A double with two outs and the bases empty is worth about 0.2 runs above average; a double with the bases loaded is worth about 2.5."
+  ],
+  "formula": {
+    "expr": "RE24 = expected runs after − expected runs before + runs scored on the play"
+  },
+  "deep": [
+    "Zero is average, and 9 to 10 runs make about one win. In FanGraphs' sample table (a 4.15 runs-per-game environment), a runner on first with no outs is worth 0.831 expected runs and runners on the corners with no outs 1.798. A single that turns the first situation into the second earns the batter 0.967 and costs the pitcher the same. The leaderboards use tables built for each year and park, so your own math may not match them exactly.",
+    "It looks only at outs and runners, not the score or the inning. Bases loaded in a tie game in the ninth is the same as bases loaded in the fourth with a seven-run lead. WPA is the stat that adds that kind of weight.",
+    "For hitters, it shows what they did with their situations without rewarding them, the way RBI does, just for getting lots of chances. It's especially useful for relievers who inherit runners. Entering with the bases loaded and stranding all three is +2.282; letting all three score and then finishing the inning is −0.72. In ERA, both go down as zero earned runs."
+  ],
+  "sources": [
+    { "t": "FanGraphs Library · RE24", "u": "https://library.fangraphs.com/misc/re24/" }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "abbr": "K-BB%",
+  "chip": "K-BB%",
+  "ko": "삼진 비율 − 볼넷 비율",
+  "aliases": [
+    "케이비비",
+    "K-BB",
+    "K minus BB"
+  ],
+  "level": 2,
+  "order": 45,
+  "cats": [
+    "투구"
+  ],
+  "summary": "투수의 삼진 비율에서 볼넷 비율을 뺀 값. 상대한 타자 100명 가운데 삼진이 볼넷보다 몇 명 많았는지다.",
+  "easy": [
+    "삼진은 수비 도움 없이 투수 혼자 잡는 아웃이고, 볼넷은 투수 혼자 내보낸 주자다. 둘 다 수비와 운이 거의 끼지 않아서 투수 본인의 몫이 잘 드러난다.",
+    "K%가 25%, BB%가 7%라면 K-BB%는 18%다. 삼진을 많이 잡아도 볼넷을 그만큼 내주면 깎이고, 삼진이 적어도 볼넷을 거의 안 주면 버틴다."
+  ],
+  "scale": {
+    "min": 0,
+    "max": 32,
+    "dir": "high",
+    "fmt": "dec1",
+    "unit": "%",
+    "avg": {
+      "v": 13.3,
+      "t": "2026 MLB 평균 13.3% (2025년 13.8%)"
+    },
+    "marks": [
+      {
+        "v": 9.3,
+        "t": "하위 10%"
+      },
+      {
+        "v": 16.8,
+        "t": "가운데"
+      },
+      {
+        "v": 23.4,
+        "t": "상위 10%"
+      }
+    ],
+    "note": "2026 규정 이닝 투수 46명의 분포다."
+  },
+  "formula": {
+    "expr": "K-BB% = K% − BB%",
+    "vars": [
+      [
+        "K%",
+        "삼진 ÷ 상대한 타자"
+      ],
+      [
+        "BB%",
+        "볼넷 ÷ 상대한 타자"
+      ]
+    ]
+  },
+  "deep": [
+    "비율 하나에서 다른 하나를 뺀 단순한 숫자인데, 남은 시즌을 예측하는 힘이 세다. FanGraphs의 Stuff+ 입문서도 그렇게 적었고, 자기 모델인 Pitching+를 견주는 기준으로 K-BB%를 썼다.",
+    "맞은 타구의 질은 계산에 없다. 땅볼을 유도해 병살로 이닝을 끝내는 투수나 약한 뜬공으로 버티는 투수는 K-BB%만으로는 낮게 평가된다.",
+    "분모가 상대한 타자 수라서, 이닝으로 나눈 K/9 − BB/9와는 다르다. 2026년 리그 평균은 볼넷이 늘어난 만큼 2025년(13.8%)보다 내려간 13.3%였다."
+  ],
+  "related": [
+    "k-pct",
+    "bb-pct",
+    "fip",
+    "pitching-plus"
+  ],
+  "sources": [
+    {
+      "t": "FanGraphs Library · Strikeout and Walk Rates (투수)",
+      "u": "https://library.fangraphs.com/pitching/rate-stats/"
+    },
+    {
+      "t": "FanGraphs Library · Stuff+, Location+, Pitching+ Primer",
+      "u": "https://library.fangraphs.com/pitching/stuff-location-and-pitching-primer/"
+    },
+    {
+      "t": "Baseball-Reference · 2026 MLB 타격 (리그 평균)",
+      "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-batting.shtml"
+    },
+    {
+      "t": "Baseball Savant · 2026 커스텀 리더보드 (규정 이닝)",
+      "u": "https://baseballsavant.mlb.com/leaderboard/custom?year=2026&type=pitcher&min=q&selections=pa,k_percent,bb_percent"
+    }
+  ]
+}

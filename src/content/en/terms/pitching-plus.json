@@ -1,0 +1,25 @@
+{
+  "name": "Pitching+",
+  "aliases": ["Pitching plus"],
+  "summary": "A score for each pitch that combines its physical traits, location, the count and the batter's handedness. 100 is average.",
+  "easy": [
+    "If Stuff+ looks at the pitch itself and Location+ at where it went, Pitching+ looks at both at once. It isn't an average of the two, though. It's a third model, built from scratch with all of that information.",
+    "Batter handedness goes in too, since the same pitch plays differently against lefties and righties."
+  ],
+  "scale": {
+    "avg": "Average 100",
+    "marks": [
+      { "v": 90, "t": "−1 standard deviation" },
+      { "v": 110, "t": "+1 standard deviation" }
+    ],
+    "note": "Same scale as Stuff+ and Location+. For a single pitch, 10 points is one standard deviation."
+  },
+  "deep": [
+    "Its value is prediction. FanGraphs' primer says that before the season it predicted relievers' ERA better than any projection system, and that during the season it overtakes preseason projections after about 250 pitches for relievers and about 400 for starters.",
+    "It also predicts rest-of-season results better than K-BB% in small samples and becomes reliable faster. Still, most of what carries over from year to year comes from the Stuff+ part.",
+    "It doesn't look at results, so it can drift from actual runs allowed. The primer itself says that the longer a pitcher has been in the majors, the more weight his actual results deserve."
+  ],
+  "sources": [
+    { "t": "FanGraphs Library · Stuff+, Location+, Pitching+ Primer", "u": "https://library.fangraphs.com/pitching/stuff-location-and-pitching-primer/" }
+  ]
+}

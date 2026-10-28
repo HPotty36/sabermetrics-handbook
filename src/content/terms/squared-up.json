@@ -1,0 +1,75 @@
+{
+  "abbr": "Squared-Up%",
+  "chip": "스퀘어드업%",
+  "ko": "스퀘어드업%",
+  "aliases": [
+    "스퀘어드업",
+    "스퀘어드 업",
+    "정타",
+    "squared up",
+    "squared-up rate"
+  ],
+  "level": 3,
+  "order": 75,
+  "cats": [
+    "타격",
+    "트래킹"
+  ],
+  "added": 2024,
+  "summary": "배트 스피드와 투구 속도로 낼 수 있는 최대 타구 속도의 80% 이상을 낸 스윙의 비율.",
+  "easy": [
+    "똑같이 세게 휘둘러도 배트 끝이나 손잡이 쪽에 맞으면 타구가 약하다. 스퀘어드업은 ‘이 스윙과 이 공이면 낼 수 있었던 타구 속도’ 가운데 실제로 얼마를 냈는지 본다.",
+    "80% 이상이면 제대로 맞힌 스윙으로 친다. 세게 휘두르지 않아도 정확히 맞히면 된다. 느린 커브를 가볍게 받아쳐 가운데로 보낸 단타도 여기에 든다."
+  ],
+  "scale": {
+    "min": 12,
+    "max": 45,
+    "dir": "high",
+    "fmt": "dec1",
+    "unit": "%",
+    "avg": {
+      "v": 24.7,
+      "t": "2026 MLB 평균 24.7% (2025년 25.5%)"
+    },
+    "marks": [
+      {
+        "v": 20.0,
+        "t": "하위 10%"
+      },
+      {
+        "v": 25.0,
+        "t": "가운데"
+      },
+      {
+        "v": 31.7,
+        "t": "상위 10%"
+      }
+    ],
+    "note": "스윙 대비 비율이고, 2026 배트 트래킹 규정 타자 209명의 분포다. 맞힌 공(접촉) 대비로는 2026년 평균이 32.3%다."
+  },
+  "deep": [
+    "최대 타구 속도는 공이 배트 끝에서 4~9인치 안쪽, 스위트 스팟에 맞았을 때만 나온다. 실제 타구 속도를 최대치와 견주면 배트의 어디에 맞았는지가 거꾸로 드러난다.",
+    "리더보드에는 스윙 대비와 접촉 대비 두 가지가 있다. 헛스윙은 스윙 대비 쪽에만 0%로 들어가서, 스윙 대비 값이 늘 더 낮다.",
+    "2024년 첫 달 MLB 전체로 보면 스퀘어드업된 타구는 타율 .371·장타율 .656, 그렇지 않은 타구는 .126·.142였다. 스퀘어드업에 빠른 스윙까지 겹친 타구는 블라스트라고 부른다."
+  ],
+  "related": [
+    "blast",
+    "batspeed",
+    "barrel",
+    "swing-length"
+  ],
+  "sources": [
+    {
+      "t": "MLB.com Glossary · Squared-Up",
+      "u": "https://www.mlb.com/glossary/statcast/squared-up"
+    },
+    {
+      "t": "Baseball Savant · Bat Tracking (2026 리그 단위)",
+      "u": "https://baseballsavant.mlb.com/leaderboard/bat-tracking?minSwings=q&seasonStart=2026&seasonEnd=2026&type=league&gameType=Regular"
+    },
+    {
+      "t": "Baseball Savant · Bat Tracking (2026 규정 타자)",
+      "u": "https://baseballsavant.mlb.com/leaderboard/bat-tracking?gameType=Regular&minSwings=q&seasonStart=2026&seasonEnd=2026&type=batter"
+    }
+  ]
+}

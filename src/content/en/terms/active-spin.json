@@ -1,0 +1,28 @@
+{
+  "name": "Active Spin",
+  "aliases": ["spin efficiency", "gyro spin", "active spin rate"],
+  "summary": "The share of a pitch's spin that goes into making it move.",
+  "easy": [
+    "Not all the spin on a pitch turns into movement. Active spin is the share that does. At 100%, every bit of spin goes into bending the ball.",
+    "Backspin, topspin or sidespin all count as active as long as the ball spins at a right angle to its flight. The more a pitcher twists his wrist and releases the ball like a football, the more spin goes around the direction of travel and the lower the number."
+  ],
+  "scale": {
+    "marks": [
+      { "v": 32, "t": "Slider" },
+      { "v": 47, "t": "Cutter" },
+      { "v": 73, "t": "Curveball" },
+      { "v": 91, "t": "Four-seamer" }
+    ],
+    "note": "Median for each pitch type among pitchers on the 2026 Savant active spin leaderboard (50+ pitches of that type)."
+  },
+  "deep": [
+    "Each pitch type has its own normal. On the 2026 Savant leaderboard, pitcher medians were 90.5% for four-seamers, 90.0% for changeups, 87.2% for sinkers, 73.3% for curveballs, 50.5% for sweepers, 47.0% for cutters and 31.7% for sliders. For sliders and cutters, a low number is part of what makes them what they are.",
+    "Sometimes the movement predicted from spin alone doesn't match the actual movement. The gap is put down to seam-shifted wake, the seams changing the airflow around the ball, and FanGraphs' Stuff+ feeds it into the model as axis differential.",
+    "Multiplying by spin rate gives a rough idea of how much spin is actually doing work. A 2,400 rpm four-seamer with 90% active spin has 2,160 rpm worth of spin making it move."
+  ],
+  "sources": [
+    { "t": "MLB.com Glossary · Active Spin", "u": "https://www.mlb.com/glossary/statcast/active-spin" },
+    { "t": "Baseball Savant · 2026 Active Spin leaderboard", "u": "https://baseballsavant.mlb.com/leaderboard/active-spin?year=2026_spin-based&min=50" },
+    { "t": "FanGraphs Library · Stuff+, Location+, Pitching+ Primer", "u": "https://library.fangraphs.com/pitching/stuff-location-and-pitching-primer/" }
+  ]
+}

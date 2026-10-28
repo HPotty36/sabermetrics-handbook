@@ -1,0 +1,30 @@
+{
+  "name": "Sprint Speed",
+  "aliases": ["bolt", "top speed", "foot speed"],
+  "summary": "How many feet a player covers in his fastest one-second window while running all out.",
+  "easy": [
+    "Home-to-first times depend on which side of the plate a hitter bats from, his first step and the kind of ball he hit. Sprint speed strips that away and looks only at the top speed his legs can reach.",
+    "The MLB average is about 27 feet per second, and any run over 30 is called a Bolt. One second is roughly seven full-speed strides, so players who can hold their speed do better than ones with a quick burst."
+  ],
+  "scale": {
+    "avg": "MLB average 27.0 ft/s (competitive runs)",
+    "marks": [
+      { "v": 25.5, "t": "Bottom 10%" },
+      { "v": 29.0, "t": "Top 10%" }
+    ],
+    "note": "Distribution from the 2026 Savant leaderboard (567 players with 10+ competitive runs). A run at 30 ft/s or faster is a Bolt."
+  },
+  "deep": [
+    "Not every run counts. Only runs of two bases or more on non-homers (leaving out runners starting from second on an extra-base hit) and home-to-first runs on topped or weakly hit balls qualify. The fastest two-thirds or so of those are averaged for the season number.",
+    "It was introduced during the 2017 season. In 2018 home-to-first runs were added, so the sample builds up faster.",
+    "Being fast isn't the same as running the bases well. Jumps, reads and slides aren't in this number. How many runs a player actually added is counted separately by baserunning run value and BsR."
+  ],
+  "myth": {
+    "claim": "The players with the most steals are the fastest.",
+    "truth": "Steals depend heavily on the jump, reading the pitcher's delivery and the team's strategy. Raw speed is only one piece."
+  },
+  "sources": [
+    { "t": "MLB.com Glossary · Sprint Speed", "u": "https://www.mlb.com/glossary/statcast/sprint-speed" },
+    { "t": "Baseball Savant · 2026 Sprint Speed leaderboard", "u": "https://baseballsavant.mlb.com/leaderboard/sprint_speed?year=2026" }
+  ]
+}

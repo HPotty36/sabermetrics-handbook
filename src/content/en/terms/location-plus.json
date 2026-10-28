@@ -1,0 +1,25 @@
+{
+  "name": "Location+",
+  "aliases": ["Location plus", "command", "location model"],
+  "summary": "A score for whether a pitcher put the ball in a good spot for the count and pitch type, with velocity and movement left out. 100 is average.",
+  "easy": [
+    "Where a slider should go on 2-0 is different from where it should go on 1-2. Ahead in the count a pitcher can expand off the plate; behind, he has to come in. Location+ grades how good a choice that spot was in that situation.",
+    "It ignores how hard the pitch is thrown or how much it moves; that's Stuff+'s job. Looking at the two separately shows who wins with stuff and who wins with command."
+  ],
+  "scale": {
+    "avg": "Average 100",
+    "marks": [
+      { "v": 90, "t": "−1 standard deviation" },
+      { "v": 110, "t": "+1 standard deviation" }
+    ],
+    "note": "At the level of a single pitch, 10 points is one standard deviation. Pitcher-level numbers spread differently."
+  },
+  "deep": [
+    "It doesn't try to figure out where the pitcher was aiming. Command stats where human stringers judge intent didn't add predictive value, so Location+ looks only at where the pitch actually went and assumes that, for a given count and pitch type, intent is about the same across the league.",
+    "It takes a while to settle. Stuff+ becomes reliable about 80 pitches into a season, Location+ only after something like 400, and it's less sticky from year to year too. That holds even though, on any single pitch, location matters more than stuff.",
+    "It's centered at 100 for each pitch type, so pitch types don't differ on average."
+  ],
+  "sources": [
+    { "t": "FanGraphs Library · Stuff+, Location+, Pitching+ Primer", "u": "https://library.fangraphs.com/pitching/stuff-location-and-pitching-primer/" }
+  ]
+}

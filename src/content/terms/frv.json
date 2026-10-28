@@ -1,0 +1,71 @@
+{
+  "abbr": "FRV",
+  "chip": "FRV",
+  "ko": "수비 득점 가치",
+  "aliases": [
+    "에프알브이",
+    "수비 런 밸류",
+    "fielding run value"
+  ],
+  "level": 3,
+  "order": 110,
+  "cats": [
+    "수비",
+    "트래킹"
+  ],
+  "summary": "Statcast의 여러 수비 지표를 점수 하나로 합쳐, 평균적인 수비수보다 몇 점을 막았는지 나타낸 값.",
+  "easy": [
+    "외야수는 넓게 뛰어다니며 잡고, 포수는 스트라이크를 얻어 내고, 내야수는 병살을 만든다. 하는 일이 다르니 지표도 제각각이다. FRV는 그걸 모두 ‘몇 점’으로 바꿔 더한다.",
+    "0이 평균이고, +면 평균보다 그만큼 점수를 덜 내줬다는 뜻이다. 그래서 포수와 유격수, 중견수를 같은 눈금에 놓고 볼 수 있다."
+  ],
+  "formula": {
+    "expr": "FRV = 수비 지표마다 점수로 바꿔 더한 값",
+    "vars": [
+      [
+        "범위",
+        "OAA 1아웃 = 외야 0.9점, 내야 0.75점"
+      ],
+      [
+        "블로킹",
+        "1개 = 0.25점"
+      ],
+      [
+        "프레이밍",
+        "1스트라이크 = 0.125점"
+      ],
+      [
+        "포수 송구",
+        "도루 저지 1개 = 0.65점"
+      ],
+      [
+        "병살",
+        "1개 = 0.4점"
+      ]
+    ]
+  },
+  "deep": [
+    "2026년 10월부터는 포수가 ABS 챌린지로 만든 가치도 FRV에 들어간다. 프레이밍은 심판의 첫 판정으로 매기고, 챌린지로 바뀐 몫을 따로 더하는 식이다.",
+    "평균은 같은 포지션 기준이다. 유격수 +5와 1루수 +5는 각자 자리에서 평균보다 5점 낫다는 뜻이고, 어느 포지션이 더 어려운지는 이 숫자에 없다.",
+    "OAA는 FRV의 한 부분, 범위 항목이다. OAA가 같아도 송구나 병살에서 차이가 나면 FRV는 달라진다."
+  ],
+  "related": [
+    "oaa",
+    "drs",
+    "framing",
+    "blocking"
+  ],
+  "sources": [
+    {
+      "t": "MLB.com Glossary · Fielding Run Value",
+      "u": "https://www.mlb.com/glossary/statcast/fielding-run-value"
+    },
+    {
+      "t": "Baseball Savant · 수비 득점 가치 리더보드",
+      "u": "https://baseballsavant.mlb.com/leaderboard/fielding-run-value"
+    },
+    {
+      "t": "Baseball Savant 변경 기록 · 2026년 10월 ABS·FRV",
+      "u": "https://baseballsavant.mlb.com/changelog/2026-10-08-abs-leaderboard-update-frv"
+    }
+  ]
+}

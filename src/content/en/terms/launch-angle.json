@@ -1,0 +1,31 @@
+{
+  "name": "Launch Angle",
+  "aliases": ["LA", "fly ball revolution"],
+  "summary": "The vertical angle at which the ball leaves the bat. Zero is parallel to the ground, positive is up, negative is into the dirt.",
+  "easy": [
+    "Two balls hit equally hard can end up in completely different places depending on the angle. Too low and it's a grounder, too high and it's an infield pop-up. Statcast roughly calls anything under 10 degrees a ground ball, 10 to 25 a line drive, 25 to 50 a fly ball and above 50 a pop-up.",
+    "A hitter's average launch angle hints at what kind of hitter he is: high means he lifts the ball, low means lots of grounders. Pitchers get sorted into fly-ball and ground-ball types the same way, by the average angle of the balls hit against them."
+  ],
+  "scale": {
+    "avg": "2026 MLB average 14° (13.9°; 2025: 13.5°)",
+    "marks": [
+      { "v": 10, "t": "Line drives begin" },
+      { "v": 25, "t": "Fly balls begin" },
+      { "v": 50, "t": "Pop-ups begin" }
+    ],
+    "note": "Per batted ball. The shaded range is the sweet spot (8 to 32°)."
+  },
+  "deep": [
+    "Launch angle alone can't pick out good contact. A ball hit at 25 degrees is a routine fly if it's hit softly, and over the wall if it comes off the bat at more than 100 mph. That's why it gets combined with exit velocity in categories like barrels.",
+    "Bunts are left out of a hitter's average. A pitcher's average uses every ball hit against him. League average was 13.9 degrees in 2026, a bit higher than 13.5 in 2025."
+  ],
+  "myth": {
+    "claim": "Raising your launch angle means more home runs.",
+    "truth": "Only if you can hit the ball hard. Without the exit velocity to back it up, a higher angle mostly produces fly balls that get caught."
+  },
+  "sources": [
+    { "t": "MLB.com Glossary · Launch Angle", "u": "https://www.mlb.com/glossary/statcast/launch-angle" },
+    { "t": "MLB.com Glossary · Sweet Spot", "u": "https://www.mlb.com/glossary/statcast/sweet-spot" },
+    { "t": "Baseball Savant · 2026 league averages", "u": "https://baseballsavant.mlb.com/league?season=2026" }
+  ]
+}

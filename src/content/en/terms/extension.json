@@ -1,0 +1,27 @@
+{
+  "name": "Extension",
+  "aliases": ["release extension", "EXT"],
+  "summary": "How many feet in front of the pitching rubber a pitcher lets go of the ball.",
+  "easy": [
+    "It's 60 feet, 6 inches from the rubber to home plate, but pitchers stride forward and reach out, so they release the ball in front of the rubber. That distance is extension.",
+    "The farther out the release, the less time the ball takes to reach the hitter, so the same velocity looks faster to him. The MLB glossary says a pitcher with long extension can make a 93 mph fastball look like 96."
+  ],
+  "scale": {
+    "avg": "2026 four-seam average 6.5 ft (2025: 6.5 ft)",
+    "marks": [
+      { "v": 6.0, "t": "Shortest 10%" },
+      { "v": 6.9, "t": "Longest 10%" }
+    ],
+    "note": "Four-seamers only. Distribution of the 270 pitchers who threw at least 300 of them in 2026."
+  },
+  "deep": [
+    "Tall pitchers with long arms tend to get the most extension. It's an ingredient in perceived velocity: longer-than-average extension makes perceived velocity come out higher than actual velocity, and shorter extension makes it lower.",
+    "The 2026 league average on four-seamers was 6.5 feet, the same as 2025. Across all pitch types it was 6.4."
+  ],
+  "sources": [
+    { "t": "MLB.com Glossary · Extension", "u": "https://www.mlb.com/glossary/statcast/extension" },
+    { "t": "MLB.com Glossary · Perceived Velocity", "u": "https://www.mlb.com/glossary/statcast/perceived-velocity" },
+    { "t": "Baseball Savant · Statcast Search (2026 four-seam extension, league level)", "u": "https://baseballsavant.mlb.com/statcast_search?hfPT=FF%7C&hfGT=R%7C&hfSea=2026%7C&player_type=pitcher&group_by=league&chk_stats_velocity=on&chk_stats_release_extension=on" },
+    { "t": "Baseball Savant · Statcast Search (2026 four-seamers, by pitcher)", "u": "https://baseballsavant.mlb.com/statcast_search?hfPT=FF%7C&hfGT=R%7C&hfSea=2026%7C&player_type=pitcher&group_by=name&chk_stats_release_extension=on" }
+  ]
+}

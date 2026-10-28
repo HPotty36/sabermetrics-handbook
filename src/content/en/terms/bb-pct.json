@@ -1,0 +1,36 @@
+{
+  "name": "Walk Rate",
+  "aliases": ["BB rate", "walk percentage", "BB/9"],
+  "summary": "The share of plate appearances that end in a walk. For pitchers, it's walks allowed per batter faced.",
+  "easy": [
+    "For a hitter, a walk is a trip to first earned with his eyes. It takes telling balls from strikes and the patience to hold off even when behind in the count.",
+    "For a pitcher it's the reverse. A walk puts a runner on without the ball even being put in play, and there's nothing the defense can do about it. For pitchers, lower is better."
+  ],
+  "scale": {
+    "avg": "2026 MLB average 8.9% (2025: 8.4%)",
+    "marks": [
+      { "v": 5.7, "t": "Bottom 10%" },
+      { "v": 9.2, "t": "Median" },
+      { "v": 13.2, "t": "Top 10%" }
+    ],
+    "note": "From the hitter's side. Distribution of the 135 qualified hitters in 2026."
+  },
+  "formula": {
+    "expr": "BB% = BB ÷ PA",
+    "vars": [
+      ["BB", "walks"],
+      ["PA", "plate appearances (batters faced for pitchers)"]
+    ]
+  },
+  "deep": [
+    "Pitchers were long judged by walks per nine innings (BB/9). Measured per inning, a pitcher who gives up lots of hits faces more batters each inning, which muddies the number. Dividing by batters faced isolates the walk habit itself.",
+    "League average climbed to 8.9% in 2026, up noticeably from 8.4% in 2025.",
+    "Power hitters tend to walk a lot and strike out a lot: pitchers work around them, and big swings miss more often. Hitters who focus on contact are usually low in both."
+  ],
+  "sources": [
+    { "t": "MLB.com Glossary · Walk Rate", "u": "https://www.mlb.com/glossary/advanced-stats/walk-rate" },
+    { "t": "FanGraphs Library · K% and BB% (hitters)", "u": "https://library.fangraphs.com/offense/rate-stats/" },
+    { "t": "Baseball-Reference · 2026 MLB batting (league averages)", "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-batting.shtml" },
+    { "t": "Baseball Savant · 2026 custom leaderboard (qualified hitters)", "u": "https://baseballsavant.mlb.com/leaderboard/custom?year=2026&type=batter&min=q&selections=pa,on_base_percent,slg_percent,isolated_power,bb_percent,xba,sweet_spot_percent,oz_swing_percent,whiff_percent" }
+  ]
+}

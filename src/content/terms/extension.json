@@ -1,0 +1,72 @@
+{
+  "abbr": "Extension",
+  "chip": "익스텐션",
+  "ko": "익스텐션",
+  "aliases": [
+    "익스텐션",
+    "릴리스 익스텐션",
+    "extension",
+    "release extension",
+    "EXT"
+  ],
+  "level": 2,
+  "order": 85,
+  "cats": [
+    "투구",
+    "트래킹"
+  ],
+  "summary": "투수가 투수판보다 몇 피트 앞에서 공을 놓았는지 잰 거리.",
+  "easy": [
+    "투수판에서 홈까지는 60피트 6인치(18.44m)지만, 투수는 발을 내딛고 팔을 뻗어 그보다 앞에서 공을 놓는다. 그 거리가 익스텐션이다.",
+    "앞에서 놓을수록 공이 타자에게 닿는 시간이 줄어서, 같은 구속이라도 타자는 더 빠르게 느낀다. MLB 용어집은 익스텐션이 긴 투수의 93마일이 96마일처럼 보일 수 있다고 적었다."
+  ],
+  "scale": {
+    "min": 5,
+    "max": 8,
+    "dir": "none",
+    "fmt": "dec1",
+    "unit": " ft",
+    "avg": {
+      "v": 6.5,
+      "t": "2026 포심 평균 6.5 ft (2025년 6.5 ft)"
+    },
+    "marks": [
+      {
+        "v": 6.0,
+        "t": "짧은 쪽 10%"
+      },
+      {
+        "v": 6.9,
+        "t": "긴 쪽 10%"
+      }
+    ],
+    "note": "포심 기준이고, 2026년 포심을 300구 이상 던진 투수 270명의 분포다."
+  },
+  "deep": [
+    "키가 크고 팔이 긴 투수일수록 길게 나온다. 체감 구속(Perceived Velocity)을 계산하는 재료라서, 익스텐션이 평균보다 길면 체감 구속이 실제 구속보다 높게, 짧으면 낮게 나온다.",
+    "2026년 포심 기준 리그 평균은 6.5피트로 2025년과 같았다. 구종을 가리지 않으면 6.4피트다."
+  ],
+  "related": [
+    "velo",
+    "arm-angle",
+    "vaa"
+  ],
+  "sources": [
+    {
+      "t": "MLB.com Glossary · Extension",
+      "u": "https://www.mlb.com/glossary/statcast/extension"
+    },
+    {
+      "t": "MLB.com Glossary · Perceived Velocity",
+      "u": "https://www.mlb.com/glossary/statcast/perceived-velocity"
+    },
+    {
+      "t": "Baseball Savant · Statcast Search (2026 포심 익스텐션, 리그 단위)",
+      "u": "https://baseballsavant.mlb.com/statcast_search?hfPT=FF%7C&hfGT=R%7C&hfSea=2026%7C&player_type=pitcher&group_by=league&chk_stats_velocity=on&chk_stats_release_extension=on"
+    },
+    {
+      "t": "Baseball Savant · Statcast Search (2026 포심, 투수별)",
+      "u": "https://baseballsavant.mlb.com/statcast_search?hfPT=FF%7C&hfGT=R%7C&hfSea=2026%7C&player_type=pitcher&group_by=name&chk_stats_release_extension=on"
+    }
+  ]
+}

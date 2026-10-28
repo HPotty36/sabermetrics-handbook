@@ -1,0 +1,36 @@
+{
+  "name": "Strikeout Rate Minus Walk Rate",
+  "aliases": ["K-BB", "K minus BB"],
+  "summary": "A pitcher's strikeout rate minus his walk rate: how many more strikeouts than walks per 100 batters faced.",
+  "easy": [
+    "A strikeout is an out the pitcher gets with no help from the defense, and a walk is a runner he puts on all by himself. Neither involves much defense or luck, so together they say a lot about the pitcher himself.",
+    "A 25% strikeout rate and a 7% walk rate make an 18% K-BB%. A pitcher who piles up strikeouts but walks just as many gets marked down, and one with few strikeouts can hold up if he almost never walks anyone."
+  ],
+  "scale": {
+    "avg": "2026 MLB average 13.3% (2025: 13.8%)",
+    "marks": [
+      { "v": 9.3, "t": "Bottom 10%" },
+      { "v": 16.8, "t": "Median" },
+      { "v": 23.4, "t": "Top 10%" }
+    ],
+    "note": "Distribution of the 46 qualified pitchers in 2026."
+  },
+  "formula": {
+    "expr": "K-BB% = K% − BB%",
+    "vars": [
+      ["K%", "strikeouts ÷ batters faced"],
+      ["BB%", "walks ÷ batters faced"]
+    ]
+  },
+  "deep": [
+    "It's just one rate minus another, but it's a strong predictor of the rest of a season. FanGraphs' Stuff+ primer says as much and uses K-BB% as the benchmark for its own Pitching+ model.",
+    "It ignores contact quality entirely. A pitcher who gets out of innings with ground-ball double plays, or one who lives on weak fly balls, gets undersold.",
+    "The denominator is batters faced, so it isn't the same as K/9 minus BB/9. League average fell to 13.3% in 2026 from 13.8% in 2025, in step with the rise in walks."
+  ],
+  "sources": [
+    { "t": "FanGraphs Library · Strikeout and Walk Rates (pitchers)", "u": "https://library.fangraphs.com/pitching/rate-stats/" },
+    { "t": "FanGraphs Library · Stuff+, Location+, Pitching+ Primer", "u": "https://library.fangraphs.com/pitching/stuff-location-and-pitching-primer/" },
+    { "t": "Baseball-Reference · 2026 MLB batting (league averages)", "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-batting.shtml" },
+    { "t": "Baseball Savant · 2026 custom leaderboard (qualified pitchers)", "u": "https://baseballsavant.mlb.com/leaderboard/custom?year=2026&type=pitcher&min=q&selections=pa,k_percent,bb_percent" }
+  ]
+}

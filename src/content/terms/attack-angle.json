@@ -4,11 +4,6 @@
   "ko": "어택 앵글 (배트 진입각)",
   "aliases": [
     "어택앵글",
-    "swing path",
-    "스윙패스",
-    "스윙 틸트",
-    "attack direction",
-    "어택디렉션",
     "ideal attack angle"
   ],
   "level": 3,
@@ -65,7 +60,9 @@
   "related": [
     "blast",
     "vaa",
-    "barrel"
+    "barrel",
+    "attack-direction",
+    "swing-tilt"
   ],
   "sources": [
     {

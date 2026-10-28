@@ -1,0 +1,43 @@
+{
+  "name": "On-base Percentage",
+  "aliases": ["on base percentage", "on-base average", "OBA"],
+  "summary": "How often a hitter reaches base on a hit, a walk or a hit-by-pitch.",
+  "easy": [
+    "The most basic thing a hitter can do is not make an out. A team only gets 27 of them, and every out a hitter avoids hands one more chance to the batters behind him.",
+    "Batting average ignores walks completely. OBP counts a walk the same as a hit: one more time on base. Hitters with a good eye end up well above their batting average, and OBP usually runs about 60 points higher."
+  ],
+  "scale": {
+    "avg": "2026 MLB average .318 (2025: .315)",
+    "marks": [
+      { "v": 0.29, "t": "Poor" },
+      { "v": 0.34, "t": "Above average" },
+      { "v": 0.37, "t": "Good" },
+      { "v": 0.39, "t": "Elite" }
+    ],
+    "note": "Approximate cutoffs for one MLB season."
+  },
+  "formula": {
+    "expr": "OBP = (H + BB + HBP) ÷ (AB + BB + HBP + SF)",
+    "vars": [
+      ["H", "hits"],
+      ["BB", "walks"],
+      ["HBP", "hit by pitch"],
+      ["AB", "at-bats"],
+      ["SF", "sacrifice flies"]
+    ]
+  },
+  "deep": [
+    "Reaching on an error, a fielder's choice or a dropped third strike doesn't count. Sacrifice flies stay in the denominator, but sacrifice bunts come out, since a bunt is usually the manager's call rather than the hitter's.",
+    "Dodgers executive Branch Rickey and statistician Allan Roth started using it in the 1940s and '50s, but it only became an official MLB stat in 1984. It became famous through the early-2000s 'Moneyball' story of Oakland picking up high-OBP hitters cheaply.",
+    "Every time on base counts the same, so a walk and a home run are both a 1. That's why it usually gets paired with slugging, and adding the two gives you OPS."
+  ],
+  "myth": {
+    "claim": "Walks are worth less than hits, so batting average matters more than OBP.",
+    "truth": "A walk moves runners less than a single, but it avoids an out just the same. Between two hitters with the same average, the one who walks more usually creates more runs."
+  },
+  "sources": [
+    { "t": "MLB.com Glossary · On-base Percentage", "u": "https://www.mlb.com/glossary/standard-stats/on-base-percentage" },
+    { "t": "FanGraphs Library · OBP", "u": "https://library.fangraphs.com/offense/obp/" },
+    { "t": "Baseball-Reference · 2026 MLB batting (league averages)", "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-batting.shtml" }
+  ]
+}

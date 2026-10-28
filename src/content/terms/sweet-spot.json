@@ -1,0 +1,72 @@
+{
+  "abbr": "Sweet Spot%",
+  "chip": "스위트 스팟%",
+  "ko": "스위트 스팟%",
+  "aliases": [
+    "스위트스팟",
+    "스윗스팟",
+    "sweet spot",
+    "LA SwSp%"
+  ],
+  "level": 2,
+  "order": 65,
+  "cats": [
+    "타격",
+    "트래킹"
+  ],
+  "summary": "인플레이 타구 가운데 발사각이 8~32도에 든 타구의 비율.",
+  "easy": [
+    "흔히 ‘배트 중심에 맞았다’고 할 때의 그 스위트 스팟을 Statcast는 배트의 한 점이 아니라 타구의 각도로 정했다. 8~32도로 뜬 타구, 대략 라인드라이브와 낮은 뜬공이다.",
+    "이 구간의 타구는 땅볼처럼 내야에 막히지도, 팝업처럼 힘없이 뜨지도 않는다. 비율이 높을수록 안타가 되기 좋은 각도로 꾸준히 보낸다는 뜻이다."
+  ],
+  "scale": {
+    "min": 24,
+    "max": 42,
+    "dir": "high",
+    "fmt": "dec1",
+    "unit": "%",
+    "avg": {
+      "v": 33.7,
+      "t": "2026 MLB 평균 33.7% (2025년 34.1%)"
+    },
+    "marks": [
+      {
+        "v": 30.4,
+        "t": "하위 10%"
+      },
+      {
+        "v": 34.3,
+        "t": "가운데"
+      },
+      {
+        "v": 38.7,
+        "t": "상위 10%"
+      }
+    ],
+    "note": "2026 규정 타석 타자 135명의 분포다."
+  },
+  "deep": [
+    "각도만 따지고 세기는 묻지 않는다. 그래서 MLB 용어집도 95마일 이상 타구의 비율인 하드히트%와 함께 쓰라고 권한다. 세기와 각도를 함께 따진 분류가 배럴이다.",
+    "평균 발사각이 같은 두 타자라도 한쪽은 대부분 8~32도로 보내고, 다른 쪽은 땅볼과 팝업을 오가며 평균만 비슷할 수 있다. 스위트 스팟%는 그 차이를 바로 드러낸다.",
+    "Baseball Savant 리더보드에는 LA SwSp%라는 이름으로 나온다."
+  ],
+  "related": [
+    "launch-angle",
+    "hardhit",
+    "barrel"
+  ],
+  "sources": [
+    {
+      "t": "MLB.com Glossary · Sweet Spot",
+      "u": "https://www.mlb.com/glossary/statcast/sweet-spot"
+    },
+    {
+      "t": "Baseball Savant · 2026 리그 평균",
+      "u": "https://baseballsavant.mlb.com/league?season=2026"
+    },
+    {
+      "t": "Baseball Savant · 2026 커스텀 리더보드 (규정 타석)",
+      "u": "https://baseballsavant.mlb.com/leaderboard/custom?year=2026&type=batter&min=q&selections=pa,on_base_percent,slg_percent,isolated_power,bb_percent,xba,sweet_spot_percent,oz_swing_percent,whiff_percent"
+    }
+  ]
+}

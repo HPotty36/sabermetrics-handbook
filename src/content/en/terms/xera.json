@@ -1,0 +1,18 @@
+{
+  "name": "Expected ERA",
+  "aliases": ["expected earned run average"],
+  "summary": "xwOBA allowed, built from contact quality plus strikeouts and walks, converted to the ERA scale.",
+  "easy": [
+    "ERA mixes in everything: balls the defense caught, balls it didn't, even the size of the park. xERA uses only the exit velocity and launch angle of each ball hit against the pitcher, plus his strikeouts, walks and hit batters, to estimate how many runs he should have allowed.",
+    "It's built to be set next to actual ERA. If a pitcher's ERA is well below his xERA, his defense or luck may have been helping."
+  ],
+  "deep": [
+    "The math is simple: the pitcher's xwOBA allowed is translated one-to-one onto the ERA scale. The idea is the same as FIP's, but FIP leaves out every ball in play that isn't a home run, while xERA includes the quality of each one.",
+    "The MLB glossary says xERA isn't necessarily predictive. A big gap from actual ERA is a cue to look into how the pitcher kept runs off the board.",
+    "It doesn't know about direction or ballparks. A pitcher who keeps inducing grounders where his fielders are, or one who pitches half his games in a big park, can keep posting an ERA below his xERA."
+  ],
+  "sources": [
+    { "t": "MLB.com Glossary · Expected ERA", "u": "https://www.mlb.com/glossary/statcast/expected-era" },
+    { "t": "Baseball Savant · Expected Statistics leaderboard (pitchers)", "u": "https://baseballsavant.mlb.com/leaderboard/expected_statistics?type=pitcher" }
+  ]
+}

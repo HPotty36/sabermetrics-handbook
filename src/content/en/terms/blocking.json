@@ -1,0 +1,17 @@
+{
+  "name": "Blocks Above Average",
+  "aliases": ["catcher blocking", "wild pitches", "passed balls"],
+  "summary": "How many tough pitches a catcher kept in front of him, compared with what an average catcher would have.",
+  "easy": [
+    "When a pitch bounces in the dirt or sails wide, the catcher has to stop it with his body. If he doesn't, it's a wild pitch or a passed ball and every runner moves up a base.",
+    "Blocking gives each pitch a probability of getting away, then credits the catcher when he does better than that and debits him when he does worse. Stopping a pitch that gets away 90% of the time is worth +0.90; stopping one that gets away 10% of the time is +0.10."
+  ],
+  "deep": [
+    "The probability comes from pitch location, speed and movement, where the catcher is set up, and the handedness of pitcher and batter. Wild pitches and passed balls are lumped together, so the scorer's call on which was which doesn't affect the result.",
+    "There's also a per-game rate, based on an average catcher seeing about 40 blocking chances a game. In Fielding Run Value, each block is worth 0.25 runs."
+  ],
+  "sources": [
+    { "t": "Baseball Savant · Catcher Blocking leaderboard", "u": "https://baseballsavant.mlb.com/leaderboard/catcher-blocking" },
+    { "t": "MLB.com Glossary · Fielding Run Value", "u": "https://www.mlb.com/glossary/statcast/fielding-run-value" }
+  ]
+}
