@@ -63,3 +63,13 @@ test('스키마가 오타 필드와 범위 밖 눈금을 막는다', () => {
   assert.equal(r.success, false);
   assert.deepEqual(r.error!.issues[0].path, ['scale', 'avg', 'v']);
 });
+
+test('마지막 확인 날짜는 첫 기록(2026-10-15)과 오늘 사이이고, docs/verified-facts.md에 그날의 기록이 있다', () => {
+  const facts = readFileSync(new URL('../docs/verified-facts.md', import.meta.url), 'utf8');
+  // 한국 시간으로 적은 오늘 날짜가 UTC로는 내일일 수 있어 하루를 더 둔다.
+  const latest = new Date(Date.now() + 86_400_000).toISOString().slice(0, 10);
+  for (const { id, raw } of terms) {
+    assert.ok(raw.checked >= '2026-10-15' && raw.checked <= latest, `${id}: ${raw.checked}`);
+    assert.ok(facts.includes(raw.checked), `${id}: verified-facts.md에 ${raw.checked} 기록이 없다`);
+  }
+});

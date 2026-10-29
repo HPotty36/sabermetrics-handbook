@@ -7,7 +7,7 @@ import Sec from '../../../components/Sec.astro';
 import Base from '../../../layouts/Base.astro';
 import { avgCaption, fmt } from '../../../lib/format.ts';
 import { loadHandbook } from '../../../lib/handbook.ts';
-import { fill, LANGS, ui, type Lang } from '../../../lib/i18n.ts';
+import { fill, formatDate, LANGS, ui, type Lang } from '../../../lib/i18n.ts';
 import { ladderPlaces } from '../../../lib/ladder.ts';
 import { paths } from '../../../lib/paths.ts';
 import type { NextStop } from '../../../lib/stop.ts';
@@ -121,6 +121,9 @@ const Figure = figures[`../../../components/fig/terms/${t.id}.astro`]?.default;
       )}
     </aside>
 
-    <Sec title={s.sources} class="endnotes"><ol class="sources">{t.sources.map((s) => <li><a href={s.u} target="_blank" rel="noopener">{s.t}</a></li>)}</ol></Sec>
+    <Sec title={s.sources} class="endnotes"><ol class="sources">{t.sources.map((s) => <li><a href={s.u} target="_blank" rel="noopener">{s.t}</a></li>)}</ol>
+      {/* 숫자와 정의를 출처와 마지막으로 대조한 날(docs/verified-facts.md) */}
+      <p class="checked">{s.checked} <time datetime={t.checked}>{formatDate(lang, t.checked)}</time></p>
+    </Sec>
   </div>
 </Base>

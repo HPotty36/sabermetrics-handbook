@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { avgCaption, fmt, pos } from '../src/lib/format.ts';
+import { formatDate } from '../src/lib/i18n.ts';
 
 test('dec3은 1 미만이면 앞의 0을 뺀다', () => {
   assert.equal(fmt(0.316, { fmt: 'dec3' }), '.316');
@@ -34,4 +35,9 @@ test('평균 설명에서 크게 적는 숫자만 뺀다', () => {
   assert.equal(avgCaption({ v: 100, t: '리그 평균 100 (정의상)' }, { fmt: 'int' }), '리그 평균 (정의상)');
   // 숫자가 설명에 그대로 없으면(약 16인치) 그대로 둔다
   assert.equal(avgCaption({ v: 16, t: 'MLB 포심 평균 약 16인치' }, { fmt: 'int', unit: ' in' }), 'MLB 포심 평균 약 16인치');
+});
+
+test('날짜는 그 언어로 적는다', () => {
+  assert.equal(formatDate('ko', '2026-10-28'), '2026년 10월 28일');
+  assert.equal(formatDate('en', '2026-10-28'), 'October 28, 2026');
 });
