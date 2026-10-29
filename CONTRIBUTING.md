@@ -52,7 +52,7 @@ npm run check
 npm run build
 ```
 
-- Keep client-side JavaScript to what's there now: search, term filters, reading order and settings (language, dark mode). Everything else is static HTML.
+- Keep client-side JavaScript to what's there now: search, term filters, reading order, settings (language, dark mode) and the back button. Everything else is static HTML.
 - Interface text lives in `src/lib/i18n.ts`, with the same keys in both languages.
 - Design tokens are at the top of `src/styles/global.css`. The design rules (colors, type, the three baseball marks: seam, topic line and home-plate marker) are described in `CLAUDE.md` (Korean).
 - On phones, nothing should scroll sideways at 400px, and tap targets stay around 44px.
