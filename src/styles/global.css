@@ -13,6 +13,7 @@
   --line:#DCD6C9;
   --seam:#C42638;
   --groove:#C9C1B1;
+  --thread:#9C958A;
   --glass:rgba(251,249,244,.94);
   --glass-edge:rgba(29,28,26,.10);
   --float-shadow:0 10px 30px rgba(29,28,26,.14),0 1px 3px rgba(29,28,26,.10);
@@ -21,12 +22,16 @@
   --row-name:600 17px/1.45 var(--font-sans);
   --row-sub:13px/1.5 var(--font-sans);
   --dock-h:60px;
+  /* 실밥 밑줄의 실 한 칸(맨 위 실밥과 같은 모양) */
+  /* 읽은 용어의 실밥 공: 2px 고리 안에 솔기 둘, 솔기마다 땀 둘(17px) */
+  --ball:url("data:image/svg+xml,%3Csvg viewBox='0 0 17 17' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.2 2.35Q9 8.5 4.2 14.65' fill='none' stroke='%23000' stroke-width='1.1' stroke-linecap='round'/%3E%3Cpath d='M7.44 5.77L5.05 6.49' stroke='%23000' stroke-width='0.9' stroke-linecap='round'/%3E%3Cpath d='M7.44 11.23L5.05 10.51' stroke='%23000' stroke-width='0.9' stroke-linecap='round'/%3E%3Cpath d='M12.8 2.35Q8 8.5 12.8 14.65' fill='none' stroke='%23000' stroke-width='1.1' stroke-linecap='round'/%3E%3Cpath d='M11.95 6.49L9.56 5.77' stroke='%23000' stroke-width='0.9' stroke-linecap='round'/%3E%3Cpath d='M11.95 10.51L9.56 11.23' stroke='%23000' stroke-width='0.9' stroke-linecap='round'/%3E%3Ccircle cx='8.5' cy='8.5' r='7.5' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E");
+  --stitch:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='16' viewBox='0 0 8 16'%3E%3Cpath d='M0.6 1.6Q4.4 3 6.8 6.6M0.6 14.4Q4.4 13 6.8 9.4' stroke='%23000' stroke-width='2.2' stroke-linecap='round' fill='none'/%3E%3C/svg%3E");
   --dock-bottom:max(14px,env(safe-area-inset-bottom,0px));
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --paper:#000000; --ink:#F2EFE9; --muted:#9C978E; --line:#2C2B29;
-    --seam:#F0606B; --groove:#4A4741;
+    --seam:#F0606B; --groove:#4A4741; --thread:#7A756D;
     --glass:rgba(30,30,30,.84); --glass-edge:rgba(255,255,255,.14);
     --float-shadow:0 10px 30px rgba(0,0,0,.6),0 1px 3px rgba(0,0,0,.5);
     color-scheme:dark;
@@ -34,7 +39,7 @@
 }
 :root[data-theme="dark"]{
   --paper:#000000; --ink:#F2EFE9; --muted:#9C978E; --line:#2C2B29;
-  --seam:#F0606B; --groove:#4A4741;
+  --seam:#F0606B; --groove:#4A4741; --thread:#7A756D;
   --glass:rgba(30,30,30,.84); --glass-edge:rgba(255,255,255,.14);
   --float-shadow:0 10px 30px rgba(0,0,0,.6),0 1px 3px rgba(0,0,0,.5);
   color-scheme:dark;
@@ -127,15 +132,31 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .install-close,.install-open{display:inline-flex;align-items:center;min-width:44px;min-height:44px;padding:0 12px;border:0;background:none;color:var(--ink);font:700 15px/1 var(--font-sans);text-decoration:none;cursor:pointer}
 .install-open[hidden]{display:none}
 
-/* 고른 것의 밑줄: 맨 위 실밥을 3/4로 줄인 바느질(가는 이음매 + 빨간 실). 메뉴, 고르기(레벨·분야·읽는 순서), 다크 모드에 쓴다.
-   글자 가운데에서 재서 놓으므로 손가락용으로 키운 단추에서도 글자 바로 아래에 온다. 실은 끝에서 잘리지 않게 칸 수를 맞춘다(round). */
-.rail-nav a,.toggles button,.pref-theme-label{position:relative}
-.rail-nav a[aria-current]::before,.toggles button[aria-pressed="true"]::before,.pref-theme[aria-pressed="true"] .pref-theme-label::before,
-.rail-nav a[aria-current]::after,.toggles button[aria-pressed="true"]::after,.pref-theme[aria-pressed="true"] .pref-theme-label::after{content:"";position:absolute;left:0;right:0;top:50%;height:12px;margin-top:calc(.5em + 1px);pointer-events:none}
-.rail-nav a[aria-current]::before,.toggles button[aria-pressed="true"]::before,.pref-theme[aria-pressed="true"] .pref-theme-label::before{background:linear-gradient(var(--groove),var(--groove)) 0 50%/100% 1px no-repeat}
-.rail-nav a[aria-current]::after,.toggles button[aria-pressed="true"]::after,.pref-theme[aria-pressed="true"] .pref-theme-label::after{background:var(--seam);
-  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='16' viewBox='0 0 8 16'%3E%3Cpath d='M0.6 1.6Q4.4 3 6.8 6.6M0.6 14.4Q4.4 13 6.8 9.4' stroke='%23000' stroke-width='2.2' stroke-linecap='round' fill='none'/%3E%3C/svg%3E") 0 50%/6px 12px round no-repeat;
-  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='16' viewBox='0 0 8 16'%3E%3Cpath d='M0.6 1.6Q4.4 3 6.8 6.6M0.6 14.4Q4.4 13 6.8 9.4' stroke='%23000' stroke-width='2.2' stroke-linecap='round' fill='none'/%3E%3C/svg%3E") 0 50%/6px 12px round no-repeat}
+/* 실밥 밑줄: 맨 위 실밥을 3/4로 줄인 바느질(가는 이음매 + 실). 이음매는 ::before, 실은 ::after다.
+   - 고른 것(메뉴, 고르기, 읽는 순서, 다크 모드)은 늘 빨간 실이다.
+   - 마우스가 있는 화면(1-A, 2026-10-29): 올리면 회색 실, 누르는 동안은 빨간 실이 목록의 이름 아래에도 생긴다.
+     빨강은 계속 ‘지금 여기’와 ‘그리로 간다’만 뜻한다. 출처와 본문 속 링크는 글의 관례대로 잉크 밑줄이다.
+   - 단추(메뉴, 고르기)는 글자 가운데에서 재서 놓으므로 손가락용으로 키운 단추에서도 글자 바로 아래에 온다.
+     목록의 이름은 마지막 줄 아래에 놓는다(두 줄로 꺾인 주제 이름도). 실은 끝에서 잘리지 않게 칸 수를 맞춘다(round). */
+.rail-nav a,.toggles button,.pref-theme-label,.stop-name,.toc-abbr,.hit-name,.next-name b,.see-also a,.door-more-label{position:relative}
+:is(.rail-nav a,.toggles button,.pref-theme-label,.stop-name,.toc-abbr,.hit-name,.next-name b,.see-also a,.door-more-label)::before,
+:is(.rail-nav a,.toggles button,.pref-theme-label,.stop-name,.toc-abbr,.hit-name,.next-name b,.see-also a,.door-more-label)::after{content:"";display:none;position:absolute;left:0;right:0;top:50%;height:12px;margin-top:calc(.5em + 1px);pointer-events:none}
+@supports (margin-top:1lh){
+  :is(.stop-name,.toc-abbr,.hit-name,.next-name b,.see-also a,.door-more-label)::before,
+  :is(.stop-name,.toc-abbr,.hit-name,.next-name b,.see-also a,.door-more-label)::after{top:100%;margin-top:calc((1em - 1lh) / 2 + 1px)}
+}
+:is(.rail-nav a,.toggles button,.pref-theme-label,.stop-name,.toc-abbr,.hit-name,.next-name b,.see-also a,.door-more-label)::before{background:linear-gradient(var(--groove),var(--groove)) 0 50%/100% 1px no-repeat}
+:is(.rail-nav a,.toggles button,.pref-theme-label,.stop-name,.toc-abbr,.hit-name,.next-name b,.see-also a,.door-more-label)::after{background:var(--seam);-webkit-mask:var(--stitch) 0 50%/6px 12px round no-repeat;mask:var(--stitch) 0 50%/6px 12px round no-repeat}
+:is(.rail-nav a[aria-current],.toggles button[aria-pressed="true"],.pref-theme[aria-pressed="true"] .pref-theme-label)::before,
+:is(.rail-nav a[aria-current],.toggles button[aria-pressed="true"],.pref-theme[aria-pressed="true"] .pref-theme-label)::after{display:block}
+@media (hover:hover){
+  :is(.rail-nav a:not([aria-current]):hover,.toggles button[aria-pressed="false"]:hover,a.stop-link:hover .stop-name,.toc-row:hover .toc-abbr,.hit:hover .hit-name,.next-row:hover b,.see-also a:hover,.door-more:hover .door-more-label)::before,
+  :is(.rail-nav a:not([aria-current]):hover,.toggles button[aria-pressed="false"]:hover,a.stop-link:hover .stop-name,.toc-row:hover .toc-abbr,.hit:hover .hit-name,.next-row:hover b,.see-also a:hover,.door-more:hover .door-more-label)::after{display:block}
+  :is(.rail-nav a:not([aria-current]):hover,.toggles button[aria-pressed="false"]:hover,a.stop-link:hover .stop-name,.toc-row:hover .toc-abbr,.hit:hover .hit-name,.next-row:hover b,.see-also a:hover,.door-more:hover .door-more-label)::after{background:var(--thread)}
+  :is(.rail-nav a:active,.toggles button:active,a.stop-link:active .stop-name,.toc-row:active .toc-abbr,.hit:active .hit-name,.next-row:active b,.see-also a:active,.door-more:active .door-more-label)::before,
+  :is(.rail-nav a:active,.toggles button:active,a.stop-link:active .stop-name,.toc-row:active .toc-abbr,.hit:active .hit-name,.next-row:active b,.see-also a:active,.door-more:active .door-more-label)::after{display:block}
+  :is(.rail-nav a:active,.toggles button:active,a.stop-link:active .stop-name,.toc-row:active .toc-abbr,.hit:active .hit-name,.next-row:active b,.see-also a:active,.door-more:active .door-more-label)::after{background:var(--seam)}
+}
 
 /* 폰에서 찾기를 누르면(iOS 26처럼): 아래쪽 알약이 입력란 알약과 닫기 단추로 바뀌고, 용어 목록이 그 위로 화면을 덮는다.
    키보드가 올라오면 --kb(scripts/search-box.ts)만큼 같이 올라간다. */
@@ -162,7 +183,6 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .hit-name{flex:none;font:var(--row-name)}
 .hit-sub{min-width:0;font:var(--row-sub);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hit-sum{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-top:2px;font-size:15px;line-height:1.55;color:var(--muted)}
-@media (hover:hover){.hit:hover .hit-name{text-decoration:underline;text-decoration-color:var(--ink)}}
 .empty{margin:20px 0;font:15px/1.6 var(--font-sans);color:var(--muted)}
 
 /* 아래쪽 알약(폰): iOS 26 탭 막대처럼 떠 있는 반투명 알약. 메뉴 셋 + 찾기 단추, 용어 페이지는 그 위에 ‘다음’ */
@@ -191,11 +211,14 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 /* 사다리 선: 굵은 잉크 선 위의 역. 지금 용어는 빨간 점, 준비 중은 점선 고리 */
 .line{position:relative;list-style:none;margin:0;padding:0}
 .stop-link{text-decoration:none;color:inherit}
-.stop-dot{flex:none;width:17px;height:17px;border:3px solid var(--ink);border-radius:50%;background:var(--paper)}
+.stop-dot{position:relative;flex:none;width:17px;height:17px;border:3px solid var(--ink);border-radius:50%;background:var(--paper)}
 .stop.is-current .stop-dot{border-color:var(--seam);background:var(--seam)}
+/* 읽은 진도(2-B): 읽은 용어는 실밥 공, 읽었거나 지금 용어인 두 역 사이는 빨간 선. 지금 용어는 읽었어도 빨간 점이다(scripts/progress.ts) */
+.stop.is-read:not(.is-current) .stop-dot{border:0}
+.stop.is-read:not(.is-current) .stop-dot::after{content:"";position:absolute;inset:0;background:var(--seam);-webkit-mask:var(--ball) center/100% 100% no-repeat;mask:var(--ball) center/100% 100% no-repeat}
+.stop.is-run>.stop-link::before{content:"";position:absolute;background:var(--seam);pointer-events:none}
 .stop.is-stub .stop-dot{border-style:dashed;border-color:var(--muted)}
 .stop-name{font-weight:600}
-@media (hover:hover){a.stop-link:hover .stop-name{text-decoration:underline;text-decoration-color:var(--ink);text-underline-offset:4px}}
 .stop.is-current .stop-name{font-weight:800;color:var(--seam)}
 .stop.is-stub .stop-name{font-weight:400;color:var(--muted)}
 .stop-sub{font:var(--row-sub);color:var(--muted)}
@@ -203,6 +226,7 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 /* 세로 선: 역마다 한 줄 */
 .line-v::before{content:"";position:absolute;left:7px;top:22px;bottom:22px;width:3px;background:var(--ink)}
 .line-v .stop-link{position:relative;display:flex;align-items:center;gap:14px;min-height:44px}
+.line-v .stop.is-run>.stop-link::before{left:7px;top:22px;width:3px;height:100%}
 .line-v .stop-name{font:var(--row-name);white-space:nowrap}
 .line-v .stop-sub{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 /* 가로 선: 칸을 똑같이 나눠 점 아래에 이름 */
@@ -210,11 +234,17 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .line-h::before{content:"";position:absolute;top:7px;left:calc(50% / var(--n));right:calc(50% / var(--n));height:3px;background:var(--ink)}
 .line-h .stop{min-width:0}
 .line-h .stop-link{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;min-height:52px;text-align:center}
+.line-h .stop.is-run>.stop-link::before{top:7px;left:50%;width:100%;height:3px}
 .line-h .stop-name{font-size:14.5px;line-height:1.35}
 .line-h .stop-sub{display:none}
 .ladder-grid .line-h{grid-template-columns:repeat(var(--n),20%)}
 .ladder-grid .line-h::before{left:10%;right:auto;width:calc((var(--n) - 1) * 20%)}
 .ladder-grid .line-h .stop-name{font-size:14px;word-break:keep-all}
+
+/* 주제 페이지 맨 아래: 읽은 기록 지우기 */
+.read-clear{margin:36px 0 0;font:600 15px/1.5 var(--font-sans);color:var(--muted)}
+.read-clear button{min-height:44px;padding:0;border:0;background:none;color:var(--muted);cursor:pointer}
+@media (hover:hover){.read-clear button:hover{color:var(--ink)}}
 
 /* 홈 표제: 좁은 대문자 제목, 그 아래 실밥 */
 .masthead{margin-bottom:44px}
@@ -231,7 +261,6 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 @media (min-width:760px){.doors{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:56px}}
 .door{min-width:0}
 .door-more{display:inline-flex;align-items:center;gap:8px;min-height:44px;margin-top:2px;padding-left:31px;font:var(--row-name);text-decoration:none}
-@media (hover:hover){.door-more:hover{text-decoration:underline;text-decoration-color:var(--ink);text-underline-offset:4px}}
 .door h2,.ladders h2{margin:0 0 10px;font-size:22px;line-height:1.4;font-weight:800;letter-spacing:-.03em}
 .ladders{margin-top:60px}
 .ladder-grid{display:grid;grid-template-columns:minmax(0,1fr);column-gap:48px}
@@ -254,7 +283,6 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .toc-row{display:flex;align-items:baseline;gap:10px;min-width:0;padding:9px 0;text-decoration:none}
 .toc-abbr{font:var(--row-name);white-space:nowrap}
 .toc-ko{min-width:0;font:var(--row-sub);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-@media (hover:hover){.toc-row:hover .toc-abbr{text-decoration:underline;text-decoration-color:var(--ink);text-underline-offset:4px}}
 
 /* 용어 페이지: 본문 단과 여백 단 */
 .leaf{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
@@ -329,7 +357,6 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .next-name b{font:var(--row-name)}
 .next-name span{font:var(--row-sub);color:var(--muted)}
 .next-arrow{grid-column:2;grid-row:1 / span 2;font-size:22px}
-@media (hover:hover){.next-row:hover b{text-decoration:underline;text-decoration-color:var(--ink);text-underline-offset:4px}}
 
 /* 오른쪽 여백의 곁주 */
 .margin{font:13.5px/1.6 var(--font-sans)}
@@ -344,7 +371,6 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .see-also{list-style:none;margin:0;padding:0}
 .see-also li{display:flex;align-items:baseline;gap:8px;line-height:1.9}
 .see-also a{font:var(--row-name);text-decoration:none;white-space:nowrap}
-@media (hover:hover){.see-also a:hover{text-decoration:underline;text-decoration-color:var(--ink)}}
 .see-also span{font:var(--row-sub);color:var(--muted)}
 .sources{margin:0;padding-left:1.3em;font:14px/1.75 var(--font-sans);color:var(--muted)}
 .sources a{color:var(--ink)}

@@ -66,6 +66,22 @@ const backHref = view === 'term' ? p.termsHref : p.homeHref;
 <script is:inline>
   try { var t = localStorage.getItem('sh-theme'); if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
 </script>
+{/* 읽은 진도: 주제의 선(components/Line.astro)마다 바로 뒤에서 불러, 저장된 읽은 용어(sh-read, 용어 id를 띄어 적는다)를 첫 화면 전에 칠한다.
+    읽은 용어는 실밥 공(is-read), 읽었거나 지금 용어인 두 역 사이는 빨간 선(is-run). 다시 칠할 때도 쓴다(scripts/progress.ts). */}
+<script is:inline>
+  function shMarkLine(ol) {
+    var read = {};
+    try { (localStorage.getItem('sh-read') || '').split(' ').forEach(function (id) { if (id) read[id] = 1; }); } catch (e) {}
+    var stops = ol.children;
+    var done = [];
+    for (var i = 0; i < stops.length; i++) {
+      var on = read[stops[i].getAttribute('data-term')] === 1;
+      stops[i].classList.toggle('is-read', on);
+      done.push(on || stops[i].classList.contains('is-current'));
+    }
+    for (var j = 0; j < stops.length; j++) stops[j].classList.toggle('is-run', done[j] && done[j + 1] === true);
+  }
+</script>
 {lang === 'ko' && view === 'home' && (
   // 영어를 고른 사람이 밖에서(앱을 열거나, 주소를 쳐서) 한국어 홈에 들어오면 영어 홈으로 보낸다. 사이트 안에서 ‘한국어’를 눌러 온 것은 그대로 둔다.
   // 앱 아이콘의 바로 가기 ‘한국어’(?lang=ko)는 한국어를 고른 것으로 친다(manifest).
@@ -95,7 +111,7 @@ const backHref = view === 'term' ? p.termsHref : p.homeHref;
 <link rel="alternate" hreflang={lang} href={hrefIn(lang)}>
 <link rel="alternate" hreflang={alt} href={altHref}>
 </head>
-<body data-view={view}>
+<body data-view={view} data-term={view === 'term' ? termId : undefined}>
 <div class="page">
   <aside class="rail" aria-label={s.railLabel}>
     <div class="finder" role="search">
@@ -176,6 +192,7 @@ const backHref = view === 'term' ? p.termsHref : p.homeHref;
   import '../scripts/term-index.ts';
   import '../scripts/prefs.ts';
   import '../scripts/back.ts';
+  import '../scripts/progress.ts';
 </script>
 {import.meta.env.PROD && !isAppBuild && (
   // 설치형 웹앱(PWA): 오프라인에서도 열리도록 서비스 워커를 등록한다.

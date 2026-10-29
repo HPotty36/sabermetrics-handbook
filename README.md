@@ -30,7 +30,7 @@ A glossary of baseball stats, from batting average to swing timing. Every term i
 ## What's inside
 
 - **Two layers per term.** A simple explanation and a detailed one, with a switch for which comes first. The choice is remembered.
-- **Topics.** Related terms lined up from basic to advanced, so you can keep going one step at a time (ERA → FIP → xFIP → SIERA).
+- **Topics.** Related terms lined up from basic to advanced, so you can keep going one step at a time (ERA → WHIP → ERA+ → FIP). Terms you've read get a stitched ball on the line, and the stretch you've covered turns red. The record stays in your browser.
 - **Benchmarks.** A scale with the 2026 MLB average and rough ranges for good and bad. Every number links to its source.
 - **Recent Statcast metrics.** Bat speed, swing length, attack direction, arm angle, swing timing and the 2026 ABS challenge, along with the classics.
 - **Korean and English, light and dark.** Switch language on any page and land on the same term. Dark mode is pitch black.
@@ -85,7 +85,7 @@ npm run icons          # regenerate PWA and app icons from assets/icon.svg and p
 
 ## How it's built
 
-An [Astro](https://astro.build) static site with almost no JavaScript: search, the term filters, the reading-order switch, the dark mode toggle and the back button are the only scripts. Each page is generated twice, at `/` in Korean and at `/en/` in English, from one template.
+An [Astro](https://astro.build) static site with almost no JavaScript: search, the term filters, the reading-order switch, the dark mode toggle, the back button and reading progress are the only scripts. Each page is generated twice, at `/` in Korean and at `/en/` in English, from one template.
 
 ```
 src/content/terms/<id>.json      one term: shared data (level, scale numbers, source URLs) and the Korean text
@@ -95,7 +95,7 @@ src/lib/schema.ts                content schema (zod)
 src/lib/validate.ts              cross-file checks, including Korean and English staying in step
 src/lib/i18n.ts                  interface text in both languages
 src/pages/[...lang]/             home, topics, term list and term pages for both languages
-src/scripts/                     search, filters, settings, back (the only client scripts)
+src/scripts/                     search, filters, settings, back, progress (the only client scripts)
 src/styles/global.css            design tokens and styles
 integrations/                    builds the service worker (dist/sw.js) after each build
 docs/content-guide.md            how to write a term (Korean)
