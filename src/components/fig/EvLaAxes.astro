@@ -1,0 +1,23 @@
+---
+// 타구 속도(가로) × 발사각(세로) 평면의 눈금. 배럴, 하드히트%, xBA의 그림이 같은 눈금을 쓴다(lib/fig.ts의 EVLA).
+import { EVLA, n } from '../../lib/fig.ts';
+
+interface Props {
+  ev: string;
+  la: string;
+}
+
+const { ev, la } = Astro.props;
+const { x, y } = EVLA;
+---
+<g>
+  {[70, 80, 90, 100, 110, 120].map((v) => (
+    <g><path class="ln ln-grid" d={`M${n(x(v))} ${n(y(70))}V${n(y(-30))}`} /><text x={n(x(v))} y={n(y(-30) + 16)} text-anchor="middle" class="tx-s">{v}</text></g>
+  ))}
+  {[-20, 0, 20, 40, 60].map((v) => (
+    <g><path class={v === 0 ? 'ln ln-1 ln-muted' : 'ln ln-grid'} d={`M${n(x(60))} ${n(y(v))}H${n(x(120))}`} /><text x={n(x(60) - 6)} y={n(y(v) + 4)} text-anchor="end" class="tx-s">{v}°</text></g>
+  ))}
+  <path class="ln" d={`M${n(x(60))} ${n(y(70))}V${n(y(-30))}H${n(x(120))}`} />
+  <text x={n(x(60) + 6)} y={n(y(70) + 12)} class="tx-s">{la}</text>
+  <text x={n(x(120))} y={n(y(-30) + 32)} text-anchor="end" class="tx-s">{ev}</text>
+</g>

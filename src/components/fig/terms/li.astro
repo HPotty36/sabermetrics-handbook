@@ -1,0 +1,40 @@
+---
+// LI: 이번 타석에서 승리 확률이 얼마나 크게 움직일 수 있는지를 평균 상황과 견준 값. 평균이 1.0이다.
+import { lin, n } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const x = lin(0, 3, 20, 340);
+const share = lin(0, 1, 20, 340);
+const ko = {
+  alt: 'LI는 평균이 1.0이고 0.85 아래는 낮은 레버리지, 2.0 위는 높은 레버리지. 실제 상황의 60%가 1보다 낮고 10%가 2를 넘는다.',
+  caption: '위는 LI의 눈금이다. 1.0이 평균적인 타석이고 0.85 아래는 낮은 레버리지, 2.0 위는 높은 레버리지로 나눈다. 큰 순간에는 10 가까이 간다. 아래는 실제 경기 상황이 어떻게 나뉘는지다. 60%가 1보다 낮고, 2를 넘는 건 10%뿐이다.',
+  low: '낮음', mid: '보통', high: '높음', avg: '평균 1.0', more: '큰 순간에는 10 가까이 →',
+  s1: '1보다 낮음 60%', s2: '1~2 30%', s3: '2 넘음 10%', shares: '실제 경기 상황',
+};
+const en: typeof ko = {
+  alt: 'LI averages 1.0; under 0.85 is low leverage and over 2.0 is high. 60% of real situations are under 1 and 10% are over 2.',
+  caption: 'Top: the LI scale. 1.0 is an average plate appearance; under 0.85 is low leverage and over 2.0 high. The biggest moments approach 10. Bottom: how real game situations split. 60% are under 1, and only 10% are over 2.',
+  low: 'Low', mid: 'Medium', high: 'High', avg: 'avg 1.0', more: 'biggest moments near 10 →',
+  s1: 'Under 1: 60%', s2: '1–2: 30%', s3: 'Over 2: 10%', shares: 'Real game situations',
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={186} alt={L.alt} caption={L.caption}>
+  <path class="ln" d={`M${x(0)} 52H${x(3)}`} />
+  {[0, 0.85, 1, 2, 3].map((v) => <g><path class="ln ln-1" d={`M${n(x(v))} 52v6`} /><text x={n(v === 0.85 ? x(v) - 3 : v === 1 ? x(v) + 3 : x(v))} y="72" text-anchor={v === 0.85 ? 'end' : v === 1 ? 'start' : 'middle'} class:list={['tx-s', v === 1 && 'tx-red tx-b']}>{v.toFixed(v === 0.85 ? 2 : 1)}</text></g>)}
+  <rect class="fi-soft" x={n(x(2))} y="40" width={n(x(3) - x(2))} height="12" />
+  <text x={n((x(0) + x(0.85)) / 2)} y="34" text-anchor="middle" class="tx-ink tx-s">{L.low}</text>
+  <text x={n((x(0.85) + x(2)) / 2)} y="34" text-anchor="middle" class="tx-ink tx-s">{L.mid}</text>
+  <text x={n((x(2) + x(3)) / 2)} y="34" text-anchor="middle" class="tx-red tx-b tx-s">{L.high}</text>
+  <path class="ln ln-red ln-2" d={`M${n(x(1))} 40V58`} />
+  <text x={x(3)} y="16" text-anchor="end" class="tx-s">{L.more}</text>
+  <text x={x(0)} y="104" class="tx-s">{L.shares}</text>
+  <rect class="fi-paper ln" x={n(share(0))} y="112" width={n(share(0.6) - share(0))} height="16" />
+  <rect class="fi-paper ln" x={n(share(0.6))} y="112" width={n(share(0.9) - share(0.6))} height="16" />
+  <rect class="fi-red" x={n(share(0.9))} y="112" width={n(share(1) - share(0.9))} height="16" />
+  <text x={n(share(0))} y="146" class="tx-ink tx-s">{L.s1}</text>
+  <text x={n(share(0.6))} y="146" class="tx-ink tx-s">{L.s2}</text>
+  <text x={n(share(1))} y="146" text-anchor="end" class="tx-red tx-b tx-s">{L.s3}</text>
+</Fig>

@@ -1,0 +1,25 @@
+---
+// DRS: 범위, 송구, 홈런 훔치기 같은 항목마다 같은 포지션 평균보다 몇 점을 막았는지 매겨 더한다.
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+import SumBars from '../SumBars.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const ko = {
+  alt: '가상의 중견수 한 시즌 DRS: 범위 +3.4, 송구 +1.0, 홈런 훔치기 +1.6, 합 +6.0.',
+  caption: '가상의 중견수 한 시즌. 항목마다 같은 포지션의 평균적인 수비수보다 몇 점을 덜 내줬는지 매겨 더한다. 담장 앞에서 홈런을 하나 훔치면 1.6점이다. 병살, 번트 처리, 도루 억제 같은 항목도 있다. 타구 위치는 사람이 손으로 기록한다.',
+  rows: [{ label: '범위', v: 3.4 }, { label: '송구', v: 1 }, { label: '홈런 훔치기 1개', v: 1.6 }],
+  total: 'DRS',
+};
+const en: typeof ko = {
+  alt: 'A hypothetical center fielder’s season DRS: range +3.4, arm +1.0, home run robbery +1.6, total +6.0.',
+  caption: 'One made-up center fielder’s season. Each part counts how many fewer runs he allowed than an average fielder at his position, and the parts are added. Robbing one home run at the wall is worth 1.6 runs. There are parts for double plays, bunts and holding runners too. Batted-ball locations are recorded by hand.',
+  rows: [{ label: 'Range', v: 3.4 }, { label: 'Arm', v: 1 }, { label: '1 home run robbed', v: 1.6 }],
+  total: 'DRS',
+};
+const L = lang === 'ko' ? ko : en;
+const fmt = (v: number) => (v > 0 ? `+${v.toFixed(1)}` : v.toFixed(1).replace('-', '−'));
+---
+<Fig h={146} alt={L.alt} caption={L.caption}>
+  <SumBars rows={L.rows} total={L.total} unit={20} axis={160} fmt={fmt} />
+</Fig>

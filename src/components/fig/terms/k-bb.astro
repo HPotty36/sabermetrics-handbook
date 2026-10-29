@@ -1,0 +1,27 @@
+---
+// K-BB%: 같은 타자 수를 분모로, 삼진 비율에서 볼넷 비율을 뺀다.
+import { paTotals, pct1 } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+import PaLine from '../PaLine.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const t = paTotals();
+const v = (t.K - t.BB) / t.PA;
+const ko = {
+  alt: `가상의 타자 12명 중 삼진 ${t.K}, 볼넷 ${t.BB}. K-BB% ${pct1(v)}.`,
+  caption: `투수가 상대한 가상의 타자 12명. K% ${pct1(t.K / t.PA)}에서 BB% ${pct1(t.BB / t.PA)}를 뺀다. 분모가 같아서 ‘삼진이 볼넷보다 몇 명 많았나’를 타자 수로 나눈 것과 같다.`,
+  num: '삼진', alt2: '볼넷(뺀다)', den: '상대한 타자',
+  calc: `(삼진 ${t.K} − 볼넷 ${t.BB}) ÷ ${t.PA}명 =`,
+};
+const en: typeof ko = {
+  alt: `Of 12 hypothetical batters faced, ${t.K} struck out and ${t.BB} walked. K-BB% ${pct1(v)}.`,
+  caption: `Twelve made-up batters faced. Take K% ${pct1(t.K / t.PA)} minus BB% ${pct1(t.BB / t.PA)}. With the same denominator, it is the strikeouts left after the walks, over batters faced.`,
+  num: 'Strikeout', alt2: 'Walk (subtract)', den: 'Batter faced',
+  calc: `(${t.K} K − ${t.BB} BB) ÷ ${t.PA} batters =`,
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={236} alt={L.alt} caption={L.caption}>
+  <PaLine lang={lang} state={(k) => (k === 'K' ? 'num' : k === 'BB' ? 'alt' : 'den')} legend={{ num: L.num, alt: L.alt2, den: L.den }} calc={L.calc} result={pct1(v)} />
+</Fig>

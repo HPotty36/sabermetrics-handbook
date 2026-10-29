@@ -1,0 +1,26 @@
+---
+// 계산 순서를 주제의 세로 선처럼 그린다. 마지막 칸(그 지표)이 빨간 점이다.
+// wRC+, xwOBA, xERA, WAR처럼 몇 단계를 거쳐 만들어지는 지표의 그림이 쓴다.
+interface Props {
+  steps: { title: string; sub?: string }[];
+  /** 맨 위 여백 */
+  top?: number;
+}
+
+const { steps, top = 18 } = Astro.props;
+const DY = 52;
+const ys = steps.map((_, i) => top + i * DY);
+---
+<g>
+  <path class="ln ln-3" d={`M8.5 ${ys[0]}V${ys[ys.length - 1]}`} />
+  {steps.map((s, i) => {
+    const last = i === steps.length - 1;
+    return (
+      <g>
+        {last ? <circle class="fi-red" cx="8.5" cy={ys[i]} r="8.5" /> : <circle class="fi-paper ln ln-3" cx="8.5" cy={ys[i]} r="7" />}
+        <text x="30" y={ys[i] + 5} class:list={['tx-l tx-m', last ? 'tx-red tx-b' : 'tx-ink']}>{s.title}</text>
+        {s.sub && <text x="30" y={ys[i] + 23} class="tx-s">{s.sub}</text>}
+      </g>
+    );
+  })}
+</g>

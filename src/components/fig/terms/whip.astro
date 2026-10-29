@@ -1,0 +1,32 @@
+---
+// WHIP: 이닝마다 안타와 볼넷으로 내보낸 주자. 사구, 실책 출루는 세지 않는다.
+import { gameTotals } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+import InningLine from '../InningLine.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const g = gameTotals();
+const whip = (g.BB + g.H) / g.IP;
+const ko = {
+  alt: `가상의 선발 투수가 ${g.IP}이닝 동안 볼넷 ${g.BB}, 피안타 ${g.H}. WHIP ${whip.toFixed(2)}.`,
+  caption: '평균자책점 그림과 같은 가상의 한 경기. 이닝 위의 점이 안타와 볼넷으로 내보낸 주자다. 5회의 몸에 맞는 공은 주자를 내보냈어도 WHIP에 들지 않는다.',
+  inning: (i: number) => `${i}회`, on: '안타·볼넷', hbp: '사구(세지 않음)',
+  calc: `(볼넷 ${g.BB} + 피안타 ${g.H}) ÷ ${g.IP}이닝 =`,
+};
+const en: typeof ko = {
+  alt: `A hypothetical starter allowed ${g.BB} walks and ${g.H} hits in ${g.IP} innings. WHIP ${whip.toFixed(2)}.`,
+  caption: 'The same made-up start as the ERA figure. Each dot over an inning is a runner put on by a hit or a walk. The hit-by-pitch in the fifth puts a runner on but does not count toward WHIP.',
+  inning: (i: number) => String(i), on: 'Hit or walk', hbp: 'HBP (not counted)',
+  calc: `(${g.BB} BB + ${g.H} H) ÷ ${g.IP} IP =`,
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={226} alt={L.alt} caption={L.caption}>
+  <InningLine inningLabel={L.inning} marks={(i) => i.runners.map((r) => (r === 'HBP' ? 'dot' : 'red'))} />
+  <g transform="translate(0 170)">
+    <circle class="fi-red" cx="8" cy="0" r="5" /><text x="19" y="4" class="tx-s">{L.on}</text>
+    <circle class="fi-paper ln ln-muted ln-dot" cx="128" cy="0" r="4.4" /><text x="139" y="4" class="tx-s">{L.hbp}</text>
+  </g>
+  <text x="0" y="214" class="tx-ink tx-l">{L.calc} <tspan class="tx-big tx-red" dx="4">{whip.toFixed(2)}</tspan></text>
+</Fig>

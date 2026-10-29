@@ -1,0 +1,40 @@
+---
+// xBA: 타구 하나마다 속도·발사각이 비슷했던 과거 타구가 안타가 된 비율을 그 타구의 기대 안타로 준다.
+import { EVLA, n } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import EvLaAxes from '../EvLaAxes.astro';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const { x, y } = EVLA;
+const me = [94, 16] as const;
+// 가상의 비슷한 과거 타구 10개: 안타 7, 아웃 3
+const near = [
+  [91, 13, 1], [96, 19, 1], [97, 14, 0], [92, 20, 1], [95, 12, 1], [90, 17, 0], [98, 17, 1], [93, 10, 1], [96, 22, 0], [92, 15, 1],
+] as const;
+const hits = near.filter((p) => p[2]).length;
+const ko = {
+  alt: `가상의 타구(94mph, 16°) 하나와 비슷한 과거 타구 10개. 그중 ${hits}개가 안타라 이 타구의 기대 안타는 0.${hits}개.`,
+  caption: `가상의 타구 하나(94mph, 16°)와 속도·발사각이 비슷했던 과거 타구 10개(가상). ${hits}개가 안타였으니 이 타구는 실제 결과와 상관없이 기대 안타 0.${hits}개를 받는다. 시즌 xBA는 이것을 모두 더하고(삼진은 0) 타수로 나눈다. 약한 땅볼과 빗맞은 타구에는 타자의 스프린트 스피드도 넣는다.`,
+  ev: '타구 속도(mph)', la: '발사각', me: '이 타구', hit: '안타', out: '아웃', calc: `안타 ${hits} ÷ 10 = 0.${hits}`,
+};
+const en: typeof ko = {
+  alt: `A hypothetical batted ball (94 mph, 16°) and 10 similar past batted balls, ${hits} of them hits, so this ball is worth 0.${hits} expected hits.`,
+  caption: `A made-up batted ball (94 mph, 16°) and ten past balls with similar speed and angle (also made up). ${hits} fell for hits, so this ball earns 0.${hits} expected hits whatever actually happened. Season xBA adds these up (strikeouts count 0) and divides by at-bats. Weakly hit and topped balls also use the batter's sprint speed.`,
+  ev: 'Exit velocity (mph)', la: 'Launch angle', me: 'This ball', hit: 'Hit', out: 'Out', calc: `${hits} hits ÷ 10 = 0.${hits}`,
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={268} alt={L.alt} caption={L.caption}>
+  <EvLaAxes ev={L.ev} la={L.la} />
+  <circle class="fi-none ln ln-muted ln-dash" cx={n(x(me[0]))} cy={n(y(me[1]))} r="34" />
+  {near.map(([a, b, h]) => (h ? <circle class="fi-red" cx={n(x(a))} cy={n(y(b))} r="4.6" /> : <circle class="fi-paper ln" cx={n(x(a))} cy={n(y(b))} r="4" />))}
+  <circle class="fi-paper ln ln-2" cx={n(x(me[0]))} cy={n(y(me[1]))} r="6.5" />
+  <path class="ln ln-1" d={`M${n(x(me[0]) + 5)} ${n(y(me[1]) + 5)}L${n(x(100) - 4)} ${n(y(-2) - 10)}`} />
+  <text x={n(x(100))} y={n(y(-2) - 6)} class="tx-ink tx-b">{L.me}</text>
+  <text x={n(x(100))} y={n(y(-2) + 10)} class="tx-red tx-b tx-s">{L.calc}</text>
+  <g transform={`translate(${n(x(62))} ${n(y(-22))})`}>
+    <circle class="fi-red" cx="0" cy="0" r="4.6" /><text x="9" y="4" class="tx-s">{L.hit}</text>
+    <circle class="fi-paper ln" cx="56" cy="0" r="4" /><text x="65" y="4" class="tx-s">{L.out}</text>
+  </g>
+</Fig>

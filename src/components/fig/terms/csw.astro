@@ -1,0 +1,27 @@
+---
+// CSW%: 전체 투구 가운데 루킹 스트라이크와 헛스윙.
+import { PITCH_LABEL, PITCH_LOG, pct1 } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import CountLine from '../CountLine.astro';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const num = PITCH_LOG.filter((k) => k === 'CS' || k === 'W').length;
+const items = PITCH_LOG.map((k) => ({ label: PITCH_LABEL[lang][k], state: k === 'CS' || k === 'W' ? ('num' as const) : ('den' as const) }));
+const ko = {
+  alt: `가상의 투구 ${PITCH_LOG.length}개 중 루킹 스트라이크와 헛스윙이 ${num}개. CSW% ${pct1(num / PITCH_LOG.length)}.`,
+  caption: '가상의 투구 16개. 타자가 보고만 있다가 스트라이크를 먹은 공과 휘둘러서 헛친 공(파울팁 포함)을 센다. 분모는 모든 투구다. 파울은 스트라이크가 늘어도 세지 않는다.',
+  num: '루킹·헛스윙', den: '투구',
+  calc: `${num} ÷ 투구 ${PITCH_LOG.length} =`,
+};
+const en: typeof ko = {
+  alt: `Of ${PITCH_LOG.length} hypothetical pitches, ${num} were called strikes or whiffs. CSW% ${pct1(num / PITCH_LOG.length)}.`,
+  caption: 'Sixteen made-up pitches. Count the strikes the batter took and the swings that missed (foul tips included). The denominator is every pitch. Fouls do not count, even when they add a strike.',
+  num: 'Called strike or whiff', den: 'Pitch',
+  calc: `${num} ÷ ${PITCH_LOG.length} pitches =`,
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={240} alt={L.alt} caption={L.caption}>
+  <CountLine items={items} perRow={8} small legend={{ num: L.num, den: L.den }} calc={L.calc} result={pct1(num / PITCH_LOG.length)} />
+</Fig>

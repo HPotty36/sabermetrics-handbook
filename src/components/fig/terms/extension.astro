@@ -1,0 +1,38 @@
+---
+// 익스텐션: 투수판보다 몇 피트 앞에서 공을 놓았는지. 앞에서 놓을수록 홈까지 남은 거리가 짧아진다.
+import { arrow, n, PSIDE, RELEASE } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+import PitchSide from '../PitchSide.astro';
+import { pitchPath } from '../../../lib/fig.ts';
+
+const { lang } = Astro.props as { lang: Lang };
+const { x, y } = PSIDE;
+const rx = x(RELEASE.ft);
+const ry = y(RELEASE.h);
+const dimY = y(0) - 40;
+const ext = arrow(x(0), dimY, rx, dimY, 6);
+const rest = arrow(rx, dimY, x(60.5), dimY, 6);
+const ko = {
+  alt: '투수판에서 6.5피트 앞에서 공을 놓으면 홈까지 54피트가 남는다.',
+  caption: '옆에서 본 투구. 투수판에서 홈까지는 60피트 6인치지만 투수는 발을 내딛고 팔을 뻗어 그보다 앞에서 공을 놓는다. 6.5피트는 2026 MLB 포심 평균이다. 앞에서 놓을수록 공이 타자에게 닿는 시간이 줄어 같은 구속도 더 빠르게 느껴진다.',
+  rubber: '투수판', plate: '홈플레이트', ext: '익스텐션 6.5피트', rest: '남은 거리 54피트', release: '공을 놓는 자리',
+};
+const en: typeof ko = {
+  alt: 'Releasing the ball 6.5 feet in front of the rubber leaves 54 feet to the plate.',
+  caption: 'A pitch seen from the side. The rubber is 60 feet 6 inches from home, but pitchers stride and reach to let go well in front of it. 6.5 feet is the 2026 MLB four-seam average. The farther out the release, the less time the ball takes to reach the batter, so the same speed plays faster.',
+  rubber: 'Rubber', plate: 'Plate', ext: 'Extension 6.5 ft', rest: '54 ft to go', release: 'Release point',
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={176} alt={L.alt} caption={L.caption}>
+  <PitchSide rubber={L.rubber} plate={L.plate} />
+  <path class="ln ln-1 ln-muted" d={pitchPath()} />
+  <path class="ln ln-1 ln-muted ln-dash" d={`M${n(rx)} ${n(ry + 7)}V${n(dimY)}`} />
+  <circle class="fi-red" cx={n(rx)} cy={n(ry)} r="5.5" />
+  <text x={n(rx + 10)} y={n(ry - 8)} class="tx-ink tx-s">{L.release}</text>
+  <path class="ln ln-red ln-2" d={ext.line} /><path class="fi-red" d={ext.head} />
+  <text x={n(x(0))} y={n(dimY + 17)} class="tx-red tx-b">{L.ext}</text>
+  <path class="ln ln-1 ln-muted" d={rest.line} /><path class="fi-muted" d={rest.head} />
+  <text x={n(x(36))} y={n(dimY - 8)} text-anchor="middle" class="tx-s">{L.rest}</text>
+</Fig>

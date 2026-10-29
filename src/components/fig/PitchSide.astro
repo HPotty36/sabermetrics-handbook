@@ -1,0 +1,21 @@
+---
+// 옆에서 본 투수판과 홈플레이트(lib/fig.ts의 PSIDE). 구속, 익스텐션, IVB, VAA, 회전수의 그림이 같은 바탕을 쓴다.
+import { n, PSIDE } from '../../lib/fig.ts';
+
+interface Props {
+  rubber: string;
+  plate: string;
+}
+
+const { rubber, plate } = Astro.props;
+const { x, y } = PSIDE;
+const g = y(0);
+---
+<g>
+  <path class="ln ln-grid" d={`M0 ${n(g)}H360`} />
+  <path class="ln ln-1" d={`M${n(x(-4))} ${n(g)}Q${n(x(0))} ${n(g - 10)} ${n(x(6))} ${n(g)}`} />
+  <path class="ln ln-3" d={`M${n(x(0) - 5)} ${n(g - 10)}H${n(x(0) + 5)}`} />
+  <text x={n(x(0))} y={n(g + 18)} text-anchor="middle" class="tx-s">{rubber}</text>
+  <path class="ln ln-3" d={`M${n(x(59.1))} ${n(g)}H${n(x(60.5))}`} />
+  <text x={n(x(60.5))} y={n(g + 18)} text-anchor="end" class="tx-s">{plate}</text>
+</g>

@@ -1,0 +1,31 @@
+---
+// wOBA: 출루마다 득점 가치만큼 무게를 다르게 매긴다. 가중치는 FanGraphs Library wOBA 페이지에 실린 2013 시즌 값이다.
+import { PA_LOG, paTotals, rate3, type PaKind } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+import PaLine from '../PaLine.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+// 2013 시즌 가중치. 볼넷은 고의4구를 뺀 볼넷(uBB)이다.
+const W: Partial<Record<PaKind, number>> = { BB: 0.69, HBP: 0.722, '1B': 0.888, '2B': 1.271, '3B': 1.616, HR: 2.101 };
+const t = paTotals();
+const sum = PA_LOG.reduce((s, k) => s + (W[k] ?? 0), 0);
+const den = t.AB + t.BB + t.SF + t.HBP;
+const tag = (k: PaKind) => (W[k] ? W[k]!.toFixed(2).replace(/^0/, '') : undefined);
+const ko = {
+  alt: `가상의 12타석에 2013 시즌 가중치를 붙이면 합이 ${sum.toFixed(3)}, 분모 ${den}. wOBA ${rate3(sum / den)}.`,
+  caption: '가상의 12타석. 출루 위의 숫자가 그 결과의 무게다(FanGraphs Library가 예로 든 2013 시즌 가중치). 출루율이라면 모두 1이다. 가중치는 해마다 다시 계산하고, 고의4구는 뺀다.',
+  num: '무게를 단 출루', den: '분모에 드는 타석',
+  calc: `무게의 합 ${sum.toFixed(2)} ÷ ${den} =`,
+};
+const en: typeof ko = {
+  alt: `With 2013 weights, the 12 hypothetical plate appearances add up to ${sum.toFixed(3)} over ${den}. wOBA ${rate3(sum / den)}.`,
+  caption: 'Twelve made-up plate appearances. The number over each time on base is its weight (the 2013 weights FanGraphs Library uses as its example). In OBP they would all be 1. The weights are recalculated every year, and intentional walks are left out.',
+  num: 'Weighted on base', den: 'In the denominator',
+  calc: `weights ${sum.toFixed(2)} ÷ ${den} =`,
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={236} alt={L.alt} caption={L.caption}>
+  <PaLine lang={lang} state={(k) => (W[k] ? 'num' : 'den')} tag={tag} legend={{ num: L.num, den: L.den }} calc={L.calc} result={rate3(sum / den)} />
+</Fig>

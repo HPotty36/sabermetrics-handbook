@@ -1,0 +1,26 @@
+---
+// 장타율: 안타마다 루타(1·2·3·4)를 세어 타수로 나눈다.
+import { bases, isAB, isHit, paTotals, rate3 } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+import PaLine from '../PaLine.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const t = paTotals();
+const ko = {
+  alt: `가상의 12타석에서 루타는 ${t.TB}, 타수는 ${t.AB}. 장타율 ${rate3(t.TB / t.AB)}.`,
+  caption: '가상의 12타석. 안타 위의 숫자가 루타다(단타 1, 2루타 2, 홈런 4). 볼넷과 몸에 맞는 공은 루타도 타수도 아니다.',
+  num: '루타를 센 안타', den: '타수에 드는 타석', out: '타수에서 빠짐',
+  calc: `루타 ${t.TB} ÷ 타수 ${t.AB} =`,
+};
+const en: typeof ko = {
+  alt: `In 12 hypothetical plate appearances there are ${t.TB} total bases in ${t.AB} at-bats. Slugging ${rate3(t.TB / t.AB)}.`,
+  caption: 'Twelve made-up plate appearances. The number over each hit is its total bases (single 1, double 2, homer 4). Walks and hit-by-pitches are neither bases nor at-bats.',
+  num: 'Hit, with bases', den: 'At-bat', out: 'Not an at-bat',
+  calc: `${t.TB} total bases ÷ ${t.AB} at-bats =`,
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={236} alt={L.alt} caption={L.caption}>
+  <PaLine lang={lang} state={(k) => (isHit(k) ? 'num' : isAB(k) ? 'den' : 'out')} tag={(k) => (isHit(k) ? String(bases(k)) : undefined)} legend={{ num: L.num, den: L.den, out: L.out }} calc={L.calc} result={rate3(t.TB / t.AB)} />
+</Fig>

@@ -1,0 +1,20 @@
+---
+// 가상의 12타석(lib/fig.ts의 PA_LOG)을 한 줄에 여섯씩, 주제의 선처럼 늘어놓는다. 타격 비율 지표의 그림이 함께 쓴다.
+import { PA_LABEL, PA_LOG, type PaKind } from '../../lib/fig.ts';
+import type { Lang } from '../../lib/i18n.ts';
+import CountLine, { type CountState } from './CountLine.astro';
+
+interface Props {
+  lang: Lang;
+  state: (k: PaKind) => CountState;
+  /** 역 위에 적는 작은 값(장타율의 루타 같은 것) */
+  tag?: (k: PaKind) => string | undefined;
+  legend: { num: string; alt?: string; den: string; out?: string };
+  calc: string;
+  result: string;
+}
+
+const { lang, state, tag, legend, calc, result } = Astro.props;
+const items = PA_LOG.map((k) => ({ label: PA_LABEL[lang][k], state: state(k), tag: tag?.(k) }));
+---
+<CountLine items={items} perRow={6} legend={legend} calc={calc} result={result} />

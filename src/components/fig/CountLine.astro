@@ -1,0 +1,56 @@
+---
+// 하나씩 센 것들(타석, 투구)을 주제의 선처럼 줄지어 놓는다. 비율 지표의 그림이 함께 쓴다(PaLine, 투구 그림).
+// 역마다 넷 중 하나다: 분자에 드는 것(빨간 점), 빼는 쪽(잉크 점, K-BB%의 볼넷), 분모에만 드는 것(잉크 고리),
+// 둘 다에서 빠지는 것(점선 고리). 아래에 표시마다의 뜻과 계산 결과를 적는다.
+import { n } from '../../lib/fig.ts';
+
+export type CountState = 'num' | 'alt' | 'den' | 'out';
+
+interface Props {
+  items: { label: string; state: CountState; tag?: string }[];
+  /** 한 줄에 놓을 개수 */
+  perRow: number;
+  /** 표시마다의 뜻. 쓰지 않는 것은 비워 둔다. */
+  legend: { num: string; alt?: string; den: string; out?: string };
+  /** 계산: 앞의 식과 결과 숫자 */
+  calc: string;
+  result: string;
+  small?: boolean;
+}
+
+const { items, perRow, legend, calc, result, small } = Astro.props;
+const X0 = small ? 22 : 30;
+const DX = (360 - 2 * X0) / (perRow - 1);
+const rows = Math.ceil(items.length / perRow);
+const ROWS = Array.from({ length: rows }, (_, r) => 44 + r * 68);
+const stops = items.map((it, i) => ({ ...it, x: X0 + (i % perRow) * DX, y: ROWS[Math.floor(i / perRow)] }));
+const legendItems = (['num', 'alt', 'den', 'out'] as const).filter((s) => legend[s]);
+const LEGEND_DX = legendItems.length > 3 ? 90 : 120;
+const LY = ROWS[rows - 1] + 64;
+---
+<g>
+  {ROWS.map((y, r) => <path class="ln ln-2" d={`M${X0} ${y}H${n(X0 + (Math.min(perRow, items.length - r * perRow) - 1) * DX)}`} />)}
+  {stops.map((p) => (
+    <g>
+      {p.state === 'num' && <circle class="fi-red" cx={n(p.x)} cy={p.y} r="6.5" />}
+      {p.state === 'alt' && <circle class="fi-ink" cx={n(p.x)} cy={p.y} r="6.5" />}
+      {p.state === 'den' && <circle class="fi-paper ln" cx={n(p.x)} cy={p.y} r="5.8" />}
+      {p.state === 'out' && <circle class="fi-paper ln ln-muted ln-dot" cx={n(p.x)} cy={p.y} r="5.8" />}
+      <text x={n(p.x)} y={p.y + 24} text-anchor="middle" class:list={[small && 'tx-s', p.state === 'num' ? 'tx-red tx-b' : p.state === 'alt' ? 'tx-ink tx-b' : p.state === 'den' ? 'tx-ink' : '']}>{p.label}</text>
+      {p.tag && <text x={n(p.x)} y={p.y - 14} text-anchor="middle" class="tx-num tx-red">{p.tag}</text>}
+    </g>
+  ))}
+  <g transform={`translate(0 ${LY})`}>{legendItems.map((s, j) => {
+    const x = j * LEGEND_DX + 8;
+    return (
+      <g>
+        {s === 'num' && <circle class="fi-red" cx={x} cy="0" r="5" />}
+        {s === 'alt' && <circle class="fi-ink" cx={x} cy="0" r="5" />}
+        {s === 'den' && <circle class="fi-paper ln" cx={x} cy="0" r="4.4" />}
+        {s === 'out' && <circle class="fi-paper ln ln-muted ln-dot" cx={x} cy="0" r="4.4" />}
+        <text x={n(x + 11)} y="4" class="tx-s">{legend[s]}</text>
+      </g>
+    );
+  })}</g>
+  <text x="0" y={LY + 46} class="tx-ink tx-l">{calc} <tspan class="tx-big tx-red" dx="4">{result}</tspan></text>
+</g>

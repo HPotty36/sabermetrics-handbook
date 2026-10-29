@@ -348,6 +348,38 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .myth p{margin:0;font-size:19px;line-height:1.65;font-weight:500}
 .lg{margin-right:10px;font:700 13px/1 var(--font-sans);color:var(--muted)}
 
+/* 용어 그림(components/fig): 사이트와 같은 선화. 종이색 바탕에 잉크 선, 빨강은 그 용어가 재는 것 하나에만.
+   글은 Pretendard, 그림 속 큰 숫자만 Big Shoulders. 폭 360 기준으로 그려 넓은 화면에서는 520px까지만 키운다. */
+.fig{margin:28px 0 0}
+.fig-art{display:block;width:100%;max-width:520px;height:auto;overflow:visible}
+.fig-cap{margin:12px 0 0;max-width:36em;font:13.5px/1.65 var(--font-sans);color:var(--muted)}
+.fig text{font-family:var(--font-sans);font-size:12px;fill:var(--muted);letter-spacing:-.01em}
+.fig .tx-ink{fill:var(--ink)}
+.fig .tx-red{fill:var(--seam)}
+.fig .tx-b{font-weight:700}
+.fig .tx-m{font-weight:600}
+.fig .tx-s{font-size:10.5px}
+.fig .tx-l{font-size:14px}
+.fig .tx-num{font-family:var(--font-display);font-weight:600;font-size:16px;letter-spacing:0}
+.fig .tx-big{font-family:var(--font-display);font-weight:800;font-size:26px;letter-spacing:0}
+.fig .ln{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.fig .ln-1{stroke-width:1}
+.fig .ln-2{stroke-width:2.2}
+.fig .ln-3{stroke-width:3}
+.fig .ln-red{stroke:var(--seam)}
+.fig .ln-muted{stroke:var(--muted)}
+.fig .ln-grid{stroke:var(--line);stroke-width:1}
+.fig .ln-groove{stroke:var(--groove)}
+.fig .ln-dash{stroke-dasharray:4 4}
+.fig .ln-dot{stroke-dasharray:1.5 3.5}
+.fig .fi-ink{fill:var(--ink)}
+.fig .fi-red{fill:var(--seam)}
+.fig .fi-paper{fill:var(--paper)}
+.fig .fi-soft{fill:var(--seam);fill-opacity:.13}
+.fig .fi-muted{fill:var(--muted)}
+.fig .fi-line{fill:var(--line)}
+.fig .fi-none{fill:none}
+
 /* 본문 끝의 ‘다음’ (넓은 화면. 폰은 아래쪽 알약 위에 같은 것이 뜬다) */
 .next-list{display:none}
 @media (min-width:1024px){.next-list{display:grid;margin-top:48px;border-top:1px solid var(--ink)}}

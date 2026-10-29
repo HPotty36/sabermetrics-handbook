@@ -1,0 +1,50 @@
+---
+// FRV: Statcast 수비 지표를 저마다의 비율로 점수로 바꿔 더한다. 막대 길이가 그 비율(1개가 몇 점인지)이다.
+import { n } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const U = 150;
+const AX = 168;
+const ko = {
+  alt: 'FRV의 환산: OAA 1아웃은 외야 0.9점·내야 0.75점, 송구 1점은 1점, 도루 저지 1개 0.65점, 병살 1개 0.4점, 블로킹 1개 0.25점, 프레이밍 1스트라이크 0.125점.',
+  caption: 'Statcast 수비 지표 하나가 점수로 얼마인지. 막대 길이가 그 비율이다. 포지션마다 해당하는 항목만 더해, 평균적인 수비수보다 몇 점을 막았는지 한 숫자로 만든다. 2026년 10월부터는 포수의 ABS 챌린지 가치도 들어간다.',
+  rows: [
+    { t: '송구(어깨) 1점', v: 1 },
+    { t: 'OAA 1아웃 · 외야', v: 0.9 },
+    { t: 'OAA 1아웃 · 내야', v: 0.75 },
+    { t: '도루 저지 1개', v: 0.65 },
+    { t: '병살 1개', v: 0.4 },
+    { t: '블로킹 1개', v: 0.25 },
+    { t: '프레이밍 1스트라이크', v: 0.125 },
+  ],
+  unit: '점',
+};
+const en: typeof ko = {
+  alt: 'FRV conversions: one OAA out is 0.9 runs in the outfield and 0.75 in the infield, one arm run is 1, a caught stealing 0.65, a double play 0.4, a block 0.25 and a framed strike 0.125.',
+  caption: 'What one unit of each Statcast fielding metric is worth in runs; the bar length is the rate. Each position adds the parts that apply to it, giving one number for runs saved against an average fielder. Since October 2026 it includes a catcher’s ABS challenge value too.',
+  rows: [
+    { t: '1 arm run', v: 1 },
+    { t: '1 OAA out · outfield', v: 0.9 },
+    { t: '1 OAA out · infield', v: 0.75 },
+    { t: '1 caught stealing', v: 0.65 },
+    { t: '1 double play', v: 0.4 },
+    { t: '1 block', v: 0.25 },
+    { t: '1 framed strike', v: 0.125 },
+  ],
+  unit: 'runs',
+};
+const L = lang === 'ko' ? ko : en;
+const Y = (i: number) => 18 + i * 26;
+---
+<Fig h={212} alt={L.alt} caption={L.caption}>
+  {L.rows.map((r, i) => (
+    <g>
+      <text x={AX - 10} y={Y(i) + 4} text-anchor="end" class="tx-ink tx-s">{r.t}</text>
+      <rect class="fi-ink" x={AX} y={Y(i) - 6} width={n(r.v * U)} height="12" />
+      <text x={n(AX + r.v * U + 6)} y={Y(i) + 5} class="tx-num tx-ink">{r.v}</text>
+    </g>
+  ))}
+  <text x={AX} y={Y(L.rows.length) + 4} class="tx-s">{L.unit}</text>
+</Fig>

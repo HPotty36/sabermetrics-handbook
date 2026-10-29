@@ -1,0 +1,44 @@
+---
+// OPS: 출루율과 장타율을 한 막대에 잇는다. 분모가 다른 두 비율을 그냥 더한 것이 보이게 한다.
+import { n, paTotals, rate3 } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const t = paTotals();
+const obp = (t.H + t.BB + t.HBP) / (t.AB + t.BB + t.HBP + t.SF);
+const slg = t.TB / t.AB;
+const X = (v: number) => 8 + v * 250;
+const ko = {
+  alt: `가상의 12타석의 출루율 ${rate3(obp)}과 장타율 ${rate3(slg)}을 더한 OPS ${rate3(obp + slg)}.`,
+  caption: '타율 그림과 같은 가상의 12타석. 출루율은 타석으로, 장타율은 타수로 나눈 값이라 기준이 다른 비율 둘을 그대로 더한 셈이다. 득점으로 따지면 출루율 쪽이 더 무겁다.',
+  obp: '출루율', slg: '장타율',
+  obpCalc: `출루 ${t.H + t.BB + t.HBP} ÷ 타석 ${t.AB + t.BB + t.HBP + t.SF}`,
+  slgCalc: `루타 ${t.TB} ÷ 타수 ${t.AB}`,
+  calc: `${rate3(obp)} + ${rate3(slg)} =`,
+};
+const en: typeof ko = {
+  alt: `The 12 hypothetical plate appearances give OBP ${rate3(obp)} and slugging ${rate3(slg)}, so OPS ${rate3(obp + slg)}.`,
+  caption: 'The same twelve made-up plate appearances as the average figure. OBP is per plate appearance and slugging is per at-bat, so OPS adds two rates with different bases. Run for run, the OBP part is worth more.',
+  obp: 'OBP', slg: 'SLG',
+  obpCalc: `${t.H + t.BB + t.HBP} on base ÷ ${t.AB + t.BB + t.HBP + t.SF} PA`,
+  slgCalc: `${t.TB} bases ÷ ${t.AB} AB`,
+  calc: `${rate3(obp)} + ${rate3(slg)} =`,
+};
+const L = lang === 'ko' ? ko : en;
+const x0 = X(0);
+const x1 = X(obp);
+const x2 = X(obp + slg);
+---
+<Fig h={170} alt={L.alt} caption={L.caption}>
+  {/* 막대: 출루율(잉크) + 장타율(빈 칸), 전체를 빨간 괄호로 묶는다 */}
+  <path class="ln ln-red ln-2" d={`M${n(x0)} 24V16H${n(x2)}V24`} />
+  <text x={n((x0 + x2) / 2)} y="12" text-anchor="middle" class="tx-red tx-b">OPS</text>
+  <rect class="fi-ink" x={n(x0)} y="32" width={n(x1 - x0)} height="22" />
+  <rect class="fi-paper ln" x={n(x1)} y="32" width={n(x2 - x1)} height="22" />
+  <text x={n(x0)} y="76" class="tx-ink tx-b">{L.obp} {rate3(obp)}</text>
+  <text x={n(x0)} y="93" class="tx-s">{L.obpCalc}</text>
+  <text x={n(x1 + 8)} y="76" class="tx-ink tx-b">{L.slg} {rate3(slg)}</text>
+  <text x={n(x1 + 8)} y="93" class="tx-s">{L.slgCalc}</text>
+  <text x="0" y="150" class="tx-ink tx-l">{L.calc} <tspan class="tx-big tx-red" dx="4">{rate3(obp + slg)}</tspan></text>
+</Fig>

@@ -1,0 +1,44 @@
+---
+// 스윙 타이밍: 배트와 공이 가장 가까워진 순간을 시간, 위아래, 좌우로 나눠 판정한다.
+import { n } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const X0 = 20;
+const X1 = 340;
+const MID = (X0 + X1) / 2;
+const ko = {
+  alt: '스윙 타이밍의 세 판정: 시간은 ±7ms 안이면 제때, 위아래는 ±2인치 안이면 맞음, 좌우는 ±4인치 안이면 중심.',
+  caption: '배트와 공이 가장 가까워진 순간을 세 방향으로 판정한다. 가운데 빨간 칸이 좋은 쪽이다. 셋이 모두 좋고 공을 맞힌 스윙의 비율이 Perfect Contact%, 헛스윙이면서 하나도 좋지 않은 스윙의 비율이 Flawed Swing%다.',
+  rows: [
+    { title: '시간', left: '이르다', mid: '제때 ±7ms', right: '늦다' },
+    { title: '위아래', left: '공 위', mid: '맞음 ±2인치', right: '공 아래' },
+    { title: '좌우', left: '배트 안쪽', mid: '중심 ±4인치', right: '바깥쪽' },
+  ],
+};
+const en: typeof ko = {
+  alt: 'The three swing timing calls: on time within ±7 ms, lined up within ±2 inches vertically, centered within ±4 inches side to side.',
+  caption: 'The moment the bat is closest to the ball is judged three ways; the red middle is the good result. Perfect Contact% is the share of swings that made contact and got all three right; Flawed Swing% is the share that missed and got none right.',
+  rows: [
+    { title: 'Time', left: 'Early', mid: 'On time ±7 ms', right: 'Late' },
+    { title: 'Up–down', left: 'Over', mid: 'Lined up ±2 in', right: 'Under' },
+    { title: 'Side', left: 'Tied up', mid: 'Centered ±4 in', right: 'Flail' },
+  ],
+};
+const L = lang === 'ko' ? ko : en;
+const Y = (i: number) => 34 + i * 58;
+---
+<Fig h={182} alt={L.alt} caption={L.caption}>
+  {L.rows.map((r, i) => (
+    <g>
+      <text x={X0} y={Y(i) - 12} class="tx-ink tx-b tx-s">{r.title}</text>
+      <path class="ln ln-2" d={`M${X0} ${Y(i)}H${X1}`} />
+      <rect class="fi-soft ln ln-red" x={n(MID - 42)} y={Y(i) - 7} width="84" height="14" />
+      <path class="ln ln-red ln-2" d={`M${n(MID)} ${Y(i) - 7}V${Y(i) + 7}`} />
+      <text x={n(MID)} y={Y(i) + 24} text-anchor="middle" class="tx-red tx-b tx-s">{r.mid}</text>
+      <text x={X0} y={Y(i) + 24} class="tx-s">{r.left}</text>
+      <text x={X1} y={Y(i) + 24} text-anchor="end" class="tx-s">{r.right}</text>
+    </g>
+  ))}
+</Fig>

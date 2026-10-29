@@ -1,0 +1,41 @@
+---
+// 회전수: 손을 떠날 때 1분에 몇 바퀴 도는지. 2026 포심 평균으로 홈에 닿을 때까지 몇 바퀴 도는지 세어 본다.
+import { n, pitchHeight, PSIDE, RELEASE } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+import PitchSide from '../PitchSide.astro';
+import { pitchPath } from '../../../lib/fig.ts';
+
+const { lang } = Astro.props as { lang: Lang };
+const { x, y } = PSIDE;
+// 2026 포심 평균 구속 94.8mph, 회전수 2,314rpm, 익스텐션 6.5피트. 느려지는 것은 빼고 계산한다.
+const fps = (94.8 * 5280) / 3600;
+const t = (60.5 - RELEASE.ft) / fps;
+const turns = Math.round((2314 / 60) * t);
+// 실밥처럼: 한 바퀴마다 길 위에 땀 하나
+const ticks = Array.from({ length: turns }, (_, i) => {
+  const ft = RELEASE.ft + ((i + 0.5) / turns) * (60.5 - RELEASE.ft);
+  const [a, b] = [x(ft), y(pitchHeight(ft))];
+  const [c, d] = [x(ft + 0.4), y(pitchHeight(ft + 0.4))];
+  const ang = Math.atan2(d - b, c - a) + Math.PI / 2;
+  return `M${n(a - 6 * Math.cos(ang))} ${n(b - 6 * Math.sin(ang))}L${n(a + 6 * Math.cos(ang))} ${n(b + 6 * Math.sin(ang))}`;
+});
+const ko = {
+  alt: `2026 포심 평균(94.8mph, 2,314rpm)이면 공은 홈에 닿을 때까지 ${turns}바퀴쯤 돈다.`,
+  caption: `옆에서 본 가상의 포심. 2026 MLB 포심 평균 구속(94.8mph)과 회전수(2,314rpm)로 계산하면 손을 떠나 홈에 닿는 0.39초 동안 ${turns}바퀴쯤 돈다(느려지는 것은 뺀 계산값). 회전수는 이 회전의 양이고, 그중 얼마가 움직임이 되는지는 액티브 스핀이 따로 잰다.`,
+  rubber: '투수판', plate: '홈플레이트', tick: '땀 하나 = 한 바퀴', turns: `${turns}바퀴`,
+};
+const en: typeof ko = {
+  alt: `At the 2026 four-seam averages (94.8 mph, 2,314 rpm) the ball turns about ${turns} times before it reaches the plate.`,
+  caption: `A made-up four-seamer seen from the side. At the 2026 MLB four-seam averages (94.8 mph, 2,314 rpm) the ball turns about ${turns} times in the 0.39 seconds from hand to plate (a calculation that ignores the slowdown). Spin rate is how much it turns; how much of that turns into movement is what active spin measures.`,
+  rubber: 'Rubber', plate: 'Plate', tick: 'one stitch = one turn', turns: `${turns} turns`,
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={176} alt={L.alt} caption={L.caption}>
+  <PitchSide rubber={L.rubber} plate={L.plate} />
+  <path class="ln ln-1 ln-groove" d={pitchPath()} />
+  {ticks.map((d) => <path class="ln ln-red ln-2" d={d} />)}
+  <text x={n(x(30))} y={n(y(pitchHeight(30)) - 20)} text-anchor="middle" class="tx-red tx-b tx-l">{L.turns}</text>
+  <text x={n(x(30))} y={n(y(pitchHeight(30)) + 26)} text-anchor="middle" class="tx-s">{L.tick}</text>
+</Fig>

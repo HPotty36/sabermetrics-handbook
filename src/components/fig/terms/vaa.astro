@@ -1,0 +1,41 @@
+---
+// VAA: 공이 홈플레이트를 지날 때 위에서 아래로 내리꽂히는 각도. 0°에 가까울수록 평평하다.
+import { arc, n, pitchHeight, pitchPath, plateAngle, PSIDE } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+import PitchSide from '../PitchSide.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const { x, y } = PSIDE;
+const X = x(60.5);
+const Y = y(pitchHeight(60.5));
+// 화면에서 홈 직전의 기울기(높이를 키운 그림이라 실제 각도보다 가파르게 보인다)
+const X2 = x(56);
+const Y2 = y(pitchHeight(56));
+const deg = (Math.atan2(Y - Y2, X - X2) * 180) / Math.PI;
+const len = 70;
+const tx = X - len * Math.cos((deg * Math.PI) / 180);
+const ty = Y - len * Math.sin((deg * Math.PI) / 180);
+const real = plateAngle().toFixed(1).replace('-', '−');
+const ko = {
+  alt: `옆에서 본 포심이 홈플레이트를 ${real}°로 지난다. 0°에 가까울수록 평평하다.`,
+  caption: `옆에서 본 가상의 포심(높이를 3배 키워 그려서 실제 ${real}°보다 가파르게 보인다). 거의 모든 공이 아래로 떨어지며 들어와서 값이 음수다. 포심이라면 −4°보다 평평하면 평평한 편, −5.5°보다 가파르면 가파른 편으로 본다.`,
+  rubber: '투수판', plate: '홈플레이트', vaa: `VAA ${real}°`, level: '수평',
+};
+const en: typeof ko = {
+  alt: `A four-seamer from the side crosses the plate at ${real}°. Closer to 0° is flatter.`,
+  caption: `A made-up four-seamer seen from the side (drawn 3× taller, so it looks steeper than the real ${real}°). Almost every pitch is dropping as it arrives, so the value is negative. For a four-seamer, flatter than −4° counts as flat and steeper than −5.5° as steep.`,
+  rubber: 'Rubber', plate: 'Plate', vaa: `VAA ${real}°`, level: 'Level',
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={176} alt={L.alt} caption={L.caption}>
+  <PitchSide rubber={L.rubber} plate={L.plate} />
+  <path class="ln ln-2" d={pitchPath()} />
+  <path class="ln ln-1 ln-muted ln-dash" d={`M${n(X - 90)} ${n(Y)}H${n(X + 16)}`} />
+  <text x={n(X - 92)} y={n(Y + 4)} text-anchor="end" class="tx-s">{L.level}</text>
+  <path class="ln ln-red ln-2" d={`M${n(tx)} ${n(ty)}L${n(X + 14 * Math.cos((deg * Math.PI) / 180))} ${n(Y + 14 * Math.sin((deg * Math.PI) / 180))}`} />
+  <path class="ln ln-red" d={arc(X, Y, 44, 180, 180 - deg)} />
+  <text x={n(X - 40)} y={n(Y + 28)} text-anchor="end" class="tx-red tx-b">{L.vaa}</text>
+  <circle class="fi-paper ln" cx={n(X)} cy={n(Y)} r="5" />
+</Fig>

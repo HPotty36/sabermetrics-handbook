@@ -1,0 +1,35 @@
+---
+// 구속: Statcast는 공이 손을 떠나는 순간(가장 빠를 때)을 잰다. 예전 PITCHf/x는 홈에서 50피트 지점에서 쟀다.
+import { n, pitchHeight, pitchPath, PSIDE, RELEASE } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+import PitchSide from '../PitchSide.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const { x, y } = PSIDE;
+const rx = x(RELEASE.ft);
+const ry = y(RELEASE.h);
+const px = x(60.5 - 50);
+const py = y(pitchHeight(60.5 - 50));
+const ko = {
+  alt: '옆에서 본 투구. Statcast는 공이 손을 떠나는 순간의 속도를, 예전 PITCHf/x는 홈에서 50피트 지점의 속도를 쟀다.',
+  caption: '옆에서 본 투구(높이는 실제보다 3배 키웠다). 공은 손을 떠날 때 가장 빠르고 홈으로 오면서 조금씩 느려진다. Statcast는 그 가장 빠른 순간을 적는다. 2026 MLB 포심 평균은 94.8mph였다.',
+  rubber: '투수판', plate: '홈플레이트', now: 'Statcast · 손을 떠나는 순간', old: '예전 PITCHf/x · 홈에서 50피트',
+};
+const en: typeof ko = {
+  alt: 'A pitch from the side. Statcast records the speed as the ball leaves the hand; the older PITCHf/x measured it 50 feet from home.',
+  caption: 'A pitch seen from the side (height drawn 3× taller than life). A pitch is fastest as it leaves the hand and slows a little on the way in. Statcast records that fastest moment. The 2026 MLB four-seam average was 94.8 mph.',
+  rubber: 'Rubber', plate: 'Plate', now: 'Statcast · out of the hand', old: 'Old PITCHf/x · 50 ft from home',
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={176} alt={L.alt} caption={L.caption}>
+  <PitchSide rubber={L.rubber} plate={L.plate} />
+  <path class="ln ln-2" d={pitchPath()} />
+  <path class="ln ln-1 ln-muted ln-dash" d={`M${n(px)} ${n(py + 8)}V${n(y(0))}`} />
+  <circle class="fi-paper ln ln-muted" cx={n(px)} cy={n(py)} r="4.5" />
+  <text x={n(px + 6)} y={n(y(0) - 10)} class="tx-s">{L.old}</text>
+  <path class="ln ln-1 ln-red" d={`M${n(rx)} ${n(ry - 8)}V${n(ry - 30)}`} />
+  <circle class="fi-red" cx={n(rx)} cy={n(ry)} r="5.5" />
+  <text x={n(rx - 4)} y={n(ry - 36)} class="tx-red tx-b">{L.now}</text>
+</Fig>

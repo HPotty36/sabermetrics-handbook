@@ -1,0 +1,20 @@
+---
+// Location+: 볼카운트와 구종에 맞춰 공이 들어간 위치만 본다. 구속과 무브먼트는 넣지 않는다.
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+import ModelInputs from '../ModelInputs.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const ko = {
+  alt: 'Location+는 볼카운트와 구종에 맞춰 공이 들어간 위치만 본다. 물리 특성은 Stuff+, 전부는 Pitching+가 본다.',
+  caption: 'FanGraphs의 투구 모델 셋이 보는 것. Location+는 같은 자리라도 볼카운트와 구종에 따라 좋은 공이 달라진다는 걸 반영해 위치만 매긴다. 구종마다 100이 평균이고, 400구쯤 지나야 안정된다.',
+};
+const en: typeof ko = {
+  alt: 'Location+ looks only at where the pitch went, judged for the count and pitch type. Stuff+ covers the physical traits and Pitching+ everything.',
+  caption: 'What FanGraphs’ three pitch models look at. Location+ grades only where the ball went, since the same spot can be a good or bad pitch depending on the count and pitch type. 100 is average for each pitch type, and it needs about 400 pitches to settle.',
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={192} alt={L.alt} caption={L.caption}>
+  <ModelInputs lang={lang} model="location" />
+</Fig>

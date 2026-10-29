@@ -1,0 +1,20 @@
+---
+// Pitching+: 물리 특성, 위치, 볼카운트, 타자 좌우를 함께 넣은 세 번째 모델. 앞의 둘의 평균이 아니다.
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+import ModelInputs from '../ModelInputs.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const ko = {
+  alt: 'Pitching+는 공의 물리 특성, 위치, 볼카운트, 타자 좌우를 모두 본다.',
+  caption: 'FanGraphs의 투구 모델 셋이 보는 것. Pitching+는 Stuff+와 Location+를 섞은 값이 아니라 모든 입력을 한꺼번에 넣은 따로 된 모델이다. 구종 단위로 10점이 1표준편차이고, 불펜은 약 250구, 선발은 약 400구부터 시즌 전 예상보다 잘 맞힌다.',
+};
+const en: typeof ko = {
+  alt: 'Pitching+ looks at the physical traits, location, count and batter handedness together.',
+  caption: 'What FanGraphs’ three pitch models look at. Pitching+ is not a blend of Stuff+ and Location+; it is a separate model fed all the inputs at once. For a single pitch type 10 points is one standard deviation, and it beats preseason projections from about 250 pitches for relievers and 400 for starters.',
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={192} alt={L.alt} caption={L.caption}>
+  <ModelInputs lang={lang} model="pitching" />
+</Fig>

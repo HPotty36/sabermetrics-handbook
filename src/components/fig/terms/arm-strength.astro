@@ -1,0 +1,36 @@
+---
+// 송구 속도: 한 시즌의 송구 가운데 가장 빠른 쪽(외야수는 상위 10%)만 평균한다. 힘을 빼고 던진 송구는 들지 않는다.
+import { lin, n } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+// 가상의 외야수 한 시즌 송구 30개(mph)
+const throws = [62, 64, 66, 67, 68, 69, 70, 71, 71, 72, 73, 74, 74, 75, 76, 77, 78, 78, 79, 80, 81, 82, 83, 84, 85, 86, 88, 91, 93, 94];
+const top = [...throws].sort((a, b) => b - a).slice(0, Math.round(throws.length * 0.1));
+const avg = top.reduce((s, v) => s + v, 0) / top.length;
+const x = lin(60, 100, 20, 340);
+// 같은 값은 위로 쌓는다
+const seen = new Map<number, number>();
+const dots = throws.map((v) => { const k = seen.get(v) ?? 0; seen.set(v, k + 1); return { v, y: 104 - k * 12, top: top.includes(v) }; });
+const ko = {
+  alt: `가상의 외야수 송구 30개 중 가장 빠른 3개(10%)의 평균 ${avg.toFixed(1)}mph가 송구 속도다.`,
+  caption: `가상의 외야수 한 시즌 송구 30개. 짧은 거리라 힘을 빼고 던진 송구까지 평균하면 어깨가 약해 보이므로, 가장 빠른 쪽만 평균한다. 외야수는 상위 10%, 2·3루수와 유격수는 상위 5%, 1루수는 상위 1%다. 속도는 공이 손을 떠날 때 잰다.`,
+  axis: '송구 속도(mph)', top: '가장 빠른 10%', avg: `평균 ${avg.toFixed(1)}mph`,
+};
+const en: typeof ko = {
+  alt: `Of 30 hypothetical outfield throws, the fastest 3 (10%) average ${avg.toFixed(1)} mph, which is his arm strength.`,
+  caption: `Thirty made-up throws from one outfielder's season. Averaging in short, soft tosses would make any arm look weak, so only the hardest throws count: the top 10% for outfielders, 5% for second, third and short, 1% for first base. Speed is measured as the ball leaves the hand.`,
+  axis: 'Throw speed (mph)', top: 'Fastest 10%', avg: `avg ${avg.toFixed(1)} mph`,
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={170} alt={L.alt} caption={L.caption}>
+  <path class="ln" d={`M${x(60)} 114H${x(100)}`} />
+  {[60, 70, 80, 90, 100].map((v) => <g><path class="ln ln-1" d={`M${n(x(v))} 114v5`} /><text x={n(x(v))} y="132" text-anchor="middle" class="tx-s">{v}</text></g>)}
+  {dots.map((d) => (d.top ? <circle class="fi-red" cx={n(x(d.v))} cy={d.y} r="4.6" /> : <circle class="fi-paper ln ln-1" cx={n(x(d.v))} cy={d.y} r="4.2" />))}
+  <path class="ln ln-red ln-2" d={`M${n(x(avg))} 44V100`} />
+  <text x={n(x(avg) - 6)} y="40" text-anchor="end" class="tx-red tx-b">{L.avg}</text>
+  <text x={n(x(avg) - 6)} y="56" text-anchor="end" class="tx-red tx-s">{L.top}</text>
+  <text x={x(100)} y="152" text-anchor="end" class="tx-s">{L.axis}</text>
+</Fig>

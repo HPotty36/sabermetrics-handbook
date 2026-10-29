@@ -1,0 +1,42 @@
+---
+// 체이스%: 존 밖으로 온 공 가운데 방망이를 낸 공. 존 안 공은 계산에 없다.
+import { n, pct1, ZONE, zxy } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+// 가상의 투구. [x, y] 인치(존 가운데 0), swing: 방망이를 냈는지
+const outside = [
+  { p: [-14, 2], swing: false }, { p: [13, -4], swing: true }, { p: [2, -16], swing: true }, { p: [-11, 12], swing: false },
+  { p: [12, 13], swing: false }, { p: [-3, 17], swing: false }, { p: [15, 6], swing: false }, { p: [-13, -11], swing: true },
+  { p: [6, -18], swing: false }, { p: [-16, -3], swing: false },
+] as const;
+const inside = [[-4, 4], [5, -6], [-6, -7], [3, 8], [6, 1], [-1, -2]] as const;
+const chased = outside.filter((o) => o.swing).length;
+const ko = {
+  alt: `가상의 투구 중 존 밖 공 ${outside.length}개, 그중 스윙 ${chased}개. 체이스% ${pct1(chased / outside.length)}.`,
+  caption: '포수 뒤에서 본 가상의 투구. 존 밖 공 가운데 방망이를 낸 비율이다. 존 안으로 들어온 공은 쳤든 안 쳤든 세지 않는다. 존은 홈플레이트 폭 17인치, 높이는 타자마다 다르다.',
+  zone: '스트라이크 존', chase: '존 밖 스윙', take: '존 밖, 안 휘두름', in: '존 안(세지 않음)',
+  calc: `존 밖 스윙 ${chased} ÷ 존 밖 투구 ${outside.length} =`,
+};
+const en: typeof ko = {
+  alt: `Of the hypothetical pitches, ${outside.length} were outside the zone and the batter swung at ${chased}. Chase% ${pct1(chased / outside.length)}.`,
+  caption: 'Made-up pitches seen from behind the catcher. Chase% is the share of out-of-zone pitches the batter swung at. Pitches in the zone do not count either way. The zone is the 17-inch plate wide; its height depends on the batter.',
+  zone: 'Strike zone', chase: 'Chased', take: 'Taken, outside', in: 'In the zone (not counted)',
+  calc: `${chased} chases ÷ ${outside.length} outside pitches =`,
+};
+const L = lang === 'ko' ? ko : en;
+const { left, right, top, bottom, r } = ZONE;
+---
+<Fig h={316} alt={L.alt} caption={L.caption}>
+  <rect class="fi-none ln ln-2" x={n(left)} y={n(top)} width={n(right - left)} height={n(bottom - top)} />
+  <text x={n(right + 6)} y={n(bottom - 6)} class="tx-s">{L.zone}</text>
+  {inside.map(([x, y]) => { const [cx, cy] = zxy(x, y); return <circle class="fi-none ln ln-muted ln-dot" cx={n(cx)} cy={n(cy)} r={n(r)} />; })}
+  {outside.map((o) => { const [cx, cy] = zxy(o.p[0], o.p[1]); return o.swing ? <circle class="fi-red" cx={n(cx)} cy={n(cy)} r={n(r)} /> : <circle class="fi-paper ln" cx={n(cx)} cy={n(cy)} r={n(r - 0.8)} />; })}
+  <g transform="translate(0 256)">
+    <circle class="fi-red" cx="8" cy="0" r="5" /><text x="19" y="4" class="tx-s">{L.chase}</text>
+    <circle class="fi-paper ln" cx="110" cy="0" r="4.4" /><text x="121" y="4" class="tx-s">{L.take}</text>
+    <circle class="fi-none ln ln-muted ln-dot" cx="232" cy="0" r="4.4" /><text x="243" y="4" class="tx-s">{L.in}</text>
+  </g>
+  <text x="0" y="300" class="tx-ink tx-l">{L.calc} <tspan class="tx-big tx-red" dx="4">{pct1(chased / outside.length)}</tspan></text>
+</Fig>

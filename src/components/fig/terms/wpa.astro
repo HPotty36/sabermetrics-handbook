@@ -1,0 +1,39 @@
+---
+// WPA: 플레이 뒤 승리 확률 − 플레이 전 승리 확률. 타자와 투수가 정반대로 나눠 갖는다.
+import { lin, n } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const x = lin(0, 9, 34, 344);
+const y = lin(0, 1, 190, 22);
+// 가상의 경기, 홈 팀의 승리 확률(회가 끝날 때). 8회 말 2루타 하나로 0.35 → 0.63.
+const wp = [0.5, 0.54, 0.47, 0.45, 0.52, 0.4, 0.38, 0.35, 0.35, 1];
+const pts = wp.map((p, i) => [x(Math.min(i, 9)), y(p)] as const);
+const J0 = [x(7.6), y(0.35)] as const;
+const J1 = [x(7.6), y(0.63)] as const;
+const path = `M${pts.slice(0, 8).map(([a, b]) => `${n(a)} ${n(b)}`).join('L')}L${n(J0[0])} ${n(J0[1])}`;
+const after = `M${n(J1[0])} ${n(J1[1])}L${n(x(8))} ${n(y(0.66))}L${n(x(8.7))} ${n(y(0.7))}L${n(x(9))} ${n(y(1))}`;
+const ko = {
+  alt: '가상의 경기에서 홈 팀 승리 확률이 8회 말 2루타 하나로 35%에서 63%가 됐다. 그 타자의 WPA +0.28, 투수 −0.28.',
+  caption: '가상의 경기, 홈 팀의 승리 확률. 8회 말 2루타 한 방에 35%가 63%로 뛰었으니 그 타자는 +0.28, 맞은 투수는 −0.28을 받는다. 플레이마다 이렇게 나눠 갖고, 이긴 팀 선수들의 합은 +0.5, 진 팀은 −0.5다. 수비가 잘하거나 못한 몫도 투수에게 간다.',
+  inn: '회', wp: '홈 팀 승리 확률', jump: '8회 말 2루타 +0.28', who: '타자 +0.28 · 투수 −0.28',
+};
+const en: typeof ko = {
+  alt: 'In a hypothetical game the home team’s win probability went from 35% to 63% on one eighth-inning double: +0.28 WPA for the batter, −0.28 for the pitcher.',
+  caption: 'A made-up game, home team win probability. One double in the bottom of the eighth lifts it from 35% to 63%, so the batter gets +0.28 and the pitcher −0.28. Every play is split this way; the winning team’s players add up to +0.5 and the losers to −0.5. Good or bad defense is charged to the pitcher.',
+  inn: 'Inning', wp: 'Home win probability', jump: 'B8 double +0.28', who: 'Batter +0.28 · pitcher −0.28',
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={232} alt={L.alt} caption={L.caption}>
+  {[0, 0.5, 1].map((p) => <g><path class={p === 0.5 ? 'ln ln-1 ln-muted ln-dash' : 'ln ln-grid'} d={`M${x(0)} ${n(y(p))}H${x(9)}`} /><text x={x(0) - 6} y={n(y(p) + 4)} text-anchor="end" class="tx-s">{Math.round(p * 100)}%</text></g>)}
+  {Array.from({ length: 9 }, (_, i) => <text x={n(x(i + 0.5))} y={n(y(0) + 16)} text-anchor="middle" class="tx-s">{i + 1}</text>)}
+  <path class="ln ln-2" d={path} />
+  <path class="ln ln-2" d={after} />
+  <path class="ln ln-red ln-3" d={`M${n(J0[0])} ${n(J0[1])}V${n(J1[1])}`} />
+  <text x={n(J0[0] - 8)} y={n(y(0.75))} text-anchor="end" class="tx-red tx-b tx-s">{L.jump}</text>
+  <text x={n(J0[0] - 8)} y={n(y(0.75) + 15)} text-anchor="end" class="tx-red tx-s">{L.who}</text>
+  <text x={x(0)} y="12" class="tx-s">{L.wp}</text>
+  <text x={x(9)} y={n(y(0) + 32)} text-anchor="end" class="tx-s">{L.inn}</text>
+</Fig>

@@ -1,0 +1,40 @@
+---
+// 수비율: 실책 없이 처리한 기회의 비율. 수비수가 닿지 못한 공은 기회로 세지 않는다.
+import { arrow, n } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+// 위에서 본 유격수와 닿을 수 있는 범위. 한 공은 범위 안(닿았는데 놓침), 한 공은 범위 밖(닿지 못함).
+const H = [180, 236] as const;
+const SS = [180, 96] as const;
+const RR = 54;
+const A = [204, 112] as const;
+const B = [96, 58] as const;
+const a = arrow(H[0], H[1] - 6, A[0], A[1] + 7, 7);
+const b = arrow(H[0] - 2, H[1] - 6, B[0] + 5, B[1] + 5, 7);
+const ko = {
+  alt: '유격수에게 닿은 공을 놓치면 실책으로 수비율이 떨어지지만, 닿지 못한 공은 안타가 되어 수비율에 들지 않는다.',
+  caption: '위에서 본 유격수와 그가 닿을 수 있는 범위. 범위 안으로 온 공을 놓치면 실책이라 수비율이 떨어진다. 발이 느려 닿지도 못한 공은 안타가 될 뿐 수비율에는 아무 일도 없다. 그래서 범위가 좁은 수비수가 오히려 수비율이 좋아 보이기도 한다. 수비율 = (자살 + 보살) ÷ (자살 + 보살 + 실책).',
+  ss: '유격수', reach: '닿을 수 있는 범위', a: '범위 안 · 놓침', a2: '실책 · 수비율에 든다', b: '닿지 못함 · 안타', b2: '수비율에 들지 않는다',
+};
+const en: typeof ko = {
+  alt: 'A ball the shortstop reaches and boots is an error and lowers fielding percentage; a ball he never reaches is a hit and does not count at all.',
+  caption: 'A shortstop from above, with the ground he can cover. Boot a ball hit within reach and it is an error, so fielding percentage drops. A ball you are too slow to reach just becomes a hit and fielding percentage never notices, which is how a fielder with little range can look good by this number. FPCT = (putouts + assists) ÷ (putouts + assists + errors).',
+  ss: 'Shortstop', reach: 'Range', a: 'In reach · booted', a2: 'Error · counts', b: 'Out of reach · hit', b2: 'Does not count',
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={252} alt={L.alt} caption={L.caption}>
+  <circle class="fi-none ln ln-muted ln-dash" cx={SS[0]} cy={SS[1]} r={RR} />
+  <text x={SS[0] + RR + 6} y={SS[1] - RR + 14} class="tx-s">{L.reach}</text>
+  <path class="ln ln-red ln-2" d={a.line} /><path class="fi-red" d={a.head} />
+  <path class="ln ln-2" d={b.line} /><path class="fi-ink" d={b.head} />
+  <circle class="fi-paper ln ln-2" cx={SS[0]} cy={SS[1]} r="6" />
+  <text x={SS[0]} y={SS[1] - 12} text-anchor="middle" class="tx-ink tx-s">{L.ss}</text>
+  <text x="4" y={B[1] - 28} class="tx-ink tx-b tx-s">{L.b}</text>
+  <text x="4" y={B[1] - 13} class="tx-s">{L.b2}</text>
+  <text x={A[0] + 30} y={A[1] + 42} class="tx-red tx-b tx-s">{L.a}</text>
+  <text x={A[0] + 30} y={A[1] + 57} class="tx-red tx-s">{L.a2}</text>
+  <path class="fi-ink" d={`M${H[0]} ${H[1] - 6}l6 6l-6 6l-6 -6z`} />
+</Fig>

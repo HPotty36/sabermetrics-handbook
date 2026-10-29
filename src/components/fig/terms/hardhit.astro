@@ -1,0 +1,29 @@
+---
+// 하드히트%: 발사각과 상관없이 타구 속도 95mph 이상인 타구의 비율.
+import { EVLA, n } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import EvLaAxes from '../EvLaAxes.astro';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const { x, y } = EVLA;
+const ko = {
+  alt: '타구 속도 95mph 이상이면 발사각과 상관없이 하드히트다. 2026 MLB 평균 타구 속도는 88.8mph.',
+  caption: '95mph 선의 오른쪽은 모두 하드히트다. 땅볼이든 뜬공이든, 안타든 아웃이든 가리지 않는다. 점선은 2026 MLB 평균 타구 속도 88.8mph, 그해 하드히트 비율은 38.6%였다.',
+  ev: '타구 속도(mph)', la: '발사각', hard: '하드히트', avg: '평균 88.8',
+};
+const en: typeof ko = {
+  alt: 'Anything at 95 mph or more is hard-hit, at any launch angle. The 2026 MLB average exit velocity was 88.8 mph.',
+  caption: 'Everything to the right of the 95 mph line is hard-hit, ground ball or fly ball, hit or out. The dotted line is the 2026 MLB average exit velocity of 88.8 mph; 38.6% of batted balls were hard-hit that year.',
+  ev: 'Exit velocity (mph)', la: 'Launch angle', hard: 'Hard-hit', avg: 'avg 88.8',
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={268} alt={L.alt} caption={L.caption}>
+  <EvLaAxes ev={L.ev} la={L.la} />
+  <rect class="fi-soft" x={n(x(95))} y={n(y(70))} width={n(x(120) - x(95))} height={n(y(-30) - y(70))} />
+  <path class="ln ln-red ln-2" d={`M${n(x(95))} ${n(y(70))}V${n(y(-30))}`} />
+  <text x={n(x(95) + 8)} y={n(y(70) + 14)} class="tx-red tx-b">{L.hard} · 95+</text>
+  <path class="ln ln-muted ln-dash" d={`M${n(x(88.8))} ${n(y(70))}V${n(y(-30))}`} />
+  <text x={n(x(88.8) - 5)} y={n(y(70) + 14)} text-anchor="end" class="tx-s">{L.avg}</text>
+</Fig>

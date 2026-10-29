@@ -1,0 +1,45 @@
+---
+// xFIP: 실제 피홈런 대신 ‘뜬공 × 리그 평균 HR/FB’를 넣는다. 뜬공이 같으면 피홈런이 달라도 xFIP의 홈런 몫은 같다.
+import { n } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const FB = 7;
+const pitchers = [
+  { key: 'a', hr: 0 },
+  { key: 'b', hr: 3 },
+] as const;
+const ko = {
+  alt: '뜬공을 7개씩 맞은 가상의 두 투수. 피홈런은 0개와 3개로 다르지만 xFIP의 홈런 몫은 같다.',
+  caption: '가상의 두 투수가 뜬공을 7개씩 맞았는데 넘어간 공은 0개와 3개다. FIP는 그 차이를 그대로 13배로 넣고, xFIP는 둘 다 리그 평균만큼 넘어갔다고 친다. 나머지 몫(볼넷·사구 3, 삼진 −2)은 FIP와 같다.',
+  a: '투수 A', b: '투수 B', fb: '뜬공', hr: '홈런', fip: 'FIP의 홈런 몫', xfip: 'xFIP의 홈런 몫',
+  fipA: '13 × 0', fipB: '13 × 3', more: 'A보다 39 많다', x: `13 × 뜬공 ${FB} × 리그 HR/FB`, same: 'A와 같다',
+};
+const en: typeof ko = {
+  alt: 'Two hypothetical pitchers each allow 7 fly balls. One gives up no homers and the other three, but their xFIP home run terms are equal.',
+  caption: 'Two made-up pitchers each allow 7 fly balls; none leave the park for one and three do for the other. FIP multiplies that difference by 13. xFIP treats both as if a league-average share left the park. The rest (walks and HBP ×3, strikeouts ×−2) is the same as FIP.',
+  a: 'Pitcher A', b: 'Pitcher B', fb: 'Fly ball', hr: 'Home run', fip: 'FIP HR term', xfip: 'xFIP HR term',
+  fipA: '13 × 0', fipB: '13 × 3', more: '39 more than A', x: `13 × ${FB} FB × lg HR/FB`, same: 'same as A',
+};
+const L = lang === 'ko' ? ko : en;
+const Y = (i: number) => 30 + i * 70;
+---
+<Fig h={196} alt={L.alt} caption={L.caption}>
+  {pitchers.map((p, i) => (
+    <g>
+      <text x="0" y={Y(i) - 12} class="tx-ink tx-b">{L[p.key]}</text>
+      {Array.from({ length: FB }, (_, j) => (j < p.hr ? <circle class="fi-ink" cx={n(8 + j * 17)} cy={Y(i) + 6} r="6" /> : <circle class="fi-paper ln" cx={n(8 + j * 17)} cy={Y(i) + 6} r="5.4" />))}
+      <text x="132" y={Y(i) - 12} class="tx-s">{L.fip}</text>
+      <text x="132" y={Y(i) + 11} class="tx-num tx-ink">{p.key === 'a' ? L.fipA : L.fipB}</text>
+      <text x="216" y={Y(i) - 12} class="tx-s">{L.xfip}</text>
+      <text x="216" y={Y(i) + 10} class="tx-red tx-b tx-s">{L.x}</text>
+      {p.key === 'b' && <text x="132" y={Y(i) + 30} class="tx-s">{L.more}</text>}
+      {p.key === 'b' && <text x="216" y={Y(i) + 30} class="tx-s tx-red">{L.same}</text>}
+    </g>
+  ))}
+  <g transform="translate(0 176)">
+    <circle class="fi-paper ln" cx="8" cy="0" r="5" /><text x="19" y="4" class="tx-s">{L.fb}</text>
+    <circle class="fi-ink" cx="88" cy="0" r="5.4" /><text x="99" y="4" class="tx-s">{L.hr}</text>
+  </g>
+</Fig>

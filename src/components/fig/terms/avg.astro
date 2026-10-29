@@ -1,0 +1,26 @@
+---
+// 타율: 가상의 12타석에서 타수에 드는 타석과 안타를 가린다.
+import { isAB, isHit, paTotals, rate3 } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+import PaLine from '../PaLine.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const t = paTotals();
+const ko = {
+  alt: `가상의 12타석 중 타수는 ${t.AB}, 안타는 ${t.H}. 타율 ${rate3(t.H / t.AB)}.`,
+  caption: '가상의 12타석. 볼넷, 몸에 맞는 공, 희생플라이는 타수에 들지 않아서 분모에서도 빠진다. 단타와 홈런은 똑같이 안타 하나다.',
+  num: '안타', den: '타수에 드는 타석', out: '타수에서 빠짐',
+  calc: `안타 ${t.H} ÷ 타수 ${t.AB} =`,
+};
+const en: typeof ko = {
+  alt: `Of 12 hypothetical plate appearances, ${t.AB} are at-bats and ${t.H} are hits. Average ${rate3(t.H / t.AB)}.`,
+  caption: 'Twelve made-up plate appearances. Walks, hit-by-pitches and sac flies are not at-bats, so they drop out of the denominator too. A single and a home run each count as one hit.',
+  num: 'Hit', den: 'At-bat', out: 'Not an at-bat',
+  calc: `${t.H} hits ÷ ${t.AB} at-bats =`,
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={236} alt={L.alt} caption={L.caption}>
+  <PaLine lang={lang} state={(k) => (isHit(k) ? 'num' : isAB(k) ? 'den' : 'out')} legend={{ num: L.num, den: L.den, out: L.out }} calc={L.calc} result={rate3(t.H / t.AB)} />
+</Fig>

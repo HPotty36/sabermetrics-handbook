@@ -1,0 +1,38 @@
+---
+// 블라스트: 스퀘어드업 비율(%) + 배트 스피드(mph) ≥ 164. 빠르게 휘두르면서 정확하게 맞힌 스윙이다.
+import { lin, n } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const x = lin(60, 85, 48, 344);
+const y = lin(50, 100, 226, 26);
+// 경계: 배트 스피드 + 스퀘어드업 비율 = 164
+const edge = [[64, 100], [85, 79]] as const;
+const region = `M${n(x(64))} ${n(y(100))}L${n(x(85))} ${n(y(100))}L${n(x(85))} ${n(y(79))}Z`;
+const ex = [75, 89] as const;
+const ko = {
+  alt: '배트 스피드와 스퀘어드업 비율의 합이 164 이상이면 블라스트다. 예: 75mph에 89%.',
+  caption: '가로는 배트 스피드, 세로는 그 스윙이 낼 수 있는 최대 타구 속도 대비 실제 타구 속도(스퀘어드업 비율)다. 둘을 더해 164를 넘으면 블라스트다. 점은 75mph에 89%로 딱 경계에 선 예다. 느린 스윙은 아무리 정확해도 들지 못하고, 빠른 스윙은 덜 정확해도 든다.',
+  bs: '배트 스피드(mph)', sq: '스퀘어드업 비율', blast: '블라스트', line: '합이 164', ex: '75mph · 89%',
+};
+const en: typeof ko = {
+  alt: 'Bat speed plus squared-up rate of 164 or more is a blast; for example 75 mph and 89%.',
+  caption: 'Across is bat speed; up is the exit velocity as a share of the best that swing could produce (squared-up rate). Add them, and 164 or more is a blast. The dot is 75 mph and 89%, right on the line. A slow swing cannot get there however true, and a fast one can afford to be less precise.',
+  bs: 'Bat speed (mph)', sq: 'Squared-up rate', blast: 'Blast', line: 'sum = 164', ex: '75 mph · 89%',
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={262} alt={L.alt} caption={L.caption}>
+  {[60, 65, 70, 75, 80, 85].map((v) => <g><path class="ln ln-grid" d={`M${n(x(v))} ${n(y(100))}V${n(y(50))}`} /><text x={n(x(v))} y={n(y(50) + 16)} text-anchor="middle" class="tx-s">{v}</text></g>)}
+  {[50, 60, 70, 80, 90, 100].map((v) => <g><path class="ln ln-grid" d={`M${n(x(60))} ${n(y(v))}H${n(x(85))}`} /><text x={n(x(60) - 6)} y={n(y(v) + 4)} text-anchor="end" class="tx-s">{v}%</text></g>)}
+  <path class="ln" d={`M${n(x(60))} ${n(y(100))}V${n(y(50))}H${n(x(85))}`} />
+  <path class="fi-soft" d={region} />
+  <path class="ln ln-red ln-2" d={`M${n(x(edge[0][0]))} ${n(y(edge[0][1]))}L${n(x(edge[1][0]))} ${n(y(edge[1][1]))}`} />
+  <text x={n(x(81.5))} y={n(y(94))} text-anchor="middle" class="tx-red tx-b">{L.blast}</text>
+  <text x={n(x(78))} y={n(y(86) + 18)} class="tx-red tx-s">{L.line}</text>
+  <circle class="fi-red" cx={n(x(ex[0]))} cy={n(y(ex[1]))} r="5" />
+  <text x={n(x(ex[0]) - 8)} y={n(y(ex[1]) + 18)} text-anchor="end" class="tx-ink tx-s">{L.ex}</text>
+  <text x={n(x(60))} y={n(y(100) - 8)} class="tx-s">{L.sq}</text>
+  <text x={n(x(85))} y={n(y(50) + 32)} text-anchor="end" class="tx-s">{L.bs}</text>
+</Fig>

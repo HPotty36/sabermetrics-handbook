@@ -1,0 +1,38 @@
+---
+// 스윙 틸트: 공과 만나기 직전 40ms 동안 배트가 그린 궤적이 땅과 이루는 각도. 0°는 평평, 90°는 골프 스윙.
+import { arc, arrow, n, polar, wedge } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const C = [180, 132] as const;
+const T = 32.3;
+const [x0, y0] = polar(C[0], C[1], 80, 180 + T);
+const [x1, y1] = polar(C[0], C[1], 130, T);
+const path = arrow(x0, y0, x1, y1, 10);
+const [ux, uy] = polar(C[0], C[1], 116, 90);
+const [rx, ry] = polar(C[0], C[1], 150, 36);
+const ko = {
+  alt: '투수 쪽에서 본 스윙 면의 기울기 32°. 0°는 땅과 나란한 스윙, 90°는 골프 스윙.',
+  caption: '투수 쪽에서 본 스윙 면. 32°는 2026 MLB 평균이다. 시즌 평균으로는 20° 안팎부터 50° 안팎까지 있다(연한 띠). 좋고 나쁨이 아니라 스윙의 종류이고, 같은 타자도 높은 공에는 평평해지고 낮은 공에는 가팔라진다.',
+  flat: '0° 평평', golf: '90° 골프 스윙', t: '32°', range: '20~50°', path: '접촉 직전 40ms의 배트 궤적',
+};
+const en: typeof ko = {
+  alt: 'The tilt of the swing plane seen from the pitcher, 32 degrees. 0 is a level swing; 90 is a golf swing.',
+  caption: 'The swing plane seen from the mound. 32° is the 2026 MLB average; season averages run from about 20° to about 50° (pale band). It is a kind of swing, not good or bad, and the same hitter gets flatter on high pitches and steeper on low ones.',
+  flat: '0° level', golf: '90° golf swing', t: '32°', range: '20–50°', path: 'Bat path, last 40 ms',
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={200} alt={L.alt} caption={L.caption}>
+  <path class="fi-soft" d={wedge(C[0], C[1], 140, 20, 50)} />
+  <text x={n(rx + 6)} y={n(ry)} class="tx-red tx-s">{L.range}</text>
+  <path class="ln ln-1 ln-muted ln-dash" d={`M${C[0] - 150} ${C[1]}H${C[0] + 150}`} />
+  <path class="ln ln-1 ln-muted ln-dash" d={`M${C[0]} ${C[1]}L${n(ux)} ${n(uy)}`} />
+  <text x={C[0] + 150} y={C[1] + 16} text-anchor="end" class="tx-s">{L.flat}</text>
+  <text x={n(ux + 8)} y={n(uy + 10)} class="tx-s">{L.golf}</text>
+  <path class="ln ln-red ln-3" d={path.line} /><path class="fi-red" d={path.head} />
+  <path class="ln ln-red" d={arc(C[0], C[1], 54, 0, T)} />
+  <text x={C[0] + 60} y={C[1] - 6} class="tx-red tx-b tx-l">{L.t}</text>
+  <text x={n(x0)} y={n(y0 + 18)} class="tx-red tx-s">{L.path}</text>
+</Fig>

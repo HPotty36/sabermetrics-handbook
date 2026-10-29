@@ -1,0 +1,37 @@
+---
+// 스윙 길이: 배트 트래킹이 잡히기 시작한 순간부터 공과 만날 때까지 배트 머리가 움직인 거리.
+import { arrow, n } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+// 위에서 본 배트 머리의 길. 반지름 70px 반원 = 약 220px. 30px를 1피트로 보면 7.3피트(2026 MLB 평균 7.32피트)다.
+const C = [180, 140] as const;
+const R = 70;
+const start = [C[0] - R, C[1]];
+const end = [C[0] + R, C[1]];
+const head = arrow(end[0] - 6, C[1] - 18, end[0], C[1] - 2, 8);
+const ko = {
+  alt: '위에서 본 배트 머리의 길. 스윙을 시작해 공과 만날 때까지 움직인 거리가 스윙 길이다. 2026 MLB 평균 7.32피트.',
+  caption: '위에서 본 가상의 스윙. 배트 트래킹이 배트를 잡기 시작한 순간(대개 접촉 150ms 전)부터 공과 만날 때까지 배트 머리가 움직인 길이를 더한다. 2026 MLB 평균은 7.32피트였다. 짧으면 공을 더 오래 보고 결정할 수 있고, 길면 배트 스피드를 내기 쉽다.',
+  start: '잡히기 시작(접촉 약 150ms 전)', end: '공과 만나는 순간', len: '스윙 길이 약 7.3피트', hands: '손',
+};
+const en: typeof ko = {
+  alt: 'The path of the bat head seen from above. Swing length is the distance it travels from the start of the swing to contact. The 2026 MLB average was 7.32 feet.',
+  caption: 'A made-up swing from above. Add up how far the bat head travels from the moment bat tracking picks it up (usually about 150 ms before contact) to contact. The 2026 MLB average was 7.32 feet. Shorter lets a hitter wait longer before deciding; longer makes bat speed easier.',
+  start: 'Picked up (~150 ms before)', end: 'Contact', len: 'Swing length ~7.3 ft', hands: 'Hands',
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={214} alt={L.alt} caption={L.caption}>
+  <path class="ln ln-red ln-3" d={`M${start[0]} ${start[1]}A${R} ${R} 0 0 1 ${end[0]} ${end[1]}`} />
+  <path class="fi-red" d={head.head} />
+  <circle class="fi-paper ln" cx={start[0]} cy={start[1]} r="5" />
+  <circle class="fi-red" cx={end[0]} cy={end[1]} r="5.5" />
+  <path class="ln ln-1 ln-muted ln-dash" d={`M${C[0]} ${C[1]}L${start[0] + 6} ${start[1]}M${C[0]} ${C[1]}L${end[0] - 6} ${end[1]}`} />
+  <circle class="fi-ink" cx={C[0]} cy={C[1]} r="4" />
+  <text x={C[0]} y={C[1] + 20} text-anchor="middle" class="tx-s">{L.hands}</text>
+  <text x={C[0]} y={C[1] - R - 14} text-anchor="middle" class="tx-red tx-b">{L.len}</text>
+  <text x={start[0] - 6} y={start[1] + 24} text-anchor="middle" class="tx-s">{L.start}</text>
+  <text x={end[0] + 6} y={end[1] + 24} text-anchor="middle" class="tx-ink tx-s">{L.end}</text>
+</Fig>

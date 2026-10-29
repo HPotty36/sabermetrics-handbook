@@ -1,0 +1,38 @@
+---
+// 어택 앵글: 공과 만나는 순간 배트의 스위트 스팟이 위아래로 움직이던 각도. 타구가 아니라 스윙을 잰다.
+import { arc, arrow, n, polar, wedge } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const C = [150, 124] as const;
+const AA = 12;
+const [bx0, by0] = polar(C[0], C[1], 120, 180 + AA);
+const [bx1, by1] = polar(C[0], C[1], 150, AA);
+const bat = arrow(bx0, by0, bx1, by1, 10);
+const pitch = arrow(350, 110, C[0] + 12, C[1] - 1, 8);
+const ko = {
+  alt: '옆에서 본 스윙. 배트가 위로 12° 올라가며 공을 맞힌다. 이상적인 범위는 5~20°.',
+  caption: '옆에서 본 가상의 스윙(어택 앵글 12°). 빨간 화살표가 공과 만나는 순간 배트가 움직이던 방향이다. 내려오는 공을 살짝 올라가며 맞힐수록 라인드라이브와 적당한 뜬공이 나온다. 연한 띠가 이상적으로 치는 5~20°이고, 리그 평균은 10°쯤이다.',
+  bat: '배트가 움직이는 방향', pitch: '들어오는 공', aa: '어택 앵글 12°', ideal: '5~20°',
+};
+const en: typeof ko = {
+  alt: 'A swing from the side. The bat meets the ball moving 12 degrees upward. The ideal range is 5 to 20 degrees.',
+  caption: 'A made-up swing seen from the side (attack angle 12°). The red arrow is the direction the bat was moving when it met the ball. Meeting a dropping pitch while moving slightly upward produces line drives and good fly balls. The pale band is the 5–20° range treated as ideal; the league average is about 10°.',
+  bat: 'Bat path', pitch: 'Incoming pitch', aa: 'Attack angle 12°', ideal: '5–20°',
+};
+const L = lang === 'ko' ? ko : en;
+const [ix, iy] = polar(C[0], C[1], 156, 15);
+---
+<Fig h={210} alt={L.alt} caption={L.caption}>
+  <path class="fi-soft" d={wedge(C[0], C[1], 150, 5, 20)} />
+  <text x={n(ix + 4)} y={n(iy + 4)} class="tx-red tx-s">{L.ideal}</text>
+  <path class="ln ln-1 ln-muted ln-dash" d={`M${C[0] - 60} ${C[1]}H${C[0] + 100}`} />
+  <path class="ln ln-muted ln-dash" d={pitch.line} /><path class="fi-muted" d={pitch.head} />
+  <text x="350" y="130" text-anchor="end" class="tx-s">{L.pitch}</text>
+  <path class="ln ln-red ln-3" d={bat.line} /><path class="fi-red" d={bat.head} />
+  <text x={n(bx0 + 4)} y={n(by0 + 20)} class="tx-red tx-b tx-s">{L.bat}</text>
+  <path class="ln ln-1 ln-red" d={arc(C[0], C[1], 70, 0, AA)} />
+  <text x={n(C[0] + 56)} y={n(C[1] + 34)} class="tx-red tx-b">{L.aa}</text>
+  <circle class="fi-paper ln ln-2" cx={C[0]} cy={C[1]} r="6" />
+</Fig>

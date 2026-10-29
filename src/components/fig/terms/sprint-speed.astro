@@ -1,0 +1,44 @@
+---
+// 스프린트 스피드: 전력 질주에서 가장 빠른 1초 동안 몇 피트를 갔는지. 30피트를 넘기면 ‘볼트’다.
+import { lin, n, smooth } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const x = lin(0, 4, 40, 340);
+const y = lin(0, 32, 200, 30);
+// 가상의 주자: 출발해서 속도를 붙이고, 2.1~3.1초 사이가 가장 빠르다(초당 피트)
+const v = (t: number) => (t < 2.6 ? 28.6 * (1 - Math.exp(-t / 0.62)) : 28.6 * (1 - Math.exp(-2.6 / 0.62)) - (t - 2.6) * 0.9);
+const pts: [number, number][] = Array.from({ length: 41 }, (_, i) => { const t = (i / 40) * 4; return [x(t), y(v(t))]; });
+const W0 = 2.1;
+const W1 = 3.1;
+let s = 0;
+for (let i = 0; i < 100; i++) s += v(W0 + ((i + 0.5) / 100) * (W1 - W0));
+const best = s / 100;
+const ko = {
+  alt: `가상의 주자의 속도. 가장 빠른 1초 구간의 평균 ${best.toFixed(1)}ft/s가 스프린트 스피드다. MLB 평균 27, 볼트 30.`,
+  caption: `가상의 전력 질주. 출발해서 속도가 붙는 동안은 빼고, 가장 빠른 1초(빨간 칸)의 평균 속도만 본다. 이 주자는 초당 ${best.toFixed(1)}피트다. MLB 평균은 초당 27피트(시속 약 30km), 30피트를 넘긴 주루는 ‘볼트’라고 부른다. 시즌 값은 자격 있는 주루 가운데 빠른 쪽 3분의 2쯤을 평균한다.`,
+  t: '출발 뒤 초', v: '초당 피트', avg: 'MLB 평균 27', bolt: '볼트 30', best: `가장 빠른 1초 · ${best.toFixed(1)}`,
+};
+const en: typeof ko = {
+  alt: `A hypothetical runner's speed. The average over his fastest one-second window, ${best.toFixed(1)} ft/s, is his sprint speed. MLB average 27, Bolt 30.`,
+  caption: `One made-up all-out run. Leave out the acceleration and keep only the average over the fastest one second (red band): ${best.toFixed(1)} feet per second for this runner. The MLB average is 27 ft/s (about 18 mph); a run over 30 ft/s is a Bolt. The season value averages roughly the faster two-thirds of qualifying runs.`,
+  t: 'seconds after start', v: 'ft/s', avg: 'MLB avg 27', bolt: 'Bolt 30', best: `Fastest second · ${best.toFixed(1)}`,
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={236} alt={L.alt} caption={L.caption}>
+  <rect class="fi-soft" x={n(x(W0))} y={n(y(32))} width={n(x(W1) - x(W0))} height={n(y(0) - y(32))} />
+  {[0, 1, 2, 3, 4].map((t) => <g><path class="ln ln-grid" d={`M${n(x(t))} ${n(y(0))}V${n(y(32))}`} /><text x={n(x(t))} y={n(y(0) + 16)} text-anchor="middle" class="tx-s">{t}</text></g>)}
+  {[0, 10, 20].map((u) => <text x={n(x(0) - 6)} y={n(y(u) + 4)} text-anchor="end" class="tx-s">{u}</text>)}
+  <path class="ln ln-1 ln-muted ln-dash" d={`M${n(x(0))} ${n(y(27))}H${n(x(4))}`} />
+  <text x={n(x(0) + 4)} y={n(y(27) + 13)} class="tx-s">{L.avg}</text>
+  <path class="ln ln-1 ln-muted ln-dot" d={`M${n(x(0))} ${n(y(30))}H${n(x(4))}`} />
+  <text x={n(x(4))} y={n(y(30) - 5)} text-anchor="end" class="tx-s">{L.bolt}</text>
+  <path class="ln" d={`M${n(x(0))} ${n(y(32))}V${n(y(0))}H${n(x(4))}`} />
+  <path class="ln ln-2" d={smooth(pts)} />
+  <path class="ln ln-red ln-3" d={`M${n(x(W0))} ${n(y(best))}H${n(x(W1))}`} />
+  <text x={n((x(W0) + x(W1)) / 2)} y={n(y(best) + 22)} text-anchor="middle" class="tx-red tx-b tx-s">{L.best}</text>
+  <text x={n(x(0) - 6)} y={n(y(32) - 8)} class="tx-s">{L.v}</text>
+  <text x={n(x(4))} y={n(y(0) + 32)} text-anchor="end" class="tx-s">{L.t}</text>
+</Fig>

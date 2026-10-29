@@ -1,0 +1,25 @@
+---
+// BsR: 도루(wSB), 도루가 아닌 주루(UBR), 병살 회피(wGDP)를 득점으로 더한다. 0이 평균이고 약 10점이 1승이다.
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+import SumBars from '../SumBars.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const ko = {
+  alt: '가상의 주자 한 시즌 BsR: 도루 +1.5, 도루가 아닌 주루 +2.0, 병살 −0.5, 합 +3.0.',
+  caption: '가상의 주자 한 시즌. 도루와 도루 실패, 한 베이스 더 가기나 태그업 같은 주루, 병살타를 평균보다 덜 친 몫을 저마다 득점으로 바꿔 더한다. 0이 평균이고, 10점쯤이 1승이다. FanGraphs WAR의 주루 부분이 이 값이다.',
+  rows: [{ label: '도루(wSB)', v: 1.5 }, { label: '도루가 아닌 주루(UBR)', v: 2 }, { label: '병살 회피(wGDP)', v: -0.5 }],
+  total: 'BsR',
+};
+const en: typeof ko = {
+  alt: 'A hypothetical runner’s season BsR: stealing +1.5, other baserunning +2.0, double plays −0.5, total +3.0.',
+  caption: 'One made-up runner’s season. Steals and caught stealing, other baserunning like taking the extra base or tagging up, and grounding into fewer double plays than average are each turned into runs and added. 0 is average and about 10 runs is a win. It is the baserunning part of FanGraphs WAR.',
+  rows: [{ label: 'Stealing (wSB)', v: 1.5 }, { label: 'Other baserunning (UBR)', v: 2 }, { label: 'Double plays (wGDP)', v: -0.5 }],
+  total: 'BsR',
+};
+const L = lang === 'ko' ? ko : en;
+const fmt = (v: number) => (v > 0 ? `+${v.toFixed(1)}` : v.toFixed(1).replace('-', '−'));
+---
+<Fig h={146} alt={L.alt} caption={L.caption}>
+  <SumBars rows={L.rows} total={L.total} unit={30} axis={200} fmt={fmt} />
+</Fig>

@@ -1,0 +1,20 @@
+---
+// Stuff+: 공 자체의 물리 특성만 본다. 위치, 볼카운트, 타자는 넣지 않는다.
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+import ModelInputs from '../ModelInputs.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const ko = {
+  alt: 'Stuff+는 공의 물리 특성만 본다. Location+는 위치와 볼카운트, Pitching+는 모두를 본다.',
+  caption: 'FanGraphs의 투구 모델 셋이 보는 것. Stuff+는 공이 어디로 갔는지는 빼고 공 자체만 매긴다. 100이 평균이고, 구종 단위로 10점이 1표준편차다. 시즌 첫 80구쯤이면 안정된다.',
+};
+const en: typeof ko = {
+  alt: 'Stuff+ looks only at the physical traits of the pitch. Location+ looks at location and count; Pitching+ at everything.',
+  caption: 'What FanGraphs’ three pitch models look at. Stuff+ grades the pitch itself and leaves out where it went. 100 is average and, for a single pitch type, 10 points is one standard deviation. It settles down after about the first 80 pitches of a season.',
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={192} alt={L.alt} caption={L.caption}>
+  <ModelInputs lang={lang} model="stuff" />
+</Fig>
