@@ -34,7 +34,7 @@ A glossary of baseball stats, from batting average to swing timing. Every term i
 - **Benchmarks.** A scale with the 2026 MLB average and rough ranges for good and bad. Every number links to its source.
 - **A figure for every term.** Each one is drawn the way that stat is best explained: the plate appearances a rate counts, the strike zone, exit velocity against launch angle, a pitch seen from the side, the field from above, or how a value adds up. They are plain line drawings built into the page, with only definitional thresholds, checked averages or clearly made-up examples.
 - **Recent Statcast metrics.** Bat speed, swing length, attack direction, arm angle, swing timing and the 2026 ABS challenge, along with the classics.
-- **Korean and English, light and dark.** Switch language on any page and land on the same term. Dark mode is pitch black.
+- **Korean and English, light and dark.** Switch language on any page and land on the same term. Dark mode is pitch black, and Auto follows your device.
 - **Installs like an app.** Tap “Install app” in the settings (on iPhone it shows how to add it to the Home Screen). Once installed, every page, font and search works without a connection, and long-pressing the icon jumps to Topics, Terms or the other language. Android and iOS wrappers use the same build.
 
 ## Terms
@@ -86,7 +86,7 @@ npm run icons          # regenerate PWA and app icons from assets/icon.svg and p
 
 ## How it's built
 
-An [Astro](https://astro.build) static site with almost no JavaScript: search, the term filters, the reading-order switch, the dark mode toggle, the back button and reading progress are the only scripts. Each page is generated twice, at `/` in Korean and at `/en/` in English, from one template.
+An [Astro](https://astro.build) static site with almost no JavaScript: search, the term filters, the reading-order switch, the light, dark and auto setting, the back button and reading progress are the only scripts. Each page is generated twice, at `/` in Korean and at `/en/` in English, from one template.
 
 ```
 src/content/terms/<id>.json      one term: shared data (level, scale numbers, source URLs) and the Korean text

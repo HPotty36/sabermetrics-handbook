@@ -12,12 +12,12 @@ const yA = y(pitchHeight(60.5));
 const yG = y(pitchHeight(60.5, true));
 const ko = {
   alt: '옆에서 본 포심. 중력만 받았다면 점선처럼 떨어졌을 공이 회전 때문에 덜 떨어져 실선으로 들어온다. 그 차이가 IVB다.',
-  caption: '옆에서 본 가상의 포심(높이는 실제보다 3배 키웠다). 점선은 회전 없이 중력만 받았을 때의 길이다. 역회전이 공을 덜 떨어지게 해서 홈에서 그만큼 높이 지난다. 포심 평균은 약 16인치(2024)였다. 중력까지 넣은 실제 낙차와는 다른 값이다.',
+  caption: '옆에서 본 가상의 포심(높이는 실제보다 3배 키웠다). 점선은 회전 없이 중력만 받았을 때의 길이다. 역회전이 공을 덜 떨어지게 해서 홈에서 그만큼 높이 지난다. 2026 포심 평균은 15.6인치였다. 중력까지 넣은 실제 낙차와는 다른 값이다.',
   rubber: '투수판', plate: '홈플레이트', act: '실제', grav: '중력만 받았다면', ivb: 'IVB',
 };
 const en: typeof ko = {
   alt: 'A four-seamer from the side. With gravity alone it would drop along the dashed line; spin keeps it up along the solid line. The gap is IVB.',
-  caption: 'A made-up four-seamer seen from the side (height drawn 3× taller). The dashed line is the path with gravity and no spin. Backspin keeps the ball from dropping as much, so it crosses the plate that much higher. The four-seam average was about 16 inches (2024). It is not the same as total drop with gravity included.',
+  caption: 'A made-up four-seamer seen from the side (height drawn 3× taller). The dashed line is the path with gravity and no spin. Backspin keeps the ball from dropping as much, so it crosses the plate that much higher. The 2026 four-seam average was 15.6 inches. It is not the same as total drop with gravity included.',
   rubber: 'Rubber', plate: 'Plate', act: 'Actual', grav: 'Gravity only', ivb: 'IVB',
 };
 const L = lang === 'ko' ? ko : en;

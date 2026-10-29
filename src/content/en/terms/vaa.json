@@ -7,7 +7,7 @@
     "High in the zone, a flat four-seamer stays above the path the hitter is expecting. The bat passes under the ball, so whiffs and pop-ups go up."
   ],
   "scale": {
-    "avg": "MLB average for four-seamers −4.9° (about −4.8 to −5.0°)",
+    "avg": "2026 MLB four-seam average −4.6° (2025: −4.7°)",
     "marks": [
       { "v": -5.5, "t": "Steep" },
       { "v": -4.0, "t": "Flat" },
@@ -21,6 +21,7 @@
     "Pitches built to drop, like curveballs and sinkers, are the opposite case. A steep angle is what makes them work, so flatter isn't always better."
   ],
   "sources": [
-    { "t": "FanGraphs · A Visualized Primer on Vertical Approach Angle", "u": "https://blogs.fangraphs.com/a-visualized-primer-on-vertical-approach-angle-vaa/" }
+    { "t": "FanGraphs · A Visualized Primer on Vertical Approach Angle", "u": "https://blogs.fangraphs.com/a-visualized-primer-on-vertical-approach-angle-vaa/" },
+    { "t": "Baseball Savant · Statcast Search (2026 four-seamers, computed from pitch-level data)", "u": "https://baseballsavant.mlb.com/statcast_search?hfPT=FF%7C&hfGT=R%7C&hfSea=2026%7C&player_type=pitcher" }
   ]
 }

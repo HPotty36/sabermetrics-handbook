@@ -26,7 +26,7 @@
     "unit": "°",
     "avg": {
       "v": 10,
-      "t": "MLB 평균 약 10°"
+      "t": "2026 MLB 평균 10° (10.1°, 2025년 10.0°)"
     },
     "band": [
       5,
@@ -80,6 +80,10 @@
     {
       "t": "Baseball Savant 변경 기록 · 2026년 6월 스윙 타이밍",
       "u": "https://baseballsavant.mlb.com/changelog/2026-06-09-swing-timing-miss-distance"
+    },
+    {
+      "t": "Baseball Savant · 스윙 궤적 (2026 리그 단위)",
+      "u": "https://baseballsavant.mlb.com/leaderboard/bat-tracking/swing-path-attack-angle?gameType=Regular&minSwings=q&seasonStart=2026&seasonEnd=2026&type=league"
     }
   ]
 }

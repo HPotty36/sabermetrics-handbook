@@ -87,12 +87,19 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 @media (hover:hover){.rail-nav a:hover{color:var(--ink)}}
 .rail-nav a[aria-current]{color:var(--ink);font-weight:700}
 
-/* 설정(언어, 다크 모드). 넓은 화면은 왼쪽 단 메뉴 아래, 폰은 화면 맨 위 오른쪽 */
+/* 설정(언어, 화면 모드, 앱 설치). 넓은 화면은 왼쪽 단 메뉴 아래, 폰은 화면 맨 위 오른쪽.
+   화면 모드는 넓은 화면에서 글자 버튼 셋(자동 · 라이트 · 다크), 폰에서는 달 단추 위에 투명한 select를 덮어 기기의 고르기 창을 띄운다.
+   달은 지금 보이는 색을 따라 어두우면 채운다. */
 .pref-lang,.pref-theme,.pref-install{display:flex;align-items:center;gap:8px;border:0;background:none;padding:0;color:var(--muted);font:inherit;text-decoration:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.pref-theme{position:relative;cursor:auto}
 .pref-install[hidden]{display:none}
 .pref-theme svg{fill:none;flex:none}
-.pref-theme[aria-pressed="true"] svg{fill:currentColor}
-@media (hover:hover){.pref-lang:hover,.pref-theme:hover,.pref-install:hover{color:var(--ink)}}
+:root[data-theme="dark"] .pref-theme svg{fill:currentColor}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pref-theme svg{fill:currentColor}}
+.theme-choices{display:flex;gap:14px}
+.theme-choices button{border:0;background:none;padding:0;color:inherit;font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.theme-choices button[aria-pressed="true"]{color:var(--ink);font-weight:700}
+@media (hover:hover){.pref-lang:hover,.pref-install:hover,.theme-choices button:hover{color:var(--ink)}}
 /* 뒤로: 홈이 아닌 페이지의 맨 위 왼쪽, 설정 줄의 맞은편. 폰은 화살표만(44px), 넓은 화면은 ‘뒤로’ 글자까지 흐린 색으로. */
 .back{position:absolute;z-index:5;top:8px;left:-10px;display:flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;color:var(--ink);text-decoration:none;-webkit-tap-highlight-color:transparent}
 .back svg{flex:none}
@@ -105,7 +112,7 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 @media (min-width:1024px){
   .prefs{display:grid;justify-items:start;margin-top:20px;padding-top:14px;border-top:1px solid var(--line);font:600 15px/1.5 var(--font-sans)}
   .pref-lang,.pref-theme,.pref-install{padding:6px 0 9px}
-  .pref-theme[aria-pressed="true"]{color:var(--ink);font-weight:700}
+  .theme-select{display:none}
 }
 @media (max-width:1023px){
   .page{position:relative}
@@ -113,7 +120,9 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
   .pref-lang,.pref-theme,.pref-install{justify-content:center;min-width:44px;min-height:44px;padding:0 10px;color:var(--ink)}
   .pref-lang svg,.pref-install svg{display:none}
   .pref-install{order:-1}
-  .pref-theme-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .theme-choices{display:none}
+  .theme-select{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;font-size:16px;cursor:pointer;-webkit-appearance:none;appearance:none}
+  .pref-theme:has(.theme-select:focus-visible){outline:2px solid var(--ink);outline-offset:-4px}
 }
 
 /* iOS의 ‘홈 화면에 추가’ 안내. 아래쪽 알약과 같은 반투명 종이색으로 아래에 뜬다 */
@@ -138,24 +147,24 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
      빨강은 계속 ‘지금 여기’와 ‘그리로 간다’만 뜻한다. 출처와 본문 속 링크는 글의 관례대로 잉크 밑줄이다.
    - 단추(메뉴, 고르기)는 글자 가운데에서 재서 놓으므로 손가락용으로 키운 단추에서도 글자 바로 아래에 온다.
      목록의 이름은 마지막 줄 아래에 놓는다(두 줄로 꺾인 주제 이름도). 실은 끝에서 잘리지 않게 칸 수를 맞춘다(round). */
-.rail-nav a,.toggles button,.pref-theme-label,.stop-name,.toc-abbr,.hit-name,.next-name b,.see-also a,.door-more-label{position:relative}
-:is(.rail-nav a,.toggles button,.pref-theme-label,.stop-name,.toc-abbr,.hit-name,.next-name b,.see-also a,.door-more-label)::before,
-:is(.rail-nav a,.toggles button,.pref-theme-label,.stop-name,.toc-abbr,.hit-name,.next-name b,.see-also a,.door-more-label)::after{content:"";display:none;position:absolute;left:0;right:0;top:50%;height:12px;margin-top:calc(.5em + 1px);pointer-events:none}
+.rail-nav a,.toggles button,.theme-choices button,.stop-name,.toc-abbr,.hit-name,.next-name b,.see-also a,.door-more-label{position:relative}
+:is(.rail-nav a,.toggles button,.theme-choices button,.stop-name,.toc-abbr,.hit-name,.next-name b,.see-also a,.door-more-label)::before,
+:is(.rail-nav a,.toggles button,.theme-choices button,.stop-name,.toc-abbr,.hit-name,.next-name b,.see-also a,.door-more-label)::after{content:"";display:none;position:absolute;left:0;right:0;top:50%;height:12px;margin-top:calc(.5em + 1px);pointer-events:none}
 @supports (margin-top:1lh){
   :is(.stop-name,.toc-abbr,.hit-name,.next-name b,.see-also a,.door-more-label)::before,
   :is(.stop-name,.toc-abbr,.hit-name,.next-name b,.see-also a,.door-more-label)::after{top:100%;margin-top:calc((1em - 1lh) / 2 + 1px)}
 }
-:is(.rail-nav a,.toggles button,.pref-theme-label,.stop-name,.toc-abbr,.hit-name,.next-name b,.see-also a,.door-more-label)::before{background:linear-gradient(var(--groove),var(--groove)) 0 50%/100% 1px no-repeat}
-:is(.rail-nav a,.toggles button,.pref-theme-label,.stop-name,.toc-abbr,.hit-name,.next-name b,.see-also a,.door-more-label)::after{background:var(--seam);-webkit-mask:var(--stitch) 0 50%/6px 12px round no-repeat;mask:var(--stitch) 0 50%/6px 12px round no-repeat}
-:is(.rail-nav a[aria-current],.toggles button[aria-pressed="true"],.pref-theme[aria-pressed="true"] .pref-theme-label)::before,
-:is(.rail-nav a[aria-current],.toggles button[aria-pressed="true"],.pref-theme[aria-pressed="true"] .pref-theme-label)::after{display:block}
+:is(.rail-nav a,.toggles button,.theme-choices button,.stop-name,.toc-abbr,.hit-name,.next-name b,.see-also a,.door-more-label)::before{background:linear-gradient(var(--groove),var(--groove)) 0 50%/100% 1px no-repeat}
+:is(.rail-nav a,.toggles button,.theme-choices button,.stop-name,.toc-abbr,.hit-name,.next-name b,.see-also a,.door-more-label)::after{background:var(--seam);-webkit-mask:var(--stitch) 0 50%/6px 12px round no-repeat;mask:var(--stitch) 0 50%/6px 12px round no-repeat}
+:is(.rail-nav a[aria-current],.toggles button[aria-pressed="true"],.theme-choices button[aria-pressed="true"])::before,
+:is(.rail-nav a[aria-current],.toggles button[aria-pressed="true"],.theme-choices button[aria-pressed="true"])::after{display:block}
 @media (hover:hover){
-  :is(.rail-nav a:not([aria-current]):hover,.toggles button[aria-pressed="false"]:hover,a.stop-link:hover .stop-name,.toc-row:hover .toc-abbr,.hit:hover .hit-name,.next-row:hover b,.see-also a:hover,.door-more:hover .door-more-label)::before,
-  :is(.rail-nav a:not([aria-current]):hover,.toggles button[aria-pressed="false"]:hover,a.stop-link:hover .stop-name,.toc-row:hover .toc-abbr,.hit:hover .hit-name,.next-row:hover b,.see-also a:hover,.door-more:hover .door-more-label)::after{display:block}
-  :is(.rail-nav a:not([aria-current]):hover,.toggles button[aria-pressed="false"]:hover,a.stop-link:hover .stop-name,.toc-row:hover .toc-abbr,.hit:hover .hit-name,.next-row:hover b,.see-also a:hover,.door-more:hover .door-more-label)::after{background:var(--thread)}
-  :is(.rail-nav a:active,.toggles button:active,a.stop-link:active .stop-name,.toc-row:active .toc-abbr,.hit:active .hit-name,.next-row:active b,.see-also a:active,.door-more:active .door-more-label)::before,
-  :is(.rail-nav a:active,.toggles button:active,a.stop-link:active .stop-name,.toc-row:active .toc-abbr,.hit:active .hit-name,.next-row:active b,.see-also a:active,.door-more:active .door-more-label)::after{display:block}
-  :is(.rail-nav a:active,.toggles button:active,a.stop-link:active .stop-name,.toc-row:active .toc-abbr,.hit:active .hit-name,.next-row:active b,.see-also a:active,.door-more:active .door-more-label)::after{background:var(--seam)}
+  :is(.rail-nav a:not([aria-current]):hover,.toggles button[aria-pressed="false"]:hover,.theme-choices button[aria-pressed="false"]:hover,a.stop-link:hover .stop-name,.toc-row:hover .toc-abbr,.hit:hover .hit-name,.next-row:hover b,.see-also a:hover,.door-more:hover .door-more-label)::before,
+  :is(.rail-nav a:not([aria-current]):hover,.toggles button[aria-pressed="false"]:hover,.theme-choices button[aria-pressed="false"]:hover,a.stop-link:hover .stop-name,.toc-row:hover .toc-abbr,.hit:hover .hit-name,.next-row:hover b,.see-also a:hover,.door-more:hover .door-more-label)::after{display:block}
+  :is(.rail-nav a:not([aria-current]):hover,.toggles button[aria-pressed="false"]:hover,.theme-choices button[aria-pressed="false"]:hover,a.stop-link:hover .stop-name,.toc-row:hover .toc-abbr,.hit:hover .hit-name,.next-row:hover b,.see-also a:hover,.door-more:hover .door-more-label)::after{background:var(--thread)}
+  :is(.rail-nav a:active,.toggles button:active,.theme-choices button:active,a.stop-link:active .stop-name,.toc-row:active .toc-abbr,.hit:active .hit-name,.next-row:active b,.see-also a:active,.door-more:active .door-more-label)::before,
+  :is(.rail-nav a:active,.toggles button:active,.theme-choices button:active,a.stop-link:active .stop-name,.toc-row:active .toc-abbr,.hit:active .hit-name,.next-row:active b,.see-also a:active,.door-more:active .door-more-label)::after{display:block}
+  :is(.rail-nav a:active,.toggles button:active,.theme-choices button:active,a.stop-link:active .stop-name,.toc-row:active .toc-abbr,.hit:active .hit-name,.next-row:active b,.see-also a:active,.door-more:active .door-more-label)::after{background:var(--seam)}
 }
 
 /* 폰에서 찾기를 누르면(iOS 26처럼): 아래쪽 알약이 입력란 알약과 닫기 단추로 바뀌고, 용어 목록이 그 위로 화면을 덮는다.

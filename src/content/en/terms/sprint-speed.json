@@ -7,7 +7,7 @@
     "The MLB average is about 27 feet per second, and any run over 30 is called a Bolt. One second is roughly seven full-speed strides, so players who can hold their speed do better than ones with a quick burst."
   ],
   "scale": {
-    "avg": "MLB average 27.0 ft/s (competitive runs)",
+    "avg": "MLB average per Statcast 27.0 ft/s (2026 leaderboard player average 27.4 ft/s)",
     "marks": [
       { "v": 25.5, "t": "Bottom 10%" },
       { "v": 29.0, "t": "Top 10%" }

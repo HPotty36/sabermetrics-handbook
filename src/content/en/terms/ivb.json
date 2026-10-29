@@ -7,7 +7,7 @@
     "IVB is the size of that missing drop. The more IVB a four-seamer has, the higher it crosses the plate compared with where the hitter expects it, and from the batter's box the ball seems to jump. On a four-seamer, anything over 18 inches is strong ride."
   ],
   "scale": {
-    "avg": "MLB four-seamer average about 16 inches",
+    "avg": "2026 MLB four-seam average 16 in (15.6 in; 2025: 15.8 in)",
     "marks": [
       { "v": 13, "t": "Less ride" },
       { "v": 18, "t": "Strong ride" },
@@ -27,6 +27,7 @@
     { "lg": "KBO", "t": "Pitch-level tracking data isn't public in enough detail to confirm IVB from an official source. For import pitchers with MLB experience, their Baseball Savant data is a useful reference." }
   ],
   "sources": [
-    { "t": "MLB.com Glossary · Induced Vertical Break", "u": "https://www.mlb.com/glossary/statcast/induced-vertical-break" }
+    { "t": "MLB.com Glossary · Induced Vertical Break", "u": "https://www.mlb.com/glossary/statcast/induced-vertical-break" },
+    { "t": "Baseball Savant · Statcast Search (2026 four-seam IVB, league level)", "u": "https://baseballsavant.mlb.com/statcast_search?hfPT=FF%7C&hfGT=R%7C&hfSea=2026%7C&player_type=pitcher&group_by=league&chk_stats_api_break_z_induced=on" }
   ]
 }
