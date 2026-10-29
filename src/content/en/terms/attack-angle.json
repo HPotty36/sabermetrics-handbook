@@ -7,7 +7,7 @@
     "Launch angle is the angle of the ball after it's hit. Attack angle is the direction the bat was moving at contact, so it's a measure of the swing itself. Somewhere between 5 and 20 degrees is generally considered ideal."
   ],
   "scale": {
-    "avg": "Rough MLB average 10°",
+    "avg": "2026 MLB average 10° (10.1°; 2025: 10.0°)",
     "marks": [
       { "v": 0, "t": "Level at contact" },
       { "v": 5, "t": "Ideal range begins" },
@@ -28,6 +28,7 @@
     { "t": "MLB.com Glossary · Attack Angle", "u": "https://www.mlb.com/glossary/statcast/attack-angle" },
     { "t": "MLB.com Glossary · Ideal Attack Angle", "u": "https://www.mlb.com/glossary/statcast/ideal-attack-angle" },
     { "t": "Baseball Savant changelog · May 2025 swing metrics", "u": "https://baseballsavant.mlb.com/changelog/2025-05-20-swing-path-attack-angle" },
-    { "t": "Baseball Savant changelog · June 2026 swing timing", "u": "https://baseballsavant.mlb.com/changelog/2026-06-09-swing-timing-miss-distance" }
+    { "t": "Baseball Savant changelog · June 2026 swing timing", "u": "https://baseballsavant.mlb.com/changelog/2026-06-09-swing-timing-miss-distance" },
+    { "t": "Baseball Savant · Swing Path (2026, league level)", "u": "https://baseballsavant.mlb.com/leaderboard/bat-tracking/swing-path-attack-angle?gameType=Regular&minSwings=q&seasonStart=2026&seasonEnd=2026&type=league" }
   ]
 }

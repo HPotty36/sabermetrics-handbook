@@ -28,7 +28,7 @@
     "unit": " in",
     "avg": {
       "v": 16,
-      "t": "MLB 포심 평균 약 16인치"
+      "t": "2026 MLB 포심 평균 16 in (15.6 in, 2025년 15.8 in)"
     },
     "marks": [
       {
@@ -68,6 +68,10 @@
     {
       "t": "MLB.com Glossary · Induced Vertical Break",
       "u": "https://www.mlb.com/glossary/statcast/induced-vertical-break"
+    },
+    {
+      "t": "Baseball Savant · Statcast Search (2026 포심 IVB, 리그 단위)",
+      "u": "https://baseballsavant.mlb.com/statcast_search?hfPT=FF%7C&hfGT=R%7C&hfSea=2026%7C&player_type=pitcher&group_by=league&chk_stats_api_break_z_induced=on"
     }
   ]
 }
