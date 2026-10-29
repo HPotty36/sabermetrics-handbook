@@ -235,12 +235,12 @@ FanGraphs 경험칙 표의 평균이 2026 실제 평균과 맞는 것은 표를 
 |---|---|---|---|
 | 어택 앵글 | 10.1° | 10.0° | Baseball Savant 스윙 궤적 리그 행(`attack_angle` 10.12 / 10.03, 경쟁 스윙 297,747 / 297,284개). 같은 행의 이상적 어택 앵글(5~20°) 비율은 50.9% / 51.0% |
 | 포심 IVB | 15.6인치 | 15.8인치 | Baseball Savant Statcast Search(포심, 정규시즌, 리그 단위)의 ‘Vertical Movement w/o Gravity’. 같은 행의 포심은 219,172 / 226,410개, 평균 구속 94.8 / 94.5mph, 릴리스 높이 5.77 / 5.82피트 |
-| 포심 VAA | −4.6° (−4.645°) | (계산 중) | 계산값. 아래 |
+| 포심 VAA | −4.6° (−4.645°) | −4.7° (−4.696°) | 계산값. 아래 |
 | 스프린트 스피드 | Statcast 기준값 27.0ft/s, 2026 리더보드 선수 평균 27.4ft/s | | 위 ‘2026-10-28 새 용어 35개’와 같다. 27.0은 시즌 값이 아니라 Savant 리더보드 설명문이 적은 경쟁 주루의 MLB 평균이다 |
 
-- VAA: Savant는 VAA를 리그 값으로 내지 않고, FanGraphs 본 사이트(Pitch Info VAA)는 이 환경에서 막혀 있다. 그래서 Statcast Search의 투구 단위 자료(CSV, 포심, 정규시즌)를 주 단위로 받아 투구마다 계산하고 평균했다. 2026은 219,172개로 위 IVB 행의 포심 수와 같다.
+- VAA: Savant는 VAA를 리그 값으로 내지 않고, FanGraphs 본 사이트(Pitch Info VAA)는 이 환경에서 막혀 있다. 그래서 Statcast Search의 투구 단위 자료(CSV, 포심, 정규시즌)를 주 단위로 받아 투구마다 계산하고 평균했다. 2026은 219,172개, 2025는 226,410개로 위 IVB 행의 포심 수와 같다.
   - 식(FanGraphs ‘A Visualized Primer on Vertical Approach Angle’과 같은 방법): 투구 추적의 기준면 y = 50피트에서 홈 앞 y = 17/12피트까지, vy_f = −√(vy0² − 2·ay·(50 − 17/12)), t = (vy_f − vy0) ÷ ay, vz_f = vz0 + az·t, VAA = −arctan(vz_f ÷ vy_f).
-  - 가운데 값도 −4.646°로 평균과 거의 같다.
+  - 가운데 값도 −4.646° / −4.695°로 평균과 거의 같다. 2021~2024년 글의 −4.8~−5.0°보다 평평하다.
   - 주소: https://baseballsavant.mlb.com/statcast_search/csv?all=true&hfPT=FF%7C&hfGT=R%7C&hfSea=2026%7C&player_type=pitcher&game_date_gt=2026-04-01&game_date_lt=2026-04-07&type=details (날짜만 바꿔 가며 받았다)
 - IVB: https://baseballsavant.mlb.com/statcast_search?hfPT=FF%7C&hfGT=R%7C&hfSea=2026%7C&player_type=pitcher&group_by=league&chk_stats_api_break_z_induced=on
 - 어택 앵글: 위 ‘2026-10-28 새 용어 35개’의 스윙 궤적 리그 단위 주소(2025는 연도만 바꾼다).

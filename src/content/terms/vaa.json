@@ -26,8 +26,8 @@
     "fmt": "dec1",
     "unit": "°",
     "avg": {
-      "v": -4.9,
-      "t": "MLB 포심 평균 약 −4.8~−5.0°"
+      "v": -4.6,
+      "t": "2026 MLB 포심 평균 −4.6° (2025년 −4.7°)"
     },
     "marks": [
       {
@@ -59,6 +59,10 @@
     {
       "t": "FanGraphs · A Visualized Primer on Vertical Approach Angle",
       "u": "https://blogs.fangraphs.com/a-visualized-primer-on-vertical-approach-angle-vaa/"
+    },
+    {
+      "t": "Baseball Savant · Statcast Search (2026 포심, 투구 단위 자료로 계산)",
+      "u": "https://baseballsavant.mlb.com/statcast_search?hfPT=FF%7C&hfGT=R%7C&hfSea=2026%7C&player_type=pitcher"
     }
   ]
 }
