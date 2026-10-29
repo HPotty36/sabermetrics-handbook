@@ -31,4 +31,10 @@ class MainViewController: CAPBridgeViewController {
         super.capacitorDidLoad()
         webView?.allowsBackForwardNavigationGestures = true
     }
+
+    /// iPad에서 스테이지 매니저를 켜면 왼쪽 가장자리 밀기를 시스템(최근 앱)이 먼저 가져가서 뒤로 밀기가 되지 않는다(WebKit 버그 247084).
+    /// Safari처럼 첫 밀기는 앱이 받고, 시스템 제스처는 한 번 더 밀거나 가장자리에 나오는 화살표로 쓰게 한다.
+    override var preferredScreenEdgesDeferringSystemGestures: UIRectEdge {
+        .left
+    }
 }

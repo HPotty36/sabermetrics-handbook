@@ -26,7 +26,7 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
     - `en/terms/<id>.json`: 같은 용어의 영어 글(컬렉션 `termsEn`). 숫자와 출처 URL은 한국어 파일 것을 쓰고, `validateEnglish`(`src/lib/validate.ts`)가 짝을 검사한다. `loadHandbook(lang)`이 언어별로 합쳐 `LocalTerm`으로 준다.
     - `stubs.json`(준비 중, 지금은 0개), `ladders.json`(사다리 18개): 순서가 있는 목록이라 컬렉션이 아니라 `src/lib/handbook.ts`에서 읽는다. 사다리는 파일에 적힌 순서대로 화면에 나온다. 둘 다 영어 이름(`en`)이 있다.
   - 스키마는 `src/lib/schema.ts`(zod), 파일 사이의 참조 검사는 `src/lib/validate.ts`다. 어긋나면 `astro build`가 실패한다. `npm test`는 빌드 없이 같은 검사를 돌린다.
-  - 클라이언트 스크립트는 이것뿐이다. `src/scripts/search-box.ts`(검색: 넓은 화면은 왼쪽 단 입력란, 폰은 아래쪽 알약의 찾기 화면과 키보드 높이 맞추기), `src/scripts/term-index.ts`(`/terms/`의 레벨·분야 고르기), `src/scripts/prefs.ts`(다크 모드 단추, 고른 언어 저장, 앱 설치 단추), `src/scripts/back.ts`(뒤로 단추, iOS 홈 화면 웹앱의 가장자리 밀기), 용어 페이지의 인라인 스크립트(읽는 순서), `Base.astro`의 인라인 스크립트 셋(첫 화면 전에 저장된 다크 모드 붙이기, 영어를 고른 사람이 밖에서 한국어 홈에 오면 영어 홈으로 보내기, 서비스 워커 등록과 나머지 페이지 저장 알림).
+  - 클라이언트 스크립트는 이것뿐이다. `src/scripts/search-box.ts`(검색: 넓은 화면은 왼쪽 단 입력란, 폰은 아래쪽 알약의 찾기 화면과 키보드 높이 맞추기), `src/scripts/term-index.ts`(`/terms/`의 레벨·분야 고르기), `src/scripts/prefs.ts`(다크 모드 단추, 고른 언어 저장, 앱 설치 단추), `src/scripts/back.ts`(뒤로 단추, iPhone 홈 화면 웹앱의 가장자리 밀기), 용어 페이지의 인라인 스크립트(읽는 순서), `Base.astro`의 인라인 스크립트 셋(첫 화면 전에 저장된 다크 모드 붙이기, 영어를 고른 사람이 밖에서 한국어 홈에 오면 영어 홈으로 보내기, 서비스 워커 등록과 나머지 페이지 저장 알림).
     - 화면 문구가 필요한 스크립트는 페이지가 data-*로 넘긴다(`data-no-match`, `data-found`, `data-empty`). 스크립트 안에는 문구를 두지 않는다.
     - 저장소: localStorage `sh-order`(읽는 순서), `sh-theme`(light/dark, 없으면 기기 설정), `sh-lang`(ko/en), sessionStorage `sh-index`(레벨·분야).
   - 스타일은 `src/styles/global.css`다. 프로토타입 CSS에서 출발했다. 맨 위 주석에 디자인 언어를 요약해 두었다.
@@ -257,9 +257,15 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
 - 제스처(같은 날, 사용자 요청 ‘단추를 누르지 않아도 iPadOS 제스처와 안드로이드 기본 제스처로 뒤로’):
   - 이미 되는 곳: Safari(iOS·iPadOS 가장자리 밀기), 안드로이드 크롬과 설치한 웹앱(시스템 뒤로 제스처·단추). 사이트는 페이지마다 실제로 이동하므로(SPA가 아니다) 브라우저 기록이 그대로 쌓인다.
   - 앱(Capacitor)은 둘 다 안 됐다. iOS: WKWebView는 가장자리 밀기가 기본으로 꺼져 있어서 `SceneDelegate.swift`의 `MainViewController`(`CAPBridgeViewController`를 이어받음)가 `allowsBackForwardNavigationGestures`를 켠다. Android: Capacitor는 뒤로를 직접 처리하지 않아 어느 페이지에서든 앱이 닫혔다. `MainActivity.java`가 `OnBackPressedCallback`으로 웹뷰에 이전 페이지가 있으면 그리로 가고, 없으면 원래대로 앱을 닫는다.
-  - iOS·iPadOS 홈 화면 웹앱: 시스템 가장자리 밀기는 사이트 안에 이전 페이지가 있을 때만 동작한다고 알려져 있다(바로 연 페이지에서는 아무 일이 없다). 그래서 `back.ts`가 그곳에서만(`navigator.standalone`) 왼쪽 24px 띠에서 시작해 오른쪽으로 72px 이상 민 손가락을 보고, 뒤로 단추와 같은 곳으로 간다. 미는 동안 본문이 반만큼(최대 80px) 따라오고, 모자라면 제자리로 돌아온다(동작 줄이기 설정에서는 따라오지 않는다). 시스템 제스처가 손가락을 가져가면 `touchcancel`이 오므로 아무것도 하지 않아 두 번 돌아가지 않는다. 세로로 더 움직이면 스크롤로 보고, 찾기 화면·설치 안내가 열려 있거나 갈 곳이 없으면(바로 연 홈) 보지 않는다. 리스너는 모두 passive라 스크롤과 시스템 제스처를 막지 않는다.
+  - iOS·iPadOS 홈 화면 웹앱: 시스템 가장자리 밀기는 사이트 안에 이전 페이지가 있을 때만 동작한다고 알려져 있다(바로 연 페이지에서는 아무 일이 없다). 그래서 `back.ts`가 iPhone 홈 화면 웹앱에서만(`navigator.standalone`) 왼쪽 24px 띠에서 시작해 오른쪽으로 72px 이상 민 손가락을 보고, 뒤로 단추와 같은 곳으로 간다. 미는 동안 본문이 반만큼(최대 80px) 따라오고, 모자라면 제자리로 돌아온다(동작 줄이기 설정에서는 따라오지 않는다). 시스템 제스처가 손가락을 가져가면 `touchcancel`이 오므로 아무것도 하지 않아 두 번 돌아가지 않는다. 세로로 더 움직이면 스크롤로 보고, 찾기 화면·설치 안내가 열려 있거나 갈 곳이 없으면(바로 연 홈) 보지 않는다. 리스너는 모두 passive라 스크롤과 시스템 제스처를 막지 않는다.
   - 확인(Chromium, iPad·iPhone 사용자 에이전트와 `navigator.standalone`을 흉내 내고 CDP 터치): 바로 연 용어 → 밀기 → 용어 목록, 홈 → 용어 → 밀기 → 홈, `touchcancel`·가장자리 밖·세로·짧게 밀기 → 그대로, Safari와 안드로이드 → 이 코드는 쉼, 바로 연 홈 → 그대로, 영어 주제 → 영어 홈. `MainActivity.java`는 같은 시그니처의 스텁으로 컴파일만 해 봤다(이 컨테이너에는 Android SDK와 Xcode가 없다).
-- 실제 기기에서 볼 것: iOS 홈 화면 웹앱과 앱(Capacitor)에서 상태 표시줄 아래 자리, iPadOS 홈 화면 웹앱에서 시스템 가장자리 밀기가 이전 페이지가 있을 때 정말 동작하는지(동작하지 않으면 위 대체 밀기가 맡는다), 앱의 가장자리 밀기와 Android 시스템 뒤로.
+- 스테이지 매니저(같은 날, 사용자 제보 ‘iPad에서 스테이지 매니저를 켜고 전체 화면 웹앱으로 해 보니 스테이지 매니저 제스처와 겹쳐서 오락가락한다’):
+  - 스테이지 매니저를 켜면 전체 화면 앱에서 왼쪽 가장자리를 안쪽으로 밀면 최근 앱이 나온다. 위 대체 밀기와 같은 자리라 어느 쪽이 걸릴지 그때그때 달랐다.
+  - 앱은 `preferredScreenEdgesDeferringSystemGestures`로 가장자리를 먼저 받을 수 있다(Safari가 그렇게 해서, 첫 밀기는 이전 페이지, 시스템 제스처는 한 번 더 밀거나 가장자리에 나오는 화살표로 쓴다). WKWebView 앱은 이것을 하지 않으면 스테이지 매니저가 가져가서 뒤로 밀기가 되지 않는다([WebKit 247084](https://bugs.webkit.org/show_bug.cgi?id=247084)). 웹 페이지에는 이런 방법이 없고, 스테이지 매니저를 켰는지도 알 수 없다.
+  - 그래서 iPad에서는 대체 밀기를 하지 않는다(사용자 에이전트에 iPhone이 있을 때만 한다). iPad 홈 화면 웹앱의 왼쪽 가장자리는 시스템 몫이고, 뒤로는 맨 위 왼쪽 단추가 맡는다. 시스템이 주는 뒤로 밀기(이전 페이지가 있을 때)는 그대로다.
+  - 앱(Capacitor)은 `MainViewController`가 왼쪽 가장자리를 Safari처럼 먼저 받는다(`.left`). iPhone에는 왼쪽 가장자리 시스템 제스처가 없어 달라지는 것이 없다.
+  - 확인(Chromium, 위와 같은 방법): iPhone 사용자 에이전트는 앞의 경우가 모두 그대로, iPad(Mac처럼 알리는 것, 예전 iPad 이름) 홈 화면 웹앱에서 밀기 → 그대로(본문도 따라오지 않음), iPad에서 뒤로 단추 → 이전 페이지. Swift는 이 컨테이너에서 컴파일하지 못했다.
+- 실제 기기에서 볼 것: iOS 홈 화면 웹앱과 앱(Capacitor)에서 상태 표시줄 아래 자리, iPhone 홈 화면 웹앱의 대체 밀기, iPad 앱에서 스테이지 매니저를 켠 채 가장자리 밀기(첫 번은 뒤로, 한 번 더 밀면 최근 앱), Android 시스템 뒤로.
 
 ### 앱 아이콘 (2026-10-26)
 
