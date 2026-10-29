@@ -245,14 +245,25 @@ FanGraphs 경험칙 표의 평균이 2026 실제 평균과 맞는 것은 표를 
 - IVB: https://baseballsavant.mlb.com/statcast_search?hfPT=FF%7C&hfGT=R%7C&hfSea=2026%7C&player_type=pitcher&group_by=league&chk_stats_api_break_z_induced=on
 - 어택 앵글: 위 ‘2026-10-28 새 용어 35개’의 스윙 궤적 리그 단위 주소(2025는 연도만 바꾼다).
 
+## 2026-10-29 원문 대조 (7개)
+
+2026-10-15 뒤로 원문을 다시 열지 않았던 BABIP, 블라스트, OAA, OPS, WAR, wRC+, xwOBA를 출처를 열어 대조했다. 다른 것은 WAR 눈금 이름 둘뿐이라 고쳤다.
+
+- **BABIP**: 식 (H − HR) ÷ (AB − K − HR + SF), 투수 BABIP는 해마다 흔들리고 리그 평균으로 돌아간다, 타자는 리그 평균보다 본인 통산과 견준다, 라인드라이브가 안타가 잘 된다 — FanGraphs Library와 맞다. 2026 리그 BABIP는 Baseball-Reference 리그 평균 행으로 계산하면 .2896(2025 .2907)이라 .290이 맞다(FanGraphs Guts는 여전히 막혀 있다). https://library.fangraphs.com/pitching/babip/ , https://www.baseball-reference.com/leagues/majors/2026-standard-batting.shtml
+- **블라스트**: 스퀘어드업 % × 100 + 배트 스피드 ≥ 164(두 값의 평균 82 이상), 2024시즌 경쟁 스윙의 10%·타구의 27% — MLB 용어집. 스퀘어드업은 낼 수 있는 최대 타구 속도의 80% 이상 — 용어집. 배트 스피드는 배트 끝에서 6인치, 경쟁 스윙은 가장 빠른 90% + 60mph 이상이면서 타구 90mph 이상, 빠른 스윙 75mph, 자료는 2023시즌 후반기부터 — Savant 배트 트래킹 리더보드. 공개는 MLB.com 기사(‘What you need to know about Statcast bat tracking’)의 게시일 2024-05-13.
+- **OAA**: 2020년 전에는 외야만, 외야는 포구 확률(필요 거리, 시간, 방향, 2018년부터 펜스 근처), 내야는 공까지 거리·시간·주자가 가는 베이스까지 거리·타자 주력 — MLB 용어집(OAA, Catch Probability). 포구 확률 25% 공을 잡으면 +0.75, 놓치면 −0.25는 용어집의 75% 예(+.25 / −.75)와 같은 계산이다. 송구와 프레이밍은 OAA가 아니라 Fielding Run Value의 다른 항목이다 — FRV 용어집. 눈금(−10 약함, +5, +10, +15 리그 최상위)은 2026 Savant OAA 리더보드 규정 수비수 273명의 분포(하위 10% −8, 가운데 0, 상위 10% +10, 상위 5% +15, 최고 +26)와 맞는다.
+- **OPS**: OBP + SLG, 두 식, 출루율 1포인트가 장타율의 약 1.8배, OPS+는 리그·구장 보정 100 기준 — FanGraphs Library. 경험칙 표 Excellent 1.000 / Great .900 / Above Average .800 / Average .710 / Below Average .670 / Poor .600 / Awful .570이 눈금(.600 / .700 / .800 / .900 / 1.000)과 맞다. 2026 리그 OPS는 Baseball-Reference 리그 평균 행 .719(출루율 .318 + 장타율 .400, 2025 .719)라 ‘대략 .700 언저리’가 맞다.
+- **WAR**: 타격·주루·수비 득점 + 포지션 보정 + 리그 보정 + 대체 수준 득점을 승당 득점으로 나눈다, fWAR 투수는 FIP, Baseball-Reference는 실제 실점, 수비와 포지션 보정이 가장 불확실하다, 6.4와 6.1은 구분할 수 없다 — FanGraphs Library. 승당 득점은 ‘보통 9~10, 흔히 10점 = 1승’이고 득점 환경에 따라 달라진다(포지션 선수 WAR 페이지, 리그 9이닝당 득점 × 1.5 + 3). 2026 리그 경기당 득점 4.48(Baseball-Reference)이면 약 9.7이다(계산값). 경험칙 표가 Scrub 0~1 / Role Player 1~2 / Solid Starter 2~3 / Good Player 3~4 / All-Star 4~5 / Superstar 5~6 / MVP 6+라서, 눈금 4를 ‘핵심 주전’에서 ‘올스타급’(All-Star)으로, 5를 ‘올스타급’에서 ‘슈퍼스타급’(Superstar)으로 고쳤다.
+- **wRC+**: wOBA → wRAA → 구장·리그 보정 → 투수를 뺀 리그 평균 대비 × 100, 포지션은 보정하지 않는다 — FanGraphs Library. 경험칙 표(Excellent 160 / Great 140 / Above Average 115 / Average 100 / Below Average 80 / Poor 75 / Awful 60)가 눈금과 맞다.
+- **xwOBA**: 타구 속도·발사각, 2019년부터 ‘topped’·약한 타구에 시즌 스프린트 스피드, 2015년 이후 비슷한 타구의 결과, 볼넷·삼진·사구는 실제 값, 투수에게도 쓴다 — MLB 용어집. 대부분의 타구는 속도와 발사각만 쓴다고 적혀 있어 ‘타구 방향과 구장이 없다’와 맞는다.
+
 ## 용어마다의 마지막 확인 날짜 (2026-10-29 정리)
 
 용어 파일의 `checked`(화면의 ‘마지막 확인’)는 그 용어의 숫자와 정의를 출처의 원문과 마지막으로 대조한 날이다. 이 파일과 커밋 기록으로 정했다. 글만 다듬거나 관련 용어만 더한 날(2026-10-26·27, 2026-10-28의 기존 용어)은 세지 않는다.
 
-- 2026-10-29 (3개): 어택 앵글, IVB, VAA. 위 ‘2026-10-29 평균 시즌’.
+- 2026-10-29 (10개): 어택 앵글, IVB, VAA(위 ‘2026-10-29 평균 시즌’), BABIP, 블라스트, OAA, OPS, WAR, wRC+, xwOBA(위 ‘2026-10-29 원문 대조 (7개)’).
 - 2026-10-28 (35개): 위 ‘2026-10-28 새 용어 35개’의 용어 모두. 스프린트 스피드는 2026-10-29에 평균 설명만 고쳤고 숫자는 이날 확인한 값이라 이날로 둔다.
 - 2026-10-23 (17개): 타율, 배럴, 배트 스피드, CSW%, ERA, 타구 속도, FIP, 수비율, 하드히트%, K%, SIERA, 회전수, Stuff+, 스윙 타이밍, 구속, wOBA, xFIP. 위 ‘2026-10-23 원문 대조’와 리그 평균 표의 2026-10-23 행(배럴·wOBA는 Savant 리그 행, CSW%는 Pitcher List에 리그 값이 없음을 확인).
-- 2026-10-15 (7개): BABIP, 블라스트, OAA, OPS, WAR, wRC+, xwOBA. 그 뒤로 원문을 다시 열지 않았다.
 
 ## 확인하지 못한 것 (2026-10-23 기준)
 

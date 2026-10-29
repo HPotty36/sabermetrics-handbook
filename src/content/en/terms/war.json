@@ -10,8 +10,8 @@
     "marks": [
       { "v": 0, "t": "Replacement level" },
       { "v": 2, "t": "Regular" },
-      { "v": 4, "t": "Core regular" },
-      { "v": 5, "t": "All-Star" },
+      { "v": 4, "t": "All-Star" },
+      { "v": 5, "t": "Superstar" },
       { "v": 6, "t": "MVP candidate" }
     ],
     "note": "Based on a full season of playing time."

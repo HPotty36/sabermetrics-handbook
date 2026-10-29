@@ -66,7 +66,11 @@
     {
       "t": "MLB.com Glossary · Outs Above Average",
       "u": "https://www.mlb.com/glossary/statcast/outs-above-average"
+    },
+    {
+      "t": "Baseball Savant · 2026 OAA 리더보드",
+      "u": "https://baseballsavant.mlb.com/leaderboard/outs_above_average?type=Fielder&startYear=2026&endYear=2026&split=no&team=&range=year&min=q&pos=&roles=&viz=hide"
     }
   ],
-  "checked": "2026-10-15"
+  "checked": "2026-10-29"
 }
