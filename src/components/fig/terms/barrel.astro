@@ -1,0 +1,29 @@
+---
+// 배럴: 타구 속도와 발사각의 조합이 정해진 구역에 들어간 타구. 98mph에서 26~30°, 116mph에서 8~50°까지 넓어진다.
+import { EVLA, n } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import EvLaAxes from '../EvLaAxes.astro';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const { x, y } = EVLA;
+const P = [[98, 26], [116, 8], [120, 8], [120, 50], [116, 50], [98, 30]] as const;
+const d = `M${P.map(([a, b]) => `${n(x(a))} ${n(y(b))}`).join('L')}Z`;
+const ko = {
+  alt: '타구 속도와 발사각 평면에서 배럴 구역. 98mph에서 발사각 26~30°로 시작해 116mph에서 8~50°까지 넓어진다.',
+  caption: '배럴 구역. 98mph에서는 26~30°만 들고, 116mph에서는 8~50°까지 넓어진다(그 사이는 두 경계를 곧게 이어 그렸다). 이 구역의 타구는 타율 .500, 장타율 1.500 이상이 나왔던 조합이다.',
+  ev: '타구 속도(mph)', la: '발사각', barrel: '배럴',
+};
+const en: typeof ko = {
+  alt: 'The barrel zone on an exit velocity by launch angle chart. It starts at 26 to 30 degrees at 98 mph and widens to 8 to 50 degrees at 116 mph.',
+  caption: 'The barrel zone. At 98 mph only 26–30° qualifies; by 116 mph it widens to 8–50° (drawn here as straight lines between those two edges). Batted balls in this zone have hit at least .500 with a 1.500 slugging percentage.',
+  ev: 'Exit velocity (mph)', la: 'Launch angle', barrel: 'Barrel',
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={268} alt={L.alt} caption={L.caption}>
+  <EvLaAxes ev={L.ev} la={L.la} />
+  <path class="fi-soft ln ln-red ln-2" d={d} />
+  <text x={n(x(113))} y={n(y(29) + 4)} text-anchor="middle" class="tx-red tx-b">{L.barrel}</text>
+  <text x={n(x(98) - 6)} y={n(y(28) + 4)} text-anchor="end" class="tx-red tx-s">98 · 26~30°</text>
+</Fig>

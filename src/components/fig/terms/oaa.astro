@@ -1,0 +1,37 @@
+---
+// OAA: 타구마다 평균적인 수비수가 아웃으로 만들 확률을 먼저 매긴다. 잡으면 1에서 그 확률을 뺀 만큼, 놓치면 그 확률만큼 뺀다.
+import { arrow, n } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const CF = [180, 150] as const;
+const A = [130, 62] as const;
+const B = [232, 116] as const;
+const run = arrow(CF[0] - 6, CF[1] - 5, A[0] + 8, A[1] + 6, 8);
+const ko = {
+  alt: '중견수가 포구 확률 25%짜리 공을 달려가 잡으면 +0.75, 95%짜리 공을 놓치면 −0.95.',
+  caption: '위에서 본 외야의 중견수. 퍼센트는 평균적인 수비수가 그 타구를 잡을 확률로, 뛰어야 할 거리, 공이 떠 있는 시간, 펜스까지 거리로 정한다(가상의 예). 어려운 공을 잡으면 크게 더하고 쉬운 공을 놓치면 크게 뺀다. 시즌 동안 이것을 모두 더한 값이 OAA다.',
+  cf: '중견수 출발 자리', a1: '확률 25% · 잡음', a2: '+0.75', b1: '확률 95% · 놓침', b2: '−0.95', far: '먼 거리, 짧은 체공',
+};
+const en: typeof ko = {
+  alt: 'Running down a ball with a 25% catch probability is +0.75; dropping a 95% ball is −0.95.',
+  caption: 'A center fielder from above. Each percentage is the chance an average fielder makes that catch, set by how far he has to run, how long the ball hangs and how close the wall is (made up here). A hard catch adds a lot and an easy miss takes a lot away. Add them all up over a season for OAA.',
+  cf: 'Starting spot', a1: '25% · caught', a2: '+0.75', b1: '95% · dropped', b2: '−0.95', far: 'long run, short hang time',
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={226} alt={L.alt} caption={L.caption}>
+  <path class="ln ln-1 ln-muted" d="M10 52Q180 -6 350 52" />
+  <path class="ln ln-red ln-2 ln-dash" d={run.line} /><path class="fi-red" d={run.head} />
+  <text x={n((CF[0] + A[0]) / 2 - 10)} y={n((CF[1] + A[1]) / 2 + 14)} text-anchor="end" class="tx-s">{L.far}</text>
+  <circle class="fi-red" cx={A[0]} cy={A[1]} r="6" />
+  <text x={A[0] - 12} y={A[1] - 2} text-anchor="end" class="tx-red tx-b tx-s">{L.a1}</text>
+  <text x={A[0] - 12} y={A[1] + 16} text-anchor="end" class="tx-num tx-red">{L.a2}</text>
+  <circle class="fi-ink" cx={B[0]} cy={B[1]} r="6" />
+  <text x={B[0] + 14} y={B[1] - 6} class="tx-ink tx-b tx-s">{L.b1}</text>
+  <text x={B[0] + 14} y={B[1] + 12} class="tx-num tx-ink">{L.b2}</text>
+  <circle class="fi-paper ln ln-2" cx={CF[0]} cy={CF[1]} r="7" />
+  <text x={CF[0]} y={CF[1] + 24} text-anchor="middle" class="tx-s">{L.cf}</text>
+  <path class="fi-ink" d={`M180 216l5 5l-5 5l-5 -5z`} />
+</Fig>

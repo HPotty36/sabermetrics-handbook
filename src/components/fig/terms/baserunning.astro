@@ -1,0 +1,37 @@
+---
+// 주루 득점 가치: 도루 성공은 +0.2점, 실패는 −0.45점. 그래서 성공률이 약 69%를 넘어야 남는다.
+import { lin, n } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const WIN = 0.2;
+const LOSS = 0.45;
+const be = LOSS / (WIN + LOSS);
+const x = lin(0, 1, 20, 340);
+const ko = {
+  alt: `도루 성공 +0.2점, 실패 −0.45점. 성공률 ${Math.round(be * 100)}%가 본전이다.`,
+  caption: `Statcast 주루 득점 가치에서 도루 하나의 값. 성공(보크 진루 포함)은 +0.2점, 실패와 견제사는 −0.45점이라 성공률이 ${Math.round(be * 100)}%(0.45 ÷ 0.65, 계산값)를 넘어야 점수가 남는다. 도루가 아닌 추가 진루(안타 때 한 베이스 더 가기 같은 것)도 주자 속도, 외야수 어깨, 거리로 정한 성공 확률과 견줘 더한다.`,
+  win: '성공 +0.2', loss: '실패 −0.45', be: `본전 ${Math.round(be * 100)}%`, rate: '도루 성공률', plus: '남는다', minus: '손해',
+};
+const en: typeof ko = {
+  alt: `A stolen base is +0.2 runs and a caught stealing −0.45, so ${Math.round(be * 100)}% success is break-even.`,
+  caption: `What one steal attempt is worth in Statcast baserunning run value. A success (balks included) is +0.2 runs; caught stealing or picked off is −0.45, so a runner needs to succeed more than ${Math.round(be * 100)}% of the time (0.45 ÷ 0.65, a calculation) to come out ahead. Extra bases on hits are scored the same way, against a success chance set by runner speed, the outfielder's arm and distance.`,
+  win: 'Safe +0.2', loss: 'Caught −0.45', be: `Break-even ${Math.round(be * 100)}%`, rate: 'Steal success rate', plus: 'gains', minus: 'loses',
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={164} alt={L.alt} caption={L.caption}>
+  <rect class="fi-ink" x="20" y="18" width={n(WIN * 200)} height="14" />
+  <text x={n(20 + WIN * 200 + 8)} y="30" class="tx-num tx-ink">{L.win}</text>
+  <rect class="fi-paper ln" x="20" y="42" width={n(LOSS * 200)} height="14" />
+  <text x={n(20 + LOSS * 200 + 8)} y="54" class="tx-num tx-ink">{L.loss}</text>
+  <path class="ln" d={`M${x(0)} 110H${x(1)}`} />
+  {[0, 0.25, 0.5, 0.75, 1].map((v) => <g><path class="ln ln-1" d={`M${n(x(v))} 110v5`} /><text x={n(x(v))} y="128" text-anchor="middle" class="tx-s">{Math.round(v * 100)}%</text></g>)}
+  <rect class="fi-soft" x={n(x(be))} y="100" width={n(x(1) - x(be))} height="10" />
+  <path class="ln ln-red ln-2" d={`M${n(x(be))} 92V116`} />
+  <text x={n(x(be))} y="86" text-anchor="middle" class="tx-red tx-b">{L.be}</text>
+  <text x={n((x(be) + x(1)) / 2)} y="98" text-anchor="middle" class="tx-red tx-s">{L.plus}</text>
+  <text x={n((x(0) + x(be)) / 2)} y="104" text-anchor="middle" class="tx-s">{L.minus}</text>
+  <text x={x(1)} y="148" text-anchor="end" class="tx-s">{L.rate}</text>
+</Fig>

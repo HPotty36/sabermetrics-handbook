@@ -1,0 +1,27 @@
+---
+// WAR: 타격, 주루, 수비로 번 득점에 포지션·리그·대체 수준 보정을 더하고, 약 10점을 1승으로 바꾼다.
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+import SumBars from '../SumBars.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const rows = [
+  { k: 'bat', v: 20 }, { k: 'run', v: 2 }, { k: 'fld', v: 5 }, { k: 'pos', v: 7 }, { k: 'lg', v: 1 }, { k: 'rep', v: 20 },
+] as const;
+const runs = rows.reduce((s, r) => s + r.v, 0);
+const ko = {
+  alt: `가상의 유격수 한 시즌: 득점 ${runs}점을 10점당 1승으로 바꾸면 WAR 약 ${(runs / 10).toFixed(1)}.`,
+  caption: `가상의 주전 유격수 한 시즌(득점 단위). 평균 선수 대비 타격·주루·수비에 유격수라는 어려운 포지션 몫과 리그 보정을 더하고, 평균이 아니라 대체 선수와 견주도록 대체 수준 몫을 얹는다. 합 ${runs}점을 대략 10점 = 1승으로 바꾸면 ${(runs / 10).toFixed(1)}승이다. 이 비율은 그해 득점 환경에 따라 조금씩 다르다.`,
+  bat: '타격', run: '주루', fld: '수비', pos: '포지션(유격수)', lg: '리그 보정', rep: '대체 수준', total: '합(득점)', calc: `${runs}점 ÷ 10점 =`,
+};
+const en: typeof ko = {
+  alt: `A hypothetical shortstop’s season: ${runs} runs at about 10 runs per win is roughly ${(runs / 10).toFixed(1)} WAR.`,
+  caption: `One made-up regular shortstop’s season, in runs. Batting, baserunning and fielding against an average player, plus credit for a hard position and a league adjustment, plus the replacement-level runs that move the baseline from average to replacement. ${runs} runs at roughly 10 runs a win is ${(runs / 10).toFixed(1)} wins; the exact rate shifts with the year’s run environment.`,
+  bat: 'Batting', run: 'Baserunning', fld: 'Fielding', pos: 'Position (SS)', lg: 'League', rep: 'Replacement level', total: 'Total (runs)', calc: `${runs} runs ÷ 10 runs =`,
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={272} alt={L.alt} caption={L.caption}>
+  <SumBars rows={rows.map((r) => ({ label: L[r.k], v: r.v }))} total={L.total} unit={2.2} axis={150} />
+  <text x="0" y="262" class="tx-ink tx-l">{L.calc} <tspan class="tx-big tx-red" dx="4">{(runs / 10).toFixed(1)}</tspan> <tspan class="tx-red tx-b">WAR</tspan></text>
+</Fig>

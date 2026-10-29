@@ -1,0 +1,31 @@
+---
+// 가상의 선발 투수 한 경기(lib/fig.ts의 GAME)를 9이닝 선 위에 놓는다. 던진 6이닝은 실선 고리, 나머지는 점선 고리.
+// 회마다 위로 쌓는 표시는 그림마다 다르다(평균자책점은 점수, WHIP는 내보낸 주자).
+import { GAME, n } from '../../lib/fig.ts';
+
+export type Mark = 'red' | 'dot';
+interface Props {
+  /** 회마다 쌓을 표시 */
+  marks: (inning: (typeof GAME)[number]) => Mark[];
+  inningLabel: (i: number) => string;
+}
+
+const { marks, inningLabel } = Astro.props;
+const Y = 112;
+const X = (i: number) => 20 + i * 40;
+---
+<g>
+  <path class="ln ln-2" d={`M${X(0)} ${Y}H${X(5)}`} />
+  <path class="ln ln-2 ln-muted ln-dash" d={`M${X(5)} ${Y}H${X(8)}`} />
+  {Array.from({ length: 9 }, (_, i) => {
+    const g = GAME[i];
+    const ms = g ? marks(g) : [];
+    return (
+      <g>
+        {g ? <circle class="fi-paper ln" cx={X(i)} cy={Y} r="6" /> : <circle class="fi-paper ln ln-muted ln-dot" cx={X(i)} cy={Y} r="6" />}
+        <text x={X(i)} y={Y + 24} text-anchor="middle" class:list={[g ? 'tx-ink' : '']}>{inningLabel(i + 1)}</text>
+        {ms.map((m, j) => (m === 'red' ? <circle class="fi-red" cx={X(i)} cy={n(Y - 22 - j * 15)} r="5.5" /> : <circle class="fi-paper ln ln-muted ln-dot" cx={X(i)} cy={n(Y - 22 - j * 15)} r="5" />))}
+      </g>
+    );
+  })}
+</g>

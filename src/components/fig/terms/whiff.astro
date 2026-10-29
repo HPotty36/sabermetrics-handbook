@@ -1,0 +1,28 @@
+---
+// 헛스윙%: 스윙(헛스윙, 파울, 인플레이) 가운데 헛스윙. 휘두르지 않은 공은 빠진다.
+import { isSwing, PITCH_LABEL, PITCH_LOG, pct1 } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import CountLine from '../CountLine.astro';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const swings = PITCH_LOG.filter(isSwing).length;
+const whiffs = PITCH_LOG.filter((k) => k === 'W').length;
+const items = PITCH_LOG.map((k) => ({ label: PITCH_LABEL[lang][k], state: k === 'W' ? ('num' as const) : isSwing(k) ? ('den' as const) : ('out' as const) }));
+const ko = {
+  alt: `가상의 투구 16개 중 스윙 ${swings}번, 헛스윙 ${whiffs}번. 헛스윙% ${pct1(whiffs / swings)}.`,
+  caption: 'CSW% 그림과 같은 가상의 투구 16개. 분모는 방망이를 낸 공만이다. 헛스윙을 전체 투구로 나눈 SwStr%와는 다르다.',
+  num: '헛스윙', den: '스윙(파울·인플레이)', out: '휘두르지 않음',
+  calc: `헛스윙 ${whiffs} ÷ 스윙 ${swings} =`,
+};
+const en: typeof ko = {
+  alt: `Of 16 hypothetical pitches, the batter swung ${swings} times and missed ${whiffs}. Whiff% ${pct1(whiffs / swings)}.`,
+  caption: 'The same sixteen made-up pitches as the CSW% figure. Only pitches the batter swung at are in the denominator. That is different from SwStr%, which divides whiffs by all pitches.',
+  num: 'Whiff', den: 'Swing (foul, in play)', out: 'No swing',
+  calc: `${whiffs} whiffs ÷ ${swings} swings =`,
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={240} alt={L.alt} caption={L.caption}>
+  <CountLine items={items} perRow={8} small legend={{ num: L.num, den: L.den, out: L.out }} calc={L.calc} result={pct1(whiffs / swings)} />
+</Fig>

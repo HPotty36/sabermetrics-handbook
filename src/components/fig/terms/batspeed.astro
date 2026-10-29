@@ -1,0 +1,40 @@
+---
+// 배트 스피드: 배트 끝에서 6인치 안쪽 지점이 움직인 속도. 위에서 본 배트에 그 지점을 찍는다.
+import { arrow, n } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const S = 8.6; // 1인치
+const tip = 336;
+const len = 34;
+const knob = tip - len * S;
+const Y = 128;
+const at = (inch: number) => tip - inch * S; // 배트 끝에서 inch만큼 안쪽
+const m = at(6);
+const v = arrow(m, Y - 8, m, Y - 74, 9);
+// 배트 모양: 손잡이(가늘다)에서 배럴(굵다)로
+const bat = `M${n(knob)} ${Y - 3}L${n(at(20))} ${Y - 4}Q${n(at(14))} ${Y - 10} ${n(at(8))} ${Y - 11}L${n(tip - 2)} ${Y - 11}Q${tip} ${Y - 11} ${tip} ${Y - 7}V${Y + 7}Q${tip} ${Y + 11} ${n(tip - 2)} ${Y + 11}L${n(at(8))} ${Y + 11}Q${n(at(14))} ${Y + 10} ${n(at(20))} ${Y + 4}L${n(knob)} ${Y + 3}Z`;
+const ko = {
+  alt: '위에서 본 배트. 배트 끝에서 6인치 안쪽 지점의 속도가 배트 스피드다. 2026 MLB 평균 72.1mph.',
+  caption: '위에서 본 배트(34인치). 배트 스피드는 배트 끝에서 6인치 안쪽 지점의 속도다. 공을 맞히는 스위트 스팟(끝에서 4~9인치) 근처라 타구 속도와 바로 이어진다. 2026 MLB 평균은 72.1mph(경쟁 스윙 기준)이고, 75mph 이상은 ‘빠른 스윙’으로 따로 센다.',
+  point: '끝에서 6인치', speed: '여기의 속도', sweet: '스위트 스팟 4~9인치', knob: '손잡이', tip: '배트 끝',
+};
+const en: typeof ko = {
+  alt: 'A bat seen from above. Bat speed is the speed of the point 6 inches in from the end. The 2026 MLB average was 72.1 mph.',
+  caption: 'A 34-inch bat seen from above. Bat speed is the speed of the point 6 inches in from the end of the barrel, close to the sweet spot (4–9 inches from the end) where solid contact happens, so it links straight to exit velocity. The 2026 MLB average was 72.1 mph on competitive swings; 75 mph and up counts as a fast swing.',
+  point: '6 in from the end', speed: 'Speed measured here', sweet: 'Sweet spot 4–9 in', knob: 'Knob', tip: 'End',
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={186} alt={L.alt} caption={L.caption}>
+  <path class="fi-paper ln ln-2" d={bat} />
+  <path class="ln ln-1 ln-muted" d={`M${n(at(9))} ${Y + 20}h0V${Y + 26}H${n(at(4))}V${Y + 20}`} />
+  <text x={n(at(6.5))} y={Y + 42} text-anchor="middle" class="tx-s">{L.sweet}</text>
+  <path class="ln ln-red ln-3" d={v.line} /><path class="fi-red" d={v.head} />
+  <circle class="fi-red" cx={n(m)} cy={Y} r="5" />
+  <text x={n(m - 10)} y={Y - 60} text-anchor="end" class="tx-red tx-b">{L.speed}</text>
+  <text x={n(m - 10)} y={Y - 44} text-anchor="end" class="tx-red tx-s">{L.point}</text>
+  <text x={n(knob)} y={Y + 26} class="tx-s">{L.knob}</text>
+  <text x={tip} y={Y - 20} text-anchor="end" class="tx-s">{L.tip}</text>
+</Fig>

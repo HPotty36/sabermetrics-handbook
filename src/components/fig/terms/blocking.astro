@@ -1,0 +1,41 @@
+---
+// 블로킹: 땅에 꽂히는 공마다 폭투·포일이 될 확률을 매기고, 막아 낸 만큼(또는 빠뜨린 만큼) 기대치와의 차이를 센다.
+import { n } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const S = 4; // 1인치
+const cx = 180;
+const top = 22;
+const bottom = top + 22 * S;
+const ground = bottom + 18 * S;
+const A = [cx - 4 * S, ground - 6];
+const B = [cx + 15 * S, ground - 6];
+const ko = {
+  alt: '포수 앞 땅에 꽂히는 가상의 두 공. 확률 10%짜리를 막으면 +0.10, 확률 60%짜리를 빠뜨리면 −0.40.',
+  caption: '포수 뒤에서 본 가상의 두 공. 퍼센트는 그 공이 폭투나 포일이 될 확률이다(가상의 예). 막으면 그 확률만큼 더하고, 빠뜨리면 1에서 그 확률을 뺀 만큼 뺀다. 쉬운 공을 빠뜨리면 크게 깎인다. 막아 낸 공 1개가 0.25점이다.',
+  zone: '스트라이크 존', plate: '홈플레이트',
+  a1: '확률 10% · 막음', a2: '+0.10개', b1: '확률 60% · 빠뜨림', b2: '−0.40개',
+};
+const en: typeof ko = {
+  alt: 'Two hypothetical pitches in the dirt in front of the catcher. Blocking a 10% pitch is +0.10; letting a 60% pitch get by is −0.40.',
+  caption: 'Two made-up pitches seen from behind the catcher. Each percentage is the chance that the pitch becomes a wild pitch or passed ball (made up). A block adds that chance; a miss subtracts one minus that chance, so missing an easy one costs a lot. One block above average is worth 0.25 runs.',
+  zone: 'Strike zone', plate: 'Home plate',
+  a1: '10% · blocked', a2: '+0.10', b1: '60% · got by', b2: '−0.40',
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={226} alt={L.alt} caption={L.caption}>
+  <rect class="fi-none ln ln-2" x={n(cx - 8.5 * S)} y={top} width={n(17 * S)} height={n(22 * S)} />
+  <text x={n(cx + 8.5 * S + 6)} y={n(top + 10)} class="tx-s">{L.zone}</text>
+  <path class="ln ln-grid" d={`M0 ${ground}H360`} />
+  <path class="ln ln-2" d={`M${n(cx - 8.5 * S)} ${ground}H${n(cx + 8.5 * S)}`} />
+  <text x={cx} y={ground + 18} text-anchor="middle" class="tx-s">{L.plate}</text>
+  <circle class="fi-red" cx={n(A[0])} cy={n(A[1])} r="5.8" />
+  <circle class="fi-ink" cx={n(B[0])} cy={n(B[1])} r="5.8" />
+  <text x={n(A[0] - 14)} y={n(A[1] - 18)} text-anchor="end" class="tx-red tx-b tx-s">{L.a1}</text>
+  <text x={n(A[0] - 14)} y={n(A[1] + 2)} text-anchor="end" class="tx-num tx-red">{L.a2}</text>
+  <text x={n(B[0] + 14)} y={n(B[1] - 18)} class="tx-ink tx-b tx-s">{L.b1}</text>
+  <text x={n(B[0] + 14)} y={n(B[1] + 2)} class="tx-num tx-ink">{L.b2}</text>
+</Fig>

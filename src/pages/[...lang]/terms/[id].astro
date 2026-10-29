@@ -12,6 +12,9 @@ import { ladderPlaces } from '../../../lib/ladder.ts';
 import { paths } from '../../../lib/paths.ts';
 import type { NextStop } from '../../../lib/stop.ts';
 
+// 용어 그림: components/fig/terms/<id>.astro. 용어마다 그 지표를 가장 잘 보여 주는 방식으로 그린다(빌드 때 만드는 정적 SVG).
+const figures = import.meta.glob<{ default: (props: { lang: Lang }) => unknown }>('../../../components/fig/terms/*.astro', { eager: true });
+
 export async function getStaticPaths() {
   const { terms } = await loadHandbook('ko');
   return LANGS.flatMap((lang) => terms.map((t) => ({ params: { lang: lang === 'ko' ? undefined : lang, id: t.id }, props: { lang } })));
@@ -33,6 +36,7 @@ const inLadders = new Set(places.flatMap(({ ladder }) => ladder.steps));
 const related = t.related.filter((id) => !inLadders.has(id)).map((id) => termMap.get(id)!);
 // 한국어 화면의 표제어는 팬이 부르는 이름이라 한글일 때가 있다. 표제 글꼴(Big Shoulders)에는 한글이 없어 크기를 따로 맞춘다.
 const hangulHead = /[가-힣]/.test(t.headword);
+const Figure = figures[`../../../components/fig/terms/${t.id}.astro`]?.default;
 ---
 <Base lang={lang} title={`${t.title} | ${s.siteName}`} description={t.summary} view="term" tab="terms" termId={t.id} next={nexts[0]}>
   {/* 책의 본문 단과 여백 단. 넓은 화면에서는 Tufte CSS처럼 평균·관련 용어를 오른쪽 여백에 적는다. 좁은 화면에서는 본문 다음, 출처 앞에 온다. */}
@@ -52,6 +56,7 @@ const hangulHead = /[가-힣]/.test(t.headword);
         <Seam />
         <p class="def">{t.summary}</p>
         {t.scale?.avg && <p class="avg-inline"><b>{fmt(t.scale.avg.v, t.scale)}</b>{avgCaption(t.scale.avg, t.scale)}</p>}
+        {Figure && <Figure lang={lang} />}
         <p class="toggles order-row" role="group" aria-label={s.readingOrder}><button type="button" data-order="easy" aria-pressed="true">{s.easyFirst}</button><button type="button" data-order="deep" aria-pressed="false">{s.deepFirst}</button></p>
       </header>
 

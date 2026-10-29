@@ -1,0 +1,31 @@
+---
+// ERA+: 리그 평균자책점을 그 투수의 평균자책점으로 나눠 100을 곱한다. 낮은 평균자책점이 큰 ERA+가 된다.
+import { LG_ERA_2026, n } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const ERA = 3.34;
+const v = Math.round((100 * LG_ERA_2026) / ERA);
+const U = 60;
+const ko = {
+  alt: `리그 평균자책점 ${LG_ERA_2026}, 가상의 투수 ${ERA}. ERA+ ${v}.`,
+  caption: `2026 MLB 리그 평균자책점 ${LG_ERA_2026.toFixed(2)}과 가상의 투수 ${ERA.toFixed(2)}. 구장 효과는 없다고 쳤다(실제로는 리그 평균을 구장에 맞춰 고친 뒤 나눈다). 평균자책점이 낮을수록 ERA+는 커진다.`,
+  lg: '리그 평균자책점(2026)', me: '가상의 투수', calc: `100 × ${LG_ERA_2026.toFixed(2)} ÷ ${ERA.toFixed(2)} =`,
+};
+const en: typeof ko = {
+  alt: `League ERA ${LG_ERA_2026}, hypothetical pitcher ${ERA}. ERA+ ${v}.`,
+  caption: `The 2026 MLB league ERA of ${LG_ERA_2026.toFixed(2)} and a made-up pitcher at ${ERA.toFixed(2)}. The park is treated as neutral here (the real stat adjusts the league ERA for the park first). The lower the ERA, the higher the ERA+.`,
+  lg: 'League ERA (2026)', me: 'Made-up pitcher', calc: `100 × ${LG_ERA_2026.toFixed(2)} ÷ ${ERA.toFixed(2)} =`,
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={150} alt={L.alt} caption={L.caption}>
+  <text x="0" y="14" class="tx-s">{L.lg}</text>
+  <rect class="fi-paper ln" x="0" y="22" width={n(LG_ERA_2026 * U)} height="16" />
+  <text x={n(LG_ERA_2026 * U + 8)} y="35" class="tx-num tx-ink">{LG_ERA_2026.toFixed(2)}</text>
+  <text x="0" y="62" class="tx-s">{L.me}</text>
+  <rect class="fi-ink" x="0" y="70" width={n(ERA * U)} height="16" />
+  <text x={n(ERA * U + 8)} y="83" class="tx-num tx-ink">{ERA.toFixed(2)}</text>
+  <text x="0" y="132" class="tx-ink tx-l">{L.calc} <tspan class="tx-big tx-red" dx="4">{v}</tspan></text>
+</Fig>

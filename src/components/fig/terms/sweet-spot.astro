@@ -1,0 +1,34 @@
+---
+// 스위트 스팟%: 발사각 8~32°에 든 타구의 비율. 라인드라이브와 낮은 뜬공이 나오는 띠다.
+import { arc, n, polar, wedge } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const C = [36, 196] as const;
+const R = 176;
+const ko = {
+  alt: '발사각 8~32°의 띠가 스위트 스팟이다. 2026 MLB 타구의 33.7%가 이 띠에 들었다.',
+  caption: '옆에서 본 타구의 출발 각도. 발사각이 8~32°이면 스위트 스팟이다. 빠르기는 따지지 않는다. 2026 MLB에서는 인플레이 타구의 33.7%가 이 띠에 들었다.',
+  ss: '스위트 스팟',
+};
+const en: typeof ko = {
+  alt: 'The band from 8 to 32 degrees of launch angle is the sweet spot. 33.7% of 2026 MLB batted balls landed in it.',
+  caption: 'The starting angle of a batted ball, seen from the side. A launch angle of 8–32° is a sweet-spot ball; speed does not matter. In 2026 MLB, 33.7% of balls in play fell in this band.',
+  ss: 'Sweet spot',
+};
+const L = lang === 'ko' ? ko : en;
+const ray = (deg: number) => { const [x, y] = polar(C[0], C[1], R, deg); return `M${C[0]} ${C[1]}L${n(x)} ${n(y)}`; };
+const [lx, ly] = polar(C[0], C[1], R * 0.62, 20);
+---
+<Fig h={232} alt={L.alt} caption={L.caption}>
+  <path class="ln ln-grid" d={arc(C[0], C[1], R, -10, 88)} />
+  <path class="ln ln-1 ln-muted ln-dash" d={`M${C[0]} ${C[1]}H${C[0] + R}`} />
+  <path class="fi-soft" d={wedge(C[0], C[1], R, 8, 32)} />
+  <path class="ln ln-red ln-2" d={ray(8)} />
+  <path class="ln ln-red ln-2" d={ray(32)} />
+  {[8, 32].map((d) => { const [x, y] = polar(C[0], C[1], R + 8, d); return <text x={n(x)} y={n(y + 4)} class="tx-red tx-b tx-s">{d}°</text>; })}
+  <text x={n(lx)} y={n(ly + 4)} text-anchor="middle" class="tx-red tx-b">{L.ss}</text>
+  <circle class="fi-ink" cx={C[0]} cy={C[1]} r="4" />
+  <text x={C[0] + 8} y={C[1] + 18} class="tx-s">0°</text>
+</Fig>

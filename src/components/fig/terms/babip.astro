@@ -1,0 +1,29 @@
+---
+// BABIP: 삼진, 볼넷, 사구, 홈런을 걷어 내고 남은 인플레이 타구 중 안타.
+import { isHit, paTotals, rate3 } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+import PaLine from '../PaLine.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const t = paTotals();
+const num = t.H - t.HR;
+const den = t.AB - t.K - t.HR + t.SF;
+const inPlay = (k: string) => !['K', 'BB', 'HBP', 'HR'].includes(k);
+const ko = {
+  alt: `가상의 12타석 중 인플레이 타구 ${den}개, 그중 안타 ${num}개. BABIP ${rate3(num / den)}.`,
+  caption: '가상의 12타석. 수비가 손댈 수 없는 결과(삼진, 볼넷, 몸에 맞는 공, 홈런)를 빼고, 페어 지역으로 굴러가거나 날아간 타구만 남긴다. 희생플라이도 인플레이 타구다.',
+  num: '인플레이 안타', den: '인플레이 타구', out: '빠지는 타석',
+  calc: `안타 ${num} ÷ 인플레이 ${den} =`,
+};
+const en: typeof ko = {
+  alt: `Of 12 hypothetical plate appearances, ${den} put the ball in play and ${num} of those fell for hits. BABIP ${rate3(num / den)}.`,
+  caption: 'Twelve made-up plate appearances. Drop what the defense cannot touch (strikeouts, walks, hit-by-pitches, home runs) and keep only balls hit into fair territory. A sac fly is a ball in play too.',
+  num: 'Hit in play', den: 'Ball in play', out: 'Dropped',
+  calc: `${num} hits ÷ ${den} in play =`,
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={236} alt={L.alt} caption={L.caption}>
+  <PaLine lang={lang} state={(k) => (!inPlay(k) ? 'out' : isHit(k) ? 'num' : 'den')} legend={{ num: L.num, den: L.den, out: L.out }} calc={L.calc} result={rate3(num / den)} />
+</Fig>

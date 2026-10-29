@@ -1,0 +1,39 @@
+---
+// 발사각: 맞은 공이 떠오르는 위아래 각도. Statcast의 타구 종류는 이 각도로 나눈다.
+import { arc, n, polar } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const C = [36, 196] as const;
+const R = 176;
+const AVG = 13.9;
+const ko = {
+  alt: '맞은 자리에서 본 발사각. 10° 아래는 땅볼, 10~25°는 라인드라이브, 25~50°는 뜬공, 50° 위는 팝업. 2026 MLB 평균 13.9°.',
+  caption: '옆에서 본 타구의 출발 각도. 0°는 지면과 나란하고 위로 뜨면 +, 땅으로 꽂히면 −다. Statcast는 10° 아래를 땅볼, 10~25°를 라인드라이브, 25~50°를 뜬공, 50° 위를 팝업으로 나눈다. 빨간 선은 2026 MLB 평균 13.9°다.',
+  gb: '땅볼', ld: '라인드라이브', fb: '뜬공', pu: '팝업', avg: '평균 13.9°',
+};
+const en: typeof ko = {
+  alt: 'Launch angle from the point of contact. Under 10° is a ground ball, 10–25° a line drive, 25–50° a fly ball, over 50° a pop-up. The 2026 MLB average was 13.9°.',
+  caption: 'The starting angle of a batted ball, seen from the side. 0° is level with the ground, up is +, into the ground is −. Statcast calls under 10° a ground ball, 10–25° a line drive, 25–50° a fly ball and over 50° a pop-up. The red line is the 2026 MLB average of 13.9°.',
+  gb: 'Ground ball', ld: 'Line drive', fb: 'Fly ball', pu: 'Pop-up', avg: 'avg 13.9°',
+};
+const L = lang === 'ko' ? ko : en;
+const ray = (deg: number) => { const [x, y] = polar(C[0], C[1], R, deg); return `M${C[0]} ${C[1]}L${n(x)} ${n(y)}`; };
+const lab = (deg: number, r = R + 10) => polar(C[0], C[1], r, deg);
+const bands = [
+  { deg: -6, t: L.gb }, { deg: 17.5, t: L.ld }, { deg: 37.5, t: L.fb }, { deg: 64, t: L.pu },
+];
+const avgLab = polar(C[0], C[1], R * 0.42, AVG - 7);
+---
+<Fig h={232} alt={L.alt} caption={L.caption}>
+  <path class="ln ln-grid" d={arc(C[0], C[1], R, -10, 88)} />
+  <path class="ln ln-1 ln-muted ln-dash" d={`M${C[0]} ${C[1]}H${C[0] + R}`} />
+  {[10, 25, 50].map((d) => <path class="ln ln-1" d={ray(d)} />)}
+  {[10, 25, 50].map((d) => { const [x, y] = lab(d, R + 8); return <text x={n(x)} y={n(y + 4)} class="tx-s">{d}°</text>; })}
+  {bands.map((b) => { const [x, y] = lab(b.deg, R + 30); return <text x={n(x)} y={n(y + 4)} class="tx-ink tx-m">{b.t}</text>; })}
+  <path class="ln ln-red ln-2" d={ray(AVG)} />
+  <text x={n(avgLab[0])} y={n(avgLab[1] + 4)} class="tx-red tx-b tx-s">{L.avg}</text>
+  <circle class="fi-ink" cx={C[0]} cy={C[1]} r="4" />
+  <text x={C[0] + 8} y={C[1] + 18} class="tx-s">0°</text>
+</Fig>

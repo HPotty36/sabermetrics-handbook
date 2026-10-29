@@ -1,0 +1,41 @@
+---
+// 어택 디렉션: 공과 만나는 순간 스위트 스팟이 좌우로 움직이던 방향. 홈에서 중견수 쪽 직선이 0°다.
+import { arrow, n, polar, wedge } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const H = [180, 214] as const;
+// 위에서 본 구장, 우타자. 당겨 치는 쪽은 좌익수 쪽(화면 왼쪽). 각도는 중견수 쪽 직선(90°)에서 잰다.
+const deg = (d: number) => 90 + d; // d > 0: 당겨 치는 쪽
+const P = (r: number, d: number) => polar(H[0], H[1], r, deg(d));
+const [lx, ly] = P(200, 45);
+const [rx, ry] = P(200, -45);
+const ex = 8;
+const [ax, ay] = P(150, ex);
+const a = arrow(H[0], H[1] - 4, ax, ay, 10);
+const [cx, cy] = P(176, 0);
+const ko = {
+  alt: '위에서 본 우타자의 스윙 방향. 중견수 쪽이 0°이고, 좌익수 쪽으로 가면 당겨 치는 쪽이다.',
+  caption: '위에서 본 가상의 우타자(8° 당겨 치는 쪽). 시즌 평균은 15° 당겨 치는 쪽부터 10° 밀어 치는 쪽까지 퍼지고(연한 띠), 2026 MLB 평균은 2.1° 당겨 치는 쪽이었다. 앞에서 일찍 맞히면 당겨 치는 쪽으로, 늦게 맞히면 밀어 치는 쪽으로 옮겨 간다. 타구 방향과는 다르다.',
+  pull: '당겨 치는 쪽', oppo: '밀어 치는 쪽', zero: '0° 중견수 쪽', ex: '8°', home: '홈플레이트',
+};
+const en: typeof ko = {
+  alt: 'A right-handed swing direction seen from above. Straight to center field is 0°; toward left field is the pull side.',
+  caption: 'A made-up right-handed hitter from above (8° to the pull side). Season averages run from 15° pull to 10° opposite (pale band); the 2026 MLB average was 2.1° to the pull side. Contact out front pulls the angle; contact deep pushes it the other way. It is not the direction the ball goes.',
+  pull: 'Pull side', oppo: 'Opposite side', zero: '0° to center', ex: '8°', home: 'Home plate',
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={240} alt={L.alt} caption={L.caption}>
+  <path class="ln ln-1" d={`M${n(lx)} ${n(ly)}L${H[0]} ${H[1]}L${n(rx)} ${n(ry)}`} />
+  <path class="fi-soft" d={wedge(H[0], H[1], 170, deg(-10), deg(15))} />
+  <path class="ln ln-1 ln-muted ln-dash" d={`M${H[0]} ${H[1]}L${n(cx)} ${n(cy)}`} />
+  <text x={n(cx)} y={n(cy - 8)} text-anchor="middle" class="tx-s">{L.zero}</text>
+  <path class="ln ln-red ln-3" d={a.line} /><path class="fi-red" d={a.head} />
+  <text x={n(ax - 10)} y={n(ay + 14)} text-anchor="end" class="tx-red tx-b tx-l">{L.ex}</text>
+  <text x={n(lx)} y={n(ly - 10)} class="tx-ink tx-b tx-s">← {L.pull}</text>
+  <text x={n(rx)} y={n(ry - 10)} text-anchor="end" class="tx-ink tx-b tx-s">{L.oppo} →</text>
+  <path class="fi-ink" d={`M${H[0]} ${H[1] - 5}l5 5l-5 5l-5 -5z`} />
+  <text x={H[0]} y={H[1] + 22} text-anchor="middle" class="tx-s">{L.home}</text>
+</Fig>

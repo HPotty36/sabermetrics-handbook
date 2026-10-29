@@ -1,0 +1,32 @@
+---
+// wRC+: wOBA에서 출발해 평균 대비 득점으로 바꾸고, 구장과 리그를 보정한 뒤 리그 평균 대비 비율로 맞춘다.
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+import Steps from '../Steps.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const ko = {
+  alt: 'wRC+를 만드는 네 단계: wOBA, 평균 대비 득점, 구장·리그 보정, 리그 평균 대비 비율.',
+  caption: '계산 순서. 같은 wOBA라도 타자에게 유리한 구장, 득점이 많은 해였다면 3단계에서 깎인다. 비교 기준인 리그 평균에서 투수 타석은 뺀다.',
+  steps: [
+    { title: 'wOBA', sub: '타석의 결과마다 득점 가치를 매긴 출루율' },
+    { title: '평균 대비 득점(wRAA)', sub: '리그 평균 wOBA와의 차이를 점수로 바꾼다' },
+    { title: '구장과 리그 보정', sub: '타자에게 유리한 구장, 득점이 많은 해면 깎는다' },
+    { title: 'wRC+ = 리그 평균 대비 × 100', sub: '120이면 평균 타자보다 득점을 20% 더 만들었다' },
+  ],
+};
+const en: typeof ko = {
+  alt: 'Four steps to wRC+: wOBA, runs above average, park and league adjustment, ratio to league average.',
+  caption: 'The order of the calculation. The same wOBA gets marked down in step 3 if it came in a hitter-friendly park or a high-scoring year. The league average it is compared with leaves out pitchers batting.',
+  steps: [
+    { title: 'wOBA', sub: 'On-base average with each outcome weighted by run value' },
+    { title: 'Runs above average (wRAA)', sub: 'The gap from league wOBA, turned into runs' },
+    { title: 'Park and league adjustment', sub: 'Marked down for a hitter-friendly park or a high-scoring year' },
+    { title: 'wRC+ = vs. league average × 100', sub: '120 means 20% more runs than an average hitter' },
+  ],
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={200} alt={L.alt} caption={L.caption}>
+  <Steps steps={L.steps} />
+</Fig>

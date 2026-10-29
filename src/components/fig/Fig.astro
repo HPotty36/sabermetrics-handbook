@@ -1,0 +1,19 @@
+---
+// 용어 그림의 틀: 선화(SVG) 하나와 그 아래 설명. 용어 페이지에서 뜻·평균 다음, 읽는 순서 앞에 온다.
+// 사이트와 같은 선화다. 종이색 바탕에 잉크 선, 글은 흐린 잉크, 빨강은 그 용어가 재는 것 하나에만 쓴다.
+// 색은 모두 토큰(global.css의 .fig)이라 다크 모드를 따른다. 화면에서 스크립트는 돌지 않는다.
+interface Props {
+  /** viewBox 높이. 너비는 360이 기본이다(폰 본문 폭). */
+  h: number;
+  w?: number;
+  /** 스크린 리더용 짧은 설명 */
+  alt: string;
+  caption: string;
+}
+
+const { h, w = 360, alt, caption } = Astro.props;
+---
+<figure class="fig">
+  <svg class="fig-art" viewBox={`0 0 ${w} ${h}`} role="img" aria-label={alt}><slot /></svg>
+  <figcaption class="fig-cap">{caption}</figcaption>
+</figure>

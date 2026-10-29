@@ -1,0 +1,43 @@
+---
+// xwOBA: 타구가 어디로 갔는지가 아니라 속도와 발사각을 본다. 위에서 본 구장에 같은 타구 둘을 다른 방향으로 보낸다.
+import { arrow, n, polar } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const H = [180, 236] as const;
+const P = (r: number, deg: number) => polar(H[0], H[1], r, deg);
+const fence = 200;
+const [lfx, lfy] = P(fence, 135);
+const [rfx, rfy] = P(fence, 45);
+const fielders = [P(150, 122), P(158, 90), P(150, 58)];
+const A = P(156, 92);
+const B = P(156, 108);
+const a = arrow(H[0], H[1] - 6, A[0], A[1] + 8, 7);
+const b = arrow(H[0], H[1] - 6, B[0], B[1] + 6, 7);
+const ko = {
+  alt: '위에서 본 구장. 속도와 발사각이 같은 타구 둘 중 하나는 중견수에게 잡히고 하나는 좌중간에 떨어진다. xwOBA는 둘을 같게 본다.',
+  caption: '위에서 본 구장. 똑같이 102mph, 24°로 맞은 가상의 두 타구가 하나는 중견수 정면으로, 하나는 좌중간으로 갔다. 실제 wOBA는 아웃과 2루타로 갈리지만 xwOBA는 둘 다 ‘이 속도·발사각 타구의 평균’을 준다. 볼넷, 삼진, 사구는 실제 값 그대로다.',
+  same: '같은 타구 · 102mph · 24°', out: '잡힘 · 아웃', hit: '좌중간 · 2루타', x: 'xwOBA는 둘 다 같은 값',
+};
+const en: typeof ko = {
+  alt: 'A field from above. Two batted balls with the same speed and angle: one is caught by the center fielder, the other drops in the gap. xwOBA scores them the same.',
+  caption: 'A field from above. Two made-up balls, both hit at 102 mph and 24°, one right at the center fielder and one into left-center. Actual wOBA splits them into an out and a double; xwOBA gives both the average for that speed and angle. Walks, strikeouts and hit-by-pitches keep their actual values.',
+  same: 'Same contact · 102 mph · 24°', out: 'Caught · out', hit: 'Left-center · double', x: 'xwOBA: same for both',
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={262} alt={L.alt} caption={L.caption}>
+  <path class="ln ln-1" d={`M${n(lfx)} ${n(lfy)}L${H[0]} ${H[1]}L${n(rfx)} ${n(rfy)}`} />
+  <path class="ln ln-1" d={`M${n(lfx)} ${n(lfy)}A${fence} ${fence} 0 0 1 ${n(rfx)} ${n(rfy)}`} />
+  {fielders.map(([x, y]) => <circle class="fi-paper ln ln-muted" cx={n(x)} cy={n(y)} r="5" />)}
+  <path class="ln ln-2" d={a.line} /><path class="fi-ink" d={a.head} />
+  <path class="ln ln-2" d={b.line} /><path class="fi-ink" d={b.head} />
+  <circle class="fi-ink" cx={n(A[0])} cy={n(A[1])} r="4" />
+  <circle class="fi-ink" cx={n(B[0])} cy={n(B[1])} r="4" />
+  <text x={n(A[0] + 10)} y={n(A[1] - 6)} class="tx-ink tx-b tx-s">{L.out}</text>
+  <text x={n(B[0] - 10)} y={n(B[1] - 6)} text-anchor="end" class="tx-ink tx-b tx-s">{L.hit}</text>
+  <path class="fi-ink" d={`M${H[0]} ${H[1] - 5}l5 5l-5 5l-5 -5z`} />
+  <text x={H[0]} y="18" text-anchor="middle" class="tx-s">{L.same}</text>
+  <text x={H[0]} y={n(H[1] + 22)} text-anchor="middle" class="tx-red tx-b">{L.x}</text>
+</Fig>

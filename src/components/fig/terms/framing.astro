@@ -1,0 +1,42 @@
+---
+// 프레이밍: 경계(섀도 존)에 걸친 공마다 스트라이크 판정 확률을 먼저 매기고, 그보다 스트라이크를 더 받아 낸 몫을 점수로 센다.
+import { n, ZONE, zxy } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const { left, right, top, bottom, r, S } = ZONE;
+const b = 2.9 * S; // 공 하나 폭
+// 가상의 두 공: 존을 살짝 벗어났는데 스트라이크(확률 40%), 존에 살짝 걸쳤는데 볼(확률 70%)
+const A = zxy(10.6, -3);
+const B = zxy(-7.8, 3);
+const ko = {
+  alt: '섀도 존에 걸친 가상의 두 공. 확률 40%짜리 공을 스트라이크로 받으면 +0.6스트라이크, 확률 70%짜리를 볼로 받으면 −0.7스트라이크.',
+  caption: '포수 뒤에서 본 존. 퍼센트는 그 공이 스트라이크로 판정될 확률(가상의 예)이고, 받아 낸 스트라이크에서 그 확률을 뺀 만큼을 센다. 섀도 존은 존 안쪽 공 하나 폭부터 바깥쪽 공 하나 폭까지다. 스트라이크 하나가 0.125점이다. 2026 MLB에서는 섀도 존 공의 46.5%가 루킹 스트라이크였다.',
+  shadow: '섀도 존', zone: '스트라이크 존',
+  a1: '40% → 스트라이크', a2: '+0.6개 ≈ +0.08점',
+  b1: '70% → 볼', b2: '−0.7개 ≈ −0.09점',
+};
+const en: typeof ko = {
+  alt: 'Two hypothetical pitches in the shadow zone. Getting a strike on a 40% pitch is +0.6 strikes; losing a 70% pitch as a ball is −0.7 strikes.',
+  caption: 'The zone from behind the catcher. Each percentage is the chance (made up) that the pitch is called a strike; the credit is the strike actually received minus that chance. The shadow zone runs from one ball-width inside the zone to one ball-width outside. One strike is worth 0.125 runs. In 2026 MLB, 46.5% of shadow-zone pitches were called strikes.',
+  shadow: 'Shadow zone', zone: 'Strike zone',
+  a1: '40% → strike', a2: '+0.6 ≈ +0.08 runs',
+  b1: '70% → ball', b2: '−0.7 ≈ −0.09 runs',
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={222} alt={L.alt} caption={L.caption}>
+  <rect class="fi-none ln ln-muted ln-dash" x={n(left - b)} y={n(top - b)} width={n(right - left + 2 * b)} height={n(bottom - top + 2 * b)} />
+  <rect class="fi-none ln ln-muted ln-dash" x={n(left + b)} y={n(top + b)} width={n(right - left - 2 * b)} height={n(bottom - top - 2 * b)} />
+  <rect class="fi-none ln ln-2" x={n(left)} y={n(top)} width={n(right - left)} height={n(bottom - top)} />
+  <text x={n(left - b)} y={n(top - b - 8)} class="tx-s">{L.shadow}</text>
+  <circle class="fi-red" cx={n(A[0])} cy={n(A[1])} r={n(r)} />
+  <path class="ln ln-1 ln-red" d={`M${n(A[0] + r + 2)} ${n(A[1])}H${n(right + b + 10)}`} />
+  <text x={n(right + b + 14)} y={n(A[1] - 4)} class="tx-red tx-b tx-s">{L.a1}</text>
+  <text x={n(right + b + 14)} y={n(A[1] + 11)} class="tx-s tx-red">{L.a2}</text>
+  <circle class="fi-paper ln" cx={n(B[0])} cy={n(B[1])} r={n(r - 0.8)} />
+  <path class="ln ln-1" d={`M${n(B[0] - r - 2)} ${n(B[1])}H${n(left - b - 10)}`} />
+  <text x={n(left - b - 14)} y={n(B[1] - 4)} text-anchor="end" class="tx-ink tx-b tx-s">{L.b1}</text>
+  <text x={n(left - b - 14)} y={n(B[1] + 11)} text-anchor="end" class="tx-s">{L.b2}</text>
+</Fig>

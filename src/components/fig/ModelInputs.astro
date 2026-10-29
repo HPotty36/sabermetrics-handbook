@@ -1,0 +1,46 @@
+---
+// FanGraphs의 투구 모델 셋(Stuff+, Location+, Pitching+)이 무엇을 보는지 한 표로. 그 용어의 열이 빨간색이다.
+// 입력값은 FanGraphs Library의 Stuff+·Location+·Pitching+ 입문서에 적힌 것만 쓴다.
+import type { Lang } from '../../lib/i18n.ts';
+
+export type Model = 'stuff' | 'location' | 'pitching';
+interface Props {
+  lang: Lang;
+  model: Model;
+}
+
+const { lang, model } = Astro.props;
+const rows = {
+  ko: [
+    { t: '공의 물리 특성', s: ['구속, 무브먼트, 회전수, 릴리스 포인트,', '주 패스트볼과의 차이, 회전축 차이'], on: ['stuff', 'pitching'] },
+    { t: '공이 들어간 위치', s: ['볼카운트와 구종에 맞춰 평가'], on: ['location', 'pitching'] },
+    { t: '볼카운트', on: ['location', 'pitching'] },
+    { t: '타자의 좌우', on: ['pitching'] },
+  ],
+  en: [
+    { t: 'Physical traits', s: ['velocity, movement, spin, release point,', 'gaps from the main fastball and spin axis'], on: ['stuff', 'pitching'] },
+    { t: 'Where it was thrown', s: ['judged for the count and pitch type'], on: ['location', 'pitching'] },
+    { t: 'Count', on: ['location', 'pitching'] },
+    { t: 'Batter handedness', on: ['pitching'] },
+  ],
+}[lang];
+const cols: { id: Model; t: string; x: number }[] = [
+  { id: 'stuff', t: 'Stuff+', x: 214 },
+  { id: 'location', t: 'Location+', x: 270 },
+  { id: 'pitching', t: 'Pitching+', x: 330 },
+];
+const ys: number[] = [];
+rows.reduce((y, r) => { ys.push(y); return y + 24 + 14 * ((r as { s?: string[] }).s?.length ?? 0); }, 56);
+const Y = (i: number) => ys[i];
+---
+<g>
+  {cols.map((c) => <text x={c.x} y="22" text-anchor="middle" class:list={['tx-s tx-b', c.id === model ? 'tx-red' : 'tx-ink']}>{c.t}</text>)}
+  <path class="ln ln-grid" d="M0 32H360" />
+  {rows.map((r, i) => (
+    <g>
+      <text x="0" y={Y(i)} class="tx-ink tx-m">{r.t}</text>
+      {(r as { s?: string[] }).s?.map((line, j) => <text x="0" y={Y(i) + 15 + j * 13} class="tx-s">{line}</text>)}
+      {cols.map((c) => (r.on.includes(c.id) ? <circle class={c.id === model ? 'fi-red' : 'fi-ink'} cx={c.x} cy={Y(i) - 4} r="5.5" /> : <path class="ln ln-1 ln-muted" d={`M${c.x - 5} ${Y(i) - 4}h10`} />))}
+    </g>
+  ))}
+</g>

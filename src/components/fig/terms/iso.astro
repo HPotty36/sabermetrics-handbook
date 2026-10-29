@@ -1,0 +1,27 @@
+---
+// ISO: 장타율에서 단타 몫을 걷어 낸다. 안타마다 1루를 넘어 더 간 베이스만 센다.
+import { bases, isAB, isHit, paTotals, rate3 } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+import PaLine from '../PaLine.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const t = paTotals();
+const extra = t.TB - t.H;
+const ko = {
+  alt: `가상의 12타석에서 1루를 넘어 더 간 베이스는 ${extra}, 타수는 ${t.AB}. ISO ${rate3(extra / t.AB)}.`,
+  caption: `가상의 12타석. 안타 위의 숫자는 1루를 넘어 더 간 베이스다(단타 0, 2루타 1, 홈런 3). 장타율 ${rate3(t.TB / t.AB)}에서 타율 ${rate3(t.H / t.AB)}을 뺀 값과 같다.`,
+  num: '장타', den: '타수에 드는 타석', out: '타수에서 빠짐',
+  calc: `더 간 베이스 ${extra} ÷ 타수 ${t.AB} =`,
+};
+const en: typeof ko = {
+  alt: `In 12 hypothetical plate appearances the batter took ${extra} extra bases in ${t.AB} at-bats. ISO ${rate3(extra / t.AB)}.`,
+  caption: `Twelve made-up plate appearances. The number over each hit is the bases past first (single 0, double 1, homer 3). It equals slugging ${rate3(t.TB / t.AB)} minus average ${rate3(t.H / t.AB)}.`,
+  num: 'Extra-base hit', den: 'At-bat', out: 'Not an at-bat',
+  calc: `${extra} extra bases ÷ ${t.AB} at-bats =`,
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={236} alt={L.alt} caption={L.caption}>
+  <PaLine lang={lang} state={(k) => (isHit(k) && k !== '1B' ? 'num' : isAB(k) ? 'den' : 'out')} tag={(k) => (isHit(k) ? String(bases(k) - 1) : undefined)} legend={{ num: L.num, den: L.den, out: L.out }} calc={L.calc} result={rate3(extra / t.AB)} />
+</Fig>

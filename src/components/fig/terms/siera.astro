@@ -1,0 +1,35 @@
+---
+// SIERA: 타석당 삼진, 볼넷, (땅볼 − 뜬공)을 제곱항과 곱셈항으로 엮어 평균자책점을 추정한다. 피홈런은 쓰지 않는다.
+import { n, smooth } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const OUT = [318, 104] as const;
+const ins = [40, 104, 168];
+const curves = ins.map((y) => smooth([[24, y], [150, y], [250, (y + OUT[1] * 2) / 3], [OUT[0] - 10, OUT[1]]]));
+const ko = {
+  alt: 'SIERA에 들어가는 셋: 타석당 삼진, 타석당 볼넷, 타석당 땅볼 − 뜬공. 서로 곱하고 제곱해 엮는다.',
+  caption: 'SIERA에 들어가는 값. FIP처럼 따로따로 더하지 않고 제곱항과 곱셈항으로 엮어서, 삼진이 많은 투수일수록 땅볼의 값이 달라지는 것 같은 맞물림까지 담는다. 피홈런은 직접 쓰지 않는다. FanGraphs가 고친 버전과 처음 나온 Baseball Prospectus 버전은 식도 값도 다르다.',
+  k: '삼진 ÷ 타석', bb: '볼넷 ÷ 타석', gb: '(땅볼 − 뜬공) ÷ 타석', mix: '× 서로 곱하고 제곱한다', hr: '피홈런은 쓰지 않음',
+};
+const en: typeof ko = {
+  alt: 'The three inputs to SIERA: strikeouts per PA, walks per PA, and ground balls minus fly balls per PA, tied together with products and squares.',
+  caption: 'What goes into SIERA. Instead of adding the parts separately like FIP, it ties them together with squared and product terms, so it can capture things like ground balls being worth more or less depending on how many batters a pitcher strikes out. Home runs allowed are not used directly. The FanGraphs version and the original Baseball Prospectus version differ in both formula and values.',
+  k: 'K ÷ PA', bb: 'BB ÷ PA', gb: '(GB − FB) ÷ PA', mix: '× multiplied and squared together', hr: 'no home runs allowed',
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={206} alt={L.alt} caption={L.caption}>
+  {curves.map((d) => <path class="ln ln-2" d={d} />)}
+  {ins.map((y, i) => (
+    <g>
+      <circle class="fi-paper ln ln-2" cx="24" cy={y} r="6" />
+      <text x="38" y={y - 10} class="tx-ink tx-m">{[L.k, L.bb, L.gb][i]}</text>
+    </g>
+  ))}
+  <text x="24" y="198" class="tx-s">{L.mix}</text>
+  <circle class="fi-red" cx={OUT[0]} cy={OUT[1]} r="9" />
+  <text x={OUT[0]} y={OUT[1] - 18} text-anchor="middle" class="tx-red tx-b tx-l">SIERA</text>
+  <text x={OUT[0] + 12} y={OUT[1] + 30} text-anchor="end" class="tx-s">{L.hr}</text>
+</Fig>

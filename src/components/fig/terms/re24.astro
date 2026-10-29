@@ -1,0 +1,46 @@
+---
+// RE24: 타석 뒤 기대 득점 − 타석 전 기대 득점 + 그 타석의 득점. 기대 득점은 FanGraphs Library의 예시 표(경기당 4.15점 환경)다.
+import { arrow, n } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const before = { re: 0.831, on: [true, false, false] };
+const after = { re: 1.798, on: [true, false, true] };
+const v = after.re - before.re;
+const diamond = (cx: number, cy: number, on: boolean[]) => {
+  const s = 34;
+  const pts = { home: [cx, cy + s], first: [cx + s, cy], second: [cx, cy - s], third: [cx - s, cy] };
+  return { pts, s, on };
+};
+const D1 = diamond(84, 92, before.on);
+const D2 = diamond(276, 92, after.on);
+const go = arrow(136, 92, 224, 92, 8);
+const ko = {
+  alt: `무사 1루(기대 득점 ${before.re})에서 단타로 무사 1·3루(${after.re})가 되면 RE24 +${v.toFixed(3)}.`,
+  caption: `무사 1루에서 단타를 쳐 무사 1·3루가 된 가상의 타석. 아웃 수와 주자 배치마다 그 이닝에 평균 몇 점이 나는지(기대 득점)를 FanGraphs Library의 예시 표(경기당 4.15점 환경)에서 가져왔다. 점수가 나지 않았으니 타석 뒤에서 앞을 뺀 값이 그대로 이 타석의 몫이다. 9~10점이 1승이다.`,
+  before: '무사 1루', after: '무사 1·3루', hit: '단타', re: '기대 득점', calc: `${after.re} − ${before.re} + 득점 0 =`,
+};
+const en: typeof ko = {
+  alt: `A single with a runner on first and nobody out (run expectancy ${before.re}) makes it first and third, nobody out (${after.re}): RE24 +${v.toFixed(3)}.`,
+  caption: `A made-up plate appearance: a single turns a runner on first with nobody out into first and third. Run expectancy for each out and base state comes from the FanGraphs Library example table (a 4.15 runs-per-game environment). No run scored, so the change is the whole credit for this plate appearance. 9 to 10 runs is a win.`,
+  before: '1st, 0 out', after: '1st & 3rd, 0 out', hit: 'Single', re: 'Run expectancy', calc: `${after.re} − ${before.re} + 0 runs =`,
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={226} alt={L.alt} caption={L.caption}>
+  {[D1, D2].map((d) => (
+    <g>
+      <path class="ln ln-1 ln-muted" d={`M${d.pts.home[0]} ${d.pts.home[1]}L${d.pts.first[0]} ${d.pts.first[1]}L${d.pts.second[0]} ${d.pts.second[1]}L${d.pts.third[0]} ${d.pts.third[1]}Z`} />
+      {[d.pts.first, d.pts.second, d.pts.third].map(([x, y], i) => (d.on[i] ? <path class="fi-ink" d={`M${x} ${y - 9}l9 9l-9 9l-9 -9z`} /> : <path class="fi-paper ln ln-1" d={`M${x} ${y - 8}l8 8l-8 8l-8 -8z`} />))}
+      <path class="fi-paper ln ln-1" d={`M${d.pts.home[0]} ${d.pts.home[1] - 6}l6 6l-6 6l-6 -6z`} />
+    </g>
+  ))}
+  <path class="ln ln-2" d={go.line} /><path class="fi-ink" d={go.head} />
+  <text x="180" y="82" text-anchor="middle" class="tx-ink tx-b">{L.hit}</text>
+  <text x="84" y="152" text-anchor="middle" class="tx-ink tx-b">{L.before}</text>
+  <text x="84" y="170" text-anchor="middle" class="tx-s">{L.re} <tspan class="tx-num tx-ink">{before.re}</tspan></text>
+  <text x="276" y="152" text-anchor="middle" class="tx-ink tx-b">{L.after}</text>
+  <text x="276" y="170" text-anchor="middle" class="tx-s">{L.re} <tspan class="tx-num tx-ink">{after.re}</tspan></text>
+  <text x="0" y="214" class="tx-ink tx-l">{L.calc} <tspan class="tx-big tx-red" dx="4">+{v.toFixed(3)}</tspan></text>
+</Fig>

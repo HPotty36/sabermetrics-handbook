@@ -1,0 +1,54 @@
+---
+// ABS 챌린지: 판정에 쓰는 존. 높이는 선수 키의 27%~53.5%, 폭은 홈플레이트 17인치, 판정은 홈플레이트 한가운데에서 한다.
+import { n } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+// 왼쪽: 키 6피트(72인치) 타자의 옆 눈금. 1인치 = 2.6px
+const S = 2.6;
+const G = 226;
+const H = 72;
+const zt = H * 0.535;
+const zb = H * 0.27;
+const y = (inch: number) => G - inch * S;
+const cm = (inch: number) => Math.round(inch * 2.54);
+// 오른쪽: 위에서 본 홈플레이트. 1인치 = 6px. 투수 쪽(앞) 폭 17인치, 옆 8.5인치, 뒤로 12인치씩 모인다.
+const P = 6;
+const px = 210;
+const py = 70;
+const back = Math.sqrt(12 * 12 - 8.5 * 8.5); // 뒤쪽 꼭짓점까지 깊이
+const plate = [[0, 0], [17, 0], [17, 8.5], [8.5, 8.5 + back], [0, 8.5]].map(([a, b]) => [px + a * P, py + b * P]);
+const mid = py + ((8.5 + back) / 2) * P;
+const ko = {
+  alt: `키 6피트 타자의 ABS 존은 바닥에서 ${zb.toFixed(1)}~${zt.toFixed(1)}인치. 판정은 홈플레이트 한가운데에서 한다.`,
+  caption: `2026시즌 MLB 챌린지 판정에 쓰는 존. 높이는 맨발 키의 27%에서 53.5%까지라 가상의 키 6피트(183cm) 타자면 바닥에서 ${cm(zb)}~${cm(zt)}cm다. 폭은 홈플레이트 17인치이고, 앞이 아니라 한가운데를 지나는 순간으로 판정한다.`,
+  height: '키 6피트', top: `53.5% · ${cm(zt)}cm`, bottom: `27% · ${cm(zb)}cm`, zone: '존',
+  pitcher: '투수 쪽', catcher: '포수 쪽', here: '여기를 지날 때 판정', w: '17인치',
+};
+const en: typeof ko = {
+  alt: `For a 6-foot batter the ABS zone runs ${zb.toFixed(1)} to ${zt.toFixed(1)} inches off the ground, called at the middle of the plate.`,
+  caption: `The zone used for challenges in MLB from 2026. Its height is 27% to 53.5% of the player's barefoot height, so for a made-up 6-foot batter it runs ${zb.toFixed(1)} to ${zt.toFixed(1)} inches off the ground. It is the 17-inch plate wide and is judged as the ball crosses the middle of the plate, not the front.`,
+  height: '6 ft tall', top: `53.5% · ${zt.toFixed(1)} in`, bottom: `27% · ${zb.toFixed(1)} in`, zone: 'Zone',
+  pitcher: 'Pitcher side', catcher: 'Catcher side', here: 'Called here', w: '17 in',
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={250} alt={L.alt} caption={L.caption}>
+  <path class="ln ln-grid" d={`M0 ${G}H170`} />
+  <path class="ln" d={`M24 ${G}V${n(y(H))}`} />
+  <path class="ln" d={`M18 ${n(y(H))}H30`} />
+  <text x="36" y={n(y(H) + 4)} class="tx-ink tx-s">{L.height}</text>
+  <path class="ln ln-3 ln-red" d={`M24 ${n(y(zt))}V${n(y(zb))}`} />
+  <rect class="fi-soft ln ln-red" x="58" y={n(y(zt))} width={n(17 * S)} height={n((zt - zb) * S)} />
+  <text x={n(58 + 17 * S + 8)} y={n(y(zt) + 4)} class="tx-red tx-b tx-s">{L.top}</text>
+  <text x={n(58 + 17 * S + 8)} y={n(y(zb) + 4)} class="tx-red tx-b tx-s">{L.bottom}</text>
+  <text x={n(58 + 17 * S / 2)} y={n((y(zt) + y(zb)) / 2 + 4)} text-anchor="middle" class="tx-red tx-s">{L.zone}</text>
+  <text x={n(px + 8.5 * P)} y={py - 30} text-anchor="middle" class="tx-s">{L.pitcher}</text>
+  <path class="ln ln-muted" d={`M${n(px + 8.5 * P)} ${py - 24}V${py - 6}`} />
+  <path class="fi-paper ln ln-2" d={`M${plate.map(([a, b]) => `${n(a)} ${n(b)}`).join('L')}Z`} />
+  <path class="ln ln-red ln-2" d={`M${px - 8} ${n(mid)}H${n(px + 17 * P + 8)}`} />
+  <text x={n(px + 8.5 * P)} y={n(mid - 8)} text-anchor="middle" class="tx-red tx-b tx-s">{L.here}</text>
+  <text x={n(px + 8.5 * P)} y={n(py + (8.5 + back) * P + 18)} text-anchor="middle" class="tx-s">{L.catcher}</text>
+  <text x={n(px + 8.5 * P)} y={py + 16} text-anchor="middle" class="tx-s">{L.w}</text>
+</Fig>

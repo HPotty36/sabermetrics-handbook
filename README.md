@@ -32,6 +32,7 @@ A glossary of baseball stats, from batting average to swing timing. Every term i
 - **Two layers per term.** A simple explanation and a detailed one, with a switch for which comes first. The choice is remembered.
 - **Topics.** Related terms lined up from basic to advanced, so you can keep going one step at a time (ERA → WHIP → ERA+ → FIP). Terms you've read get a stitched ball on the line, and the stretch you've covered turns red. The record stays in your browser.
 - **Benchmarks.** A scale with the 2026 MLB average and rough ranges for good and bad. Every number links to its source.
+- **A figure for every term.** Each one is drawn the way that stat is best explained: the plate appearances a rate counts, the strike zone, exit velocity against launch angle, a pitch seen from the side, the field from above, or how a value adds up. They are plain line drawings built into the page, with only definitional thresholds, checked averages or clearly made-up examples.
 - **Recent Statcast metrics.** Bat speed, swing length, attack direction, arm angle, swing timing and the 2026 ABS challenge, along with the classics.
 - **Korean and English, light and dark.** Switch language on any page and land on the same term. Dark mode is pitch black.
 - **Installs like an app.** Tap “Install app” in the settings (on iPhone it shows how to add it to the Home Screen). Once installed, every page, font and search works without a connection, and long-pressing the icon jumps to Topics, Terms or the other language. Android and iOS wrappers use the same build.
@@ -95,6 +96,7 @@ src/lib/schema.ts                content schema (zod)
 src/lib/validate.ts              cross-file checks, including Korean and English staying in step
 src/lib/i18n.ts                  interface text in both languages
 src/pages/[...lang]/             home, topics, term list and term pages for both languages
+src/components/fig/terms/<id>.astro  the figure for each term (static SVG, both languages)
 src/scripts/                     search, filters, settings, back, progress (the only client scripts)
 src/styles/global.css            design tokens and styles
 integrations/                    builds the service worker (dist/sw.js) after each build

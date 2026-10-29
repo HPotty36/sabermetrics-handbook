@@ -1,0 +1,38 @@
+---
+// 항목마다 점수를 매겨 더하는 지표(DRS, BsR, WAR)의 그림. 0을 가운데 두고 더하는 쪽은 오른쪽, 빼는 쪽은 왼쪽 막대다.
+// 마지막 줄의 합이 빨간 막대다.
+import { n } from '../../lib/fig.ts';
+
+interface Props {
+  rows: { label: string; v: number }[];
+  total: string;
+  /** 1점이 몇 px인지 */
+  unit: number;
+  /** 0의 자리 */
+  axis?: number;
+  fmt?: (v: number) => string;
+}
+
+const { rows, total, unit, axis = 196, fmt = (v: number) => (v > 0 ? `+${v}` : v < 0 ? `−${Math.abs(v)}` : '0') } = Astro.props;
+const Y = (i: number) => 20 + i * 30;
+const sum = Math.round(rows.reduce((s, r) => s + r.v, 0) * 10) / 10;
+const ty = Y(rows.length) + 14;
+---
+<g>
+  <path class="ln ln-1" d={`M${axis} 6V${ty + 10}`} />
+  {rows.map((r, i) => {
+    const w = Math.abs(r.v) * unit;
+    const x = r.v >= 0 ? axis : axis - w;
+    return (
+      <g>
+        <text x="0" y={Y(i) + 4} class="tx-ink">{r.label}</text>
+        {r.v !== 0 && <rect class="fi-ink" x={n(x)} y={Y(i) - 7} width={n(w)} height="14" />}
+        <text x={n(r.v >= 0 ? axis + w + 6 : axis - w - 6)} y={Y(i) + 4} text-anchor={r.v >= 0 ? 'start' : 'end'} class="tx-num tx-ink">{fmt(r.v)}</text>
+      </g>
+    );
+  })}
+  <path class="ln ln-grid" d={`M0 ${ty - 16}H360`} />
+  <text x="0" y={ty + 4} class="tx-red tx-b">{total}</text>
+  <rect class="fi-red" x={n(sum >= 0 ? axis : axis + sum * unit)} y={ty - 7} width={n(Math.abs(sum) * unit)} height="14" />
+  <text x={n(sum >= 0 ? axis + sum * unit + 6 : axis + sum * unit - 6)} y={ty + 4} text-anchor={sum >= 0 ? 'start' : 'end'} class="tx-num tx-red">{fmt(sum)}</text>
+</g>

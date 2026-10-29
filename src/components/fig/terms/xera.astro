@@ -1,0 +1,32 @@
+---
+// xERA: 허용한 타구의 질과 삼진·볼넷·사구로 계산한 피xwOBA를 평균자책점 눈금으로 옮긴다.
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+import Steps from '../Steps.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const ko = {
+  alt: 'xERA를 만드는 순서: 타구마다 기대값, 삼진·볼넷·사구는 실제 값, 둘을 합친 피xwOBA, 평균자책점 눈금으로 옮기기.',
+  caption: '계산 순서. 맞은 타구가 어디로 갔는지, 수비가 잡았는지는 보지 않는다. 그래서 실제 평균자책점이 xERA보다 한참 낮으면 수비나 운, 구장의 덕을 봤을 수 있다. 앞날을 예측한다기보다 들여다볼 신호로 쓴다.',
+  steps: [
+    { title: '허용한 타구마다 기대값', sub: '속도·발사각이 비슷했던 과거 타구의 평균 결과' },
+    { title: '삼진·볼넷·사구는 실제 값', sub: '타구가 없는 결과는 그대로 쓴다' },
+    { title: '피xwOBA', sub: '둘을 wOBA처럼 합친 값' },
+    { title: 'xERA', sub: '피xwOBA를 평균자책점 눈금으로 1:1로 옮긴다' },
+  ],
+};
+const en: typeof ko = {
+  alt: 'How xERA is built: an expected value for each batted ball, actual values for strikeouts, walks and HBP, the combined xwOBA allowed, then a conversion to the ERA scale.',
+  caption: 'The order of the calculation. Where the ball went and whether the defense caught it never enter. So an ERA well below the xERA may owe something to defense, luck or the park. Treat it as a flag to look closer rather than a forecast.',
+  steps: [
+    { title: 'Expected value per batted ball', sub: 'The average result of past balls with similar speed and angle' },
+    { title: 'Actual K, BB and HBP', sub: 'Outcomes without a batted ball stay as they are' },
+    { title: 'xwOBA allowed', sub: 'Both combined like wOBA' },
+    { title: 'xERA', sub: 'xwOBA allowed moved one-to-one onto the ERA scale' },
+  ],
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={200} alt={L.alt} caption={L.caption}>
+  <Steps steps={L.steps} />
+</Fig>

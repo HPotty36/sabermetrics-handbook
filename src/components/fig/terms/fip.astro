@@ -1,0 +1,54 @@
+---
+// FIP: 투수 혼자 정하는 결과에 무게를 매겨 더하고, 인플레이 타구는 아예 넣지 않는다.
+import { FIP_C_2026, gameTotals, n } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const g = gameTotals();
+const rows = [
+  { key: 'hr', count: g.HR, w: 13 },
+  { key: 'bb', count: g.BB + g.HBP, w: 3 },
+  { key: 'k', count: g.K, w: -2 },
+] as const;
+const sum = rows.reduce((s, r) => s + r.count * r.w, 0);
+const fip = sum / g.IP + FIP_C_2026;
+const AX = 236;
+const U = 4.6;
+const ko = {
+  alt: `가상의 한 경기에서 홈런 ${g.HR}, 볼넷과 사구 ${g.BB + g.HBP}, 삼진 ${g.K}. FIP ${fip.toFixed(2)}.`,
+  caption: `평균자책점 그림과 같은 가상의 한 경기. 홈런 하나가 13, 볼넷·사구가 3, 삼진은 −2다. 안타가 된 타구도 아웃이 된 타구도 넣지 않는다. 같은 경기의 평균자책점은 ${((9 * g.ER) / g.IP).toFixed(2)}였다. 상수 ${FIP_C_2026.toFixed(2)}는 2026 MLB 값이다.`,
+  hr: `홈런 ${g.HR} × 13`, bb: `볼넷·사구 ${g.BB + g.HBP} × 3`, k: `삼진 ${g.K} × (−2)`, bip: '인플레이 타구', bipNote: '넣지 않음',
+  sum: '합', calc: `${sum} ÷ ${g.IP}이닝 + ${FIP_C_2026.toFixed(2)} =`,
+};
+const en: typeof ko = {
+  alt: `In one hypothetical start: ${g.HR} home run, ${g.BB + g.HBP} walks and HBP, ${g.K} strikeouts. FIP ${fip.toFixed(2)}.`,
+  caption: `The same made-up start as the ERA figure. A home run is worth 13, a walk or HBP 3, a strikeout −2. Balls in play, hits or outs, are left out. The ERA for this start was ${((9 * g.ER) / g.IP).toFixed(2)}. The constant ${FIP_C_2026.toFixed(2)} is the 2026 MLB value.`,
+  hr: `${g.HR} HR × 13`, bb: `${g.BB + g.HBP} BB+HBP × 3`, k: `${g.K} K × (−2)`, bip: 'Balls in play', bipNote: 'left out',
+  sum: 'Sum', calc: `${sum} ÷ ${g.IP} IP + ${FIP_C_2026.toFixed(2)} =`,
+};
+const L = lang === 'ko' ? ko : en;
+const Y = (i: number) => 26 + i * 32;
+---
+<Fig h={232} alt={L.alt} caption={L.caption}>
+  <path class="ln ln-1" d={`M${AX} 8V${Y(4) + 12}`} />
+  {rows.map((r, i) => {
+    const v = r.count * r.w;
+    const x = v >= 0 ? AX : AX + v * U;
+    return (
+      <g>
+        <text x="0" y={Y(i) + 4} class="tx-ink">{L[r.key]}</text>
+        <rect class="fi-ink" x={n(x)} y={Y(i) - 7} width={n(Math.abs(v) * U)} height="14" />
+        <text x={n(v >= 0 ? AX + v * U + 6 : AX + v * U - 6)} y={Y(i) + 4} text-anchor={v >= 0 ? 'start' : 'end'} class="tx-num tx-ink">{v > 0 ? `+${v}` : v}</text>
+      </g>
+    );
+  })}
+  <text x="0" y={Y(3) + 4}>{L.bip}</text>
+  <rect class="fi-none ln ln-muted ln-dash" x={AX} y={Y(3) - 7} width="40" height="14" />
+  <text x={AX + 48} y={Y(3) + 4} class="tx-s">{L.bipNote}</text>
+  <path class="ln ln-1 ln-grid" d={`M0 ${Y(4) - 16}H360`} />
+  <text x="0" y={Y(4) + 4} class="tx-red tx-b">{L.sum}</text>
+  <rect class="fi-red" x={AX} y={Y(4) - 7} width={n(sum * U)} height="14" />
+  <text x={n(AX + sum * U + 6)} y={Y(4) + 4} class="tx-num tx-red">{sum}</text>
+  <text x="0" y="214" class="tx-ink tx-l">{L.calc} <tspan class="tx-big tx-red" dx="4">{fip.toFixed(2)}</tspan></text>
+</Fig>

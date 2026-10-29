@@ -15,7 +15,7 @@ Each term lives in two files that share a name:
 | `src/content/terms/<id>.json` | Everything that doesn't depend on language (level, categories, scale numbers, related terms, source URLs) plus the Korean text. |
 | `src/content/en/terms/<id>.json` | The English text: name, summary, simple and detailed explanations, scale labels, formula, misconception, league notes, source titles. |
 
-Then add the term to at least one topic in `src/content/ladders.json`, in order from basic to advanced.
+Then add the term to at least one topic in `src/content/ladders.json`, in order from basic to advanced, and draw its figure in `src/components/fig/terms/<id>.astro` (`npm test` fails without one). Pick the form that explains that stat best, reuse the shared pieces in `src/components/fig/` and the made-up data in `src/lib/fig.ts`, and write the labels and caption in both languages. Numbers in a figure follow the same rules as the text: definitional thresholds, checked averages with their season, or examples marked as made up.
 
 The full schema and writing rules are in [`docs/content-guide.md`](docs/content-guide.md) (Korean). In short:
 

@@ -1,0 +1,28 @@
+---
+// 출루율: 가상의 12타석에서 살아 나간 타석. 희생플라이는 분모에만 든다.
+import { isHit, paTotals, rate3 } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+import PaLine from '../PaLine.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const t = paTotals();
+const on = t.H + t.BB + t.HBP;
+const den = t.AB + t.BB + t.HBP + t.SF;
+const ko = {
+  alt: `가상의 12타석 중 안타, 볼넷, 사구로 ${on}번 살아 나갔다. 출루율 ${rate3(on / den)}.`,
+  caption: '가상의 12타석. 안타, 볼넷, 몸에 맞는 공은 모두 똑같이 출루 하나다. 희생플라이는 출루가 아니지만 분모에는 든다.',
+  num: '출루', den: '분모에만 드는 타석',
+  calc: `출루 ${on} ÷ ${den} =`,
+};
+const en: typeof ko = {
+  alt: `Of 12 hypothetical plate appearances, the batter reached ${on} times by hit, walk or HBP. OBP ${rate3(on / den)}.`,
+  caption: 'Twelve made-up plate appearances. A hit, a walk and a hit-by-pitch each count as one time on base. A sac fly is not on base but stays in the denominator.',
+  num: 'On base', den: 'Denominator only',
+  calc: `${on} on base ÷ ${den} =`,
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={236} alt={L.alt} caption={L.caption}>
+  <PaLine lang={lang} state={(k) => (isHit(k) || k === 'BB' || k === 'HBP' ? 'num' : 'den')} legend={{ num: L.num, den: L.den }} calc={L.calc} result={rate3(on / den)} />
+</Fig>

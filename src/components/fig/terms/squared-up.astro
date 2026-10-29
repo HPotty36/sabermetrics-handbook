@@ -1,0 +1,40 @@
+---
+// 스퀘어드업: 배트 스피드와 투구 속도로 낼 수 있는 최대 타구 속도의 80% 이상을 낸 스윙.
+import { n } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const MAX = 110;
+const U = 2.7; // 1mph
+const X0 = 8;
+const thr = MAX * 0.8;
+const swings = [
+  { ev: 95, key: 'a' },
+  { ev: 70, key: 'b' },
+] as const;
+const ko = {
+  alt: `낼 수 있는 최대 타구 속도가 ${MAX}mph인 가상의 스윙 둘. 95mph(86%)는 스퀘어드업, 70mph(64%)는 아니다.`,
+  caption: `가상의 두 스윙. 그 배트 스피드와 투구 속도로 낼 수 있는 최대 타구 속도가 ${MAX}mph라면 ${thr}mph(80%)를 넘긴 쪽만 스퀘어드업이다. 최대치는 공이 스위트 스팟(배트 끝에서 4~9인치)에 맞았을 때만 나온다. 2026 MLB에서는 스윙의 24.7%가 스퀘어드업이었다.`,
+  max: `낼 수 있는 최대 ${MAX}mph`, thr: `80% · ${thr}mph`, a: '스윙 A · 95mph (86%)', b: '스윙 B · 70mph (64%)', yes: '스퀘어드업', no: '아님',
+};
+const en: typeof ko = {
+  alt: `Two hypothetical swings whose best possible exit velocity is ${MAX} mph. 95 mph (86%) is squared up; 70 mph (64%) is not.`,
+  caption: `Two made-up swings. If the bat speed and pitch speed allow a best possible exit velocity of ${MAX} mph, only a ball hit ${thr} mph (80%) or harder is squared up. The maximum is only reachable on the sweet spot, 4–9 inches from the end of the bat. In 2026 MLB, 24.7% of swings were squared up.`,
+  max: `Best possible ${MAX} mph`, thr: `80% · ${thr} mph`, a: 'Swing A · 95 mph (86%)', b: 'Swing B · 70 mph (64%)', yes: 'Squared up', no: 'Not',
+};
+const L = lang === 'ko' ? ko : en;
+const Y = (i: number) => 66 + i * 52;
+---
+<Fig h={178} alt={L.alt} caption={L.caption}>
+  <text x={X0} y="18" class="tx-s">{L.max}</text>
+  <rect class="fi-none ln" x={X0} y="26" width={n(MAX * U)} height="10" />
+  <path class="ln ln-red ln-2" d={`M${n(X0 + thr * U)} 22V${Y(1) + 14}`} />
+  <text x={n(X0 + thr * U + 6)} y="48" class="tx-red tx-b tx-s">{L.thr}</text>
+  {swings.map((s, i) => (
+    <g>
+      <rect class={s.ev >= thr ? 'fi-red' : 'fi-ink'} x={X0} y={Y(i)} width={n(s.ev * U)} height="14" />
+      <text x={X0} y={Y(i) + 30} class:list={['tx-s tx-b', s.ev >= thr ? 'tx-red' : 'tx-ink']}>{L[s.key]} · {s.ev >= thr ? L.yes : L.no}</text>
+    </g>
+  ))}
+</Fig>

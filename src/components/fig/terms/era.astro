@@ -1,0 +1,32 @@
+---
+// 평균자책점: 6이닝에 내준 자책점을 9이닝으로 늘린다. 실책 뒤에 난 점수는 뺀다.
+import { gameTotals } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+import InningLine from '../InningLine.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const g = gameTotals();
+const era = (9 * g.ER) / g.IP;
+const ko = {
+  alt: `가상의 선발 투수가 ${g.IP}이닝 동안 ${g.ER + g.UR}점을 줬고 그중 자책점은 ${g.ER}. 평균자책점 ${era.toFixed(2)}.`,
+  caption: '가상의 선발 투수 한 경기. 3회 홈런으로 준 2점은 자책점, 5회 실책 때문에 난 1점은 자책점이 아니다. 6이닝에 2점이면 9이닝을 다 던졌을 때 3점을 주는 셈이다.',
+  inning: (i: number) => `${i}회`, er: '자책점', ur: '실책 뒤 점수(뺀다)', ip: '던진 이닝', no: '던지지 않음',
+  calc: `9 × 자책점 ${g.ER} ÷ ${g.IP}이닝 =`,
+};
+const en: typeof ko = {
+  alt: `A hypothetical starter allowed ${g.ER + g.UR} runs in ${g.IP} innings, ${g.ER} of them earned. ERA ${era.toFixed(2)}.`,
+  caption: 'One made-up start. The two runs on the third-inning homer are earned; the run that scored on an error in the fifth is not. Two earned runs in six innings is three over a full nine.',
+  inning: (i: number) => String(i), er: 'Earned run', ur: 'Unearned (out)', ip: 'Pitched', no: 'Not pitched',
+  calc: `9 × ${g.ER} ER ÷ ${g.IP} IP =`,
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={226} alt={L.alt} caption={L.caption}>
+  <InningLine inningLabel={L.inning} marks={(i) => [...Array(i.er).fill('red'), ...Array(i.ur).fill('dot')]} />
+  <g transform="translate(0 170)">
+    <circle class="fi-red" cx="8" cy="0" r="5" /><text x="19" y="4" class="tx-s">{L.er}</text>
+    <circle class="fi-paper ln ln-muted ln-dot" cx="128" cy="0" r="4.4" /><text x="139" y="4" class="tx-s">{L.ur}</text>
+  </g>
+  <text x="0" y="214" class="tx-ink tx-l">{L.calc} <tspan class="tx-big tx-red" dx="4">{era.toFixed(2)}</tspan></text>
+</Fig>

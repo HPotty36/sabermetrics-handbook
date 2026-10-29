@@ -1,0 +1,38 @@
+---
+// 팔 각도: 공을 놓는 순간 던지는 쪽 어깨와 공을 이은 선이 수평선과 이루는 각도. 0°는 사이드암, 90°는 머리 위.
+import { arc, n, polar } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const S = [222, 168] as const;
+const A = 37.1;
+// 포수 쪽에서 본 우투수: 던지는 팔이 화면 왼쪽에 있다.
+const [bx, by] = polar(S[0], S[1], 128, 180 - A);
+const [ux, uy] = polar(S[0], S[1], 128, 90);
+const ko = {
+  alt: '포수 쪽에서 본 우투수의 팔 각도 37°. 0°는 어깨 높이의 사이드암, 90°는 팔을 머리 위로 세운 것.',
+  caption: '포수 쪽에서 본 가상의 우투수. 37°는 2026 MLB 우투수 평균이다(좌투수 38.0°). 0°보다 낮으면 손이 어깨보다 아래에서 공을 놓는 언더핸드다. 키나 릴리스 높이와 상관없이 팔을 어떻게 쓰는지만 본다.',
+  shoulder: '던지는 쪽 어깨', ball: '공을 놓는 순간', side: '0° 사이드암', over: '90° 머리 위', under: '0° 아래는 언더핸드', a: '37°',
+};
+const en: typeof ko = {
+  alt: 'A right-hander seen from the catcher with a 37 degree arm angle. 0 degrees is sidearm at shoulder height; 90 is straight over the top.',
+  caption: 'A made-up right-hander seen from behind the plate. 37° is the 2026 MLB average for right-handers (38.0° for lefties). Below 0° the hand is under the shoulder at release: submarine. It shows how the arm is used, whatever the pitcher’s height or release height.',
+  shoulder: 'Throwing shoulder', ball: 'Ball at release', side: '0° sidearm', over: '90° over the top', under: 'below 0°: submarine', a: '37°',
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={210} alt={L.alt} caption={L.caption}>
+  <path class="ln ln-1 ln-muted ln-dash" d={`M${S[0]} ${S[1]}H${S[0] - 150}`} />
+  <path class="ln ln-1 ln-muted ln-dash" d={`M${S[0]} ${S[1]}L${n(ux)} ${n(uy)}`} />
+  <text x={S[0] - 150} y={S[1] + 18} class="tx-s">{L.side}</text>
+  <text x={S[0] - 150} y={S[1] + 34} class="tx-s">{L.under}</text>
+  <text x={n(ux + 8)} y={n(uy + 10)} class="tx-s">{L.over}</text>
+  <path class="ln ln-red ln-3" d={`M${S[0]} ${S[1]}L${n(bx)} ${n(by)}`} />
+  <path class="ln ln-red" d={arc(S[0], S[1], 52, 180 - A, 180)} />
+  <text x={S[0] - 62} y={S[1] - 10} text-anchor="end" class="tx-red tx-b tx-l">{L.a}</text>
+  <circle class="fi-ink" cx={S[0]} cy={S[1]} r="6" />
+  <text x={S[0] + 10} y={S[1] + 5} class="tx-ink tx-s">{L.shoulder}</text>
+  <circle class="fi-paper ln ln-2" cx={n(bx)} cy={n(by)} r="6" />
+  <text x={n(bx - 8)} y={n(by - 10)} text-anchor="end" class="tx-ink tx-s">{L.ball}</text>
+</Fig>

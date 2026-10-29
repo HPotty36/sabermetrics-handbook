@@ -1,0 +1,40 @@
+---
+// 팝 타임: 공이 미트에 닿은 순간부터 송구가 2루 한가운데에 닿을 때까지. 풋워크, 빼는 시간, 송구 속도가 합쳐진다.
+import { arrow, n } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const H = [64, 66] as const;
+const B2 = [300, 66] as const;
+const t = arrow(H[0] + 10, H[1] - 4, B2[0] - 10, B2[1] - 4, 8);
+const X0 = 20;
+const X1 = 340;
+const ko = {
+  alt: '포수가 공을 받은 순간부터 2루에 송구가 닿을 때까지의 시간. 2026 MLB 2루 도루 시도 평균 1.94초.',
+  caption: '포수에서 2루까지. 시계는 공이 미트에 닿을 때 시작해 송구가 베이스 한가운데에 닿을 때 멈춘다. 발 옮기기, 공 빼기, 송구 속도가 한 숫자에 다 들어간다. 2026 MLB에서 2루 도루 시도 때의 평균은 1.94초였다(포수 94명, 송구 2,500개).',
+  catcher: '포수', base: '2루', start: '미트에 닿음 0초', end: '베이스에 닿음 1.94초', ex: '발 옮기기·공 빼기', fly: '송구가 날아가는 시간', pop: '팝 타임',
+};
+const en: typeof ko = {
+  alt: 'The time from the catcher receiving the pitch to the throw reaching second base. The 2026 MLB average on steal attempts of second was 1.94 seconds.',
+  caption: 'Catcher to second base. The clock starts when the pitch hits the mitt and stops when the throw reaches the middle of the bag. Footwork, the transfer and arm strength all land in one number. On 2026 MLB steal attempts of second, the average was 1.94 seconds (94 catchers, 2,500 throws).',
+  catcher: 'Catcher', base: '2B', start: 'In the mitt 0 s', end: 'At the bag 1.94 s', ex: 'Footwork and transfer', fly: 'Ball in the air', pop: 'Pop time',
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={160} alt={L.alt} caption={L.caption}>
+  <path class="fi-ink" d={`M${H[0]} ${H[1] - 6}l6 6l-6 6l-6 -6z`} />
+  <text x={H[0]} y={H[1] + 24} text-anchor="middle" class="tx-ink tx-s">{L.catcher}</text>
+  <path class="fi-paper ln ln-2" d={`M${B2[0]} ${B2[1] - 7}l7 7l-7 7l-7 -7z`} />
+  <text x={B2[0]} y={B2[1] + 26} text-anchor="middle" class="tx-ink tx-s">{L.base}</text>
+  <path class="ln ln-2" d={t.line} /><path class="fi-ink" d={t.head} />
+  <g transform="translate(0 140)">
+    <path class="ln ln-red ln-3" d={`M${X0} 0H${X1}`} />
+    <path class="ln ln-red ln-2" d={`M${X0} -7V7M${X1} -7V7`} />
+    <text x={X0} y="-12" class="tx-s">{L.start}</text>
+    <text x={X1} y="-12" text-anchor="end" class="tx-s">{L.end}</text>
+    <text x={(X0 + X1) / 2} y="-12" text-anchor="middle" class="tx-red tx-b">{L.pop}</text>
+  </g>
+  <text x={H[0] + 18} y={H[1] - 14} class="tx-s">{L.ex}</text>
+  <text x={B2[0] - 18} y={H[1] - 14} text-anchor="end" class="tx-s">{L.fly}</text>
+</Fig>
