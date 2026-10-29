@@ -1,25 +1,29 @@
 ---
 // 사다리 선. 굵은 잉크 선 위에 역(동그라미)을 찍는다. 세로(v)는 홈 입구와 사다리 페이지, 가로(h)는 홈의 사다리 묶음과 용어 페이지 맨 위에 쓴다.
 // 지금 용어는 빨간 점(is-current), 준비 중은 점선 고리(is-stub)다.
+// 읽은 진도(progress, 주제의 선에만): 읽은 용어는 실밥 공(is-read), 둘 다 읽었거나 지금 용어인 두 역 사이는 빨간 선(is-run)이다.
+// 바로 뒤의 인라인 스크립트가 저장된 기록(sh-read)을 칠해서, 선이 그려지기 전에 진도가 보인다(Base.astro의 shMarkLine).
 import type { Stop } from '../lib/stop.ts';
 
 interface Props {
   stops: Stop[];
   dir: 'v' | 'h';
   label?: string;
+  progress?: boolean;
 }
 
-const { stops, dir, label } = Astro.props;
+const { stops, dir, label, progress } = Astro.props;
 ---
-<ol class:list={['line', `line-${dir}`]} style={dir === 'h' ? `--n:${stops.length}` : undefined} aria-label={label}>{stops.map((s) => {
+<ol class:list={['line', `line-${dir}`]} style={dir === 'h' ? `--n:${stops.length}` : undefined} aria-label={label} data-progress={progress ? '' : undefined}>{stops.map((s) => {
   const body = (
     <><span class="stop-dot" aria-hidden="true"></span><span class="stop-name">{s.name}</span>{s.sub && <span class="stop-sub">{s.sub}</span>}{s.note && <span class="stop-note">{s.note}</span>}</>
   );
   return (
-    <li class:list={['stop', s.state && `is-${s.state}`]} aria-current={s.state === 'current' ? 'step' : undefined}>{s.href && s.state !== 'current' ? (
+    <li class:list={['stop', s.state && `is-${s.state}`]} data-term={progress ? s.id : undefined} aria-current={s.state === 'current' ? 'step' : undefined}>{s.href && s.state !== 'current' ? (
       <a class="stop-link" href={s.href}>{body}</a>
     ) : (
       <span class="stop-link">{body}</span>
     )}</li>
   );
 })}</ol>
+{progress && <script is:inline>shMarkLine(document.currentScript.previousElementSibling)</script>}

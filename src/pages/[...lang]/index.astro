@@ -54,12 +54,12 @@ const knownStops = knownAll.slice(0, DOOR_MAX);
     <section class="door" aria-labelledby="door-first">
       <h2 id="door-first">{s.basics}</h2>
       <Line stops={firstStops} dir="v" label={s.basics} />
-      {firstAll.length > DOOR_MAX && <a class="door-more" href={termsHref}>{s.allTerms}<span aria-hidden="true">→</span></a>}
+      {firstAll.length > DOOR_MAX && <a class="door-more" href={termsHref}><span class="door-more-label">{s.allTerms}</span><span aria-hidden="true">→</span></a>}
     </section>
     <section class="door" aria-labelledby="door-known">
       <h2 id="door-known">{s.advanced}</h2>
       <Line stops={knownStops} dir="v" label={s.advanced} />
-      {knownAll.length > DOOR_MAX && <a class="door-more" href={termsHref}>{s.allTerms}<span aria-hidden="true">→</span></a>}
+      {knownAll.length > DOOR_MAX && <a class="door-more" href={termsHref}><span class="door-more-label">{s.allTerms}</span><span aria-hidden="true">→</span></a>}
     </section>
   </div>
 

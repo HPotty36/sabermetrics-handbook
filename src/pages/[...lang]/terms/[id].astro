@@ -96,6 +96,8 @@ const hangulHead = /[가-힣]/.test(t.headword);
       {t.leagues && t.leagues.length > 0 && (
         <Sec title={s.leagues}>{t.leagues.map((l) => <p><b class="lg">{l.lg}</b>{l.t}</p>)}</Sec>
       )}
+      {/* 본문 끝. 여기가 화면에 들어오고 10초가 지나면 읽은 용어로 적는다(scripts/progress.ts). */}
+      <div data-read-mark aria-hidden="true"></div>
       {nexts.length > 0 && (
         <nav class="next-list" aria-label={s.nextTerms}>{nexts.map((n) => (
           <a class="next-row" href={n.href}><span class="next-label">{s.next} · {n.ladder}</span><span class="next-name"><b>{n.name}</b>{n.sub && <span>{n.sub}</span>}</span><span class="next-arrow" aria-hidden="true">→</span></a>
