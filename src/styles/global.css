@@ -54,7 +54,7 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 
 /* 쪽 배치. 폰은 한 단, 넓은 화면은 왼쪽 단(.rail) + 본문 */
 .page{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr);padding:env(safe-area-inset-top,0px) max(16px,env(safe-area-inset-right,0px)) 0 max(16px,env(safe-area-inset-left,0px))}
-.main{min-width:0;padding:64px 0 calc(var(--dock-h) + var(--dock-bottom) + 96px)}
+.main{position:relative;min-width:0;padding:64px 0 calc(var(--dock-h) + var(--dock-bottom) + 96px)}
 .results{min-width:0}
 @media (min-width:1024px){
   .page{grid-template-columns:200px minmax(0,1fr);column-gap:64px;padding-left:max(28px,env(safe-area-inset-left,0px));padding-right:max(28px,env(safe-area-inset-right,0px))}
@@ -88,6 +88,15 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .pref-theme svg{fill:none;flex:none}
 .pref-theme[aria-pressed="true"] svg{fill:currentColor}
 @media (hover:hover){.pref-lang:hover,.pref-theme:hover,.pref-install:hover{color:var(--ink)}}
+/* 뒤로: 홈이 아닌 페이지의 맨 위 왼쪽, 설정 줄의 맞은편. 폰은 화살표만(44px), 넓은 화면은 ‘뒤로’ 글자까지 흐린 색으로. */
+.back{position:absolute;z-index:5;top:8px;left:-10px;display:flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;color:var(--ink);text-decoration:none;-webkit-tap-highlight-color:transparent}
+.back svg{flex:none}
+.back-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (min-width:1024px){
+  .back{top:2px;left:-6px;gap:2px;padding:0 8px 0 2px;color:var(--muted);font:600 15px/1 var(--font-sans)}
+  .back-label{position:static;width:auto;height:auto;overflow:visible;clip:auto}
+}
+@media (hover:hover){.back:hover{color:var(--ink)}}
 @media (min-width:1024px){
   .prefs{display:grid;justify-items:start;margin-top:20px;padding-top:14px;border-top:1px solid var(--line);font:600 15px/1.5 var(--font-sans)}
   .pref-lang,.pref-theme,.pref-install{padding:6px 0 9px}

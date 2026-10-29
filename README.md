@@ -85,7 +85,7 @@ npm run icons          # regenerate PWA and app icons from assets/icon.svg and p
 
 ## How it's built
 
-An [Astro](https://astro.build) static site with almost no JavaScript: search, the term filters, the reading-order switch and the dark mode toggle are the only scripts. Each page is generated twice, at `/` in Korean and at `/en/` in English, from one template.
+An [Astro](https://astro.build) static site with almost no JavaScript: search, the term filters, the reading-order switch, the dark mode toggle and the back button are the only scripts. Each page is generated twice, at `/` in Korean and at `/en/` in English, from one template.
 
 ```
 src/content/terms/<id>.json      one term: shared data (level, scale numbers, source URLs) and the Korean text
@@ -95,7 +95,7 @@ src/lib/schema.ts                content schema (zod)
 src/lib/validate.ts              cross-file checks, including Korean and English staying in step
 src/lib/i18n.ts                  interface text in both languages
 src/pages/[...lang]/             home, topics, term list and term pages for both languages
-src/scripts/                     search, filters, settings (the only client scripts)
+src/scripts/                     search, filters, settings, back (the only client scripts)
 src/styles/global.css            design tokens and styles
 integrations/                    builds the service worker (dist/sw.js) after each build
 docs/content-guide.md            how to write a term (Korean)

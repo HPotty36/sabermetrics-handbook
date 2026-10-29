@@ -54,6 +54,8 @@ const menu = [
   { id: 'terms', label: s.terms, href: p.termsHref },
 ] as const;
 const current = (id: string) => (id !== tab ? undefined : view === 'term' ? 'true' : 'page');
+// 뒤로(scripts/back.ts): 사이트 안에서 왔으면 이전 페이지로, 밖에서 바로 열었으면 이 링크대로 한 단계 위로 간다. 홈에는 없다.
+const backHref = view === 'term' ? p.termsHref : p.homeHref;
 ---
 <!doctype html>
 <html lang={lang}>
@@ -142,7 +144,12 @@ const current = (id: string) => (id !== tab ? undefined : view === 'term' ? 'tru
     </dialog>
   )}
   <SearchResults lang={lang} />
-  <main class="main" id="main"><slot /></main>
+  <main class="main" id="main">
+    {view !== 'home' && (
+      <a class="back" href={backHref} data-back><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M14.5 5.5L8 12l6.5 6.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="back-label">{s.back}</span></a>
+    )}
+    <slot />
+  </main>
 </div>
 
 {/* 폰의 아래쪽 알약. 넓은 화면에서는 숨기고 왼쪽 단이 같은 일을 한다. */}
@@ -168,6 +175,7 @@ const current = (id: string) => (id !== tab ? undefined : view === 'term' ? 'tru
   import '../scripts/search-box.ts';
   import '../scripts/term-index.ts';
   import '../scripts/prefs.ts';
+  import '../scripts/back.ts';
 </script>
 {import.meta.env.PROD && !isAppBuild && (
   // 설치형 웹앱(PWA): 오프라인에서도 열리도록 서비스 워커를 등록한다.

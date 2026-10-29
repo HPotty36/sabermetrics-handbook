@@ -85,7 +85,7 @@ npm run icons          # assets/icon.svg, public/favicon.svg로 PWA·앱 아이�
 
 ## 구조
 
-[Astro](https://astro.build) 정적 사이트다. 브라우저 스크립트는 검색, 용어 고르기, 읽는 순서, 다크 모드뿐이다. 같은 템플릿으로 한국어(`/`)와 영어(`/en/`) 페이지를 함께 만든다.
+[Astro](https://astro.build) 정적 사이트다. 브라우저 스크립트는 검색, 용어 고르기, 읽는 순서, 다크 모드, 뒤로 단추뿐이다. 같은 템플릿으로 한국어(`/`)와 영어(`/en/`) 페이지를 함께 만든다.
 
 ```
 src/content/terms/<id>.json      용어 1개: 언어와 상관없는 값(레벨, 눈금 숫자, 출처 URL)과 한국어 글
@@ -95,7 +95,7 @@ src/lib/schema.ts                콘텐츠 스키마 (zod)
 src/lib/validate.ts              파일 사이 참조와 한국어·영어 짝 검사
 src/lib/i18n.ts                  두 언어의 화면 문구
 src/pages/[...lang]/             두 언어의 홈, 주제, 용어 목록, 용어 페이지
-src/scripts/                     검색, 고르기, 설정 (브라우저 스크립트는 이것뿐)
+src/scripts/                     검색, 고르기, 설정, 뒤로 (브라우저 스크립트는 이것뿐)
 src/styles/global.css            디자인 토큰과 스타일
 integrations/                    빌드 뒤 서비스 워커(dist/sw.js) 생성
 docs/content-guide.md            용어 작성 규칙

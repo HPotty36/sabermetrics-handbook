@@ -16,6 +16,7 @@ export const fill = (s: string, vars: Record<string, string | number>) => s.repl
 const ko = {
   siteName: '세이버메트릭스 핸드북',
   home: '홈',
+  back: '뒤로',
   ladders: '주제',
   terms: '용어',
   railLabel: '찾기와 메뉴',
@@ -89,6 +90,7 @@ export type UI = typeof ko;
 const en: UI = {
   siteName: 'Sabermetrics Handbook',
   home: 'Home',
+  back: 'Back',
   ladders: 'Topics',
   terms: 'Terms',
   railLabel: 'Search and menu',
