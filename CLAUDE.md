@@ -26,7 +26,7 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
     - `en/terms/<id>.json`: 같은 용어의 영어 글(컬렉션 `termsEn`). 숫자와 출처 URL은 한국어 파일 것을 쓰고, `validateEnglish`(`src/lib/validate.ts`)가 짝을 검사한다. `loadHandbook(lang)`이 언어별로 합쳐 `LocalTerm`으로 준다.
     - `stubs.json`(준비 중, 지금은 0개), `ladders.json`(사다리 18개): 순서가 있는 목록이라 컬렉션이 아니라 `src/lib/handbook.ts`에서 읽는다. 사다리는 파일에 적힌 순서대로 화면에 나온다. 둘 다 영어 이름(`en`)이 있다.
   - 스키마는 `src/lib/schema.ts`(zod), 파일 사이의 참조 검사는 `src/lib/validate.ts`다. 어긋나면 `astro build`가 실패한다. `npm test`는 빌드 없이 같은 검사를 돌린다.
-  - 클라이언트 스크립트는 이것뿐이다. `src/scripts/search-box.ts`(검색: 넓은 화면은 왼쪽 단 입력란, 폰은 아래쪽 알약의 찾기 화면과 키보드 높이 맞추기), `src/scripts/term-index.ts`(`/terms/`의 레벨·분야 고르기), `src/scripts/prefs.ts`(다크 모드 단추, 고른 언어 저장, 앱 설치 단추), `src/scripts/back.ts`(뒤로 단추), 용어 페이지의 인라인 스크립트(읽는 순서), `Base.astro`의 인라인 스크립트 셋(첫 화면 전에 저장된 다크 모드 붙이기, 영어를 고른 사람이 밖에서 한국어 홈에 오면 영어 홈으로 보내기, 서비스 워커 등록과 나머지 페이지 저장 알림).
+  - 클라이언트 스크립트는 이것뿐이다. `src/scripts/search-box.ts`(검색: 넓은 화면은 왼쪽 단 입력란, 폰은 아래쪽 알약의 찾기 화면과 키보드 높이 맞추기), `src/scripts/term-index.ts`(`/terms/`의 레벨·분야 고르기), `src/scripts/prefs.ts`(다크 모드 단추, 고른 언어 저장, 앱 설치 단추), `src/scripts/back.ts`(뒤로 단추, iOS 홈 화면 웹앱의 가장자리 밀기), 용어 페이지의 인라인 스크립트(읽는 순서), `Base.astro`의 인라인 스크립트 셋(첫 화면 전에 저장된 다크 모드 붙이기, 영어를 고른 사람이 밖에서 한국어 홈에 오면 영어 홈으로 보내기, 서비스 워커 등록과 나머지 페이지 저장 알림).
     - 화면 문구가 필요한 스크립트는 페이지가 data-*로 넘긴다(`data-no-match`, `data-found`, `data-empty`). 스크립트 안에는 문구를 두지 않는다.
     - 저장소: localStorage `sh-order`(읽는 순서), `sh-theme`(light/dark, 없으면 기기 설정), `sh-lang`(ko/en), sessionStorage `sh-index`(레벨·분야).
   - 스타일은 `src/styles/global.css`다. 프로토타입 CSS에서 출발했다. 맨 위 주석에 디자인 언어를 요약해 두었다.
@@ -72,7 +72,7 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
    - Capacitor식 라우팅(확장자 없는 주소 → 홈)을 흉내 낸 서버에서 앱용 빌드의 링크, 사다리 이동, 검색, 읽는 순서를 확인했다. 같은 서버에서 웹 빌드는 실패한다(앱용 빌드가 따로 있는 이유).
    - 이 컨테이너에는 Android SDK가 없고(dl.google.com 차단) Xcode도 없어 APK·IPA를 만들어 보지 못했다. 로컬에서 `npm run cap:sync` 뒤 `npx cap open android`(Android Studio) 또는 `npx cap open ios`(Xcode)로 빌드하고 실제 기기에서 확인한다.
    - `appId`(`com.sabermetricshandbook.app`)는 임시다. 스토어에 처음 올린 뒤에는 바꿀 수 없으니 출시 전에 정한다. 개인을 알아볼 수 있는 문구(GitHub 계정명 등)는 넣지 않는다.
-   - 확인할 것: iOS 상태 표시줄 영역(헤더는 `env(safe-area-inset-top)`을 쓴다), Android 뒤로 가기 버튼.
+   - 확인할 것: iOS 상태 표시줄 영역(헤더는 `env(safe-area-inset-top)`을 쓴다), Android 시스템 뒤로와 iOS 가장자리 밀기(아래 ‘뒤로’, 2026-10-29에 네이티브 코드를 넣었다).
 
 스택은 Astro를 권장하지만 확정은 아니다. 바꾸려면 먼저 이유를 설명하고 확인받는다.
 
@@ -254,7 +254,12 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
   - 홈에는 없다(사이트의 맨 위라 갈 곳이 없다). 폰 찾기 화면이 열리면 그 아래로 가려진다.
 - 동작(`src/scripts/back.ts`): 사이트 안의 페이지에서 왔으면(`document.referrer`가 같은 출처이고 기록이 있으면) `history.back()`이라 브라우저의 뒤로와 같고 스크롤 위치도 돌아온다. 밖에서 바로 열었으면(검색, 공유 링크, 앱 바로 가기, 새 탭) 사이트를 떠나지 않고 링크대로 한 단계 위로 간다: 용어 → 용어 목록, 주제·용어 목록 → 홈. 스크립트가 없어도 이 링크로 동작하고, 새 탭으로 여는 클릭(⌘·Ctrl·Shift·가운데 단추)은 브라우저에 맡긴다. 앱용 빌드에서는 링크에 `index.html`이 붙는다.
 - 확인(Chromium): 홈 → 용어 → 뒤로(홈, 스크롤 1200px 그대로), 용어 → ‘다음’ → 뒤로(앞 용어), 바로 연 용어·주제 → 뒤로(용어 목록·홈), 검색 엔진에서 온 영어 용어 → 뒤로(영어 용어 목록). 130페이지 × 400·1280px × 라이트·다크에서 가로 스크롤과 오류가 없었다. README 그림과 manifest 화면 사진을 다시 찍었다.
-- 실제 기기에서 볼 것: iOS 홈 화면 웹앱과 앱(Capacitor)에서 상태 표시줄 아래 자리, Android 시스템 뒤로와 함께 쓸 때.
+- 제스처(같은 날, 사용자 요청 ‘단추를 누르지 않아도 iPadOS 제스처와 안드로이드 기본 제스처로 뒤로’):
+  - 이미 되는 곳: Safari(iOS·iPadOS 가장자리 밀기), 안드로이드 크롬과 설치한 웹앱(시스템 뒤로 제스처·단추). 사이트는 페이지마다 실제로 이동하므로(SPA가 아니다) 브라우저 기록이 그대로 쌓인다.
+  - 앱(Capacitor)은 둘 다 안 됐다. iOS: WKWebView는 가장자리 밀기가 기본으로 꺼져 있어서 `SceneDelegate.swift`의 `MainViewController`(`CAPBridgeViewController`를 이어받음)가 `allowsBackForwardNavigationGestures`를 켠다. Android: Capacitor는 뒤로를 직접 처리하지 않아 어느 페이지에서든 앱이 닫혔다. `MainActivity.java`가 `OnBackPressedCallback`으로 웹뷰에 이전 페이지가 있으면 그리로 가고, 없으면 원래대로 앱을 닫는다.
+  - iOS·iPadOS 홈 화면 웹앱: 시스템 가장자리 밀기는 사이트 안에 이전 페이지가 있을 때만 동작한다고 알려져 있다(바로 연 페이지에서는 아무 일이 없다). 그래서 `back.ts`가 그곳에서만(`navigator.standalone`) 왼쪽 24px 띠에서 시작해 오른쪽으로 72px 이상 민 손가락을 보고, 뒤로 단추와 같은 곳으로 간다. 미는 동안 본문이 반만큼(최대 80px) 따라오고, 모자라면 제자리로 돌아온다(동작 줄이기 설정에서는 따라오지 않는다). 시스템 제스처가 손가락을 가져가면 `touchcancel`이 오므로 아무것도 하지 않아 두 번 돌아가지 않는다. 세로로 더 움직이면 스크롤로 보고, 찾기 화면·설치 안내가 열려 있거나 갈 곳이 없으면(바로 연 홈) 보지 않는다. 리스너는 모두 passive라 스크롤과 시스템 제스처를 막지 않는다.
+  - 확인(Chromium, iPad·iPhone 사용자 에이전트와 `navigator.standalone`을 흉내 내고 CDP 터치): 바로 연 용어 → 밀기 → 용어 목록, 홈 → 용어 → 밀기 → 홈, `touchcancel`·가장자리 밖·세로·짧게 밀기 → 그대로, Safari와 안드로이드 → 이 코드는 쉼, 바로 연 홈 → 그대로, 영어 주제 → 영어 홈. `MainActivity.java`는 같은 시그니처의 스텁으로 컴파일만 해 봤다(이 컨테이너에는 Android SDK와 Xcode가 없다).
+- 실제 기기에서 볼 것: iOS 홈 화면 웹앱과 앱(Capacitor)에서 상태 표시줄 아래 자리, iPadOS 홈 화면 웹앱에서 시스템 가장자리 밀기가 이전 페이지가 있을 때 정말 동작하는지(동작하지 않으면 위 대체 밀기가 맡는다), 앱의 가장자리 밀기와 Android 시스템 뒤로.
 
 ### 앱 아이콘 (2026-10-26)
 
