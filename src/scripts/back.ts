@@ -1,11 +1,14 @@
-// 뒤로: 홈이 아닌 페이지의 맨 위 왼쪽 링크(Base.astro)와, iOS·iPadOS 홈 화면 웹앱의 가장자리 밀기.
+// 뒤로: 홈이 아닌 페이지의 맨 위 왼쪽 링크(Base.astro)와, iPhone 홈 화면 웹앱의 가장자리 밀기.
 // - 사이트 안의 다른 페이지에서 왔으면 브라우저의 뒤로와 같게 이전 페이지로 간다. 스크롤 위치도 브라우저가 되살린다.
 // - 밖에서 바로 열었으면(검색, 공유 링크, 앱 바로 가기, 새 탭) 이전 페이지가 사이트 밖이거나 없으니, 링크대로 한 단계 위(용어 → 용어 목록, 주제·용어 목록 → 홈)로 간다.
 //   스크립트가 없어도 이 링크로 동작한다.
 // 제스처: Safari, 안드로이드(크롬, 설치한 웹앱, 시스템 뒤로), 앱(Capacitor, 네이티브 코드)은 시스템의 뒤로 제스처가 그대로 동작한다.
-//   iOS·iPadOS 홈 화면 웹앱만 시스템 제스처가 이전 페이지가 있을 때만 동작해서, 바로 연 페이지에서는 밀어도 아무 일이 없다.
+//   iPhone 홈 화면 웹앱만 시스템 제스처가 이전 페이지가 있을 때만 동작해서, 바로 연 페이지에서는 밀어도 아무 일이 없다.
 //   그래서 그곳에서는 왼쪽 가장자리에서 오른쪽으로 민 손가락을 따로 보고, 다 밀면 이 단추와 같은 곳으로 간다.
 //   시스템 제스처가 손가락을 가져가면 touchcancel이 오므로 그때는 아무것도 하지 않는다(두 번 돌아가지 않는다).
+//   iPad에서는 하지 않는다. 스테이지 매니저를 켜면 왼쪽 가장자리 밀기가 최근 앱을 꺼내는 시스템 제스처라 둘이 번갈아 걸렸다.
+//   웹 페이지는 시스템에 이 가장자리를 달라고 할 수 없고(앱은 preferredScreenEdgesDeferringSystemGestures로 한다),
+//   스테이지 매니저를 켰는지도 알 수 없다. 그래서 iPad의 가장자리는 시스템에 두고, 뒤로는 단추가 맡는다.
 const back = document.querySelector<HTMLAnchorElement>('[data-back]');
 
 function cameFromSite(): boolean {
@@ -32,12 +35,12 @@ const EDGE = 24;
 /** 이만큼 밀고 떼면 돌아간다(px). */
 const COMMIT = 72;
 
-// iPadOS는 Mac처럼 알리므로 터치로 가린다(prefs.ts와 같다).
-const onIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
+// iPad는 사용자 에이전트에 iPhone이 없다(iPadOS는 Mac처럼, 예전 iPad는 iPad로 알린다).
+const onIPhone = /iPhone|iPod/.test(navigator.userAgent);
 // 홈 화면 웹앱. 앱(Capacitor)의 웹뷰는 navigator.standalone이 없어서 여기 들지 않는다.
 const homeScreenApp = (navigator as { standalone?: boolean }).standalone === true;
 
-if (onIOS && homeScreenApp) {
+if (onIPhone && homeScreenApp) {
   const main = document.getElementById('main');
   const still = window.matchMedia('(prefers-reduced-motion: reduce)');
   let start: { x: number; y: number; id: number } | null = null;
