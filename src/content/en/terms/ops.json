@@ -34,6 +34,7 @@
     "truth": "One hitter with a .400 OBP and .400 slugging and another with a .300 OBP and .500 slugging both have an .800 OPS. In most cases the first one creates more runs."
   },
   "sources": [
-    { "t": "FanGraphs Library · OPS and OPS+", "u": "https://library.fangraphs.com/offense/ops/" }
+    { "t": "FanGraphs Library · OPS and OPS+", "u": "https://library.fangraphs.com/offense/ops/" },
+    { "t": "Baseball-Reference · 2026 MLB batting (league averages)", "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-batting.shtml" }
   ]
 }

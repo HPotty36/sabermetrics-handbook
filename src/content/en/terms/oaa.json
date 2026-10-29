@@ -26,6 +26,7 @@
     "truth": "Fielding percentage only counts mistakes on the balls a fielder actually handled. A fielder with little range never gets a glove on the hard chances, so his fielding percentage often comes out higher."
   },
   "sources": [
-    { "t": "MLB.com Glossary · Outs Above Average", "u": "https://www.mlb.com/glossary/statcast/outs-above-average" }
+    { "t": "MLB.com Glossary · Outs Above Average", "u": "https://www.mlb.com/glossary/statcast/outs-above-average" },
+    { "t": "Baseball Savant · 2026 OAA leaderboard", "u": "https://baseballsavant.mlb.com/leaderboard/outs_above_average?type=Fielder&startYear=2026&endYear=2026&split=no&team=&range=year&min=q&pos=&roles=&viz=hide" }
   ]
 }

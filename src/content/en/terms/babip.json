@@ -37,6 +37,7 @@
   ],
   "sources": [
     { "t": "FanGraphs Library · BABIP", "u": "https://library.fangraphs.com/pitching/babip/" },
-    { "t": "FanGraphs · Guts (league averages)", "u": "https://www.fangraphs.com/guts.aspx?type=cn" }
+    { "t": "FanGraphs · Guts (league averages)", "u": "https://www.fangraphs.com/guts.aspx?type=cn" },
+    { "t": "Baseball-Reference · 2026 MLB batting (league averages)", "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-batting.shtml" }
   ]
 }
