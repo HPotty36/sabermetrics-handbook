@@ -10,6 +10,10 @@ export const otherLang = (lang: Lang): Lang => (lang === 'ko' ? 'en' : 'ko');
 /** 언어 고르기에 보이는 이름. 언제나 그 언어로 적는다. */
 export const LANG_NAMES: Record<Lang, string> = { ko: '한국어', en: 'English' };
 
+/** 날짜(YYYY-MM-DD)를 그 언어로 적는다. ‘2026년 10월 28일’, ‘October 28, 2026’ */
+export const formatDate = (lang: Lang, iso: string) =>
+  new Intl.DateTimeFormat(lang === 'ko' ? 'ko-KR' : 'en-US', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(iso));
+
 /** `{name}` 자리에 값을 넣는다. */
 export const fill = (s: string, vars: Record<string, string | number>) => s.replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? ''));
 
@@ -57,6 +61,7 @@ const ko = {
   leagues: '리그별 차이',
   related: '관련 용어',
   sources: '출처',
+  checked: '마지막 확인',
   margin: '곁들여 볼 것',
   average: '평균',
   avgTag: '평균',
@@ -136,6 +141,7 @@ const en: UI = {
   leagues: 'Across leagues',
   related: 'Related terms',
   sources: 'Sources',
+  checked: 'Last checked',
   margin: 'Side notes',
   average: 'Average',
   avgTag: 'Avg',

@@ -22,7 +22,7 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
   - 라우트: `src/pages/[...lang]/` 아래 템플릿 하나로 한국어(`/`)와 영어(`/en/`) 페이지를 함께 만든다(`langPaths`, `src/lib/i18n.ts`). `index.astro`(홈), `ladders.astro`(사다리 전체 ‘주제’ `/ladders/`), `terms/index.astro`(용어 전체 `/terms/`), `terms/[id].astro`(용어 `/terms/<id>/`). 페이지 수는 언어마다 65개, 모두 130개다.
   - 화면 문구는 `src/lib/i18n.ts`에 두 언어가 같은 키로 있다. 링크는 `paths(lang)`(`src/lib/paths.ts`, `make-paths.ts`)로 만든다.
   - 콘텐츠의 원본은 `src/content/`다.
-    - `terms/<id>.json`: 용어 1개 = 파일 1개(62개). 파일 이름이 id다. 언어와 상관없는 값(레벨, 눈금 숫자, 출처 URL)과 한국어 글. 콘텐츠 컬렉션 `terms`로 읽는다.
+    - `terms/<id>.json`: 용어 1개 = 파일 1개(62개). 파일 이름이 id다. 언어와 상관없는 값(레벨, 눈금 숫자, 출처 URL, 출처와 마지막으로 대조한 날 `checked`)과 한국어 글. 콘텐츠 컬렉션 `terms`로 읽는다.
     - `en/terms/<id>.json`: 같은 용어의 영어 글(컬렉션 `termsEn`). 숫자와 출처 URL은 한국어 파일 것을 쓰고, `validateEnglish`(`src/lib/validate.ts`)가 짝을 검사한다. `loadHandbook(lang)`이 언어별로 합쳐 `LocalTerm`으로 준다.
     - 용어 그림: `src/components/fig/terms/<id>.astro`(용어마다 하나, `npm test`가 짝을 검사한다), 함께 쓰는 부품 `src/components/fig/*.astro`, 계산과 가상의 예 `src/lib/fig.ts`. 빌드 때 만드는 정적 SVG다. 아래 ‘그림’.
     - `stubs.json`(준비 중, 지금은 0개), `ladders.json`(사다리 18개): 순서가 있는 목록이라 컬렉션이 아니라 `src/lib/handbook.ts`에서 읽는다. 사다리는 파일에 적힌 순서대로 화면에 나온다. 둘 다 영어 이름(`en`)이 있다.
@@ -313,6 +313,15 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
 - 평균 시즌: 어택 앵글(2026 10.1°), 포심 IVB(2026 15.6인치), 포심 VAA(2026 −4.6°, 투구 단위 자료로 계산), 스프린트 스피드(Statcast 기준값 27.0ft/s와 2026 리더보드 선수 평균 27.4ft/s). 숫자와 방법은 `docs/verified-facts.md`의 ‘2026-10-29 평균 시즌’.
   - 이제 모든 평균에 기준 시즌이 있다. 정의로 정해진 평균(0, 100, 1.0)만 시즌 없이 ‘정의상’으로 적는다.
 
+### 마지막 확인 날짜 (2026-10-29)
+
+사용자 요청: ‘마지막 확인 날짜도 용어마다 넣어 달라’(앞서 ‘보고도 넣지 않은 것’에 적어 둔 MDN·Investopedia식 신뢰 표시).
+
+- 용어 파일의 `checked`(필수, `YYYY-MM-DD`): 그 용어의 숫자와 정의를 출처의 원문과 마지막으로 대조한 날. 언어와 상관없는 값이라 한국어 파일에만 있고 영어 화면도 같이 쓴다. 원문을 다시 열어 대조했을 때만 바꾸고, 글만 다듬었으면 그대로 둔다(`docs/content-guide.md`).
+- 화면: 용어 페이지 맨 아래 출처 목록 바로 아래에 작은 흐린 글 한 줄(‘마지막 확인 2026년 10월 28일’, ‘Last checked October 28, 2026’). 기계가 읽게 `<time datetime>`으로 감싼다. 날짜는 빌드 때 `formatDate`(`src/lib/i18n.ts`, Intl)로 적는다.
+- 날짜는 `docs/verified-facts.md`와 커밋 기록으로 정했다(그 파일의 ‘용어마다의 마지막 확인 날짜’): 2026-10-15 7개, 2026-10-23 17개, 2026-10-28 35개, 2026-10-29 3개. 2026-10-15의 7개(BABIP, 블라스트, OAA, OPS, WAR, wRC+, xwOBA)는 그 뒤로 원문을 다시 열지 않았다.
+- `npm test`가 날짜가 첫 기록(2026-10-15)과 오늘 사이인지, 같은 날짜가 `docs/verified-facts.md`에 있는지 본다.
+
 ### 앱 아이콘 (2026-10-26)
 
 - 위에서 내려다본 홈플레이트와 양쪽 타석을 seam 빨강 바탕에 흰 선으로 그렸다. 홈플레이트는 실제 비율(폭 17, 옆변 8.5)이다.
@@ -321,7 +330,6 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
 
 보고도 넣지 않은 것 (넣으려면 먼저 확인받는다)
 
-- 마지막 확인 날짜: MDN(‘last modified’), Investopedia(‘Updated’, ‘Fact checked’)가 신뢰 표시로 쓴다. 용어마다 날짜 필드가 필요하다.
 - 본문 17px: [토스피드](https://toss.im/tossfeed/article/beginning-of-tps)는 본문 17px·행간 1.6·폭 700px, MLB 용어집은 16px·1.5다. 지금(16px·1.7)도 범위 안이라 두었다.
 
 ## 작업 방식

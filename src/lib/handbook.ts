@@ -37,6 +37,8 @@ export interface LocalTerm {
   myth?: Term['myth'];
   leagues?: Term['leagues'];
   sources: Term['sources'];
+  /** 출처와 마지막으로 대조한 날(YYYY-MM-DD) */
+  checked: string;
 }
 
 export interface LocalStub {
@@ -138,6 +140,7 @@ function shared(t: TermEntry, en: TermEn) {
     cats: t.cats,
     added: t.added,
     related: t.related,
+    checked: t.checked,
     searchNames: [t.abbr, t.chip, t.ko, en.name, ...(t.aliases ?? []), ...(en.aliases ?? [])],
   };
 }

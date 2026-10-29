@@ -12,7 +12,7 @@ Each term lives in two files that share a name:
 
 | File | Holds |
 | --- | --- |
-| `src/content/terms/<id>.json` | Everything that doesn't depend on language (level, categories, scale numbers, related terms, source URLs) plus the Korean text. |
+| `src/content/terms/<id>.json` | Everything that doesn't depend on language (level, categories, scale numbers, related terms, source URLs, the date the numbers were last checked) plus the Korean text. |
 | `src/content/en/terms/<id>.json` | The English text: name, summary, simple and detailed explanations, scale labels, formula, misconception, league notes, source titles. |
 
 Then add the term to at least one topic in `src/content/ladders.json`, in order from basic to advanced, and draw its figure in `src/components/fig/terms/<id>.astro` (`npm test` fails without one). Pick the form that explains that stat best, reuse the shared pieces in `src/components/fig/` and the made-up data in `src/lib/fig.ts`, and write the labels and caption in both languages. Numbers in a figure follow the same rules as the text: definitional thresholds, checked averages with their season, or examples marked as made up.
@@ -29,7 +29,7 @@ The full schema and writing rules are in [`docs/content-guide.md`](docs/content-
 
 - Write every sentence yourself. Don't translate or paraphrase FanGraphs, MLB.com, Baseball Savant or any other published text. Facts, definitions and formulas are fine; link the original in `sources`.
 - No real player stats as examples. Use made-up numbers.
-- No unverified numbers. If you checked a number against a source, note it in [`docs/verified-facts.md`](docs/verified-facts.md) with the date.
+- No unverified numbers. If you checked a number against a source, note it in [`docs/verified-facts.md`](docs/verified-facts.md) with the date, and set the term's `checked` to that date. It shows on the term page as “Last checked”. Don't change it for wording fixes.
 - Korean body text uses the plain declarative style (한다체); interface text uses 해요체.
 - English is plain American English, written the way a fan who knows the numbers would explain them to a friend. Avoid making stats sound like people ("WAR tells us"), decorative metaphors, and a summary sentence at the end of every paragraph.
 
@@ -38,6 +38,7 @@ The full schema and writing rules are in [`docs/content-guide.md`](docs/content-
 `npm test` runs the same checks as the build, without building. A pull request can't merge with any of these failing:
 
 - Every field the schema requires, with no unknown (misspelled) fields.
+- `checked` is a real date between the first record (2026-10-15) and today, and `docs/verified-facts.md` has an entry for that day.
 - Scale marks, averages and highlighted ranges inside the scale, with marks far enough apart that their labels don't overlap.
 - `related` and topic steps point at terms that exist.
 - Every Korean term has an English file and vice versa, with the same scale numbers, the same source URLs in the same order, the same optional sections, and no Hangul left in the English text.

@@ -57,6 +57,8 @@ export const termSchema = z.strictObject({
   leagues: leagues.optional(),
   related: z.array(id).min(1),
   sources,
+  /** 숫자와 정의를 출처의 원문과 마지막으로 대조한 날(YYYY-MM-DD). 기록은 docs/verified-facts.md에 남긴다. */
+  checked: z.iso.date(),
 });
 
 /** 영어 글(en/terms/<id>.json). 숫자와 출처 URL은 한국어 파일과 같아야 한다(validate.ts). */

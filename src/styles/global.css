@@ -415,6 +415,7 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .see-also span{font:var(--row-sub);color:var(--muted)}
 .sources{margin:0;padding-left:1.3em;font:14px/1.75 var(--font-sans);color:var(--muted)}
 .sources a{color:var(--ink)}
+.endnotes .checked{margin:16px 0 0;font:13px/1.6 var(--font-sans);color:var(--muted)}
 
 /* 손가락으로 누르는 화면에서는 누르는 곳을 44px 안팎으로 키운다 */
 @media (pointer:coarse){
