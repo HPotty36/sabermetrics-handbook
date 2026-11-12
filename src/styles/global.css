@@ -251,6 +251,8 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .ladder-grid .line-h{grid-template-columns:repeat(var(--n),20%)}
 .ladder-grid .line-h::before{left:10%;right:auto;width:calc((var(--n) - 1) * 20%)}
 .ladder-grid .line-h .stop-name{font-size:14px;word-break:keep-all;padding:0 6px}
+/* 좁은 폰: 다섯 칸짜리 주제에서 긴 이름(HardHit%, Attack Direction)이 옆 이름과 겹치지 않게 줄이고, 한 낱말이 칸보다 길면 꺾는다 */
+@media (max-width:420px){.ladder-grid .line-h .stop-name{font-size:12.5px;padding:0 2px;overflow-wrap:anywhere}}
 
 /* 주제 페이지 맨 아래: 읽은 기록 지우기 */
 .read-clear{margin:36px 0 0;font:600 15px/1.5 var(--font-sans);color:var(--muted)}

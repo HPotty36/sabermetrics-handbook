@@ -1,0 +1,57 @@
+{
+  "name": "Ballpark Factor",
+  "aliases": [
+    "park factors",
+    "ballpark factor",
+    "hitter-friendly park",
+    "pitcher-friendly park",
+    "park effects"
+  ],
+  "summary": "How much more or less scoring (or homers, or hits) a ballpark produces than others, on a scale where 100 is average.",
+  "easy": [
+    "Some parks have short fences and air the ball carries in. Others are big, with wind that knocks fly balls down. The same swing is a home run in one and a flyout in the other.",
+    "Park factor puts a number on that. 100 is average; 105 is a park where 5% more runs score, and 95 one where 5% fewer do. It tells you how much to mark a hitter’s or pitcher’s line up or down for where he plays his home games."
+  ],
+  "formula": {
+    "expr": "Park factor ≈ 100 × (runs in home games) ÷ (runs in road games)",
+    "vars": [
+      [
+        "runs in home games",
+        "runs both teams scored in that park"
+      ],
+      [
+        "runs in road games",
+        "runs both teams scored in the same team’s road games"
+      ]
+    ]
+  },
+  "deep": [
+    "The simplest version divides the runs both teams scored in a club’s home games by the runs both teams scored in its road games. The same club and the same opponents played in both, so the players’ talent cancels out and what is left is the park. A small adjustment is made when the home and road opponents differ.",
+    "Eighty-one games a year is noisy, so several seasons are usually pooled. Baseball Savant’s Statcast park factors use a rolling three years and go batter by batter and pitcher by pitcher, comparing what each did in the park with what the same player did elsewhere, split by handedness. There is a separate value for runs, home runs, doubles, triples, strikeouts and more, which is how a park can be neutral for runs and still great for homers.",
+    "Stats with a plus sign or “adjusted” in the name, such as wRC+, ERA+ and WAR, have a park factor built in. A player only plays half his games at home, so the adjustment uses half the park’s effect. That is also why the same number means different things on different sites: FanGraphs shows factors already cut in half, so its 105 is a park with 10% more scoring, while a 105 at Baseball Savant means 5% more was observed there. Check which kind you are reading."
+  ],
+  "myth": {
+    "claim": "A hitter’s park helps every hitter the same.",
+    "truth": "A short right-field fence mostly helps left-handed pull hitters. That is why factors are published by handedness and by event."
+  },
+  "leagues": [
+    {
+      "lg": "KBO",
+      "t": "KBO parks differ in size and conditions too, so comparing hitters with different home parks on raw numbers mixes in the park. Published KBO park factors vary by who computes them, so no figure is given here."
+    }
+  ],
+  "sources": [
+    {
+      "t": "MLB.com Glossary · Ballpark Factor",
+      "u": "https://www.mlb.com/glossary/advanced-stats/park-factor"
+    },
+    {
+      "t": "Baseball Savant · Statcast Park Factors",
+      "u": "https://baseballsavant.mlb.com/leaderboard/statcast-park-factors"
+    },
+    {
+      "t": "FanGraphs Library · Park Factors",
+      "u": "https://library.fangraphs.com/principles/park-factors/"
+    }
+  ]
+}

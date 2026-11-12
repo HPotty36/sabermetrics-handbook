@@ -1,0 +1,39 @@
+---
+// 파크 팩터: 같은 팀의 홈 경기와 원정 경기에서 난 점수를 견준다. 선수는 같고 구장만 다르다.
+import { n } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+// 가상의 한 팀: 홈 81경기에서 양 팀 합계 800점, 원정 81경기에서 700점
+const HOME = 800;
+const ROAD = 700;
+const pf = Math.round((100 * HOME) / ROAD);
+const X0 = 120;
+const W = (v: number) => (v / 800) * 200;
+const ko = {
+  alt: `가상의 팀. 홈 경기에서 양 팀이 ${HOME}점, 원정 경기에서 ${ROAD}점을 냈다. 파크 팩터 약 ${pf}.`,
+  caption: `가상의 한 팀. 같은 선수들과 같은 상대들이 홈에서 81경기, 원정에서 81경기를 했는데 홈에서 점수가 더 났다. 선수는 양쪽에서 같으니 남는 차이는 구장이다. ${HOME} ÷ ${ROAD}에 100을 곱하면 약 ${pf}, 점수가 14% 더 나는 구장이다. 실제 계산은 여러 시즌을 묶고 상대 차이를 보정한다.`,
+  home: '홈 81경기', road: '원정 81경기', runs: '양 팀 득점', avg: '100 = 평균적인 구장',
+  calc: `100 × ${HOME} ÷ ${ROAD} ≈`,
+};
+const en: typeof ko = {
+  alt: `A hypothetical team. Both teams scored ${HOME} runs in its home games and ${ROAD} in its road games. Park factor about ${pf}.`,
+  caption: `One made-up team. The same players and the same opponents played 81 games at home and 81 on the road, and more runs scored at home. The players are the same on both sides, so what is left is the park. ${HOME} ÷ ${ROAD} times 100 is about ${pf}, a park with 14% more scoring. Real versions pool several seasons and adjust for opponents.`,
+  home: '81 home games', road: '81 road games', runs: 'Runs, both teams', avg: '100 = an average park',
+  calc: `100 × ${HOME} ÷ ${ROAD} ≈`,
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={170} alt={L.alt} caption={L.caption}>
+  <text x={X0} y="12" class="tx-s">{L.runs}</text>
+  <path class="ln ln-1" d={`M${X0} 20V96`} />
+  <text x="0" y="44" class="tx-ink">{L.home}</text>
+  <rect class="fi-red" x={X0} y="32" width={n(W(HOME))} height="16" />
+  <text x={n(X0 + W(HOME) + 6)} y="46" class="tx-num tx-red">{HOME}</text>
+  <text x="0" y="80" class="tx-ink">{L.road}</text>
+  <rect class="fi-ink" x={X0} y="68" width={n(W(ROAD))} height="16" />
+  <text x={n(X0 + W(ROAD) + 6)} y="82" class="tx-num tx-ink">{ROAD}</text>
+  <text x="0" y="150" class="tx-ink tx-l">{L.calc} <tspan class="tx-big tx-red" dx="4">{pf}</tspan></text>
+  <text x="360" y="150" text-anchor="end" class="tx-s">{L.avg}</text>
+</Fig>

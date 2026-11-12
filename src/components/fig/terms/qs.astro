@@ -1,0 +1,35 @@
+---
+// 퀄리티 스타트: 6이닝 이상, 자책점 3 이하. 두 조건을 가상의 한 경기에 대 본다.
+import { gameTotals } from '../../../lib/fig.ts';
+import type { Lang } from '../../../lib/i18n.ts';
+import Fig from '../Fig.astro';
+import InningLine from '../InningLine.astro';
+
+const { lang } = Astro.props as { lang: Lang };
+const g = gameTotals();
+const ko = {
+  alt: `가상의 선발 투수가 ${g.IP}이닝 동안 자책점 ${g.ER}점. 6이닝 이상이고 자책점 3 이하라 퀄리티 스타트다.`,
+  caption: `평균자책점 그림과 같은 가상의 한 경기. ${g.IP}이닝을 던졌고 자책점이 ${g.ER}점이라 두 조건을 모두 채웠다. 5회 실책 뒤에 난 1점은 자책점이 아니라 세지 않는다. 기준선인 6이닝 3자책점은 평균자책점으로 4.50이다.`,
+  inning: (i: number) => `${i}회`, er: '자책점', ur: '비자책점(세지 않는다)',
+  c1: `던진 이닝 ${g.IP} ≥ 6`, c2: `자책점 ${g.ER} ≤ 3`, yes: '퀄리티 스타트',
+};
+const en: typeof ko = {
+  alt: `A hypothetical starter allowed ${g.ER} earned runs in ${g.IP} innings. At least six innings and no more than three earned runs: a quality start.`,
+  caption: `The same made-up start as the ERA figure. He went ${g.IP} innings and allowed ${g.ER} earned runs, so both conditions hold. The run that scored on the fifth-inning error is unearned and does not count. The cutoff itself, six innings and three earned runs, is a 4.50 ERA.`,
+  inning: (i: number) => String(i), er: 'Earned run', ur: 'Unearned (not counted)',
+  c1: `${g.IP} innings ≥ 6`, c2: `${g.ER} earned runs ≤ 3`, yes: 'Quality start',
+};
+const L = lang === 'ko' ? ko : en;
+---
+<Fig h={236} alt={L.alt} caption={L.caption}>
+  <InningLine inningLabel={L.inning} marks={(i) => [...Array(i.er).fill('red'), ...Array(i.ur).fill('dot')]} />
+  {/* 6이닝 기준선 */}
+  <path class="ln ln-1 ln-muted ln-dash" d="M240 60V128" />
+  <g transform="translate(0 170)">
+    <circle class="fi-red" cx="8" cy="0" r="5" /><text x="19" y="4" class="tx-s">{L.er}</text>
+    <circle class="fi-paper ln ln-muted ln-dot" cx="128" cy="0" r="4.4" /><text x="139" y="4" class="tx-s">{L.ur}</text>
+  </g>
+  <text x="0" y="202" class="tx-ink">{L.c1}</text>
+  <text x="0" y="222" class="tx-ink">{L.c2}</text>
+  <text x="170" y="216" class="tx-red tx-b tx-l">→ {L.yes}</text>
+</Fig>
