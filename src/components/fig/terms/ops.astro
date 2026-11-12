@@ -15,7 +15,7 @@ const ko = {
   obp: '출루율', slg: '장타율',
   obpCalc: `출루 ${t.H + t.BB + t.HBP} ÷ 타석 ${t.AB + t.BB + t.HBP + t.SF}`,
   slgCalc: `루타 ${t.TB} ÷ 타수 ${t.AB}`,
-  calc: `${rate3(obp)} + ${rate3(slg)} =`,
+  calc: `${t.H + t.BB + t.HBP}/${t.AB + t.BB + t.HBP + t.SF} + ${t.TB}/${t.AB} =`,
 };
 const en: typeof ko = {
   alt: `The 12 hypothetical plate appearances give OBP ${rate3(obp)} and slugging ${rate3(slg)}, so OPS ${rate3(obp + slg)}.`,
@@ -23,7 +23,7 @@ const en: typeof ko = {
   obp: 'OBP', slg: 'SLG',
   obpCalc: `${t.H + t.BB + t.HBP} on base ÷ ${t.AB + t.BB + t.HBP + t.SF} PA`,
   slgCalc: `${t.TB} bases ÷ ${t.AB} AB`,
-  calc: `${rate3(obp)} + ${rate3(slg)} =`,
+  calc: `${t.H + t.BB + t.HBP}/${t.AB + t.BB + t.HBP + t.SF} + ${t.TB}/${t.AB} =`,
 };
 const L = lang === 'ko' ? ko : en;
 const x0 = X(0);

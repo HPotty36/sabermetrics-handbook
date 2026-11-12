@@ -62,6 +62,8 @@ viewport?.addEventListener('resize', syncKeyboard);
 viewport?.addEventListener('scroll', syncKeyboard);
 
 function openSheet() {
+  // 시스템 뒤로(안드로이드 단추·제스처)가 페이지를 떠나지 않고 이 화면을 닫도록 기록에 한 칸을 넣는다.
+  if (!open && !(history.state as { shSearch?: boolean } | null)?.shSearch) history.pushState({ ...(history.state ?? {}), shSearch: true }, '');
   open = true;
   document.body.toggleAttribute('data-search-open', true);
   // iOS는 누른 순간에 바로 focus해야 키보드가 올라온다.
@@ -71,7 +73,13 @@ function openSheet() {
   syncKeyboard();
 }
 
+// 닫기 단추와 Esc: 넣어 둔 기록 한 칸을 되돌린다. 실제로 닫는 일은 popstate에서 한다.
 function close() {
+  if (open && (history.state as { shSearch?: boolean } | null)?.shSearch) history.back();
+  else shut();
+}
+
+function shut() {
   input.value = '';
   open = false;
   document.body.toggleAttribute('data-search-open', false);
@@ -104,6 +112,10 @@ document.addEventListener('keydown', (e) => {
   if (e.key !== '/' || e.metaKey || e.ctrlKey || e.altKey || t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
   e.preventDefault();
   input.focus();
+});
+
+window.addEventListener('popstate', () => {
+  if (open) shut();
 });
 
 // 뒤로 가기로 저장된 페이지가 돌아오면 떠날 때의 검색 화면과 검색어대로 다시 그린다.

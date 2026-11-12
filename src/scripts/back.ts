@@ -19,7 +19,25 @@ function cameFromSite(): boolean {
   }
 }
 
-const canGoBackInSite = () => cameFromSite() && history.length > 1;
+// 이 단추로 한 단계 위에 올라온 페이지, 언어를 바꿔 온 페이지에서는 ‘이전 페이지’가 방금 떠난 아래 페이지나 같은 페이지의 다른 언어다.
+// 거기서 history.back()을 하면 제자리를 맴돌므로(용어 ↔ 용어 목록), 그런 페이지에서는 링크대로 한 단계 더 위로 간다.
+// 표시는 이 기록 항목(history.state)에 남겨 새로 고쳐도 유지된다.
+const UP_KEY = 'sh-up';
+try {
+  if (sessionStorage.getItem(UP_KEY)) {
+    sessionStorage.removeItem(UP_KEY);
+    history.replaceState({ ...(history.state ?? {}), shUp: true }, '');
+  }
+} catch {}
+const arrivedByUp = () => Boolean((history.state as { shUp?: boolean } | null)?.shUp);
+const markUp = () => {
+  try {
+    sessionStorage.setItem(UP_KEY, '1');
+  } catch {}
+};
+document.querySelectorAll('[data-lang-switch]').forEach((a) => a.addEventListener('click', markUp));
+
+const canGoBackInSite = () => cameFromSite() && !arrivedByUp() && history.length > 1;
 
 back?.addEventListener('click', (e) => {
   // 새 탭·새 창으로 여는 클릭은 브라우저에 맡긴다.
@@ -27,6 +45,8 @@ back?.addEventListener('click', (e) => {
   if (canGoBackInSite()) {
     e.preventDefault();
     history.back();
+  } else {
+    markUp();
   }
 });
 

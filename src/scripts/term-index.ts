@@ -20,6 +20,12 @@ const indexes = Array.from(document.querySelectorAll<HTMLElement>('[data-term-in
 let state: SearchQuery = { q: '', level: 0, cat: ALL_CATS };
 
 function restore() {
+  // 홈의 ‘용어 전체 →’는 #all을 달고 온다. 앞서 고른 레벨·분야를 풀고 전부 보인다.
+  if (location.hash === '#all') {
+    history.replaceState(history.state, '', location.pathname + location.search);
+    save();
+    return;
+  }
   try {
     const saved = JSON.parse(sessionStorage.getItem(STATE_KEY) ?? 'null');
     if (saved) state = { ...state, level: saved.level ?? 0, cat: saved.cat ?? ALL_CATS };

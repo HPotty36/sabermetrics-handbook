@@ -1,32 +1,36 @@
 ---
 // 타구 속도: 공이 배트에 맞고 튀어 나가는 순간의 빠르기. 방향은 따지지 않는다.
-import { arc, arrow, n, polar } from '../../../lib/fig.ts';
+import { lin, n } from '../../../lib/fig.ts';
 import type { Lang } from '../../../lib/i18n.ts';
 import Fig from '../Fig.astro';
 
 const { lang } = Astro.props as { lang: Lang };
-const C = [70, 150] as const;
-const [ox, oy] = polar(C[0], C[1], 250, 22);
-const out = arrow(C[0] + 8, C[1] - 4, ox, oy, 10);
+const x = lin(60, 115, 14, 346);
+const Y = 96;
+// 가상의 타구 12개(mph)
+const balls = [66, 72, 78, 82, 85, 88, 90, 93, 96, 100, 104, 109];
+const AVG = 88.8;
+const HARD = 95;
 const ko = {
-  alt: '옆에서 본 타구. 타구 속도는 맞고 튀어 나가는 순간의 빠르기다. 2026 MLB 평균 88.8mph.',
-  caption: '옆에서 본 타구. 타구 속도는 배트를 떠나는 순간 공의 빠르기만 잰다. 땅볼이든 뜬공이든, 안타든 아웃이든 모든 인플레이 타구가 들어간다. 각도는 발사각이 따로 맡는다. 2026 MLB 평균은 88.8mph였다.',
-  ev: '타구 속도', evSub: '맞고 튀어 나가는 순간', la: '발사각', contact: '맞는 자리',
+  alt: '가상의 타구 12개를 타구 속도 순으로 놓은 축. 2026 MLB 평균 88.8mph, 95mph부터 하드히트.',
+  caption: '가상의 타구 12개를 속도 순으로 놓았다. 타구 속도는 배트를 떠나는 순간 공의 빠르기만 잰다. 땅볼이든 뜬공이든, 안타든 아웃이든 모든 인플레이 타구가 들어가고, 각도는 발사각이 따로 맡는다. 2026 MLB 평균은 88.8mph였고, 95mph 이상을 하드히트로 센다.',
+  title: '타구 하나하나의 속도 (mph)', avg: '2026 MLB 평균 88.8', hard: '95 이상 · 하드히트',
 };
 const en: typeof ko = {
-  alt: 'A batted ball seen from the side. Exit velocity is the speed as the ball leaves the bat. The 2026 MLB average was 88.8 mph.',
-  caption: 'A batted ball seen from the side. Exit velocity is only the ball’s speed as it comes off the bat. Every ball in play counts, grounder or fly, hit or out; the angle is launch angle’s job. The 2026 MLB average was 88.8 mph.',
-  ev: 'Exit velocity', evSub: 'speed as it leaves the bat', la: 'Launch angle', contact: 'Contact',
+  alt: 'Twelve hypothetical batted balls placed on an exit velocity axis. The 2026 MLB average is 88.8 mph, and 95 mph and up is hard-hit.',
+  caption: 'Twelve made-up batted balls in order of speed. Exit velocity is only the ball’s speed as it comes off the bat. Every ball in play counts, grounder or fly, hit or out; the angle is launch angle’s job. The 2026 MLB average was 88.8 mph, and 95 mph or more counts as hard-hit.',
+  title: 'Speed of each batted ball (mph)', avg: '2026 MLB average 88.8', hard: '95+ · hard-hit',
 };
 const L = lang === 'ko' ? ko : en;
 ---
-<Fig h={196} alt={L.alt} caption={L.caption}>
-  <path class="ln ln-1 ln-muted ln-dash" d={`M${C[0]} ${C[1]}H${C[0] + 120}`} />
-  <path class="ln ln-red ln-3" d={out.line} /><path class="fi-red" d={out.head} />
-  <text x={n(ox - 22)} y={n(oy - 26)} text-anchor="end" class="tx-red tx-b tx-l">{L.ev}</text>
-  <text x={n(ox - 22)} y={n(oy - 10)} text-anchor="end" class="tx-red tx-s">{L.evSub}</text>
-  <path class="ln ln-1" d={arc(C[0], C[1], 60, 0, 22)} />
-  <text x={n(C[0] + 66)} y={n(C[1] - 8)} class="tx-s">{L.la}</text>
-  <circle class="fi-ink" cx={C[0]} cy={C[1]} r="5" />
-  <text x={C[0]} y={C[1] + 22} text-anchor="middle" class="tx-s">{L.contact}</text>
+<Fig h={150} alt={L.alt} caption={L.caption}>
+  <text x="0" y="14" class="tx-red tx-b">{L.title}</text>
+  <path class="fi-soft" d={`M${n(x(HARD))} ${Y - 30}H346V${Y + 12}H${n(x(HARD))}Z`} />
+  <path class="ln ln-1 ln-muted ln-dash" d={`M${n(x(HARD))} ${Y - 40}V${Y + 12}`} />
+  <text x={n(x(HARD) + 6)} y={Y - 36} class="tx-s">{L.hard}</text>
+  <path class="ln" d={`M${n(x(60))} ${Y + 12}H346`} />
+  {[60, 70, 80, 90, 100, 110].map((v) => <g><path class="ln ln-1" d={`M${n(x(v))} ${Y + 12}v5`} /><text x={n(x(v))} y={Y + 32} text-anchor="middle" class="tx-s">{v}</text></g>)}
+  {balls.map((v) => <circle class="fi-red" cx={n(x(v))} cy={Y - 4} r="5" />)}
+  <path class="fi-ink" d={`M${n(x(AVG))} ${Y - 14}l5 -6v-5h-10v5z`} />
+  <text x={n(x(AVG))} y={Y - 32} text-anchor="end" class="tx-ink tx-s">{L.avg}</text>
 </Fig>

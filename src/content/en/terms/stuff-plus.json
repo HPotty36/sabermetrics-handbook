@@ -1,6 +1,6 @@
 {
   "name": "Stuff Plus",
-  "aliases": ["stuff", "Location+", "Pitching+"],
+  "aliases": ["stuff"],
   "summary": "Grades a pitch on its physical traits alone, leaving out where it was thrown. An average pitch scores 100.",
   "easy": [
     "It puts a number on what scouts mean when they say a pitcher has good stuff. Two fastballs thrown equally hard can score very differently depending on their movement, release point and how they pair with the pitcher's other pitches. Anything above 120 gets called elite.",

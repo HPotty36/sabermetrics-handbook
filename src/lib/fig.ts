@@ -108,7 +108,7 @@ export type PitchKind = 'B' | 'CS' | 'W' | 'F' | 'IP';
 export const PITCH_LOG: PitchKind[] = ['B', 'CS', 'F', 'W', 'B', 'IP', 'CS', 'B', 'B', 'F', 'B', 'W', 'IP', 'B', 'B', 'F'];
 export const PITCH_LABEL: Record<'ko' | 'en', Record<PitchKind, string>> = {
   ko: { B: '볼', CS: '루킹', W: '헛스윙', F: '파울', IP: '인플레이' },
-  en: { B: 'Ball', CS: 'Called K', W: 'Whiff', F: 'Foul', IP: 'In play' },
+  en: { B: 'Ball', CS: 'Called', W: 'Whiff', F: 'Foul', IP: 'In play' },
 };
 export const isSwing = (k: PitchKind) => k === 'W' || k === 'F' || k === 'IP';
 

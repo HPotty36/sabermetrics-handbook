@@ -23,7 +23,7 @@ const ko = {
 const en: typeof ko = {
   alt: 'A field from above. Two batted balls with the same speed and angle: one is caught by the center fielder, the other drops in the gap. xwOBA scores them the same.',
   caption: 'A field from above. Two made-up balls, both hit at 102 mph and 24°, one right at the center fielder and one into left-center. Actual wOBA splits them into an out and a double; xwOBA gives both the average for that speed and angle. Walks, strikeouts and hit-by-pitches keep their actual values.',
-  same: 'Same contact · 102 mph · 24°', out: 'Caught · out', hit: 'Left-center · double', x: 'xwOBA: same for both',
+  same: 'Same contact · 102 mph · 24°', out: 'Caught · out', hit: 'Gap · double', x: 'xwOBA: same for both',
 };
 const L = lang === 'ko' ? ko : en;
 ---
@@ -36,7 +36,7 @@ const L = lang === 'ko' ? ko : en;
   <circle class="fi-ink" cx={n(A[0])} cy={n(A[1])} r="4" />
   <circle class="fi-ink" cx={n(B[0])} cy={n(B[1])} r="4" />
   <text x={n(A[0] + 10)} y={n(A[1] - 6)} class="tx-ink tx-b tx-s">{L.out}</text>
-  <text x={n(B[0] - 10)} y={n(B[1] - 6)} text-anchor="end" class="tx-ink tx-b tx-s">{L.hit}</text>
+  <text x={n(B[0] - 9)} y={n(B[1] + 4)} text-anchor="end" class="tx-ink tx-b tx-s">{L.hit}</text>
   <path class="fi-ink" d={`M${H[0]} ${H[1] - 5}l5 5l-5 5l-5 -5z`} />
   <text x={H[0]} y="18" text-anchor="middle" class="tx-s">{L.same}</text>
   <text x={H[0]} y={n(H[1] + 22)} text-anchor="middle" class="tx-red tx-b">{L.x}</text>
