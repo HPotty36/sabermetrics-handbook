@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-11-12",
+    "ko": "주제마다 페이지가 생겼다. 그 주제의 용어를 뜻, 식, 평균과 함께 한 줄씩 견줘 볼 수 있다.",
+    "en": "Each topic now has its own page that lines up its terms with their meaning, formula and average."
+  },
+  {
+    "date": "2026-11-12",
     "ko": "퀄리티 스타트와 파크 팩터를 더해 용어가 64개가 됐다.",
     "en": "Added quality start and park factor, for 64 terms."
   },

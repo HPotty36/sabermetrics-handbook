@@ -5,6 +5,7 @@ import Seam from '../../components/Seam.astro';
 import Base from '../../layouts/Base.astro';
 import { loadHandbook } from '../../lib/handbook.ts';
 import { fill, langPaths, ui, type Lang } from '../../lib/i18n.ts';
+import { paths } from '../../lib/paths.ts';
 
 export const getStaticPaths = langPaths;
 
@@ -18,7 +19,7 @@ const { ladders } = await loadHandbook(lang);
     <Seam />
   </header>
   <div class="ladder-grid ladder-grid-v">{ladders.map((l) => (
-    <section class="ladder" aria-label={l.name}><h2 class="ladder-name">{l.name}</h2><LadderLine lang={lang} ladder={l} dir="v" /></section>
+    <section class="ladder" aria-label={l.name}><h2 class="ladder-name"><a href={paths(lang).ladderHref(l.slug)}>{l.name}</a></h2><LadderLine lang={lang} ladder={l} dir="v" /></section>
   ))}</div>
   {/* 읽은 진도(scripts/progress.ts): 읽은 용어는 실밥 공, 이어 읽은 구간은 빨간 선이다. 기록이 있을 때만 지우기가 보인다. */}
   <p class="read-clear"><button type="button" data-read-clear hidden>{s.clearRead}</button><span data-read-cleared role="status" hidden>{s.clearedRead}</span></p>

@@ -23,11 +23,13 @@ interface Props {
   lang: Lang;
   title: string;
   description: string;
-  view: 'home' | 'term' | 'ladders' | 'terms' | 'benchmarks' | 'changelog';
+  view: 'home' | 'term' | 'ladders' | 'terms' | 'benchmarks' | 'changelog' | 'ladder';
   /** 메뉴에서 칠할 곳. 용어 페이지는 ‘용어’에 속한다. */
   tab: 'home' | 'ladders' | 'terms';
   /** 용어 페이지의 용어 id. 다른 언어의 같은 페이지로 가는 링크에 쓴다. */
   termId?: string;
+  /** 주제 페이지의 slug */
+  ladderSlug?: string;
   /** 용어 페이지: 주제(사다리)의 다음 용어 */
   next?: NextStop;
   /** 없는 주소에 보이는 페이지(404). 검색에 걸리지 않게 하고 canonical을 달지 않는다. */
@@ -36,7 +38,7 @@ interface Props {
   jsonLd?: Record<string, unknown>;
 }
 
-const { lang, title, description, view, tab, termId, next, notFound = false, jsonLd } = Astro.props;
+const { lang, title, description, view, tab, termId, ladderSlug, next, notFound = false, jsonLd } = Astro.props;
 const s = ui(lang);
 const p = paths(lang);
 const { base } = p;
@@ -46,7 +48,7 @@ const searchIndex = JSON.stringify(terms.map((t) => toSearchEntry(t, p.termHref(
 // 같은 페이지의 다른 언어. 언어 고르기와 <link rel="alternate">에 쓴다.
 const hrefIn = (l: Lang) => {
   const q = paths(l);
-  return { home: q.homeHref, ladders: q.laddersHref, terms: q.termsHref, term: q.termHref(termId ?? ''), benchmarks: q.benchmarksHref, changelog: q.changelogHref }[view];
+  return { home: q.homeHref, ladders: q.laddersHref, terms: q.termsHref, term: q.termHref(termId ?? ''), benchmarks: q.benchmarksHref, changelog: q.changelogHref, ladder: q.ladderHref(ladderSlug ?? '') }[view];
 };
 const alt = otherLang(lang);
 const altHref = hrefIn(alt);
@@ -67,7 +69,7 @@ const themeModes = [
   { id: 'dark', label: s.themeDark },
 ] as const;
 // 뒤로(scripts/back.ts): 사이트 안에서 왔으면 이전 페이지로, 밖에서 바로 열었으면 이 링크대로 한 단계 위로 간다. 홈에는 없다.
-const backHref = view === 'term' || view === 'benchmarks' ? p.termsHref : p.homeHref;
+const backHref = view === 'term' || view === 'benchmarks' ? p.termsHref : view === 'ladder' ? p.laddersHref : p.homeHref;
 ---
 <!doctype html>
 <html lang={lang}>

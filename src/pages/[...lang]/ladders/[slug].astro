@@ -1,0 +1,39 @@
+---
+// 주제 하나의 페이지(/ladders/<slug>/). 그 주제의 용어를 기본에서 심화 순으로, 뜻·평균·식을 같은 모양으로 놓아 서로 견주게 한다.
+// ‘FIP와 xFIP는 뭐가 다른가’ 같은 물음에 답하는 페이지다. 글은 주제 소개(ladders.json의 intro)와 용어마다의 한 줄 뜻(summary)을 쓴다.
+import LadderLine from '../../../components/LadderLine.astro';
+import Seam from '../../../components/Seam.astro';
+import Base from '../../../layouts/Base.astro';
+import { fmt } from '../../../lib/format.ts';
+import { loadHandbook } from '../../../lib/handbook.ts';
+import { fill, LANGS, ui, type Lang } from '../../../lib/i18n.ts';
+import { paths } from '../../../lib/paths.ts';
+
+export async function getStaticPaths() {
+  const { ladders } = await loadHandbook('ko');
+  return LANGS.flatMap((lang) => ladders.map((l) => ({ params: { lang: lang === 'ko' ? undefined : lang, slug: l.slug }, props: { lang } })));
+}
+
+const { lang } = Astro.props as { lang: Lang };
+const s = ui(lang);
+const { termHref } = paths(lang);
+const { ladders, termMap } = await loadHandbook(lang);
+const ladder = ladders.find((l) => l.slug === Astro.params.slug)!;
+const steps = ladder.steps.map((id) => termMap.get(id)).filter((t) => t !== undefined);
+---
+<Base lang={lang} title={`${ladder.name} | ${s.siteName}`} description={fill(s.ladderDescription, { name: ladder.name, terms: steps.map((t) => t.chip).join(', ') })} view="ladder" tab="ladders" ladderSlug={ladder.slug}>
+  <header class="page-head">
+    <h1 class="page-title">{ladder.name}</h1>
+    <Seam />
+  </header>
+  <LadderLine lang={lang} ladder={ladder} dir="h" />
+  <p class="topic-intro">{ladder.intro}</p>
+  <ol class="compare">{steps.map((t) => (
+    <li>
+      <a class="toc-row" href={termHref(t.id)}><span class="toc-abbr">{t.chip}</span>{t.sub && <span class="toc-ko">{t.sub}</span>}</a>
+      <p class="compare-sum">{t.summary}</p>
+      {t.formula && <p class="compare-expr">{t.formula.expr}</p>}
+      {t.scale && (t.scale.avg || t.scale.kbo) && <p class="bench-avg">{t.scale.avg && <span><b>{fmt(t.scale.avg.v, t.scale)}</b> MLB</span>}{t.scale.kbo && <span><b>{fmt(t.scale.kbo.v, t.scale)}</b> KBO</span>}</p>}
+    </li>
+  ))}</ol>
+</Base>
