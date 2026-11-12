@@ -1,0 +1,21 @@
+---
+// 바뀐 내용: 더하고 고친 것을 날짜순으로 적는다(src/content/changelog.json). 같은 내용을 rss.xml로도 낸다.
+import Seam from '../../components/Seam.astro';
+import Base from '../../layouts/Base.astro';
+import changelog from '../../content/changelog.json';
+import { formatDate, langPaths, ui, type Lang } from '../../lib/i18n.ts';
+
+export const getStaticPaths = langPaths;
+
+const { lang } = Astro.props as { lang: Lang };
+const s = ui(lang);
+---
+<Base lang={lang} title={`${s.changelog} | ${s.siteName}`} description={s.changelogDescription} view="changelog" tab="home">
+  <header class="page-head">
+    <h1 class="page-title">{s.changelog}</h1>
+    <Seam />
+  </header>
+  <ol class="changes">{changelog.map((c) => (
+    <li><time datetime={c.date}>{formatDate(lang, c.date)}</time><p>{c[lang]}</p></li>
+  ))}</ol>
+</Base>

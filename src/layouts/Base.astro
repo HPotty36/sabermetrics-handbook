@@ -23,7 +23,7 @@ interface Props {
   lang: Lang;
   title: string;
   description: string;
-  view: 'home' | 'term' | 'ladders' | 'terms';
+  view: 'home' | 'term' | 'ladders' | 'terms' | 'benchmarks' | 'changelog';
   /** 메뉴에서 칠할 곳. 용어 페이지는 ‘용어’에 속한다. */
   tab: 'home' | 'ladders' | 'terms';
   /** 용어 페이지의 용어 id. 다른 언어의 같은 페이지로 가는 링크에 쓴다. */
@@ -46,7 +46,7 @@ const searchIndex = JSON.stringify(terms.map((t) => toSearchEntry(t, p.termHref(
 // 같은 페이지의 다른 언어. 언어 고르기와 <link rel="alternate">에 쓴다.
 const hrefIn = (l: Lang) => {
   const q = paths(l);
-  return { home: q.homeHref, ladders: q.laddersHref, terms: q.termsHref, term: q.termHref(termId ?? '') }[view];
+  return { home: q.homeHref, ladders: q.laddersHref, terms: q.termsHref, term: q.termHref(termId ?? ''), benchmarks: q.benchmarksHref, changelog: q.changelogHref }[view];
 };
 const alt = otherLang(lang);
 const altHref = hrefIn(alt);
@@ -67,7 +67,7 @@ const themeModes = [
   { id: 'dark', label: s.themeDark },
 ] as const;
 // 뒤로(scripts/back.ts): 사이트 안에서 왔으면 이전 페이지로, 밖에서 바로 열었으면 이 링크대로 한 단계 위로 간다. 홈에는 없다.
-const backHref = view === 'term' ? p.termsHref : p.homeHref;
+const backHref = view === 'term' || view === 'benchmarks' ? p.termsHref : p.homeHref;
 ---
 <!doctype html>
 <html lang={lang}>
@@ -124,6 +124,7 @@ const backHref = view === 'term' ? p.termsHref : p.homeHref;
 {notFound ? <meta name="robots" content="noindex"> : (
   <Fragment>
     <link rel="canonical" href={abs(hrefIn(lang))}>
+    <link rel="alternate" type="application/rss+xml" title={s.changelog} href={`${p.langRoot}rss.xml`}>
     <link rel="alternate" hreflang={lang} href={abs(hrefIn(lang))}>
     <link rel="alternate" hreflang={alt} href={abs(altHref)}>
     <link rel="alternate" hreflang="x-default" href={abs(hrefIn('ko'))}>

@@ -31,7 +31,7 @@ A glossary of baseball stats, from batting average to swing timing. Every term i
 
 - **Two layers per term.** A simple explanation and a detailed one, with a switch for which comes first. The choice is remembered.
 - **Topics.** Related terms lined up from basic to advanced, so you can keep going one step at a time (ERA → WHIP → ERA+ → FIP). Terms you've read get a stitched ball on the line, and the stretch you've covered turns red. The record stays in your browser.
-- **Benchmarks.** A scale with the 2026 MLB average and rough ranges for good and bad. Every number links to its source, and each term shows the date its numbers were last checked against those sources.
+- **Benchmarks.** A scale with the 2026 MLB average, the 2026 KBO average where league totals give one, and rough ranges for good and bad. One page lists them all. Every number links to its source, and each term shows the date its numbers were last checked against those sources.
 - **A figure for every term.** Each one is drawn the way that stat is best explained: the plate appearances a rate counts, the strike zone, exit velocity against launch angle, a pitch seen from the side, the field from above, or how a value adds up. They are plain line drawings built into the page, with only definitional thresholds, checked averages or clearly made-up examples.
 - **Recent Statcast metrics.** Bat speed, swing length, attack direction, arm angle, swing timing and the 2026 ABS challenge, along with the classics.
 - **Korean and English, light and dark.** Switch language on any page and land on the same term. Dark mode is pitch black, and Auto follows your device.
@@ -122,4 +122,5 @@ Corrections are the most useful thing you can send. If a number, definition or s
 1. ~~Static site (Astro)~~
 2. ~~Installable web app that works offline~~
 3. ~~English edition~~
-4. Android and iOS apps: projects are set up; device builds and store release are next.
+4. KBO league averages next to the MLB ones (13 terms so far)
+5. Android and iOS apps: projects are set up. A store release waits until installs and repeat visits of the web app show it is worth it.
