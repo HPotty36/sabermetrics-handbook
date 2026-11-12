@@ -58,3 +58,11 @@ test('이름이 검색어와 똑같은 용어가 맨 앞에 온다', () => {
   assert.equal(first('wrc').length, 0);
   assert.equal(ids('wrc')[0], 'wrc-plus');
 });
+
+test('맞는 게 없으면 이름이 한두 글자 다른 용어를 준다', () => {
+  assert.deepEqual(ids('fpi'), []);
+  assert.deepEqual(ids('fipp'), ['fip']);
+  assert.deepEqual(ids('feilding'), []);
+  assert.deepEqual(ids('오피애스'), ['ops']);
+  assert.deepEqual(ids('zz'), []);
+});

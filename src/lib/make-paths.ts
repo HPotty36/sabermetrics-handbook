@@ -12,6 +12,10 @@ export interface Paths {
   /** 용어 전체 목록 페이지 */
   termsHref: string;
   termHref(id: string): string;
+  /** 수치 기준 모아 보기 */
+  benchmarksHref: string;
+  /** 바뀐 내용 */
+  changelogHref: string;
 }
 
 /** 언어마다 붙는 주소 앞부분. 한국어가 기본이라 사이트 루트에 있다. */
@@ -32,5 +36,7 @@ export function makePaths(base: string, explicitIndex: boolean, lang: Lang = 'ko
     laddersHref: `${root}ladders/${page}`,
     termsHref: `${root}terms/${page}`,
     termHref: (id) => `${root}terms/${id}/${page}`,
+    benchmarksHref: `${root}benchmarks/${page}`,
+    changelogHref: `${root}changelog/${page}`,
   };
 }

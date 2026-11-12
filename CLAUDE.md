@@ -20,7 +20,7 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
 
 - Astro 7 정적 사이트다. Node 22.22 이상. `npm run dev`, `npm run build`(결과는 `dist/`), `npm test`, `npm run check`.
   - 앱(Capacitor 8): `npm run cap:sync`가 앱용 빌드(`dist-app/`)를 만들어 `android/`, `ios/`에 복사한다. 앱의 로컬 서버는 확장자 없는 주소를 모두 홈 `index.html`로 보내므로(Android `WebViewLocalServer`, iOS 라우터), 앱용 빌드(`astro build --mode app`)만 페이지 링크에 `index.html`까지 적는다(`src/lib/make-paths.ts`). 웹 빌드의 주소는 그대로다. 앱에서는 서비스 워커를 등록하지 않는다.
-  - 라우트: `src/pages/[...lang]/` 아래 템플릿 하나로 한국어(`/`)와 영어(`/en/`) 페이지를 함께 만든다(`langPaths`, `src/lib/i18n.ts`). `index.astro`(홈), `ladders.astro`(사다리 전체 ‘주제’ `/ladders/`), `terms/index.astro`(용어 전체 `/terms/`), `terms/[id].astro`(용어 `/terms/<id>/`). 페이지 수는 언어마다 65개, 모두 130개다.
+  - 라우트: `src/pages/[...lang]/` 아래 템플릿 하나로 한국어(`/`)와 영어(`/en/`) 페이지를 함께 만든다(`langPaths`, `src/lib/i18n.ts`). `index.astro`(홈), `ladders.astro`(사다리 전체 ‘주제’ `/ladders/`), `terms/index.astro`(용어 전체 `/terms/`), `terms/[id].astro`(용어 `/terms/<id>/`). 페이지 수는 언어마다 67개, 모두 134개다(수치 기준 `benchmarks.astro`, 바뀐 내용 `changelog.astro`가 2026-11-12에 늘었다).
   - 화면 문구는 `src/lib/i18n.ts`에 두 언어가 같은 키로 있다. 링크는 `paths(lang)`(`src/lib/paths.ts`, `make-paths.ts`)로 만든다.
   - 콘텐츠의 원본은 `src/content/`다.
     - `terms/<id>.json`: 용어 1개 = 파일 1개(62개). 파일 이름이 id다. 언어와 상관없는 값(레벨, 눈금 숫자, 출처 URL, 출처와 마지막으로 대조한 날 `checked`)과 한국어 글. 콘텐츠 컬렉션 `terms`로 읽는다.
@@ -350,6 +350,20 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
 - 화면: 정의 아래 평균 줄이 둘이 된다(MLB, KBO). 눈금 막대에서는 MLB가 위쪽 빨간 마커(이름표 ‘MLB’), KBO가 눈금 숫자 아래 잉크색 마커(‘KBO’)다. 위아래로 나눠 값이 가까워도 겹치지 않는다. 빨강은 계속 MLB 평균 하나다.
 - 넣지 않은 것: 추적 지표(KBO 리그 단위 공개 자료 없음), wOBA·wRC+·WAR(계산처마다 다르고 확인할 원문을 열 수 없다), xFIP·SIERA. FIP 상수(약 3.55)는 리그 합계로 계산한 값이라 ‘계산값’으로 적는다.
 - 시즌이 바뀌면 MLB 평균과 함께 KBO 평균도 고친다(`docs/verified-facts.md`의 ‘KBO 리그 평균’).
+
+### 리뷰어 제안 받아들이기 (2026-11-12)
+
+사용자 결정: 방향성 리뷰의 나머지 제안도 받아들인다.
+
+- 넣은 것:
+  - 수치 기준 모아 보기(`/benchmarks/`, 영어 ‘Benchmarks at a glance’): 눈금이 있는 용어의 MLB·KBO 평균과 구간을 한 페이지에. 용어 목록 맨 아래에서 간다. 넓은 화면은 두 단.
+  - 바뀐 내용(`/changelog/`, ‘What’s new’)과 RSS(`/rss.xml`, `/en/rss.xml`): `src/content/changelog.json`에 날짜, 한국어, 영어로 적는다. 홈 맨 아래에서 간다. 용어를 더하거나 눈에 띄게 고치면 한 줄을 더한다.
+  - 검색: 맞는 게 없으면 이름이 한두 글자 다른 용어를 준다(편집 거리, `src/lib/search.ts`). LOB%, wRAA, HR/FB처럼 본문에서 다루는 이름을 별칭에 더했다.
+  - 페이지 수는 언어마다 67개(홈, 주제, 용어 목록, 수치 기준, 바뀐 내용, 용어 62), 모두 134개와 404다.
+- 스토어 앱: ‘다음’에서 내린다. 한 코드베이스(웹 → PWA → Capacitor)는 그대로 두되, 스토어 출시는 방문 통계에서 설치와 재방문이 보이거나 앱에서만 되는 기능이 생길 때 다시 본다. `android/`, `ios/`는 그대로 둔다.
+- 사용자가 직접 해야 하는 것: 방문 통계(Cloudflare 대시보드의 Web Analytics를 Pages 프로젝트에 켠다. 쿠키가 없고 코드 변경이 필요 없다), 자체 도메인(대시보드의 Custom domains. 붙이면 `astro.config.mjs`의 `site`와 `public/robots.txt`의 주소를 함께 고친다), 검색 등록(Google Search Console, 네이버 서치어드바이저에 sitemap 제출).
+- 아직 정하지 않은 것: 글과 그림의 라이선스(LICENSE 파일 없음), 용어마다의 ‘오류 알리기’ 링크(GitHub 이슈로 보내면 사이트에 계정 이름이 드러난다. 사이트에는 지금 GitHub 링크가 없다).
+- 아직 하지 않은 것: 중계에서 쓰는 KBO 용어(득점권 타율, QS, 피안타율, 파크 팩터), 주제별 비교 페이지, 영어판 배트 트래킹 용어 보강, 시즌 수치 갱신 스크립트.
 
 ### 앱 아이콘 (2026-10-26)
 

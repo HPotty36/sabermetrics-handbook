@@ -5,7 +5,7 @@ import { LANGS, type Lang } from '../lib/i18n.ts';
 
 export const GET: APIRoute = async ({ site }) => {
   const { terms } = await loadHandbook('ko');
-  const pages = ['', 'ladders/', 'terms/', ...terms.map((t) => `terms/${t.id}/`)];
+  const pages = ['', 'ladders/', 'terms/', 'benchmarks/', 'changelog/', ...terms.map((t) => `terms/${t.id}/`)];
   const lastmod = new Map(terms.map((t) => [`terms/${t.id}/`, t.checked]));
   const url = (lang: Lang, page: string) => new URL((lang === 'ko' ? '' : 'en/') + page, site).href;
   const body = pages

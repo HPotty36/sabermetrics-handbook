@@ -5,6 +5,7 @@ import TermIndex from '../../../components/TermIndex.astro';
 import Base from '../../../layouts/Base.astro';
 import { loadHandbook } from '../../../lib/handbook.ts';
 import { fill, langPaths, ui, type Lang } from '../../../lib/i18n.ts';
+import { paths } from '../../../lib/paths.ts';
 
 export const getStaticPaths = langPaths;
 
@@ -18,4 +19,5 @@ const { terms } = await loadHandbook(lang);
     <Seam />
   </header>
   <TermIndex lang={lang} />
+  <p class="home-more"><a href={paths(lang).benchmarksHref}>{s.benchmarks}</a></p>
 </Base>

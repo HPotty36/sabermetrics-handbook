@@ -1,0 +1,41 @@
+---
+// 수치 기준 모아 보기: 눈금이 있는 용어의 평균(MLB, KBO)과 구간을 한 페이지에 적는다. 인쇄해도 읽히게 글만 쓴다.
+import Seam from '../../components/Seam.astro';
+import Base from '../../layouts/Base.astro';
+import { fmt } from '../../lib/format.ts';
+import { loadHandbook } from '../../lib/handbook.ts';
+import { fill, langPaths, ui, type Lang } from '../../lib/i18n.ts';
+import { paths } from '../../lib/paths.ts';
+
+export const getStaticPaths = langPaths;
+
+const { lang } = Astro.props as { lang: Lang };
+const s = ui(lang);
+const { termHref } = paths(lang);
+const { terms } = await loadHandbook(lang);
+const withScale = terms.filter((t) => t.scale);
+const levels = [1, 2, 3] as const;
+---
+<Base lang={lang} title={`${s.benchmarks} | ${s.siteName}`} description={fill(s.benchmarksDescription, { n: withScale.length })} view="benchmarks" tab="terms">
+  <header class="page-head">
+    <h1 class="page-title">{s.benchmarks}</h1>
+    <Seam />
+  </header>
+  <p class="bench-note">{s.benchmarksNote}</p>
+  {levels.map((l) => (
+    <section class="bench-group" aria-label={s.levels[l]}>
+      <h2 class="toc-group">{s.levels[l]}</h2>
+      <ul class="bench">{withScale.filter((t) => t.level === l).map((t) => {
+        const sc = t.scale!;
+        const marks = [...sc.marks].sort((a, b) => a.v - b.v);
+        return (
+          <li>
+            <a class="toc-row" href={termHref(t.id)}><span class="toc-abbr">{t.chip}</span>{t.sub && <span class="toc-ko">{t.sub}</span>}</a>
+            {(sc.avg || sc.kbo) && <p class="bench-avg">{sc.avg && <span><b>{fmt(sc.avg.v, sc)}</b> MLB</span>}{sc.kbo && <span><b>{fmt(sc.kbo.v, sc)}</b> KBO</span>}</p>}
+            <dl class="bench-marks">{marks.map((m) => <div><dt>{fmt(m.v, sc)}</dt><dd>{m.t}</dd></div>)}</dl>
+          </li>
+        );
+      })}</ul>
+    </section>
+  ))}
+</Base>

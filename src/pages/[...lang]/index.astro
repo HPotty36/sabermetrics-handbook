@@ -13,7 +13,7 @@ export const getStaticPaths = langPaths;
 
 const { lang } = Astro.props as { lang: Lang };
 const s = ui(lang);
-const { termHref, termsHref } = paths(lang);
+const { termHref, termsHref, changelogHref } = paths(lang);
 const { terms, stubs, ladders, termMap } = await loadHandbook(lang);
 
 // 첫 번째 입구 ‘기본 지표’는 OPS에서 시작한다.
@@ -69,4 +69,5 @@ const knownStops = knownAll.slice(0, DOOR_MAX);
       <div class="ladder"><h3 class="ladder-name">{l.name}</h3><LadderLine lang={lang} ladder={l} dir="h" /></div>
     ))}</div>
   </section>
+  <p class="home-more"><a href={changelogHref}>{s.changelog}</a></p>
 </Base>

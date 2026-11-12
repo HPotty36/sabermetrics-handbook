@@ -63,9 +63,31 @@ function rank(e: SearchEntry, nq: string): number {
  */
 export function search(entries: SearchEntry[], { q, level, cat }: SearchQuery): SearchEntry[] {
   const nq = norm(q);
-  return entries
+  const inFilter = (e: SearchEntry) => (!level || e.level === level) && (cat === ALL_CATS || e.cats.includes(cat));
+  const found = entries
     .map((e, i) => ({ e, i, r: rank(e, nq) }))
-    .filter(({ e, r }) => (!level || e.level === level) && (cat === ALL_CATS || e.cats.includes(cat)) && r < 4)
+    .filter(({ e, r }) => inFilter(e) && r < 4)
     .sort((a, b) => a.r - b.r || a.e.level - b.e.level || a.i - b.i)
     .map(({ e }) => e);
+  if (found.length || nq.length < 3) return found;
+  // 맞는 게 없으면 오타로 보고, 이름이 한두 글자만 다른 용어를 가까운 순으로 준다(‘sierra’ → SIERA, ‘바빕’은 그대로 없음).
+  const max = nq.length < 6 ? 1 : 2;
+  return entries
+    .map((e, i) => ({ e, i, d: Math.min(...e.name.split('|').map((n) => distance(n, nq, max))) }))
+    .filter(({ e, d }) => inFilter(e) && d <= max)
+    .sort((a, b) => a.d - b.d || a.e.level - b.e.level || a.i - b.i)
+    .map(({ e }) => e);
+}
+
+/** 두 낱말의 편집 거리(글자를 넣고, 빼고, 바꾸는 횟수). max를 넘으면 더 세지 않고 max + 1을 준다. */
+function distance(a: string, b: string, max: number): number {
+  if (Math.abs(a.length - b.length) > max) return max + 1;
+  let prev = Array.from({ length: b.length + 1 }, (_, j) => j);
+  for (let i = 1; i <= a.length; i++) {
+    const cur = [i];
+    for (let j = 1; j <= b.length; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+    if (Math.min(...cur) > max) return max + 1;
+    prev = cur;
+  }
+  return prev[b.length];
 }
