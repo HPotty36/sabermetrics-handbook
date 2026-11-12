@@ -1,6 +1,11 @@
 [
   {
     "date": "2026-11-12",
+    "ko": "퀄리티 스타트와 파크 팩터를 더해 용어가 64개가 됐다.",
+    "en": "Added quality start and park factor, for 64 terms."
+  },
+  {
+    "date": "2026-11-12",
     "ko": "출루율, ERA, WHIP 등 용어 13개에 2026 KBO 리그 평균을 MLB 평균과 함께 적었다.",
     "en": "Thirteen terms, including OBP, ERA and WHIP, now show the 2026 KBO league average next to the MLB one."
   },

@@ -1,0 +1,41 @@
+{
+  "name": "Quality Start",
+  "aliases": [
+    "quality starts",
+    "tough loss",
+    "cheap win"
+  ],
+  "summary": "A start in which the pitcher goes at least six innings and allows three earned runs or fewer.",
+  "easy": [
+    "A starter has two jobs: last a while, and keep runs off the board. A quality start is a yes-or-no check on whether he did the minimum of both in one game.",
+    "A win needs the lineup to score and the bullpen to hold on. A quality start only looks at what happened while the starter was on the mound, which is why broadcasters reach for it when a pitcher keeps throwing well without getting wins."
+  ],
+  "formula": {
+    "expr": "QS = at least 6 IP and no more than 3 ER",
+    "vars": [
+      [
+        "IP",
+        "innings pitched by the starter"
+      ],
+      [
+        "ER",
+        "earned runs"
+      ]
+    ]
+  },
+  "deep": [
+    "Turn the cutoff, six innings and three earned runs, into an ERA and you get 4.50. A start that only just qualifies is a bit worse than league average. Most games that get counted are far better than that, but the bar is lower than the word “quality” suggests.",
+    "Counting yes or no throws a lot away. Nine shutout innings and six innings with three earned runs both count as one, and 5⅔ scoreless innings count as zero. A pitcher with two runs through six who comes back out and gives up two more in the seventh loses the quality start he had. Unearned runs never count, however many there are.",
+    "John Lowe, a baseball writer at the Philadelphia Inquirer, came up with it in 1985. He called a loss in a quality start a “tough loss” and a win without one a “cheap win.” For one number on a starter, ERA or FIP does more; the quality start is a side count of how often he was at least serviceable."
+  ],
+  "myth": {
+    "claim": "A quality start means he pitched well.",
+    "truth": "Six innings and three earned runs is a 4.50 ERA. A start that barely clears the bar and a dominant one both count as one."
+  },
+  "sources": [
+    {
+      "t": "MLB.com Glossary · Quality Start",
+      "u": "https://www.mlb.com/glossary/standard-stats/quality-start"
+    }
+  ]
+}

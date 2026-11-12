@@ -83,7 +83,8 @@
     "babip",
     "war",
     "era-plus",
-    "whip"
+    "whip",
+    "qs"
   ],
   "sources": [
     {

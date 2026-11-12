@@ -20,10 +20,10 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
 
 - Astro 7 정적 사이트다. Node 22.22 이상. `npm run dev`, `npm run build`(결과는 `dist/`), `npm test`, `npm run check`.
   - 앱(Capacitor 8): `npm run cap:sync`가 앱용 빌드(`dist-app/`)를 만들어 `android/`, `ios/`에 복사한다. 앱의 로컬 서버는 확장자 없는 주소를 모두 홈 `index.html`로 보내므로(Android `WebViewLocalServer`, iOS 라우터), 앱용 빌드(`astro build --mode app`)만 페이지 링크에 `index.html`까지 적는다(`src/lib/make-paths.ts`). 웹 빌드의 주소는 그대로다. 앱에서는 서비스 워커를 등록하지 않는다.
-  - 라우트: `src/pages/[...lang]/` 아래 템플릿 하나로 한국어(`/`)와 영어(`/en/`) 페이지를 함께 만든다(`langPaths`, `src/lib/i18n.ts`). `index.astro`(홈), `ladders.astro`(사다리 전체 ‘주제’ `/ladders/`), `terms/index.astro`(용어 전체 `/terms/`), `terms/[id].astro`(용어 `/terms/<id>/`). 페이지 수는 언어마다 67개, 모두 134개다(수치 기준 `benchmarks.astro`, 바뀐 내용 `changelog.astro`가 2026-11-12에 늘었다).
+  - 라우트: `src/pages/[...lang]/` 아래 템플릿 하나로 한국어(`/`)와 영어(`/en/`) 페이지를 함께 만든다(`langPaths`, `src/lib/i18n.ts`). `index.astro`(홈), `ladders.astro`(사다리 전체 ‘주제’ `/ladders/`), `terms/index.astro`(용어 전체 `/terms/`), `terms/[id].astro`(용어 `/terms/<id>/`). 페이지 수는 언어마다 69개, 모두 138개다(수치 기준 `benchmarks.astro`, 바뀐 내용 `changelog.astro`가 2026-11-12에 늘었다).
   - 화면 문구는 `src/lib/i18n.ts`에 두 언어가 같은 키로 있다. 링크는 `paths(lang)`(`src/lib/paths.ts`, `make-paths.ts`)로 만든다.
   - 콘텐츠의 원본은 `src/content/`다.
-    - `terms/<id>.json`: 용어 1개 = 파일 1개(62개). 파일 이름이 id다. 언어와 상관없는 값(레벨, 눈금 숫자, 출처 URL, 출처와 마지막으로 대조한 날 `checked`)과 한국어 글. 콘텐츠 컬렉션 `terms`로 읽는다.
+    - `terms/<id>.json`: 용어 1개 = 파일 1개(64개). 파일 이름이 id다. 언어와 상관없는 값(레벨, 눈금 숫자, 출처 URL, 출처와 마지막으로 대조한 날 `checked`)과 한국어 글. 콘텐츠 컬렉션 `terms`로 읽는다.
     - `en/terms/<id>.json`: 같은 용어의 영어 글(컬렉션 `termsEn`). 숫자와 출처 URL은 한국어 파일 것을 쓰고, `validateEnglish`(`src/lib/validate.ts`)가 짝을 검사한다. `loadHandbook(lang)`이 언어별로 합쳐 `LocalTerm`으로 준다.
     - 용어 그림: `src/components/fig/terms/<id>.astro`(용어마다 하나, `npm test`가 짝을 검사한다), 함께 쓰는 부품 `src/components/fig/*.astro`, 계산과 가상의 예 `src/lib/fig.ts`. 빌드 때 만드는 정적 SVG다. 아래 ‘그림’.
     - `stubs.json`(준비 중, 지금은 0개), `ladders.json`(사다리 18개): 순서가 있는 목록이라 컬렉션이 아니라 `src/lib/handbook.ts`에서 읽는다. 사다리는 파일에 적힌 순서대로 화면에 나온다. 둘 다 영어 이름(`en`)이 있다.
@@ -363,7 +363,10 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
 - 스토어 앱: ‘다음’에서 내린다. 한 코드베이스(웹 → PWA → Capacitor)는 그대로 두되, 스토어 출시는 방문 통계에서 설치와 재방문이 보이거나 앱에서만 되는 기능이 생길 때 다시 본다. `android/`, `ios/`는 그대로 둔다.
 - 사용자가 직접 해야 하는 것: 방문 통계(Cloudflare 대시보드의 Web Analytics를 Pages 프로젝트에 켠다. 쿠키가 없고 코드 변경이 필요 없다), 자체 도메인(대시보드의 Custom domains. 붙이면 `astro.config.mjs`의 `site`와 `public/robots.txt`의 주소를 함께 고친다), 검색 등록(Google Search Console, 네이버 서치어드바이저에 sitemap 제출).
 - 아직 정하지 않은 것: 글과 그림의 라이선스(LICENSE 파일 없음), 용어마다의 ‘오류 알리기’ 링크(GitHub 이슈로 보내면 사이트에 계정 이름이 드러난다. 사이트에는 지금 GitHub 링크가 없다).
-- 아직 하지 않은 것: 중계에서 쓰는 KBO 용어(득점권 타율, QS, 피안타율, 파크 팩터), 주제별 비교 페이지, 영어판 배트 트래킹 용어 보강, 시즌 수치 갱신 스크립트.
+- 용어 둘을 더했다(64개): 퀄리티 스타트(`qs`, ‘투수 평가’의 ERA 다음)와 파크 팩터(`park-factor`, ‘선수 가치’의 맨 앞). 중계에서 자주 나오지만 없던 말이다. 출처는 MLB 용어집, Savant 파크 팩터 리더보드, FanGraphs Library. 눈금은 없다(기준 구간의 출처가 없다).
+  - 득점권 타율과 피안타율은 넣지 못했다. MLB 용어집의 해당 페이지가 빈 틀이고 KBO 기록실의 세부 기록 페이지가 이 환경에서 오류를 낸다. 출처를 열 수 있을 때 쓴다.
+  - 홈 주제 묶음의 다섯 칸짜리 선은 폭 420px 이하에서 이름을 12.5px로 줄이고 긴 낱말을 꺾는다(360px에서 이름이 겹쳤다).
+- 아직 하지 않은 것: 득점권 타율·피안타율, 주제별 비교 페이지, 영어판 배트 트래킹 용어 보강, 시즌 수치 갱신 스크립트.
 
 ### 앱 아이콘 (2026-10-26)
 

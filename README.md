@@ -39,7 +39,7 @@ A glossary of baseball stats, from batting average to swing timing. Every term i
 
 ## Terms
 
-62 terms in 18 topics. A term can sit in more than one topic.
+64 terms in 18 topics. A term can sit in more than one topic.
 
 | Topic | From basic to advanced |
 | --- | --- |
@@ -51,7 +51,7 @@ A glossary of baseball stats, from batting average to swing timing. Every term i
 | The Swing | Bat Speed → Swing Length → Blast → Attack Angle → Swing Timing |
 | Swing Path | Attack Angle → Attack Direction → Swing Path Tilt → Squared-Up% |
 | Baserunning | Sprint Speed → Baserunning Run Value → BsR |
-| Pitching | ERA → WHIP → ERA+ → FIP |
+| Pitching | ERA → QS → WHIP → ERA+ → FIP |
 | Defense-Independent Pitching | FIP → xFIP → SIERA → xERA |
 | Strikeouts and Whiffs | K% → K-BB% → CSW% → Whiff% |
 | Pitch Quality | Velocity → Spin Rate → IVB → VAA → Stuff+ |
@@ -59,7 +59,7 @@ A glossary of baseball stats, from batting average to swing timing. Every term i
 | Pitch Models | Stuff+ → Location+ → Pitching+ |
 | Fielding | FPCT → Arm Strength → OAA → DRS → FRV |
 | Catcher Defense | Pop Time → Blocking → Framing → ABS Challenge |
-| Player Value | wRC+ → WAR |
+| Player Value | Park Factor → wRC+ → WAR |
 | Context and Wins | RE24 → WPA → LI |
 
 ## Getting started

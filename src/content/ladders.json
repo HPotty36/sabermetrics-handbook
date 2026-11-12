@@ -94,6 +94,7 @@
     "hint": "실점과 출루 허용",
     "steps": [
       "era",
+      "qs",
       "whip",
       "era-plus",
       "fip"
@@ -182,6 +183,7 @@
     "en": "Player Value",
     "hint": "타격에서 선수 전체로",
     "steps": [
+      "park-factor",
       "wrc-plus",
       "war"
     ]

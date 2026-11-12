@@ -283,10 +283,17 @@ KBO 정규시즌 리그 합계(10팀, 팀당 144경기). Baseball-Reference의 K
 - 같은 페이지의 2026 MLB OPS는 Baseball-Reference 리그 평균 행 .719(2025 .719)다. OPS의 수치 기준에 MLB 평균으로 넣었다.
 - KBO 값을 넣지 못한 것: 타구·투구 추적 지표(KBO는 리그 단위 공개 자료가 없다), wOBA·wRC+·WAR(계산처마다 가중치와 방식이 다르고 STATIZ는 이 환경에서 열리지 않는다), xFIP·SIERA(뜬공·땅볼 자료가 필요하다).
 
+## 2026-11-12 새 용어 2개
+
+- **퀄리티 스타트**: 선발 투수가 6이닝 이상 던지고 자책점 3점 이하. 1985년 필라델피아 인콰이어러의 존 로(John Lowe)가 만들었고, 퀄리티 스타트를 하고 진 경기를 ‘tough loss’, 못 하고 이긴 경기를 ‘cheap win’이라고 불렀다. 6이닝 3자책점 = 평균자책점 4.50은 계산값. https://www.mlb.com/glossary/standard-stats/quality-start
+- **파크 팩터**: 가장 단순한 계산은 한 팀의 홈구장 경기에서 양 팀이 낸 점수 ÷ 그 팀의 원정 경기에서 양 팀이 낸 점수, 홈과 원정의 상대가 다르면 조금 보정(MLB 용어집 ‘Ballpark Factor’). Statcast 파크 팩터는 100이 평균이고, 타자와 투수마다 좌우를 나눠 그 구장과 다른 구장의 결과를 견준다. 리더보드는 3시즌(2024–2026)을 묶어 보이고 득점·홈런·2루타·3루타·삼진 등 항목마다 값이 있다(Savant). FanGraphs는 5년 회귀 값을 쓰고 절반으로 줄여 보인다(‘105면 득점이 10% 더’), 선수가 홈에서 절반만 뛰기 때문에 보정에는 절반만 쓴다(FanGraphs Library). https://www.mlb.com/glossary/advanced-stats/park-factor , https://baseballsavant.mlb.com/leaderboard/statcast-park-factors , https://library.fangraphs.com/principles/park-factors/
+- 열리지 않은 것: MLB 용어집의 runner-in-scoring-position, batting-average-against 페이지(빈 틀), KBO 기록실 팀 세부 기록(Basic2, 오류 페이지). 그래서 득점권 타율과 피안타율은 쓰지 않았다.
+
 ## 용어마다의 마지막 확인 날짜 (2026-10-29 정리)
 
 용어 파일의 `checked`(화면의 ‘마지막 확인’)는 그 용어의 숫자와 정의를 출처의 원문과 마지막으로 대조한 날이다. 이 파일과 커밋 기록으로 정했다. 글만 다듬거나 관련 용어만 더한 날(2026-10-26·27, 2026-10-28의 기존 용어)은 세지 않는다.
 
+- 2026-11-12 (2개): 퀄리티 스타트, 파크 팩터(위 ‘2026-11-12 새 용어 2개’).
 - 2026-10-29 (10개): 어택 앵글, IVB, VAA(위 ‘2026-10-29 평균 시즌’), BABIP, 블라스트, OAA, OPS, WAR, wRC+, xwOBA(위 ‘2026-10-29 원문 대조 (7개)’).
 - 2026-10-28 (35개): 위 ‘2026-10-28 새 용어 35개’의 용어 모두. 스프린트 스피드는 2026-10-29에 평균 설명만 고쳤고 숫자는 이날 확인한 값이라 이날로 둔다.
 - 2026-10-23 (17개): 타율, 배럴, 배트 스피드, CSW%, ERA, 타구 속도, FIP, 수비율, 하드히트%, K%, SIERA, 회전수, Stuff+, 스윙 타이밍, 구속, wOBA, xFIP. 위 ‘2026-10-23 원문 대조’와 리그 평균 표의 2026-10-23 행(배럴·wOBA는 Savant 리그 행, CSW%는 Pitcher List에 리그 값이 없음을 확인).
