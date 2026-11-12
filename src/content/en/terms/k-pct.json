@@ -21,9 +21,14 @@
     "claim": "A hitter who strikes out a lot is a bad hitter.",
     "truth": "A hitter can rack up strikeouts and still be a big plus on offense if the walks and extra-base hits are there too. A strikeout is also just one out, while a ball on the ground can turn into a double play."
   },
+  "leagues": [
+    { "lg": "KBO", "t": "The 2026 KBO league K% was 19.5% (2025: 19.7%), below MLB’s 22.1%. The same 25% K% sits further from the league average in the KBO." }
+  ],
   "sources": [
     { "t": "FanGraphs Library · K% and BB% (hitters)", "u": "https://library.fangraphs.com/offense/rate-stats/" },
     { "t": "FanGraphs Library · Strikeout and Walk Rates (pitchers)", "u": "https://library.fangraphs.com/pitching/rate-stats/" },
-    { "t": "MLB.com Glossary · Strikeout Rate", "u": "https://www.mlb.com/glossary/advanced-stats/strikeout-rate" }
+    { "t": "MLB.com Glossary · Strikeout Rate", "u": "https://www.mlb.com/glossary/advanced-stats/strikeout-rate" },
+    { "t": "Baseball-Reference \u00b7 2026 KBO league totals", "u": "https://www.baseball-reference.com/register/league.cgi?id=163dcec5" },
+    { "t": "KBO Record Room \u00b7 team stats", "u": "https://www.koreabaseball.com/Record/Team/Pitcher/Basic1.aspx" }
   ]
 }

@@ -24,6 +24,14 @@
     "max": 1.05,
     "dir": "high",
     "fmt": "dec3",
+    "avg": {
+      "v": 0.719,
+      "t": "2026 MLB 평균 .719 (2025년 .719)"
+    },
+    "kbo": {
+      "v": 0.751,
+      "t": "2026 KBO 평균 .751 (2025년 .727)"
+    },
     "marks": [
       {
         "v": 0.6,
@@ -84,6 +92,14 @@
     {
       "t": "Baseball-Reference · 2026 MLB 타격 (리그 평균)",
       "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-batting.shtml"
+    },
+    {
+      "t": "Baseball-Reference · 2026 KBO 리그 합계",
+      "u": "https://www.baseball-reference.com/register/league.cgi?id=163dcec5"
+    },
+    {
+      "t": "KBO 기록실 · 팀 기록",
+      "u": "https://www.koreabaseball.com/Record/Team/Hitter/Basic1.aspx"
     }
   ],
   "checked": "2026-10-29"

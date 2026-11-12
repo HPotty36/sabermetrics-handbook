@@ -7,6 +7,7 @@
   ],
   "scale": {
     "avg": "2026 MLB average .290",
+    "kbo": "2026 KBO average .317 (2025: .312)",
     "marks": [
       { "v": 0.26, "t": "Low" },
       { "v": 0.32, "t": "High" }
@@ -33,11 +34,13 @@
     "truth": "For pitchers it mostly is. For hitters, quality of contact and foot speed also push BABIP up."
   },
   "leagues": [
-    { "lg": "KBO and NPB", "t": "Each league has its own run environment and level of defense, so average BABIP differs from league to league. A KBO player should be measured against the KBO average." }
+    { "lg": "KBO and NPB", "t": "League averages differ with run environment and defense. The KBO’s 2026 league BABIP was .317, above MLB’s .290, so compare a KBO player with the KBO average." }
   ],
   "sources": [
     { "t": "FanGraphs Library · BABIP", "u": "https://library.fangraphs.com/pitching/babip/" },
     { "t": "FanGraphs · Guts (league averages)", "u": "https://www.fangraphs.com/guts.aspx?type=cn" },
-    { "t": "Baseball-Reference · 2026 MLB batting (league averages)", "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-batting.shtml" }
+    { "t": "Baseball-Reference · 2026 MLB batting (league averages)", "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-batting.shtml" },
+    { "t": "Baseball-Reference \u00b7 2026 KBO league totals", "u": "https://www.baseball-reference.com/register/league.cgi?id=163dcec5" },
+    { "t": "KBO Record Room \u00b7 team stats", "u": "https://www.koreabaseball.com/Record/Team/Hitter/Basic1.aspx" }
   ]
 }

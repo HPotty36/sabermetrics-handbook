@@ -8,6 +8,7 @@
   ],
   "scale": {
     "avg": "2026 MLB average 8.9% (2025: 8.4%)",
+    "kbo": "2026 KBO average 9.4% (2025: 9.1%)",
     "marks": [
       { "v": 5.7, "t": "Bottom 10%" },
       { "v": 9.2, "t": "Median" },
@@ -31,6 +32,8 @@
     { "t": "MLB.com Glossary · Walk Rate", "u": "https://www.mlb.com/glossary/advanced-stats/walk-rate" },
     { "t": "FanGraphs Library · K% and BB% (hitters)", "u": "https://library.fangraphs.com/offense/rate-stats/" },
     { "t": "Baseball-Reference · 2026 MLB batting (league averages)", "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-batting.shtml" },
-    { "t": "Baseball Savant · 2026 custom leaderboard (qualified hitters)", "u": "https://baseballsavant.mlb.com/leaderboard/custom?year=2026&type=batter&min=q&selections=pa,on_base_percent,slg_percent,isolated_power,bb_percent,xba,sweet_spot_percent,oz_swing_percent,whiff_percent" }
+    { "t": "Baseball Savant · 2026 custom leaderboard (qualified hitters)", "u": "https://baseballsavant.mlb.com/leaderboard/custom?year=2026&type=batter&min=q&selections=pa,on_base_percent,slg_percent,isolated_power,bb_percent,xba,sweet_spot_percent,oz_swing_percent,whiff_percent" },
+    { "t": "Baseball-Reference \u00b7 2026 KBO league totals", "u": "https://www.baseball-reference.com/register/league.cgi?id=163dcec5" },
+    { "t": "KBO Record Room \u00b7 team stats", "u": "https://www.koreabaseball.com/Record/Team/Hitter/Basic1.aspx" }
   ]
 }

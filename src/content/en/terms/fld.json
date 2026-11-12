@@ -23,9 +23,14 @@
     "claim": "Errors show exactly how poorly a fielder played.",
     "truth": "An error is a scorer's ruling, not a measurement. One play can be scored either way, and a ball nobody reached never gets ruled on in the first place."
   },
+  "leagues": [
+    { "lg": "KBO", "t": "The 2026 KBO league fielding percentage was .982 (2025: .980), a little below MLB’s .985." }
+  ],
   "sources": [
     { "t": "MLB.com Glossary · Fielding Percentage", "u": "https://www.mlb.com/glossary/standard-stats/fielding-percentage" },
     { "t": "MLB.com Glossary · Outs Above Average", "u": "https://www.mlb.com/glossary/statcast/outs-above-average" },
-    { "t": "Baseball-Reference · 2026 MLB fielding (league averages)", "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-fielding.shtml" }
+    { "t": "Baseball-Reference · 2026 MLB fielding (league averages)", "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-fielding.shtml" },
+    { "t": "Baseball-Reference \u00b7 2026 KBO league totals", "u": "https://www.baseball-reference.com/register/league.cgi?id=163dcec5" },
+    { "t": "KBO Record Room \u00b7 team stats", "u": "https://www.koreabaseball.com/Record/Team/Defense/Basic.aspx" }
   ]
 }

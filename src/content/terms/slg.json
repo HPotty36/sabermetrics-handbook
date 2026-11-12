@@ -26,6 +26,10 @@
       "v": 0.4,
       "t": "2026 MLB 평균 .400 (2025년 .404)"
     },
+    "kbo": {
+      "v": 0.404,
+      "t": "2026 KBO 평균 .404 (2025년 .389)"
+    },
     "marks": [
       {
         "v": 0.359,
@@ -90,6 +94,14 @@
     {
       "t": "Baseball Savant · 2026 커스텀 리더보드 (규정 타석)",
       "u": "https://baseballsavant.mlb.com/leaderboard/custom?year=2026&type=batter&min=q&selections=pa,on_base_percent,slg_percent,isolated_power,bb_percent,xba,sweet_spot_percent,oz_swing_percent,whiff_percent"
+    },
+    {
+      "t": "Baseball-Reference · 2026 KBO 리그 합계",
+      "u": "https://www.baseball-reference.com/register/league.cgi?id=163dcec5"
+    },
+    {
+      "t": "KBO 기록실 · 팀 기록",
+      "u": "https://www.koreabaseball.com/Record/Team/Hitter/Basic1.aspx"
     }
   ],
   "checked": "2026-10-28"

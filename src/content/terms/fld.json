@@ -43,6 +43,12 @@
     "claim": "실책은 수비수가 얼마나 못했는지를 정확히 보여 준다.",
     "truth": "실책은 측정이 아니라 기록원의 판단이다. 같은 장면도 실책과 안타로 갈리고, 공에 닿지도 못한 타구는 판단할 대상조차 안 된다."
   },
+  "leagues": [
+    {
+      "lg": "KBO",
+      "t": "2026 KBO 리그 수비율은 .982(2025년 .980)로 MLB(.985)보다 조금 낮다."
+    }
+  ],
   "related": [
     "oaa",
     "war",
@@ -60,6 +66,14 @@
     {
       "t": "Baseball-Reference · 2026 MLB 수비 (리그 평균)",
       "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-fielding.shtml"
+    },
+    {
+      "t": "Baseball-Reference · 2026 KBO 리그 합계",
+      "u": "https://www.baseball-reference.com/register/league.cgi?id=163dcec5"
+    },
+    {
+      "t": "KBO 기록실 · 팀 기록",
+      "u": "https://www.koreabaseball.com/Record/Team/Defense/Basic.aspx"
     }
   ],
   "checked": "2026-10-23"

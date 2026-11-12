@@ -121,6 +121,7 @@ function localizeEn(t: TermEntry, en: TermEn): LocalTerm {
     scale: t.scale && {
       ...t.scale,
       avg: t.scale.avg && { v: t.scale.avg.v, t: en.scale?.avg ?? '' },
+      kbo: t.scale.kbo && { v: t.scale.kbo.v, t: en.scale?.kbo ?? '' },
       marks: t.scale.marks.map((m) => ({ v: m.v, t: marks.get(m.v) ?? '' })),
       note: en.scale?.note,
     },

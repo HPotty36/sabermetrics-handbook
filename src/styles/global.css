@@ -353,6 +353,13 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .avg{position:absolute;top:2px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:3px}
 .avg-tag{font:700 11px/1 var(--font-sans);color:var(--seam);white-space:nowrap}
 .plate{width:13px;height:12px;background:var(--seam);clip-path:polygon(0 0,100% 0,100% 50%,50% 100%,0 50%)}
+.scale-bar.has-kbo{height:92px}
+.avg-kbo{top:62px}
+.avg-kbo .plate{background:var(--ink);transform:rotate(180deg)}
+.avg-kbo .avg-tag{color:var(--ink)}
+.avg-inline+.avg-inline{margin-top:6px}
+.mnote-avg+.mnote-avg{margin-top:18px}
+.mnote-avg+.mnote-avg .avg-num{font-size:38px}
 /* 막대 양 끝의 나쁨·좋음: Baseball Savant 퍼센타일 막대의 POOR · GREAT */
 .scale-ends{display:flex;justify-content:space-between;margin:0 22px;font:700 12px/1.3 var(--font-sans);color:var(--muted)}
 .scale-ends .good{color:var(--ink)}
