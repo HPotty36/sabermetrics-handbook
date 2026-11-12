@@ -6,7 +6,7 @@ import Fig from '../Fig.astro';
 
 const { lang } = Astro.props as { lang: Lang };
 const U = 150;
-const AX = 168;
+const AX = 128;
 const ko = {
   alt: 'FRV의 환산: OAA 1아웃은 외야 0.9점·내야 0.75점, 송구 1점은 1점, 도루 저지 1개 0.65점, 병살 1개 0.4점, 블로킹 1개 0.25점, 프레이밍 1스트라이크 0.125점.',
   caption: 'Statcast 수비 지표 하나가 점수로 얼마인지. 막대 길이가 그 비율이다. 포지션마다 해당하는 항목만 더해, 평균적인 수비수보다 몇 점을 막았는지 한 숫자로 만든다. 2026년 10월부터는 포수의 ABS 챌린지 가치도 들어간다.',
@@ -41,9 +41,9 @@ const Y = (i: number) => 18 + i * 26;
 <Fig h={212} alt={L.alt} caption={L.caption}>
   {L.rows.map((r, i) => (
     <g>
-      <text x={AX - 10} y={Y(i) + 4} text-anchor="end" class="tx-ink tx-s">{r.t}</text>
+      <text x="0" y={Y(i) + 4} class="tx-ink tx-s">{r.t}</text>
       <rect class="fi-ink" x={AX} y={Y(i) - 6} width={n(r.v * U)} height="12" />
-      <text x={n(AX + r.v * U + 6)} y={Y(i) + 5} class="tx-num tx-ink">{r.v}</text>
+      <text x={n(AX + r.v * U + 6)} y={Y(i) + 5} class="tx-num tx-ink">{r.v === 1 ? '1.0' : r.v}</text>
     </g>
   ))}
   <text x={AX} y={Y(L.rows.length) + 4} class="tx-s">{L.unit}</text>

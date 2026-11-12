@@ -37,8 +37,19 @@ const related = t.related.filter((id) => !inLadders.has(id)).map((id) => termMap
 // 한국어 화면의 표제어는 팬이 부르는 이름이라 한글일 때가 있다. 표제 글꼴(Big Shoulders)에는 한글이 없어 크기를 따로 맞춘다.
 const hangulHead = /[가-힣]/.test(t.headword);
 const Figure = figures[`../../../components/fig/terms/${t.id}.astro`]?.default;
+// 검색 엔진용 구조화 데이터: 이 페이지가 용어 사전의 한 항목임을 알린다.
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'DefinedTerm',
+  name: t.headword,
+  alternateName: [t.nameMain, t.nameAlt].filter(Boolean),
+  description: t.summary,
+  inLanguage: lang,
+  url: new URL(termHref(t.id).replace(/index\.html$/, ''), Astro.site).href,
+  inDefinedTermSet: { '@type': 'DefinedTermSet', name: s.siteName, url: new URL(paths(lang).termsHref.replace(/index\.html$/, ''), Astro.site).href },
+};
 ---
-<Base lang={lang} title={`${t.title} | ${s.siteName}`} description={t.summary} view="term" tab="terms" termId={t.id} next={nexts[0]}>
+<Base lang={lang} title={`${t.title} | ${s.siteName}`} description={t.summary} view="term" tab="terms" termId={t.id} next={nexts[0]} jsonLd={jsonLd}>
   {/* 책의 본문 단과 여백 단. 넓은 화면에서는 Tufte CSS처럼 평균·관련 용어를 오른쪽 여백에 적는다. 좁은 화면에서는 본문 다음, 출처 앞에 온다. */}
   <div class="leaf">
     <article class="text">
