@@ -2,7 +2,10 @@
   {
     "name": "타격 평가",
     "en": "Hitting",
+    "slug": "hitting",
     "hint": "얼마나 잘 쳤나",
+    "intro": "타율은 안타만 세고, OPS는 출루와 장타를 더하고, wOBA는 결과마다 득점 가치만큼 무게를 달리 주고, wRC+는 거기에 구장과 리그 환경까지 보정한다. 뒤로 갈수록 한 타자가 점수를 얼마나 만들었는지에 가까워진다.",
+    "introEn": "Batting average counts only hits, OPS adds getting on base and power, wOBA weights each outcome by the runs it is worth, and wRC+ adjusts that for park and league. Each step gets closer to how many runs a hitter actually created.",
     "steps": [
       "avg",
       "ops",
@@ -13,7 +16,10 @@
   {
     "name": "출루와 장타",
     "en": "On-Base and Power",
+    "slug": "on-base-and-power",
     "hint": "얼마나 자주 나가고 얼마나 멀리 쳤나",
+    "intro": "출루율은 얼마나 자주 살아 나갔는지, 장타율은 칠 때 몇 루까지 갔는지다. ISO는 장타율에서 단타 몫을 덜어 낸 순수한 장타력이고, OPS는 출루율과 장타율을 그대로 더한 값이다.",
+    "introEn": "On-base percentage is how often a hitter reaches; slugging is how far his hits take him. ISO strips the singles out of slugging to leave raw power, and OPS simply adds on-base and slugging together.",
     "steps": [
       "obp",
       "slg",
@@ -24,7 +30,10 @@
   {
     "name": "선구안",
     "en": "Plate Discipline",
+    "slug": "plate-discipline",
     "hint": "어떤 공에 방망이를 냈나",
+    "intro": "BB%와 K%는 타석이 볼넷이나 삼진으로 끝난 비율이다. 체이스%와 헛스윙%는 그보다 앞 단계인 공 하나하나를 본다. 존 밖 공에 방망이를 냈는지, 낸 방망이가 공을 맞혔는지다.",
+    "introEn": "BB% and K% are the share of plate appearances that end in a walk or a strikeout. Chase% and Whiff% look one level down, at single pitches: whether he swung at a pitch outside the zone, and whether the swing hit anything.",
     "steps": [
       "bb-pct",
       "k-pct",
@@ -35,7 +44,10 @@
   {
     "name": "타구의 질",
     "en": "Contact Quality",
+    "slug": "contact-quality",
     "hint": "얼마나 잘 맞혔나",
+    "intro": "타구 속도와 발사각은 타구 하나를 잰 값이다. 하드히트%와 스위트 스팟%는 그중 하나씩에 기준선을 그어 비율로 만들고, 배럴은 속도와 각도가 함께 좋았던 타구만 센다.",
+    "introEn": "Exit velocity and launch angle measure a single batted ball. HardHit% and Sweet Spot% each draw a line on one of them and turn it into a rate, and a barrel counts only balls where speed and angle were both right.",
     "steps": [
       "ev",
       "launch-angle",
@@ -47,7 +59,10 @@
   {
     "name": "운과 실력",
     "en": "Luck vs. Skill",
+    "slug": "luck-vs-skill",
     "hint": "결과와 내용 구분하기",
+    "intro": "BABIP는 인플레이 타구가 안타가 된 비율이라 운과 수비가 많이 섞인다. xBA, xwOBA, xERA는 결과 대신 타구의 속도와 각도로 ‘났어야 할’ 값을 계산해, 실제 기록과의 차이를 보게 한다.",
+    "introEn": "BABIP is the share of balls in play that fall for hits, so it carries a lot of luck and defense. xBA, xwOBA and xERA replace the outcome with what the speed and angle of contact should have produced, so the gap to the actual line becomes visible.",
     "steps": [
       "babip",
       "xba",
@@ -58,7 +73,10 @@
   {
     "name": "스윙 분석",
     "en": "The Swing",
+    "slug": "the-swing",
     "hint": "배트가 어떻게 지나갔나",
+    "intro": "배트 스피드와 스윙 길이는 스윙 자체를 잰다. 블라스트는 빠르면서 정확히 맞힌 스윙만 세고, 어택 앵글은 배트가 공을 만나는 각도, 스윙 타이밍은 배트가 제때 제자리에 왔는지를 본다.",
+    "introEn": "Bat speed and swing length measure the swing itself. A blast counts only swings that were both fast and squared up, attack angle is the angle of the bat as it meets the ball, and swing timing asks whether the bat got to the right place at the right time.",
     "steps": [
       "batspeed",
       "swing-length",
@@ -70,7 +88,10 @@
   {
     "name": "스윙 궤적",
     "en": "Swing Path",
+    "slug": "swing-path",
     "hint": "배트가 어느 쪽으로 움직였나",
+    "intro": "어택 앵글은 위아래, 어택 디렉션은 좌우, 스윙 틸트는 스윙 면의 기울기다. 셋이 배트가 지나간 길을 그리고, 스퀘어드업%는 그 길 끝에서 공을 얼마나 정확히 맞혔는지를 본다.",
+    "introEn": "Attack angle is up and down, attack direction is left and right, and swing path tilt is the slope of the swing plane. The three describe the path of the bat, and Squared-Up% says how flush the contact was at the end of it.",
     "steps": [
       "attack-angle",
       "attack-direction",
@@ -81,7 +102,10 @@
   {
     "name": "주루",
     "en": "Baserunning",
+    "slug": "baserunning",
     "hint": "다리로 만든 점수",
+    "intro": "스프린트 스피드는 얼마나 빠른지만 잰다. 주루 득점 가치는 그 발로 한 베이스를 더 가고 도루를 해서 점수를 얼마나 벌었는지, BsR은 FanGraphs가 같은 일을 득점으로 합친 값이다.",
+    "introEn": "Sprint speed measures only how fast a runner is. Baserunning run value is how many runs that speed earned by taking extra bases and stealing, and BsR is FanGraphs’ total for the same job.",
     "steps": [
       "sprint-speed",
       "baserunning",
@@ -91,7 +115,10 @@
   {
     "name": "투수 평가",
     "en": "Pitching",
+    "slug": "pitching",
     "hint": "실점과 출루 허용",
+    "intro": "평균자책점은 내준 점수, 퀄리티 스타트는 한 경기를 버텼는지, WHIP는 내보낸 주자를 본다. ERA+는 평균자책점을 구장과 리그에 맞춰 보정하고, FIP는 수비가 끼어들지 않는 삼진·볼넷·홈런만으로 다시 계산한다.",
+    "introEn": "ERA is runs allowed, a quality start is whether one outing held up, and WHIP is runners allowed. ERA+ adjusts ERA for park and league, and FIP recomputes it from only the strikeouts, walks and home runs that no fielder touches.",
     "steps": [
       "era",
       "qs",
@@ -103,7 +130,10 @@
   {
     "name": "수비 무관 지표",
     "en": "Defense-Independent Pitching",
+    "slug": "defense-independent-pitching",
     "hint": "수비와 운을 뺀 실점 능력",
+    "intro": "FIP는 삼진, 볼넷, 홈런으로 실점을 추정한다. xFIP는 운을 타는 홈런을 뜬공 수로 바꾸고, SIERA는 땅볼과 뜬공까지 넣어 서로 엮고, xERA는 허용한 타구의 속도와 각도를 직접 본다.",
+    "introEn": "FIP estimates runs from strikeouts, walks and home runs. xFIP swaps the luck-prone home runs for fly balls, SIERA adds ground balls and fly balls and lets the parts interact, and xERA looks straight at the speed and angle of the contact allowed.",
     "steps": [
       "fip",
       "xfip",
@@ -114,7 +144,10 @@
   {
     "name": "삼진과 헛스윙",
     "en": "Strikeouts and Whiffs",
+    "slug": "strikeouts-and-whiffs",
     "hint": "타석 결과보다 잘게",
+    "intro": "K%는 타석이 삼진으로 끝난 비율이고, K-BB%는 거기서 볼넷을 뺀다. CSW%와 헛스윙%는 타석이 아니라 공 하나 단위로, 스트라이크를 얼마나 잡고 헛스윙을 얼마나 끌어냈는지 본다.",
+    "introEn": "K% is the share of plate appearances ending in a strikeout, and K-BB% takes the walks back out. CSW% and Whiff% work pitch by pitch instead: how many strikes a pitcher gets, and how many swings come up empty.",
     "steps": [
       "k-pct",
       "k-bb",
@@ -125,7 +158,10 @@
   {
     "name": "구위 분석",
     "en": "Pitch Quality",
+    "slug": "pitch-quality",
     "hint": "공이 왜 안 맞나",
+    "intro": "구속과 회전수는 공을 놓는 순간의 값이다. IVB는 그 회전이 만든 위아래 움직임, VAA는 공이 홈에 들어오는 각도다. Stuff+는 이런 값들을 모아 공 하나의 질을 한 숫자로 매긴다.",
+    "introEn": "Velocity and spin rate are measured as the ball leaves the hand. IVB is the vertical movement that spin creates, and VAA is the angle at which the pitch arrives at the plate. Stuff+ rolls such traits into one grade for a pitch.",
     "steps": [
       "velo",
       "spin",
@@ -137,7 +173,10 @@
   {
     "name": "릴리스와 회전",
     "en": "Release and Spin",
+    "slug": "release-and-spin",
     "hint": "공을 어디서 어떻게 놓았나",
+    "intro": "익스텐션과 팔 각도는 공을 어디서 어떻게 놓는지다. 회전수는 공이 얼마나 도는지, 액티브 스핀은 그 회전 가운데 실제로 공을 움직이는 몫이 얼마인지를 본다.",
+    "introEn": "Extension and arm angle describe where and how the ball is released. Spin rate is how much the ball spins, and active spin is the share of that spin that actually moves it.",
     "steps": [
       "extension",
       "arm-angle",
@@ -148,7 +187,10 @@
   {
     "name": "투구 모델",
     "en": "Pitch Models",
+    "slug": "pitch-models",
     "hint": "구위와 제구를 점수로",
+    "intro": "Stuff+는 공 자체의 질, Location+는 던진 위치, Pitching+는 둘에 볼카운트까지 함께 본 점수다. 셋 다 리그 평균이 100이다.",
+    "introEn": "Stuff+ grades the pitch itself, Location+ grades where it was thrown, and Pitching+ looks at both together with the count. All three put the league average at 100.",
     "steps": [
       "stuff-plus",
       "location-plus",
@@ -158,7 +200,10 @@
   {
     "name": "수비 평가",
     "en": "Fielding",
+    "slug": "fielding",
     "hint": "얼마나 많이 잡았나",
+    "intro": "수비율은 실책 없이 처리한 비율이라 범위를 못 본다. 송구 속도는 어깨, OAA는 평균적인 수비수보다 아웃을 몇 개 더 잡았는지를 재고, DRS와 FRV는 수비 전체를 득점으로 바꾼다.",
+    "introEn": "Fielding percentage is the share of chances handled cleanly, so it cannot see range. Arm strength measures the throw, OAA counts outs made beyond what an average fielder gets, and DRS and FRV turn all of defense into runs.",
     "steps": [
       "fld",
       "arm-strength",
@@ -170,7 +215,10 @@
   {
     "name": "포수 수비",
     "en": "Catcher Defense",
+    "slug": "catcher-defense",
     "hint": "받고, 막고, 던지기",
+    "intro": "팝 타임은 도루 주자를 잡는 송구, 블로킹은 빠지는 공을 막는 일, 프레이밍은 경계선 공을 스트라이크로 받아 내는 일이다. ABS 챌린지는 2026년부터 그 판정에 이의를 거는 제도다.",
+    "introEn": "Pop time is the throw on a steal, blocking is keeping pitches in front, and framing is getting borderline pitches called strikes. The ABS challenge, new in 2026, is the system for contesting those calls.",
     "steps": [
       "pop-time",
       "blocking",
@@ -181,7 +229,10 @@
   {
     "name": "선수 가치",
     "en": "Player Value",
+    "slug": "player-value",
     "hint": "타격에서 선수 전체로",
+    "intro": "파크 팩터는 구장이 기록을 얼마나 부풀리거나 줄이는지다. wRC+는 그 보정을 넣어 타격을 평균 100에 맞추고, WAR는 타격에 주루, 수비, 포지션까지 더해 승리로 바꾼다.",
+    "introEn": "Park factor is how much a ballpark inflates or deflates the numbers. wRC+ builds that adjustment in and sets league-average hitting at 100, and WAR adds baserunning, defense and position and converts it all to wins.",
     "steps": [
       "park-factor",
       "wrc-plus",
@@ -191,7 +242,10 @@
   {
     "name": "상황과 승리",
     "en": "Context and Wins",
+    "slug": "context-and-wins",
     "hint": "언제 해냈나",
+    "intro": "RE24는 주자와 아웃 상황에서 기대 득점을 얼마나 바꿨는지, WPA는 승리 확률을 얼마나 바꿨는지다. LI는 그 순간이 승부에 얼마나 중요했는지를 잰다.",
+    "introEn": "RE24 is how much a play changed the runs expected from the base-out situation, and WPA is how much it changed the chance of winning. LI measures how much the moment mattered to the game.",
     "steps": [
       "re24",
       "wpa",

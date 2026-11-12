@@ -72,6 +72,7 @@ npm run dev        # dev server at http://localhost:4321 (English at /en/)
 npm run build      # static build to dist/; fails if any content check fails
 npm test           # content checks and unit tests, no build needed
 npm run check      # type check
+npm run check:sources   # lists terms not re-checked in 180 days and source links that no longer open
 ```
 
 The Android and iOS projects wrap the same site with [Capacitor](https://capacitorjs.com):
@@ -124,3 +125,7 @@ Corrections are the most useful thing you can send. If a number, definition or s
 3. ~~English edition~~
 4. KBO league averages next to the MLB ones (13 terms so far)
 5. Android and iOS apps: projects are set up. A store release waits until installs and repeat visits of the web app show it is worth it.
+
+## License
+
+The code is under the [MIT License](LICENSE). The writing and the figures (`src/content/`, `src/components/fig/`, `docs/`) are under [CC BY-NC 4.0](LICENSE-CONTENT.md): share and adapt them with credit, not for commercial use. The name and the app icon are not covered by either.

@@ -49,6 +49,10 @@ export interface LocalStub {
 
 export interface LocalLadder {
   name: string;
+  /** 주제 페이지 주소의 끝부분 */
+  slug: string;
+  /** 주제 페이지 맨 위의 소개 */
+  intro: string;
   /** 왼쪽이 기본, 오른쪽이 심화 */
   steps: string[];
 }
@@ -164,7 +168,7 @@ function localize(r: Raw, lang: Lang): Handbook {
     lang,
     terms,
     stubs,
-    ladders: r.ladders.map((l) => ({ name: lang === 'ko' ? l.name : l.en, steps: l.steps })),
+    ladders: r.ladders.map((l) => ({ name: lang === 'ko' ? l.name : l.en, slug: l.slug, intro: lang === 'ko' ? l.intro : l.introEn, steps: l.steps })),
     termMap: new Map(terms.map((t) => [t.id, t])),
     stubMap: new Map(stubs.map((s) => [s.id, s])),
   };
@@ -195,7 +199,8 @@ async function readRaw(): Promise<Raw> {
   const problems = [
     ...validateHandbook({ terms, stubs, ladders }),
     ...validateEnglish(terms, en),
-    ...ladders.flatMap((l) => (/[가-힣]/.test(l.en) ? [`ladders.json › ${l.name} › en: 영어 이름에 한글이 있다`] : [])),
+    ...ladders.flatMap((l) => (/[가-힣]/.test(l.en + l.introEn) ? [`ladders.json › ${l.name} › en, introEn: 영어 글에 한글이 있다`] : [])),
+    ...ladders.flatMap((l, i) => (ladders.findIndex((x) => x.slug === l.slug) !== i ? [`ladders.json › ${l.name} › slug: ‘${l.slug}’가 겹친다`] : [])),
     ...stubs.flatMap((s) => (/[가-힣]/.test(s.en) ? [`stubs.json › ${s.id} › en: 영어 이름에 한글이 있다`] : [])),
   ];
   if (problems.length) fail(problems);

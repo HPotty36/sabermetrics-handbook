@@ -20,7 +20,7 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
 
 - Astro 7 정적 사이트다. Node 22.22 이상. `npm run dev`, `npm run build`(결과는 `dist/`), `npm test`, `npm run check`.
   - 앱(Capacitor 8): `npm run cap:sync`가 앱용 빌드(`dist-app/`)를 만들어 `android/`, `ios/`에 복사한다. 앱의 로컬 서버는 확장자 없는 주소를 모두 홈 `index.html`로 보내므로(Android `WebViewLocalServer`, iOS 라우터), 앱용 빌드(`astro build --mode app`)만 페이지 링크에 `index.html`까지 적는다(`src/lib/make-paths.ts`). 웹 빌드의 주소는 그대로다. 앱에서는 서비스 워커를 등록하지 않는다.
-  - 라우트: `src/pages/[...lang]/` 아래 템플릿 하나로 한국어(`/`)와 영어(`/en/`) 페이지를 함께 만든다(`langPaths`, `src/lib/i18n.ts`). `index.astro`(홈), `ladders.astro`(사다리 전체 ‘주제’ `/ladders/`), `terms/index.astro`(용어 전체 `/terms/`), `terms/[id].astro`(용어 `/terms/<id>/`). 페이지 수는 언어마다 69개, 모두 138개다(수치 기준 `benchmarks.astro`, 바뀐 내용 `changelog.astro`가 2026-11-12에 늘었다).
+  - 라우트: `src/pages/[...lang]/` 아래 템플릿 하나로 한국어(`/`)와 영어(`/en/`) 페이지를 함께 만든다(`langPaths`, `src/lib/i18n.ts`). `index.astro`(홈), `ladders.astro`(사다리 전체 ‘주제’ `/ladders/`), `ladders/[slug].astro`(주제 하나 `/ladders/<slug>/`), `terms/index.astro`(용어 전체 `/terms/`), `terms/[id].astro`(용어 `/terms/<id>/`). 페이지 수는 언어마다 87개, 모두 174개다(수치 기준 `benchmarks.astro`, 바뀐 내용 `changelog.astro`, 주제 18개의 페이지가 2026-11-12에 늘었다).
   - 화면 문구는 `src/lib/i18n.ts`에 두 언어가 같은 키로 있다. 링크는 `paths(lang)`(`src/lib/paths.ts`, `make-paths.ts`)로 만든다.
   - 콘텐츠의 원본은 `src/content/`다.
     - `terms/<id>.json`: 용어 1개 = 파일 1개(64개). 파일 이름이 id다. 언어와 상관없는 값(레벨, 눈금 숫자, 출처 URL, 출처와 마지막으로 대조한 날 `checked`)과 한국어 글. 콘텐츠 컬렉션 `terms`로 읽는다.
@@ -33,7 +33,7 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
     - 저장소: localStorage `sh-order`(읽는 순서), `sh-theme`(light/dark, 없으면 자동 = 기기 설정), `sh-lang`(ko/en), `sh-read`(읽은 용어 id를 띄어 적는다, 두 언어가 같이 쓴다), sessionStorage `sh-index`(레벨·분야).
   - 스타일은 `src/styles/global.css`다. 프로토타입 CSS에서 출발했다. 맨 위 주석에 디자인 언어를 요약해 두었다.
   - 글꼴은 npm 패키지로 직접 내보낸다(`Base.astro`에서 불러옴). 한글과 본문은 모두 `pretendard`, 표제·표제어·숫자는 Big Shoulders(Fontsource)다. Pretendard는 유니코드 조각으로 나뉘어 쓰는 조각만 받는다. `astro.config.mjs`의 작은 Vite 플러그인이 Fontsource의 woff를 빼고 woff2만 남긴다.
-  - PWA: `public/manifest.webmanifest`(한국어, start_url `/`)와 `public/en/manifest.webmanifest`(영어, start_url `/en/`), 아이콘(`public/icons/*.png`), 서비스 워커. 설치 창과 iOS 홈 화면은 아래 ‘설치’에 있다. 서비스 워커는 빌드가 끝나면 `integrations/service-worker.mjs`가 `dist/sw.js`로 만든다. CSS·JS·아이콘·manifest와 두 홈은 설치 때 저장하고, 나머지 페이지 128개는 페이지가 열리고 3초 뒤 하나씩 저장한다(아래 ‘설치’의 안드로이드 두 번째). 글꼴 조각과 manifest의 화면 사진은 쓰일 때 저장한다. 페이지는 네트워크 우선(3초 안에 안 오면 저장본), 없는 페이지는 오프라인에서 그 언어의 홈으로 대신한다. 저장본을 찾을 때 Vary를 보지 않는다(모듈 스크립트는 Origin 헤더를 붙여 요청하므로, 서버가 `Vary: Origin`을 보내면 미리 저장한 것과 짝이 안 맞아 오프라인에서 스크립트가 빠졌다. 2026-10-27에 고쳤다).
+  - PWA: `public/manifest.webmanifest`(한국어, start_url `/`)와 `public/en/manifest.webmanifest`(영어, start_url `/en/`), 아이콘(`public/icons/*.png`), 서비스 워커. 설치 창과 iOS 홈 화면은 아래 ‘설치’에 있다. 서비스 워커는 빌드가 끝나면 `integrations/service-worker.mjs`가 `dist/sw.js`로 만든다. CSS·JS·아이콘·manifest와 두 홈은 설치 때 저장하고, 나머지 페이지 172개는 페이지가 열리고 3초 뒤 하나씩 저장한다(아래 ‘설치’의 안드로이드 두 번째). 글꼴 조각과 manifest의 화면 사진은 쓰일 때 저장한다. 페이지는 네트워크 우선(3초 안에 안 오면 저장본), 없는 페이지는 오프라인에서 그 언어의 홈으로 대신한다. 저장본을 찾을 때 Vary를 보지 않는다(모듈 스크립트는 Origin 헤더를 붙여 요청하므로, 서버가 `Vary: Origin`을 보내면 미리 저장한 것과 짝이 안 맞아 오프라인에서 스크립트가 빠졌다. 2026-10-27에 고쳤다).
   - 배포: https://sabermetrics-handbook.pages.dev/ . Cloudflare Pages에 Git으로 연결했다(프로덕션 브랜치 `main`, 빌드 명령 `npm run build`, 출력 `dist`). `main`에 합치면 다시 배포되고, 다른 브랜치는 미리보기 배포가 된다.
     - 대시보드의 ‘새로운 것을 만들기’에서 GitHub를 바로 고르면 Workers가 만들어진다. Workers 주소에는 계정 서브도메인이 붙으므로 쓰지 않는다. 화면 아래 ‘레거시 Pages 워크플로’의 ‘Pages로 계속’으로 만든다.
     - 2026-10-26에 배포 주소를 확인했다. 파일 418개가 로컬 빌드와 같았다. Chromium에서 검색·필터·읽는 순서가 동작했고, 1280px·400px에서 가로 스크롤이 없었고, 설치 가능 판정에 오류가 없었다. 서버에 닿지 않게 한 뒤에도 방문하지 않은 용어 페이지, 홈, 없는 주소(→ 홈), 글꼴, 검색이 동작했다.
@@ -362,11 +362,21 @@ claude.ai에서 만든 단일 HTML 프로토타입을 Astro 정적 사이트로 
   - 페이지 수는 언어마다 67개(홈, 주제, 용어 목록, 수치 기준, 바뀐 내용, 용어 62), 모두 134개와 404다.
 - 스토어 앱: ‘다음’에서 내린다. 한 코드베이스(웹 → PWA → Capacitor)는 그대로 두되, 스토어 출시는 방문 통계에서 설치와 재방문이 보이거나 앱에서만 되는 기능이 생길 때 다시 본다. `android/`, `ios/`는 그대로 둔다.
 - 사용자가 직접 해야 하는 것: 방문 통계(Cloudflare 대시보드의 Web Analytics를 Pages 프로젝트에 켠다. 쿠키가 없고 코드 변경이 필요 없다), 자체 도메인(대시보드의 Custom domains. 붙이면 `astro.config.mjs`의 `site`와 `public/robots.txt`의 주소를 함께 고친다), 검색 등록(Google Search Console, 네이버 서치어드바이저에 sitemap 제출).
-- 아직 정하지 않은 것: 글과 그림의 라이선스(LICENSE 파일 없음), 용어마다의 ‘오류 알리기’ 링크(GitHub 이슈로 보내면 사이트에 계정 이름이 드러난다. 사이트에는 지금 GitHub 링크가 없다).
 - 용어 둘을 더했다(64개): 퀄리티 스타트(`qs`, ‘투수 평가’의 ERA 다음)와 파크 팩터(`park-factor`, ‘선수 가치’의 맨 앞). 중계에서 자주 나오지만 없던 말이다. 출처는 MLB 용어집, Savant 파크 팩터 리더보드, FanGraphs Library. 눈금은 없다(기준 구간의 출처가 없다).
   - 득점권 타율과 피안타율은 넣지 못했다. MLB 용어집의 해당 페이지가 빈 틀이고 KBO 기록실의 세부 기록 페이지가 이 환경에서 오류를 낸다. 출처를 열 수 있을 때 쓴다.
   - 홈 주제 묶음의 다섯 칸짜리 선은 폭 420px 이하에서 이름을 12.5px로 줄이고 긴 낱말을 꺾는다(360px에서 이름이 겹쳤다).
-- 아직 하지 않은 것: 득점권 타율·피안타율, 주제별 비교 페이지, 영어판 배트 트래킹 용어 보강, 시즌 수치 갱신 스크립트.
+- 아직 하지 않은 것: 아래 ‘주제 페이지와 라이선스’의 끝.
+
+### 주제 페이지와 라이선스 (2026-11-12)
+
+사용자 결정: ‘오류 알리기’ 링크는 넣지 않는다. 나머지 제안은 맡긴다.
+
+- ‘오류 알리기’ 링크는 넣지 않는다. GitHub 이슈로 보내면 사이트에 계정 이름이 드러난다. 사이트에는 GitHub 링크를 두지 않는다(README의 이슈 안내는 저장소 안이라 그대로다).
+- 주제 페이지(`/ladders/<slug>/`, 18개 × 두 언어): 제목, 실밥, 가로 선, 소개 두세 문장, 그리고 그 주제의 용어를 순서대로 한 줄씩(이름, 뜻, 식, MLB·KBO 평균). 리뷰의 ‘주제별 비교 페이지’다. 홈과 주제 페이지의 주제 이름이 여기로 온다. 뒤로는 `/ladders/`.
+  - `ladders.json`에 `slug`(주소, 바꾸지 않는다), `intro`, `introEn`이 생겼다. 소개에는 숫자를 쓰지 않는다(숫자는 용어 파일 것만 보인다).
+- 라이선스: 코드는 MIT(`LICENSE`), 글과 그림은 CC BY-NC 4.0(`LICENSE-CONTENT.md`). 저작권자 이름은 ‘Sabermetrics Handbook contributors’다(개인을 알아볼 이름을 쓰지 않는다). 이름과 아이콘, 글꼴(OFL), 사실과 수치 자체는 범위 밖이다.
+- 출처 확인(`npm run check:sources`, `scripts/check-sources.mjs`): `checked`가 180일(`--days`)보다 오래된 용어를 적고, 출처 주소를 모두 열어 본다. 403·429는 ‘막힘’으로 따로 세고 실패로 보지 않는다. Node의 fetch가 프록시를 따르지 않아 curl로 연다. 시즌이 바뀌거나 용어를 다시 대조할 때 먼저 돌린다. 숫자를 자동으로 고치지는 않는다(원문을 사람이 읽고 `checked`를 올린다).
+- 아직 하지 않은 것: 득점권 타율·피안타율(MLB 용어집의 해당 페이지가 빈 틀이라 출처를 열 수 없다), 영어판 배트 트래킹 용어 보강(원문을 다시 대조해야 한다), 약한 그림 다시 그리기.
 
 ### 앱 아이콘 (2026-10-26)
 

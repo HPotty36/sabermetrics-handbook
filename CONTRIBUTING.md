@@ -63,3 +63,5 @@ npm run build
 1. Branch from `main`.
 2. Run `npm test`, `npm run check` and `npm run build`.
 3. Open the pull request. Cloudflare Pages posts a preview deployment; check your change there in both languages and in dark mode.
+
+By contributing you agree that your code is released under the [MIT License](LICENSE) and your writing and figures under [CC BY-NC 4.0](LICENSE-CONTENT.md).

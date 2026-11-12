@@ -72,6 +72,7 @@ npm run dev        # 개발 서버 http://localhost:4321 (영어는 /en/)
 npm run build      # 정적 빌드 → dist/. 콘텐츠 검사에 걸리면 실패한다
 npm test           # 콘텐츠 검사와 단위 테스트 (빌드 없이)
 npm run check      # 타입 검사
+npm run check:sources   # 180일 넘게 대조하지 않은 용어와 열리지 않는 출처 주소를 알려 준다
 ```
 
 Android·iOS 프로젝트는 같은 사이트를 [Capacitor](https://capacitorjs.com)로 감싼다.
@@ -125,3 +126,7 @@ CLAUDE.md                        Claude Code용 프로젝트 안내
 3. ~~영어판~~
 4. MLB 평균 옆에 KBO 리그 평균 (지금은 용어 13개)
 5. Android·iOS 앱: 프로젝트는 만들어 두었다. 스토어 출시는 웹앱의 설치와 재방문이 그럴 만하다고 보일 때까지 미룬다.
+
+## 라이선스
+
+코드는 [MIT 라이선스](LICENSE)다. 글과 그림(`src/content/`, `src/components/fig/`, `docs/`)은 [CC BY-NC 4.0](LICENSE-CONTENT.md)이다. 출처를 밝히면 나누고 고쳐 쓸 수 있고, 상업적으로는 쓸 수 없다. 이름과 앱 아이콘은 어느 쪽에도 들지 않는다.

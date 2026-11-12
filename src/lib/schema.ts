@@ -99,7 +99,12 @@ export const ladderSchema = z.strictObject({
   name: text,
   /** 영어 화면의 주제 이름 */
   en: text,
+  /** 주제 페이지 주소(/ladders/<slug>/). 두 언어가 같이 쓴다. */
+  slug: id,
   hint: text,
+  /** 주제 페이지 맨 위의 두세 문장: 이 주제의 용어들이 서로 어떻게 다른지 */
+  intro: text,
+  introEn: text,
   /** 왼쪽이 기본, 오른쪽이 심화 */
   steps: z.array(id).min(2),
 });
