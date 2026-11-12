@@ -22,9 +22,14 @@
     "claim": "The higher a hitter's batting average, the more he contributes on offense.",
     "truth": "A lower-average hitter who walks a lot and hits for power can be the bigger run producer."
   },
+  "leagues": [
+    { "lg": "KBO", "t": "The 2026 KBO league average was .268 (2025: .262), more than 20 points above MLB’s .244. A .270 hitter in the KBO and a .270 hitter in MLB are not in the same place, so compare a player with his own league’s average." }
+  ],
   "sources": [
     { "t": "MLB.com Glossary · Batting Average", "u": "https://www.mlb.com/glossary/standard-stats/batting-average" },
     { "t": "FanGraphs Library · Stats to Avoid: Batting Average", "u": "https://library.fangraphs.com/stats-to-avoid-batting-average/" },
-    { "t": "Baseball-Reference · 2026 MLB batting (league averages)", "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-batting.shtml" }
+    { "t": "Baseball-Reference · 2026 MLB batting (league averages)", "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-batting.shtml" },
+    { "t": "Baseball-Reference \u00b7 2026 KBO league totals", "u": "https://www.baseball-reference.com/register/league.cgi?id=163dcec5" },
+    { "t": "KBO Record Room \u00b7 team stats", "u": "https://www.koreabaseball.com/Record/Team/Hitter/Basic1.aspx" }
   ]
 }

@@ -27,6 +27,10 @@
       "v": 0.29,
       "t": "2026 MLB 평균 .290"
     },
+    "kbo": {
+      "v": 0.317,
+      "t": "2026 KBO 평균 .317 (2025년 .312)"
+    },
     "marks": [
       {
         "v": 0.26,
@@ -76,7 +80,7 @@
   "leagues": [
     {
       "lg": "KBO·NPB",
-      "t": "리그마다 득점 환경과 수비 수준이 달라서 평균 BABIP도 다르다. KBO 선수는 KBO 평균과 견줘야 한다."
+      "t": "리그마다 득점 환경과 수비 수준이 달라서 평균 BABIP도 다르다. 2026 KBO는 .317로 MLB(.290)보다 높았다. KBO 선수는 KBO 평균과 견줘야 한다."
     }
   ],
   "related": [
@@ -95,6 +99,14 @@
     {
       "t": "Baseball-Reference · 2026 MLB 타격 (리그 평균)",
       "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-batting.shtml"
+    },
+    {
+      "t": "Baseball-Reference · 2026 KBO 리그 합계",
+      "u": "https://www.baseball-reference.com/register/league.cgi?id=163dcec5"
+    },
+    {
+      "t": "KBO 기록실 · 팀 기록",
+      "u": "https://www.koreabaseball.com/Record/Team/Hitter/Basic1.aspx"
     }
   ],
   "checked": "2026-10-29"

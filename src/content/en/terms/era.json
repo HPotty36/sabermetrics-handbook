@@ -7,6 +7,7 @@
   ],
   "scale": {
     "avg": "2026 MLB average 4.17 (2025: 4.15)",
+    "kbo": "2026 KBO average 4.66 (2025: 4.31)",
     "marks": [
       { "v": 2.92, "t": "Elite" },
       { "v": 3.34, "t": "Good" },
@@ -37,6 +38,8 @@
     { "t": "MLB.com Glossary · Earned Run", "u": "https://www.mlb.com/glossary/standard-stats/earned-run" },
     { "t": "FanGraphs Library · ERA", "u": "https://library.fangraphs.com/pitching/era/" },
     { "t": "Baseball-Reference · 2026 MLB pitching (league averages)", "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-pitching.shtml" },
-    { "t": "FanGraphs Library · ERA-, FIP-, xFIP-", "u": "https://library.fangraphs.com/pitching/era-fip-xfip/" }
+    { "t": "FanGraphs Library · ERA-, FIP-, xFIP-", "u": "https://library.fangraphs.com/pitching/era-fip-xfip/" },
+    { "t": "Baseball-Reference \u00b7 2026 KBO league totals", "u": "https://www.baseball-reference.com/register/league.cgi?id=163dcec5" },
+    { "t": "KBO Record Room \u00b7 team stats", "u": "https://www.koreabaseball.com/Record/Team/Pitcher/Basic1.aspx" }
   ]
 }

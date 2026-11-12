@@ -16,6 +16,7 @@ export interface ScaleLike {
   max: number;
   marks: { v: number }[];
   avg?: { v: number };
+  kbo?: { v: number };
   band?: [number, number];
 }
 
@@ -33,6 +34,9 @@ export function scaleIssues(s: ScaleLike): Issue[] {
   });
   if (s.avg && !inRange(s.avg.v)) {
     issues.push({ path: ['avg', 'v'], message: `평균 ${s.avg.v}: 범위(${range}) 밖이다` });
+  }
+  if (s.kbo && !inRange(s.kbo.v)) {
+    issues.push({ path: ['kbo', 'v'], message: `KBO 평균 ${s.kbo.v}: 범위(${range}) 밖이다` });
   }
   if (s.band) {
     const [a, b] = s.band;
@@ -127,7 +131,7 @@ export function hangulPaths(value: unknown, path: (string | number)[] = []): str
 
 interface KoSide {
   id: string;
-  scale?: { fmt: Fmt; unit?: string; avg?: { v: number; t: string }; marks: { v: number }[]; note?: string };
+  scale?: { fmt: Fmt; unit?: string; avg?: { v: number; t: string }; kbo?: { v: number; t: string }; marks: { v: number }[]; note?: string };
   formula?: unknown;
   myth?: unknown;
   leagues?: unknown[];
@@ -136,7 +140,7 @@ interface KoSide {
 
 interface EnSide {
   id: string;
-  scale?: { avg?: string; marks: { v: number }[]; note?: string };
+  scale?: { avg?: string; kbo?: string; marks: { v: number }[]; note?: string };
   formula?: unknown;
   myth?: unknown;
   leagues?: unknown[];
@@ -170,6 +174,10 @@ export function validateEnglish(ko: KoSide[], en: EnSide[]): string[] {
       const ks = t.scale;
       const es = e.scale;
       if (Boolean(ks.avg) !== Boolean(es.avg)) problems.push(`${where} › scale.avg: 한국어 파일과 있고 없음이 다르다`);
+      if (Boolean(ks.kbo) !== Boolean(es.kbo)) problems.push(`${where} › scale.kbo: 한국어 파일과 있고 없음이 다르다`);
+      if (ks.kbo && es.kbo && avgCaption({ v: ks.kbo.v, t: es.kbo }, ks) === es.kbo) {
+        problems.push(`${where} › scale.kbo: KBO 평균 숫자 ${fmt(ks.kbo.v, ks)}가 글에 그대로 들어 있어야 한다`);
+      }
       if (Boolean(ks.note) !== Boolean(es.note)) problems.push(`${where} › scale.note: 한국어 파일과 있고 없음이 다르다`);
       const values = (ms: { v: number }[]) => ms.map((m) => m.v).sort((a, b) => a - b).join(',');
       if (values(ks.marks) !== values(es.marks)) problems.push(`${where} › scale.marks: 눈금 숫자(v)가 한국어 파일과 다르다`);

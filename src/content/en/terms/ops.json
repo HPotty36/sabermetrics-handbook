@@ -8,6 +8,8 @@
     "League average is somewhere around .700, and anything past .900 puts a hitter among the best in the league. For anyone just getting into sabermetrics, it's a good first number to learn."
   ],
   "scale": {
+    "avg": "2026 MLB average .719 (2025: .719)",
+    "kbo": "2026 KBO average .751 (2025: .727)",
     "marks": [
       { "v": 0.6, "t": "Poor" },
       { "v": 0.7, "t": "Around average" },
@@ -35,6 +37,8 @@
   },
   "sources": [
     { "t": "FanGraphs Library · OPS and OPS+", "u": "https://library.fangraphs.com/offense/ops/" },
-    { "t": "Baseball-Reference · 2026 MLB batting (league averages)", "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-batting.shtml" }
+    { "t": "Baseball-Reference · 2026 MLB batting (league averages)", "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-batting.shtml" },
+    { "t": "Baseball-Reference \u00b7 2026 KBO league totals", "u": "https://www.baseball-reference.com/register/league.cgi?id=163dcec5" },
+    { "t": "KBO Record Room \u00b7 team stats", "u": "https://www.koreabaseball.com/Record/Team/Hitter/Basic1.aspx" }
   ]
 }

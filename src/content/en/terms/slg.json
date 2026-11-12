@@ -8,6 +8,7 @@
   ],
   "scale": {
     "avg": "2026 MLB average .400 (2025: .404)",
+    "kbo": "2026 KBO average .404 (2025: .389)",
     "marks": [
       { "v": 0.359, "t": "Bottom 10%" },
       { "v": 0.427, "t": "Median" },
@@ -33,6 +34,8 @@
   "sources": [
     { "t": "MLB.com Glossary · Slugging Percentage", "u": "https://www.mlb.com/glossary/standard-stats/slugging-percentage" },
     { "t": "Baseball-Reference · 2026 MLB batting (league averages)", "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-batting.shtml" },
-    { "t": "Baseball Savant · 2026 custom leaderboard (qualified hitters)", "u": "https://baseballsavant.mlb.com/leaderboard/custom?year=2026&type=batter&min=q&selections=pa,on_base_percent,slg_percent,isolated_power,bb_percent,xba,sweet_spot_percent,oz_swing_percent,whiff_percent" }
+    { "t": "Baseball Savant · 2026 custom leaderboard (qualified hitters)", "u": "https://baseballsavant.mlb.com/leaderboard/custom?year=2026&type=batter&min=q&selections=pa,on_base_percent,slg_percent,isolated_power,bb_percent,xba,sweet_spot_percent,oz_swing_percent,whiff_percent" },
+    { "t": "Baseball-Reference \u00b7 2026 KBO league totals", "u": "https://www.baseball-reference.com/register/league.cgi?id=163dcec5" },
+    { "t": "KBO Record Room \u00b7 team stats", "u": "https://www.koreabaseball.com/Record/Team/Hitter/Basic1.aspx" }
   ]
 }

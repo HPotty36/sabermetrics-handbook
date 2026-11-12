@@ -29,6 +29,8 @@ export const scaleSchema = z
     fmt: z.enum(['int', 'dec1', 'dec2', 'dec3']),
     unit: z.enum(UNITS).optional(),
     avg: labeled.optional(),
+    /** 같은 시즌의 KBO 리그 평균. 리그 합계로 확인할 수 있는 지표에만 둔다. 눈금 구간은 MLB 기준 그대로다. */
+    kbo: labeled.optional(),
     marks: z.array(labeled).min(1),
     band: z.tuple([z.number(), z.number()]).optional(),
     note: text.optional(),
@@ -73,6 +75,7 @@ export const termEnSchema = z.strictObject({
   scale: z
     .strictObject({
       avg: text.optional(),
+      kbo: text.optional(),
       marks: z.array(labeled).min(1),
       note: text.optional(),
     })

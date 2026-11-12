@@ -8,6 +8,7 @@
   ],
   "scale": {
     "avg": "2026 MLB average 1.30 (2025: 1.29)",
+    "kbo": "2026 KBO average 1.46 (2025: 1.40)",
     "marks": [
       { "v": 1.0, "t": "Elite" },
       { "v": 1.1, "t": "Good" },
@@ -33,6 +34,8 @@
   "sources": [
     { "t": "MLB.com Glossary · Walks and Hits per Inning Pitched", "u": "https://www.mlb.com/glossary/standard-stats/walks-and-hits-per-inning-pitched" },
     { "t": "FanGraphs Library · WHIP", "u": "https://library.fangraphs.com/pitching/whip/" },
-    { "t": "Baseball-Reference · 2026 MLB pitching (league averages)", "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-pitching.shtml" }
+    { "t": "Baseball-Reference · 2026 MLB pitching (league averages)", "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-pitching.shtml" },
+    { "t": "Baseball-Reference \u00b7 2026 KBO league totals", "u": "https://www.baseball-reference.com/register/league.cgi?id=163dcec5" },
+    { "t": "KBO Record Room \u00b7 team stats", "u": "https://www.koreabaseball.com/Record/Team/Pitcher/Basic1.aspx" }
   ]
 }

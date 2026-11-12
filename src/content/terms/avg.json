@@ -40,6 +40,12 @@
     "claim": "타율이 높은 타자가 공격에 더 많이 기여한다.",
     "truth": "타율이 낮아도 볼넷을 많이 고르고 장타를 자주 치는 타자가 점수를 더 많이 만들 수 있다."
   },
+  "leagues": [
+    {
+      "lg": "KBO",
+      "t": "2026 KBO 리그 타율은 .268(2025년 .262)로 같은 해 MLB(.244)보다 2푼 넘게 높다. KBO의 .270과 MLB의 .270은 같은 자리가 아니니, 선수는 뛰는 리그의 평균과 견준다."
+    }
+  ],
   "related": [
     "ops",
     "babip",
@@ -59,6 +65,14 @@
     {
       "t": "Baseball-Reference · 2026 MLB 타격 (리그 평균)",
       "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-batting.shtml"
+    },
+    {
+      "t": "Baseball-Reference · 2026 KBO 리그 합계",
+      "u": "https://www.baseball-reference.com/register/league.cgi?id=163dcec5"
+    },
+    {
+      "t": "KBO 기록실 · 팀 기록",
+      "u": "https://www.koreabaseball.com/Record/Team/Hitter/Basic1.aspx"
     }
   ],
   "checked": "2026-10-23"

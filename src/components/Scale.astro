@@ -1,5 +1,6 @@
 ---
 // 숫자 눈금 막대. 평균은 홈플레이트 모양 마커로 표시한다.
+// KBO 평균이 있으면 눈금 숫자 아래에 잉크색 마커를 하나 더 둔다(MLB 마커는 위, KBO는 아래라 값이 가까워도 겹치지 않는다).
 import { fmt, pos } from '../lib/format.ts';
 import { fill, ui, type Lang } from '../lib/i18n.ts';
 import type { Scale } from '../lib/schema.ts';
@@ -20,10 +21,12 @@ const betterLabel = { high: u.higherBetter, low: u.lowerBetter, none: '' }[s.dir
 ---
 <div class="scale" role="img" aria-label={fill(u.scaleRange, { min: fmt(s.min, s), max: fmt(s.max, s) }) + betterLabel}>
   {ends && <div class="scale-ends">{ends.map((label) => <span class:list={{ good: label === u.better }}>{label}</span>)}</div>}
-  <div class="scale-bar"><div class={`scale-track dir-${s.dir}`}>{bandStyle && <span class="scale-band" style={bandStyle}></span>}</div>{s.marks.map((m) => (
+  <div class:list={['scale-bar', { 'has-kbo': s.kbo }]}><div class={`scale-track dir-${s.dir}`}>{bandStyle && <span class="scale-band" style={bandStyle}></span>}</div>{s.marks.map((m) => (
     <span class="tick" style={`left:${at(m.v)}%`}><span class="tick-num">{fmt(m.v, s)}</span></span>
   ))}{s.avg && (
-    <span class="avg" style={`left:${at(s.avg.v)}%`}><span class="avg-tag">{u.avgTag}</span><span class="plate"></span></span>
+    <span class="avg" style={`left:${at(s.avg.v)}%`}><span class="avg-tag">{s.kbo ? 'MLB' : u.avgTag}</span><span class="plate"></span></span>
+  )}{s.kbo && (
+    <span class="avg avg-kbo" style={`left:${at(s.kbo.v)}%`}><span class="plate"></span><span class="avg-tag">KBO</span></span>
   )}</div>
 </div>
 {/* 눈금 숫자의 뜻. 평균은 막대의 마커와 위쪽 평균 줄에 이미 있으므로 다시 적지 않는다. */}

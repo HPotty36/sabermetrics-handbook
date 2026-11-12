@@ -67,6 +67,7 @@ const jsonLd = {
         <Seam />
         <p class="def">{t.summary}</p>
         {t.scale?.avg && <p class="avg-inline"><b>{fmt(t.scale.avg.v, t.scale)}</b>{avgCaption(t.scale.avg, t.scale)}</p>}
+        {t.scale?.kbo && <p class="avg-inline"><b>{fmt(t.scale.kbo.v, t.scale)}</b>{avgCaption(t.scale.kbo, t.scale)}</p>}
         {Figure && <Figure lang={lang} />}
         <p class="toggles order-row" role="group" aria-label={s.readingOrder}><button type="button" data-order="easy" aria-pressed="true">{s.easyFirst}</button><button type="button" data-order="deep" aria-pressed="false">{s.deepFirst}</button></p>
       </header>
@@ -124,6 +125,9 @@ const jsonLd = {
     <aside class="margin" aria-label={s.margin}>
       {t.scale?.avg && (
         <div class="mnote mnote-avg"><p class="mnote-title">{s.average}</p><p class="avg-num">{fmt(t.scale.avg.v, t.scale)}</p><p class="mnote-small">{avgCaption(t.scale.avg, t.scale)}</p></div>
+      )}
+      {t.scale?.kbo && (
+        <div class="mnote mnote-avg"><p class="avg-num">{fmt(t.scale.kbo.v, t.scale)}</p><p class="mnote-small">{avgCaption(t.scale.kbo, t.scale)}</p></div>
       )}
       {related.length > 0 && (
         <div class="mnote"><p class="mnote-title">{s.related}</p><ul class="see-also">{related.map((r) => (

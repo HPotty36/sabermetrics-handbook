@@ -57,6 +57,8 @@
 
 ### `scale`
 
+`kbo`(선택, `{v, t}`): 같은 시즌의 KBO 리그 평균. KBO 기록실이나 Baseball-Reference의 리그 합계로 확인할 수 있는 지표에만 둔다(`docs/verified-facts.md`의 ‘KBO 리그 평균’). 글은 `avg`처럼 ‘2026 KBO 평균 .346 (2025년 .338)’로 적고 영어 파일에도 같은 숫자로 적는다. 눈금 구간(`marks`)은 MLB 기준 그대로다. 눈금이 없는 지표의 KBO 값은 `leagues`에 문장으로 적는다.
+
 - `min`, `max`: 막대의 양 끝.
 - `dir`: `high`(클수록 좋음), `low`(작을수록 좋음), `none`(좋고 나쁨이 아님).
 - `fmt`: `int`, `dec1`, `dec2`, `dec3`. `dec3`은 1 미만이면 앞의 0을 뺀다 (.316).

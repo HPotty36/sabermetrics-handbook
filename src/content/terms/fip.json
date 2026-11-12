@@ -26,6 +26,10 @@
       "v": 4.17,
       "t": "2026 MLB 평균 4.17 (정의상 리그 ERA와 같다)"
     },
+    "kbo": {
+      "v": 4.66,
+      "t": "2026 KBO 평균 4.66 (정의상 KBO 리그 ERA와 같다)"
+    },
     "marks": [
       {
         "v": 2.92,
@@ -90,7 +94,7 @@
   "leagues": [
     {
       "lg": "KBO·NPB",
-      "t": "상수 C는 리그별로 따로 계산한다. 리그마다 득점 환경이 달라서 MLB 상수를 그대로 쓰면 값이 틀어진다."
+      "t": "상수 C는 리그별로 따로 계산한다. 리그마다 득점 환경이 달라서 MLB 상수를 그대로 쓰면 값이 틀어진다. 2026 KBO 리그 합계로 계산하면 약 3.55로, MLB의 3.10보다 크다."
     }
   ],
   "related": [
@@ -115,6 +119,14 @@
     {
       "t": "Baseball-Reference · 2026 MLB 투구 (리그 평균)",
       "u": "https://www.baseball-reference.com/leagues/majors/2026-standard-pitching.shtml"
+    },
+    {
+      "t": "Baseball-Reference · 2026 KBO 리그 합계",
+      "u": "https://www.baseball-reference.com/register/league.cgi?id=163dcec5"
+    },
+    {
+      "t": "KBO 기록실 · 팀 기록",
+      "u": "https://www.koreabaseball.com/Record/Team/Pitcher/Basic1.aspx"
     }
   ],
   "checked": "2026-10-23"
