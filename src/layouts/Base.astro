@@ -101,7 +101,8 @@ const backHref = view === 'term' ? p.termsHref : p.homeHref;
     try {
       var fromSite = document.referrer && new URL(document.referrer).origin === location.origin;
       if (new URLSearchParams(location.search).get('lang') === 'ko') localStorage.setItem('sh-lang', 'ko');
-      else if (localStorage.getItem('sh-lang') === 'en' && !fromSite) location.replace(enHome);
+      // 뒤로·앞으로 가기로 온 것은 보내지 않는다(영어로 바꾼 뒤 뒤로 가면 다시 영어로 튕겼다).
+      else if (localStorage.getItem('sh-lang') === 'en' && !fromSite && !((performance.getEntriesByType('navigation')[0] || {}).type === 'back_forward')) location.replace(enHome + location.search + location.hash);
     } catch (e) {}
   </script>
 )}
@@ -242,8 +243,16 @@ const backHref = view === 'term' ? p.termsHref : p.homeHref;
         sw.register(swUrl, { scope: scope }).catch(function () {});
         // 나머지 페이지는 첫 화면과 브라우저의 설치 검사가 끝난 뒤에 저장하게 한다(sw-template.js의 warm).
         // 새 서비스 워커가 자리를 잡으면(controllerchange) 그 워커에 다시 알린다.
+        // 이 페이지가 쓴 글꼴 조각도 함께 알린다. 첫 방문에는 워커가 자리 잡기 전에 글꼴을 받아서 저장되지 않았다(오프라인에서 글꼴이 빠졌다).
         function warm() {
-          setTimeout(function () { sw.ready.then(function (r) { if (r.active) r.active.postMessage('warm'); }); }, 3000);
+          setTimeout(function () {
+            sw.ready.then(function (r) {
+              if (!r.active) return;
+              var fonts = performance.getEntriesByType('resource').map(function (e) { return e.name; }).filter(function (u) { return /\.woff2$/.test(u); });
+              r.active.postMessage({ fonts: fonts });
+              r.active.postMessage('warm');
+            });
+          }, 3000);
         }
         warm();
         sw.addEventListener('controllerchange', warm);

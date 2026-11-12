@@ -5,7 +5,9 @@
   "aliases": [
     "휩",
     "이닝당 출루허용률",
-    "walks and hits per inning pitched"
+    "walks and hits per inning pitched",
+    "윕",
+    "이닝당출루허용률"
   ],
   "level": 1,
   "order": 33,

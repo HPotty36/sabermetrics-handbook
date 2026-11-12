@@ -20,10 +20,26 @@ self.addEventListener('install', (event) => {
 // 연결이 끊기면 멈추고, 다음에 ‘warm’이 오면 아직 없는 것부터 잇는다.
 let warming = null;
 self.addEventListener('message', (event) => {
+  // 첫 방문에는 워커가 자리 잡기 전에 페이지가 글꼴을 받는다. 페이지가 쓴 글꼴 주소를 알려 주면 없는 것만 저장한다.
+  if (event.data && Array.isArray(event.data.fonts)) {
+    event.waitUntil(cacheFonts(event.data.fonts));
+    return;
+  }
   if (event.data !== 'warm') return;
   warming ??= warmPages().finally(() => (warming = null));
   event.waitUntil(warming);
 });
+
+async function cacheFonts(urls) {
+  const cache = await caches.open(FONTS);
+  for (const u of urls) {
+    const url = new URL(u, self.location.href);
+    if (url.origin !== self.location.origin || !url.pathname.endsWith('.woff2')) continue;
+    if (await cache.match(url.href, { ignoreVary: true })) continue;
+    const response = await fetch(url.href).catch(() => null);
+    if (response && response.ok) await cache.put(url.href, response);
+  }
+}
 
 async function warmPages() {
   const cache = await caches.open(PRECACHE);
@@ -33,14 +49,15 @@ async function warmPages() {
     if (!response) return;
     if (response.ok) await cache.put(url, response);
   }
+  // 새 버전의 페이지를 다 받았으니 예전 버전의 저장분을 지운다.
+  // 그 전에 지우면 배포 직후 오프라인이 됐을 때 저장해 둔 페이지가 한동안 사라진다.
+  const keys = await caches.keys();
+  await Promise.all(keys.filter((k) => k.startsWith('sh-precache-') && k !== PRECACHE).map((k) => caches.delete(k)));
 }
 
+// 예전 버전의 저장분은 여기서 지우지 않고 warmPages가 끝난 뒤에 지운다.
 self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys()
-      .then((keys) => Promise.all(keys.filter((k) => k.startsWith('sh-precache-') && k !== PRECACHE).map((k) => caches.delete(k))))
-      .then(() => self.clients.claim()),
-  );
+  event.waitUntil(self.clients.claim());
 });
 
 self.addEventListener('fetch', (event) => {
@@ -76,7 +93,13 @@ async function fromNetworkFirst(request) {
   } catch {
     // 오프라인: 아래에서 저장된 페이지를 찾는다.
   }
-  const cached = await cache.match(request, { ignoreSearch: true, ignoreVary: true });
+  // 이 버전에 없으면 예전 버전의 저장분도 찾고, 끝의 ‘/’를 빠뜨린 주소(/terms/fip)도 찾는다.
+  const opts = { ignoreSearch: true, ignoreVary: true };
+  const path = new URL(request.url).pathname;
+  const cached =
+    (await cache.match(request, opts)) ??
+    (await caches.match(request, opts)) ??
+    (path.endsWith('/') ? undefined : (await cache.match(`${path}/`, opts)) ?? (await caches.match(`${path}/`, opts)));
   if (cached) return cached;
   try {
     return await network;

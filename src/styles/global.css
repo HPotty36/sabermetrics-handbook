@@ -195,7 +195,7 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .empty{margin:20px 0;font:15px/1.6 var(--font-sans);color:var(--muted)}
 
 /* 아래쪽 알약(폰): iOS 26 탭 막대처럼 떠 있는 반투명 알약. 메뉴 셋 + 찾기 단추, 용어 페이지는 그 위에 ‘다음’ */
-.dock{position:fixed;z-index:20;left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));bottom:var(--dock-bottom);display:grid;gap:8px;max-width:520px;margin:0 auto;pointer-events:none}
+.dock{position:fixed;z-index:20;left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));bottom:var(--dock-bottom);display:grid;grid-template-columns:minmax(0,1fr);gap:8px;max-width:520px;margin:0 auto;pointer-events:none}
 .dock>*{pointer-events:auto}
 @media (min-width:1024px){.dock{display:none}}
 .glass{background:var(--glass);-webkit-backdrop-filter:blur(20px) saturate(1.8);backdrop-filter:blur(20px) saturate(1.8);border:.5px solid var(--glass-edge);box-shadow:var(--float-shadow)}
@@ -207,9 +207,11 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .tab[aria-current]{background:color-mix(in srgb,var(--ink) 8%,transparent);color:var(--seam)}
 .tab-search{flex:none;display:grid;place-items:center;width:var(--dock-h);height:var(--dock-h);padding:0;border-radius:50%;color:var(--ink);cursor:pointer;-webkit-tap-highlight-color:transparent}
 .dock-next{display:flex;align-items:baseline;gap:10px;min-height:52px;padding:13px 22px;border-radius:999px;text-decoration:none;color:var(--muted);font:var(--row-sub);-webkit-tap-highlight-color:transparent}
-.dock-next b{font:var(--row-name);color:var(--ink);white-space:nowrap}
+.dock-next{min-width:0}
+.dock-next>span:first-child{flex:none}
+.dock-next b{min-width:0;font:var(--row-name);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dock-next-sub{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.dock-next-arrow{margin-left:auto;font-size:18px;color:var(--ink)}
+.dock-next-arrow{flex:none;margin-left:auto;font-size:18px;color:var(--ink)}
 
 /* 실밥: 가죽 이음매(가는 선) 양쪽을 빨간 실이 살짝 휜 V자로 촘촘히 꿰맨다. 페이지 제목 아래에 한 번만 */
 .seam{position:relative;height:16px;background:linear-gradient(var(--groove),var(--groove)) 0 50%/100% 1px no-repeat}
@@ -432,4 +434,11 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
   .toggles button{min-height:44px}
   .see-also li{padding:5px 0}
   .toc-row{padding:11px 0}
+}
+
+/* 인쇄: 화면에 떠 있는 것(아래쪽 알약, 왼쪽 단, 설정, 뒤로)은 빼고 본문만 찍는다 */
+@media print{
+  .dock,.rail,.prefs,.back,.install-sheet,.toggles,.read-clear{display:none!important}
+  body::before{display:none}
+  .page{display:block}
 }

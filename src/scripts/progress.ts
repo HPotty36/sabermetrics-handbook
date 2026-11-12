@@ -53,6 +53,7 @@ addEventListener('pageshow', (e) => {
 const id = document.body.dataset.term;
 const mark = document.querySelector('[data-read-mark]');
 if (id && mark && !load().includes(id)) {
+  // 끝이 화면에 보이는 채로 머문 시간이 지나야 읽음이다(열자마자 끝까지 내렸다가 맨 위로 돌아가 기다린 것은 세지 않는다).
   let seen = false;
   let waited = false;
   const done = () => {
@@ -64,10 +65,8 @@ if (id && mark && !load().includes(id)) {
   const io =
     'IntersectionObserver' in window
       ? new IntersectionObserver((entries) => {
-          if (entries.some((en) => en.isIntersecting)) {
-            seen = true;
-            done();
-          }
+          seen = entries[entries.length - 1].isIntersecting;
+          done();
         })
       : null;
   io?.observe(mark);

@@ -1,6 +1,6 @@
 {
   "name": "Spin Rate",
-  "aliases": ["spin", "rpm", "active spin", "spin efficiency", "gyro spin"],
+  "aliases": ["spin", "rpm", "gyro spin"],
   "summary": "How many times per minute the ball rotates as it leaves the pitcher's hand, measured in rpm.",
   "easy": [
     "A pitch spins on its way to the plate, and the spin bends its path. Heavy backspin keeps a fastball from dropping as much, and a curveball with more spin breaks harder.",
