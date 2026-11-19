@@ -1,40 +1,55 @@
 ---
 // LI: 이번 타석에서 승리 확률이 얼마나 크게 움직일 수 있는지를 평균 상황과 견준 값. 평균이 1.0이다.
+// 가상의 20타석을 LI 눈금 위에 점으로 놓는다. 낮음 12, 보통 6, 높음 2로, FanGraphs가 적은 실제 경기 상황의 비율
+// (1보다 낮음 60%, 2를 넘음 10%)과 같다. 예전 그림은 0~3의 LI 눈금 아래에 0~100%의 비율 막대를 같은 폭으로 그려 경계가 어긋나 보였다.
 import { lin, n } from '../../../lib/fig.ts';
 import type { Lang } from '../../../lib/i18n.ts';
 import Fig from '../Fig.astro';
 
 const { lang } = Astro.props as { lang: Lang };
-const x = lin(0, 3, 20, 340);
-const share = lin(0, 1, 20, 340);
+const x = lin(0, 3, 20, 312);
+const AXIS = 96;
+const R = 4.5;
+// 가상의 타석 20개. 낮음(0.85 아래) 12개는 모두 1보다 낮고, 보통 6개는 1~2, 높음 2개 가운데 하나는 눈금 밖(10 가까이)이다.
+const low = [0.06, 0.12, 0.2, 0.28, 0.33, 0.4, 0.47, 0.52, 0.6, 0.66, 0.74, 0.8];
+const mid = [1.08, 1.2, 1.33, 1.5, 1.66, 1.85];
+const high = [2.45];
+const FAR = 344; // 눈금 밖의 점(LI 10 가까이)
+// 겹치는 점은 위로 쌓는다.
+const rows: number[][] = [];
+const dots = [...low, ...mid, ...high].map((v) => {
+  const cx = x(v);
+  let row = rows.findIndex((r) => r.every((c) => Math.abs(c - cx) >= R * 2 + 1));
+  if (row < 0) row = rows.push([]) - 1;
+  rows[row].push(cx);
+  return { cx, cy: AXIS - 10 - row * (R * 2 + 1), hot: v >= 2 };
+});
 const ko = {
-  alt: 'LI는 평균이 1.0이고 0.85 아래는 낮은 레버리지, 2.0 위는 높은 레버리지. 실제 상황의 60%가 1보다 낮고 10%가 2를 넘는다.',
-  caption: '위는 LI의 눈금이다. 1.0이 평균적인 타석이고 0.85 아래는 낮은 레버리지, 2.0 위는 높은 레버리지로 나눈다. 큰 순간에는 10 가까이 간다. 아래는 실제 경기 상황이 어떻게 나뉘는지다. 60%가 1보다 낮고, 2를 넘는 건 10%뿐이다.',
-  low: '낮음', mid: '보통', high: '높음', avg: '평균 1.0', more: '큰 순간에는 10 가까이 →',
-  s1: '1보다 낮음 60%', s2: '1~2 30%', s3: '2 넘음 10%', shares: '실제 경기 상황',
+  alt: '가상의 20타석을 LI 눈금에 놓았다. 0.85 아래 낮은 레버리지 12타석, 보통 6타석, 2.0 이상 높은 레버리지 2타석이다.',
+  caption: '가상의 20타석을 LI 눈금에 놓았다. 1.0이 평균적인 타석이고, FanGraphs는 0.85 아래를 낮은 레버리지, 2.0 이상을 높은 레버리지로 나눈다. 실제 경기 상황도 이 20타석처럼 60%가 1보다 낮고, 2를 넘는 것은 10%뿐이다. 승부가 걸린 순간에는 10 가까이 간다.',
+  low: '낮음 12타석', mid: '보통 6타석', high: '높음 2타석', avg: '평균', far: '≈10',
 };
 const en: typeof ko = {
-  alt: 'LI averages 1.0; under 0.85 is low leverage and over 2.0 is high. 60% of real situations are under 1 and 10% are over 2.',
-  caption: 'Top: the LI scale. 1.0 is an average plate appearance; under 0.85 is low leverage and over 2.0 high. The biggest moments approach 10. Bottom: how real game situations split. 60% are under 1, and only 10% are over 2.',
-  low: 'Low', mid: 'Medium', high: 'High', avg: 'avg 1.0', more: 'biggest moments near 10 →',
-  s1: 'Under 1: 60%', s2: '1–2: 30%', s3: 'Over 2: 10%', shares: 'Real game situations',
+  alt: 'Twenty made-up plate appearances on the LI scale: 12 low leverage (under 0.85), 6 medium, 2 high (2.0 and up).',
+  caption: 'Twenty made-up plate appearances placed on the LI scale. 1.0 is an average plate appearance; FanGraphs calls anything under 0.85 low leverage and 2.0 and up high. Real game situations split the same way as these twenty: 60% are under 1, and only 10% top 2. The biggest moments approach 10.',
+  low: 'Low: 12 PA', mid: 'Medium: 6 PA', high: 'High: 2 PA', avg: 'avg', far: '≈10',
 };
 const L = lang === 'ko' ? ko : en;
 ---
-<Fig h={186} alt={L.alt} caption={L.caption}>
-  <path class="ln" d={`M${x(0)} 52H${x(3)}`} />
-  {[0, 0.85, 1, 2, 3].map((v) => <g><path class="ln ln-1" d={`M${n(x(v))} 52v6`} /><text x={n(v === 0.85 ? x(v) - 3 : v === 1 ? x(v) + 3 : x(v))} y="72" text-anchor={v === 0.85 ? 'end' : v === 1 ? 'start' : 'middle'} class:list={['tx-s', v === 1 && 'tx-red tx-b']}>{v.toFixed(v === 0.85 ? 2 : 1)}</text></g>)}
-  <rect class="fi-soft" x={n(x(2))} y="40" width={n(x(3) - x(2))} height="12" />
-  <text x={n((x(0) + x(0.85)) / 2)} y="34" text-anchor="middle" class="tx-ink tx-s">{L.low}</text>
-  <text x={n((x(0.85) + x(2)) / 2)} y="34" text-anchor="middle" class="tx-ink tx-s">{L.mid}</text>
-  <text x={n((x(2) + x(3)) / 2)} y="34" text-anchor="middle" class="tx-red tx-b tx-s">{L.high}</text>
-  <path class="ln ln-red ln-2" d={`M${n(x(1))} 40V58`} />
-  <text x={x(3)} y="16" text-anchor="end" class="tx-s">{L.more}</text>
-  <text x={x(0)} y="104" class="tx-s">{L.shares}</text>
-  <rect class="fi-paper ln" x={n(share(0))} y="112" width={n(share(0.6) - share(0))} height="16" />
-  <rect class="fi-paper ln" x={n(share(0.6))} y="112" width={n(share(0.9) - share(0.6))} height="16" />
-  <rect class="fi-red" x={n(share(0.9))} y="112" width={n(share(1) - share(0.9))} height="16" />
-  <text x={n(share(0))} y="146" class="tx-ink tx-s">{L.s1}</text>
-  <text x={n(share(0.6))} y="146" class="tx-ink tx-s">{L.s2}</text>
-  <text x={n(share(1))} y="146" text-anchor="end" class="tx-red tx-b tx-s">{L.s3}</text>
+<Fig h={156} top={36} alt={L.alt} caption={L.caption}>
+  <rect class="fi-soft" x={n(x(2))} y={AXIS - 44} width={n(x(3) - x(2))} height="44" />
+  <path class="ln" d={`M${x(0)} ${AXIS}H${x(3)}`} />
+  <path class="ln ln-1 ln-dash" d={`M${x(3) + 4} ${AXIS}H${FAR - 10}`} />
+  {[0, 0.85, 1, 2, 3].map((v) => <path class="ln ln-1" d={`M${n(x(v))} ${AXIS}v6`} />)}
+  {dots.map((d) => <circle class:list={[d.hot ? 'fi-red' : 'fi-paper ln ln-1']} cx={n(d.cx)} cy={n(d.cy)} r={R} />)}
+  <circle class="fi-red" cx={FAR} cy={AXIS - 10} r={R} />
+  <text x="20" y="116" class="tx-s">0</text>
+  <text x={n(x(0.85) - 3)} y="116" text-anchor="end" class="tx-s">0.85</text>
+  <text x={n(x(1) + 3)} y="116" class="tx-s tx-ink tx-b">1.0 {L.avg}</text>
+  <text x={n(x(2))} y="116" text-anchor="middle" class="tx-s">2.0</text>
+  <text x={n(x(3))} y="116" text-anchor="middle" class="tx-s">3.0</text>
+  <text x={FAR} y="116" text-anchor="middle" class="tx-s">{L.far}</text>
+  <text x={n((x(0) + x(0.85)) / 2)} y="140" text-anchor="middle" class="tx-ink tx-s">{L.low}</text>
+  <text x={n((x(0.85) + x(2)) / 2)} y="140" text-anchor="middle" class="tx-ink tx-s">{L.mid}</text>
+  <text x={n((x(2) + FAR) / 2)} y="140" text-anchor="middle" class="tx-red tx-b tx-s">{L.high}</text>
 </Fig>

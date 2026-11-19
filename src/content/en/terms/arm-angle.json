@@ -7,7 +7,7 @@
     "Arm angle changes the axis the ball spins on, and with it the shape of the movement."
   ],
   "scale": {
-    "avg": "2026 league average 37° (RHP 37.1°, LHP 38.0°)",
+    "avg": "2026 MLB average 37° (RHP 37.1°, LHP 38.0°)",
     "marks": [
       { "v": 0, "t": "Horizontal (sidearm)" },
       { "v": 23, "t": "Lowest 10%" },

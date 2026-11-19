@@ -289,14 +289,45 @@ KBO 정규시즌 리그 합계(10팀, 팀당 144경기). Baseball-Reference의 K
 - **파크 팩터**: 가장 단순한 계산은 한 팀의 홈구장 경기에서 양 팀이 낸 점수 ÷ 그 팀의 원정 경기에서 양 팀이 낸 점수, 홈과 원정의 상대가 다르면 조금 보정(MLB 용어집 ‘Ballpark Factor’). Statcast 파크 팩터는 100이 평균이고, 타자와 투수마다 좌우를 나눠 그 구장과 다른 구장의 결과를 견준다. 리더보드는 3시즌(2024–2026)을 묶어 보이고 득점·홈런·2루타·3루타·삼진 등 항목마다 값이 있다(Savant). FanGraphs는 5년 회귀 값을 쓰고 절반으로 줄여 보인다(‘105면 득점이 10% 더’), 선수가 홈에서 절반만 뛰기 때문에 보정에는 절반만 쓴다(FanGraphs Library). https://www.mlb.com/glossary/advanced-stats/park-factor , https://baseballsavant.mlb.com/leaderboard/statcast-park-factors , https://library.fangraphs.com/principles/park-factors/
 - 열리지 않은 것: MLB 용어집의 runner-in-scoring-position, batting-average-against 페이지(빈 틀), KBO 기록실 팀 세부 기록(Basic2, 오류 페이지). 그래서 득점권 타율과 피안타율은 쓰지 않았다.
 
+## 2026-11-19 리뷰 대조
+
+내용 리뷰가 짚은 곳을 원문과 다시 대조했다. 원문을 연 용어 9개(프레이밍, DRS, RE24, LI, 퀄리티 스타트, CSW%, 배럴, IVB, BABIP)는 `checked`를 이날로 올렸다.
+
+- 외부 문장을 옮긴 곳(‘지켜야 할 것’ 위반)을 다시 썼다.
+  - 프레이밍: 1-0 카운트를 거친 타석 OPS .806, 0-1 .607(2025 MLB)은 MLB 용어집 문장을 옮긴 것이었다. 숫자는 맞아서 용어집을 출처로 밝히고 문장을 새로 썼다. https://www.mlb.com/glossary/statcast/catcher-framing
+  - DRS: 용어집의 중견수 예(비슷한 타구를 60% 잡음, +0.4·−0.6)를 숫자만 바꿔 쓰고 있었다. 숫자 없는 설명으로 바꿨다. UZR과의 차이(난이도를 DRS는 그해, UZR은 여러 해 자료로 매김, 투수·포수 항목은 DRS만)는 FanGraphs Library DRS 페이지와 맞다. https://www.mlb.com/glossary/advanced-stats/defensive-runs-saved , https://library.fangraphs.com/defense/drs/
+  - RE24: FanGraphs의 ‘주자 없을 때 2루타 약 .2점, 만루 2루타 약 2.5점’ 예를 옮긴 것이었다. 같은 페이지의 기대 득점표(경기당 4.15점)로 직접 계산한 값으로 바꿨다(계산값): 2사 주자 없음 0.095 → 2사 2루 0.305 = +0.21, 2사 만루 0.736 → 2사 2루 0.305 + 3점 = +2.57. 표의 무사 만루는 2.282, 1사 만루 1.520, 2사 만루 0.736이라 ‘만루에 올라와 다 막으면 +2.282’는 무사 만루로 고쳤다. https://library.fangraphs.com/misc/re24/
+  - LI: FanGraphs의 ‘9회 말 1점 차 > 3회 1점 차’ 장면을 바꿨다. 1.0 보통, 2.0 이상 높음, 0.85 아래 낮음, 2를 넘는 상황 10%, 1보다 낮은 상황 60%는 FanGraphs가 든 값이라 출처를 밝혔다. https://library.fangraphs.com/misc/li/
+  - 퀄리티 스타트: 첫 문장이 용어집 문장(‘A starting pitcher has two jobs’)을 따라가서 바꿨다. 6이닝 3자책점 = 평균자책점 4.50은 2026 MLB(4.17)보다 높고 2026 KBO(4.66)보다 낮다. https://www.mlb.com/glossary/standard-stats/quality-start
+- 근거 기록이 없던 눈금 구간을 원 자료로 다시 정했다.
+  - CSW%: Pitcher List 소개 글(2019)의 선발 한 경기 구간은 20~25% Poor, 25~30% Okay, 30~35% Good, 35~40% Excellent이고, 같은 글이 선발은 30%가 아주 좋지만 한 이닝을 던지는 불펜은 30%가 평균보다 조금 낮다고 적었다. 25·30은 이 표와 맞고, 근거가 없던 32 ‘지배적’은 뺐다. https://pitcherlist.com/csw-rate-an-intro-to-an-important-new-metric
+  - 아래 셋은 2026 Baseball Savant 선수 분포(하위 10%, 가운데, 상위 10%, 계산값)로 바꿨다.
+
+| 지표 | 대상 | 하위 10% | 가운데 | 상위 10% |
+|---|---|---|---|---|
+| 배럴 (타구 대비) | 규정 타석 타자 135명 | 3.5% | 8.8% | 13.7% |
+| BABIP | 같음 | .258 | .292 | .336 |
+| 포심 IVB | 포심 300구 이상 투수 267명 | 12.8 | 16.0 | 18.4 (인치) |
+
+  - 배럴·BABIP: https://baseballsavant.mlb.com/leaderboard/custom?year=2026&type=batter&min=q&selections=pa,barrel_batted_rate,babip
+  - IVB: https://baseballsavant.mlb.com/leaderboard/pitch-movement?year=2026&pitch_type=FF (`pitcher_break_z_induced`, 포심 300구 이상만)
+  - 그 밖의 BABIP: FanGraphs Library는 리그 BABIP가 늘 .300 언저리이고 투수는 긴 기간으로 보면 .290~.310 밖이 드물다고 적었다(.260·.320은 가상의 예로만 나온다). https://library.fangraphs.com/pitching/babip/
+  - VAA의 −3.5 ‘매우 평평함’은 근거가 없어 뺐다(−4 평평, −5.5 가파름은 FanGraphs 글).
+  - Stuff+의 ‘120 엘리트’ 등 등급 이름은 입문서에 없다. 입문서에 있는 ‘구종 단위 10점 = 1 표준편차’로 눈금을 바꿨다(Location+·Pitching+와 같다).
+  - 헛스윙%의 SwStr% 평균 9.5%는 FanGraphs Library 타석 규율 페이지의 평균 표(BIS 자료, 시즌 표기 없음)에 있다. https://library.fangraphs.com/offense/plate-discipline/
+  - wOBA 본문의 ‘최근 가중치’(0.7, 0.9, 1.25, 1.6, 2.0)는 확인한 기록이 없어 위 2013 시즌 가중치로 바꿨다.
+- SIERA 그림의 항(FanGraphs 판, Matt Swartz ‘New SIERA, Part Two’의 계수 표): 타석당 삼진, 삼진², 볼넷, 볼넷², 순땅볼(땅볼 − 뜬공), ±순땅볼²(땅볼이 많으면 +, 적으면 −), 삼진×볼넷, 삼진×순땅볼, 볼넷×순땅볼, 상수. Baseball Prospectus 판에는 볼넷²와 삼진×볼넷이 없다. https://blogs.fangraphs.com/new-siera-part-two-of-five-unlocking-underrated-pitching-skills/
+- 리그·시즌을 밝혔다: BB%(2026 MLB 8.9%, KBO 9.4%), K-BB%(MLB 13.3%, KBO 10.1%), OPS(MLB .719, KBO .751), 출루율 − 타율(2026 MLB .318 − .244 = 74포인트, KBO .346 − .268 = 78포인트), 어택 디렉션 2.1°·스윙 틸트 32.3°·스윙 길이 7.32ft(위 2026-10-28 표의 2026 MLB 리그 행).
+
 ## 용어마다의 마지막 확인 날짜 (2026-10-29 정리)
 
 용어 파일의 `checked`(화면의 ‘마지막 확인’)는 그 용어의 숫자와 정의를 출처의 원문과 마지막으로 대조한 날이다. 이 파일과 커밋 기록으로 정했다. 글만 다듬거나 관련 용어만 더한 날(2026-10-26·27, 2026-10-28의 기존 용어)은 세지 않는다.
 
-- 2026-11-12 (2개): 퀄리티 스타트, 파크 팩터(위 ‘2026-11-12 새 용어 2개’).
-- 2026-10-29 (10개): 어택 앵글, IVB, VAA(위 ‘2026-10-29 평균 시즌’), BABIP, 블라스트, OAA, OPS, WAR, wRC+, xwOBA(위 ‘2026-10-29 원문 대조 (7개)’).
-- 2026-10-28 (35개): 위 ‘2026-10-28 새 용어 35개’의 용어 모두. 스프린트 스피드는 2026-10-29에 평균 설명만 고쳤고 숫자는 이날 확인한 값이라 이날로 둔다.
-- 2026-10-23 (17개): 타율, 배럴, 배트 스피드, CSW%, ERA, 타구 속도, FIP, 수비율, 하드히트%, K%, SIERA, 회전수, Stuff+, 스윙 타이밍, 구속, wOBA, xFIP. 위 ‘2026-10-23 원문 대조’와 리그 평균 표의 2026-10-23 행(배럴·wOBA는 Savant 리그 행, CSW%는 Pitcher List에 리그 값이 없음을 확인).
+- 2026-11-19 (9개): 프레이밍, DRS, RE24, LI, 퀄리티 스타트, CSW%, 배럴, IVB, BABIP(위 ‘2026-11-19 리뷰 대조’).
+- 2026-11-12 (1개): 파크 팩터(위 ‘2026-11-12 새 용어 2개’).
+- 2026-10-29 (8개): 어택 앵글, VAA(위 ‘2026-10-29 평균 시즌’), 블라스트, OAA, OPS, WAR, wRC+, xwOBA(위 ‘2026-10-29 원문 대조 (7개)’).
+- 2026-10-28 (31개): 위 ‘2026-10-28 새 용어 35개’의 용어 가운데 프레이밍, DRS, RE24, LI를 뺀 것. 스프린트 스피드는 2026-10-29에 평균 설명만 고쳤고 숫자는 이날 확인한 값이라 이날로 둔다.
+- 2026-10-23 (15개): 타율, 배트 스피드, ERA, 타구 속도, FIP, 수비율, 하드히트%, K%, SIERA, 회전수, Stuff+, 스윙 타이밍, 구속, wOBA, xFIP. 위 ‘2026-10-23 원문 대조’와 리그 평균 표의 2026-10-23 행(배럴·wOBA는 Savant 리그 행, CSW%는 Pitcher List에 리그 값이 없음을 확인).
 
 ## 확인하지 못한 것 (2026-10-23 기준)
 

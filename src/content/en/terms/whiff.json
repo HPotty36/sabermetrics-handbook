@@ -22,7 +22,7 @@
     ]
   },
   "deep": [
-    "SwStr%, a FanGraphs favorite, divides swinging strikes by all pitches. The names get mixed up all the time, but the scales are different: FanGraphs' rule-of-thumb average for SwStr% is 9.5%, while the 2026 Savant average whiff rate was 25.1%.",
+    "SwStr%, a FanGraphs favorite, divides swinging strikes by all pitches. The names get mixed up all the time, but the scales are different: the FanGraphs Library table (BIS data, no season given) puts average SwStr% at 9.5%, while the 2026 Savant average whiff rate was 25.1%.",
     "A high whiff rate doesn't automatically make a bad hitter. Big swingers accept the misses in exchange for driving the ball when they connect.",
     "On the pitching side it's usually broken out by pitch type. The same pitcher's slider and four-seamer can have very different whiff rates."
   ],

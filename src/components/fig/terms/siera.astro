@@ -1,35 +1,59 @@
 ---
-// SIERA: 타석당 삼진, 볼넷, (땅볼 − 뜬공)을 제곱항과 곱셈항으로 엮어 평균자책점을 추정한다. 피홈런은 쓰지 않는다.
-import { n, smooth } from '../../../lib/fig.ts';
+// SIERA: 타석당 삼진, 볼넷, (땅볼 − 뜬공)을 그대로 쓰고, 거기에 제곱항과 곱셈항을 더해 평균자책점을 추정한다. 피홈런은 쓰지 않는다.
+// 가운데 줄이 FanGraphs 판의 항 아홉 개다(Matt Swartz, ‘New SIERA, Part Two’): 셋은 그대로, 여섯(빨강)은 제곱이나 곱이다.
+// 예전 그림은 세 입력이 바로 합쳐져 FIP처럼 따로 더하는 것과 구별되지 않았다.
+import { n } from '../../../lib/fig.ts';
 import type { Lang } from '../../../lib/i18n.ts';
 import Fig from '../Fig.astro';
 
 const { lang } = Astro.props as { lang: Lang };
-const OUT = [318, 104] as const;
-const ins = [40, 104, 168];
-const curves = ins.map((y) => smooth([[24, y], [150, y], [250, (y + OUT[1] * 2) / 3], [OUT[0] - 10, OUT[1]]]));
+const OUT = [326, 104] as const;
+const IN_Y = [40, 104, 168];
+const MX = 196;
+const FAN = 150; // 입력 이름 밑의 가로선이 끝나는 곳. 여기서부터 갈라져야 선이 이름을 가로지르지 않는다.
+// 항: 쓰는 입력(0 삼진, 1 볼넷, 2 땅볼 − 뜬공)과 제곱·곱인지
+const TERMS: { uses: number[]; mix: boolean; ko: string; en: string }[] = [
+  { uses: [0], mix: false, ko: '삼진', en: 'K' },
+  { uses: [1], mix: false, ko: '볼넷', en: 'BB' },
+  { uses: [2], mix: false, ko: '땅볼', en: 'GB' },
+  { uses: [0], mix: true, ko: '삼진²', en: 'K²' },
+  { uses: [1], mix: true, ko: '볼넷²', en: 'BB²' },
+  { uses: [2], mix: true, ko: '±땅볼²', en: '±GB²' },
+  { uses: [0, 1], mix: true, ko: '삼진×볼넷', en: 'K×BB' },
+  { uses: [0, 2], mix: true, ko: '삼진×땅볼', en: 'K×GB' },
+  { uses: [1, 2], mix: true, ko: '볼넷×땅볼', en: 'BB×GB' },
+];
+const TY = (j: number) => 22 + j * 20;
 const ko = {
-  alt: 'SIERA에 들어가는 셋: 타석당 삼진, 타석당 볼넷, 타석당 땅볼 − 뜬공. 서로 곱하고 제곱해 엮는다.',
-  caption: 'SIERA에 들어가는 값. FIP처럼 따로따로 더하지 않고 제곱항과 곱셈항으로 엮어서, 삼진이 많은 투수일수록 땅볼의 값이 달라지는 것 같은 맞물림까지 담는다. 피홈런은 직접 쓰지 않는다. FanGraphs가 고친 버전과 처음 나온 Baseball Prospectus 버전은 식도 값도 다르다.',
-  k: '삼진 ÷ 타석', bb: '볼넷 ÷ 타석', gb: '(땅볼 − 뜬공) ÷ 타석', mix: '× 서로 곱하고 제곱한다', hr: '피홈런은 쓰지 않음',
+  alt: 'SIERA에 들어가는 셋(타석당 삼진, 볼넷, 땅볼 − 뜬공)이 아홉 항이 된다. 셋은 그대로, 여섯은 제곱이나 서로 곱한 것이다.',
+  caption: 'SIERA에 들어가는 값. 왼쪽 셋을 FIP처럼 따로따로 더하는 데서 그치지 않고, 제곱하고 서로 곱한 여섯 항(빨강)을 더한다. 그래서 삼진이 많은 투수일수록 땅볼의 값이 달라지는 것 같은 맞물림까지 담는다. 가운데 줄은 FanGraphs 판의 항이고, 처음 나온 Baseball Prospectus 판은 항도 값도 다르다. 땅볼은 땅볼 − 뜬공이다. 피홈런은 직접 쓰지 않는다.',
+  k: '삼진 ÷ 타석', bb: '볼넷 ÷ 타석', gb: '(땅볼 − 뜬공) ÷ 타석', hr: '피홈런은 쓰지 않는다',
 };
 const en: typeof ko = {
-  alt: 'The three inputs to SIERA: strikeouts per PA, walks per PA, and ground balls minus fly balls per PA, tied together with products and squares.',
-  caption: 'What goes into SIERA. Instead of adding the parts separately like FIP, it ties them together with squared and product terms, so it can capture things like ground balls being worth more or less depending on how many batters a pitcher strikes out. Home runs allowed are not used directly. The FanGraphs version and the original Baseball Prospectus version differ in both formula and values.',
-  k: 'K ÷ PA', bb: 'BB ÷ PA', gb: '(GB − FB) ÷ PA', mix: '× multiplied and squared together', hr: 'no home runs allowed',
+  alt: 'The three inputs to SIERA (strikeouts, walks, and ground balls minus fly balls, each per PA) become nine terms: three as they are and six squared or multiplied together.',
+  caption: 'What goes into SIERA. It doesn’t stop at adding the three inputs separately like FIP: it also adds six terms that square them or multiply them together (red), so it can capture things like ground balls being worth more or less depending on how many batters a pitcher strikes out. The middle column is the FanGraphs version; the original Baseball Prospectus version uses different terms and values. GB stands for ground balls minus fly balls. Home runs allowed are not used directly.',
+  k: 'K ÷ PA', bb: 'BB ÷ PA', gb: '(GB − FB) ÷ PA', hr: 'Home runs: not an input',
 };
 const L = lang === 'ko' ? ko : en;
+const labelEnd = lang === 'ko' ? MX + 72 : MX + 52;
 ---
-<Fig h={206} alt={L.alt} caption={L.caption}>
-  {curves.map((d) => <path class="ln ln-2" d={d} />)}
-  {ins.map((y, i) => (
+<Fig h={204} alt={L.alt} caption={L.caption}>
+  {IN_Y.map((y) => <path class="ln ln-1 ln-muted" d={`M30 ${y}H${FAN}`} />)}
+  {TERMS.flatMap((t, j) => t.uses.map((i) => <path class="ln ln-1 ln-muted" d={`M${FAN} ${IN_Y[i]}L${MX - 5} ${TY(j)}`} />))}
+  {TERMS.map((_, j) => <path class="ln ln-1" d={`M${labelEnd} ${TY(j)}L${OUT[0] - 10} ${OUT[1]}`} />)}
+  {IN_Y.map((y, i) => (
     <g>
       <circle class="fi-paper ln ln-2" cx="24" cy={y} r="6" />
-      <text x="38" y={y - 10} class="tx-ink tx-m">{[L.k, L.bb, L.gb][i]}</text>
+      <text x="34" y={y - 10} class="tx-ink tx-s">{[L.k, L.bb, L.gb][i]}</text>
     </g>
   ))}
-  <text x="24" y="198" class="tx-s">{L.mix}</text>
+  {TERMS.map((t, j) => (
+    <g>
+      <circle class:list={[t.mix ? 'fi-red' : 'fi-paper ln ln-1']} cx={MX} cy={TY(j)} r="4" />
+      <text x={MX + 9} y={n(TY(j) + 4)} class:list={['tx-s', t.mix ? 'tx-red' : 'tx-ink']}>{lang === 'ko' ? t.ko : t.en}</text>
+    </g>
+  ))}
   <circle class="fi-red" cx={OUT[0]} cy={OUT[1]} r="9" />
-  <text x={OUT[0]} y={OUT[1] - 18} text-anchor="middle" class="tx-red tx-b tx-l">SIERA</text>
-  <text x="336" y="22" text-anchor="end" class="tx-s">{L.hr}</text>
+  <text x={OUT[0]} y={OUT[1] - 18} text-anchor="middle" class="tx-red tx-b">SIERA</text>
+  <text x="24" y="200" class="tx-s">{L.hr}</text>
 </Fig>

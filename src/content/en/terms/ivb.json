@@ -4,16 +4,16 @@
   "summary": "The up-and-down movement a pitch gets from its spin alone, with gravity taken out. Measured in inches.",
   "easy": [
     "No fastball truly rises. A \"rising fastball\" carries so much backspin that it sinks less than a normal pitch would.",
-    "IVB is the size of that missing drop. The more IVB a four-seamer has, the higher it crosses the plate compared with where the hitter expects it, and from the batter's box the ball seems to jump. On a four-seamer, anything over 18 inches is strong ride."
+    "IVB is the size of that missing drop. The more IVB a four-seamer has, the higher it crosses the plate compared with where the hitter expects it, and from the batter's box the ball seems to jump. Among pitchers who threw at least 300 four-seamers in 2026, the top 10% were above 18.4 inches."
   ],
   "scale": {
-    "avg": "2026 MLB four-seam average 16 in (15.6 in; 2025: 15.8 in)",
+    "avg": "2026 MLB four-seam average 15.6 in (2025: 15.8 in)",
     "marks": [
-      { "v": 13, "t": "Less ride" },
-      { "v": 18, "t": "Strong ride" },
-      { "v": 20, "t": "Elite ride" }
+      { "v": 12.8, "t": "Bottom 10%" },
+      { "v": 16.0, "t": "Median" },
+      { "v": 18.4, "t": "Top 10%" }
     ],
-    "note": "For four-seam fastballs. Sinkers and two-seamers work the other way: the less IVB, the better they do their job."
+    "note": "Four-seam fastballs only: distribution of the 267 pitchers who threw at least 300 of them in 2026. Sinkers and two-seamers work the other way: the less IVB, the better they do their job."
   },
   "deep": [
     "Take the actual path the tracking system measured, subtract the drop due to gravity, and what's left is IVB. Vertical Break, the total drop with gravity left in, is a different stat, so a movement figure without a label could be either one.",

@@ -13,7 +13,7 @@
       { "v": 3.34, "t": "Good" },
       { "v": 3.75, "t": "Above average" },
       { "v": 4.59, "t": "Below average" },
-      { "v": 5.21, "t": "Poor" }
+      { "v": 5.21, "t": "Very poor" }
     ],
     "note": "Rough ranges for a starting pitcher over a full season, not adjusted for park. Relievers usually come in lower."
   },

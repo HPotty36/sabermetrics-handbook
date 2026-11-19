@@ -4,7 +4,7 @@
   "summary": "The share of swings that reach at least 80% of the top exit velocity possible for that bat speed and pitch speed.",
   "easy": [
     "Swing just as hard and catch the ball off the end of the bat or near the hands, and it comes off weak. Squared-up looks at how much of the exit velocity that swing and that pitch made possible the hitter actually got.",
-    "Reach 80% or more and it counts as a squared-up swing. It doesn't take a hard swing: a slow curveball met squarely by an easy swing, for a single up the middle, can qualify."
+    "Reach 80% or more and it counts as a squared-up swing. It doesn't take a hard swing, only a square one."
   ],
   "scale": {
     "avg": "2026 MLB average 24.7% (2025: 25.5%)",

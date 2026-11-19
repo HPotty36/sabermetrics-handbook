@@ -3,8 +3,8 @@
   "aliases": ["leverage", "high leverage", "pLI", "gmLI"],
   "summary": "How much win probability could swing on the current plate appearance, compared with an average one. Average is 1.0.",
   "easy": [
-    "Protecting a one-run lead in the bottom of the ninth is far tenser than protecting one in the third. LI puts a number on that tension: how much the outcome of this plate appearance could move the odds of winning, compared with a typical one.",
-    "1.0 is normal, above 2.0 counts as high leverage, and below 0.85 as low. Only about 10% of real game situations top 2, while 60% are below 1."
+    "A ninth inning with a seven-run lead and a ninth inning in a tie game don't give a plate appearance the same weight. LI puts a number on that weight: how much the outcome of this plate appearance could move the odds of winning, compared with a typical one.",
+    "FanGraphs treats 1.0 as normal, 2.0 and up as high leverage and anything under 0.85 as low, and notes that only about 10% of real game situations top 2 while 60% fall below 1."
   ],
   "scale": {
     "avg": "Average 1.00 (by definition)",

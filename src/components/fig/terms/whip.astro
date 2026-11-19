@@ -22,7 +22,7 @@ const en: typeof ko = {
 };
 const L = lang === 'ko' ? ko : en;
 ---
-<Fig h={226} alt={L.alt} caption={L.caption}>
+<Fig h={226} top={39} alt={L.alt} caption={L.caption}>
   <InningLine inningLabel={L.inning} marks={(i) => i.runners.map((r) => (r === 'HBP' ? 'dot' : 'red'))} />
   <g transform="translate(0 170)">
     <circle class="fi-red" cx="8" cy="0" r="5" /><text x="19" y="4" class="tx-s">{L.on}</text>

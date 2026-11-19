@@ -1,11 +1,11 @@
 {
   "name": "On-base Plus Slugging",
   "aliases": ["OPS+", "on base plus slugging"],
-  "summary": "On-base percentage plus slugging percentage. One number for how often a hitter gets on base and how many bases his hits are worth.",
+  "summary": "On-base percentage plus slugging percentage. One number for how often a hitter gets on base and how many bases he gains per at-bat.",
   "easy": [
     "A .300 batting average sounds like a good hitter. But what if he rarely draws a walk and every one of his hits is a single? None of that shows up in the average.",
     "OPS simply adds on-base percentage and slugging percentage. On-base percentage is how often he reached base safely, and slugging is how many bases he picked up per at-bat. The math is simple enough that broadcasts put it on screen all the time.",
-    "League average is somewhere around .700, and anything past .900 puts a hitter among the best in the league. For anyone just getting into sabermetrics, it's a good first number to learn."
+    "In 2026 the average was .719 in MLB and .751 in the KBO. In MLB, anything past .900 puts a hitter among the best in the league. For anyone just getting into sabermetrics, it's a good first number to learn."
   ],
   "scale": {
     "avg": "2026 MLB average .719 (2025: .719)",

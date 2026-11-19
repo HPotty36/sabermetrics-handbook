@@ -170,6 +170,9 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 /* 폰에서 찾기를 누르면(iOS 26처럼): 아래쪽 알약이 입력란 알약과 닫기 단추로 바뀌고, 용어 목록이 그 위로 화면을 덮는다.
    키보드가 올라오면 --kb(scripts/search-box.ts)만큼 같이 올라간다. */
 @media (max-width:1023px){
+  /* 키보드로 옮긴 초점이 아래쪽 알약(용어 페이지는 ‘다음’ 알약까지) 뒤에 숨지 않게 그만큼 띄워서 스크롤한다. */
+  html{scroll-padding-bottom:calc(var(--dock-h) + var(--dock-bottom) + 16px)}
+  html:has(.dock-next){scroll-padding-bottom:calc(var(--dock-h) * 2 + var(--dock-bottom) + 24px)}
   .rail{display:block;height:0}
   .rail-nav,.finder{display:none}
   body[data-search-open]{overflow:hidden}
@@ -209,7 +212,7 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .dock-next{display:flex;align-items:baseline;gap:10px;min-height:52px;padding:13px 22px;border-radius:999px;text-decoration:none;color:var(--muted);font:var(--row-sub);-webkit-tap-highlight-color:transparent}
 .dock-next{min-width:0}
 .dock-next>span:first-child{flex:none}
-.dock-next b{min-width:0;font:var(--row-name);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dock-next b{flex:none;max-width:60%;font:var(--row-name);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dock-next-sub{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .dock-next-arrow{flex:none;margin-left:auto;font-size:18px;color:var(--ink)}
 
@@ -252,7 +255,7 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .ladder-grid .line-h::before{left:10%;right:auto;width:calc((var(--n) - 1) * 20%)}
 .ladder-grid .line-h .stop-name{font-size:14px;word-break:keep-all;padding:0 6px}
 /* 좁은 폰: 다섯 칸짜리 주제에서 긴 이름(HardHit%, Attack Direction)이 옆 이름과 겹치지 않게 줄이고, 한 낱말이 칸보다 길면 꺾는다 */
-@media (max-width:420px){.ladder-grid .line-h .stop-name{font-size:12.5px;padding:0 2px;overflow-wrap:anywhere}}
+@media (max-width:420px){.ladder-grid .line-h .stop-name{font-size:12.5px;padding:0 2px;hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word}}
 
 /* 주제 페이지 맨 아래: 읽은 기록 지우기 */
 .read-clear{margin:36px 0 0;font:600 15px/1.5 var(--font-sans);color:var(--muted)}
@@ -277,11 +280,13 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .bench{list-style:none;margin:0;padding:0}
 .bench>li{padding:6px 0 16px;break-inside:avoid}
 .bench-avg{display:flex;flex-wrap:wrap;gap:4px 18px;margin:0 0 4px;font:13px/1.5 var(--font-sans);color:var(--muted)}
-.bench-avg b{margin-right:4px;font:700 19px/1.2 var(--font-display);color:var(--ink);font-variant-numeric:tabular-nums}
+.bench-avg span{display:inline-flex;align-items:baseline;gap:6px}
+.bench-avg b{font:700 19px/1.2 var(--font-display);color:var(--ink);font-variant-numeric:tabular-nums}
 .bench-marks{display:flex;flex-wrap:wrap;gap:2px 16px;margin:0;font:14px/1.6 var(--font-sans)}
 .bench-marks div{display:flex;align-items:baseline;gap:6px}
 .bench-marks dt{font:600 16px/1.4 var(--font-display);font-variant-numeric:tabular-nums}
 .bench-marks dd{margin:0;color:var(--muted)}
+.bench-memo{margin:6px 0 0;max-width:36em;font:13px/1.6 var(--font-sans);color:var(--muted)}
 @media (min-width:1024px){.bench{columns:2;column-gap:44px}}
 .changes{list-style:none;margin:0;padding:0;max-width:36em}
 .changes li{padding:14px 0;border-top:1px solid var(--line)}
@@ -304,8 +309,10 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
 .ladder-grid-v .ladder{padding:14px 0 20px}
 .ladder-grid-v .ladder-name{margin-bottom:8px}
 .ladder-name a{color:inherit;text-decoration:none}
+.ladder-name a::after{content:"›" / "";margin-left:7px;font-weight:400;color:var(--muted)}
 @media (hover:hover){.ladder-name a:hover{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}}
 /* 주제 하나의 페이지: 소개 한 문단, 그 아래 용어마다 뜻·평균·식을 같은 모양으로 놓아 견준다 */
+body[data-view="ladder"] :is(.page-head,.main>.line){max-width:640px}
 .topic-intro{margin:20px 0 8px;max-width:36em;font-size:17.5px;line-height:1.7}
 .compare{list-style:none;margin:0;padding:0;counter-reset:step}
 .compare>li{padding:18px 0 20px;border-top:1px solid var(--line);max-width:36em}
@@ -472,7 +479,11 @@ h1,h2,h3{font-weight:700;letter-spacing:-.02em}
   .filters{gap:0}
   .toggles button{min-height:44px}
   .see-also li{padding:5px 0}
+  .see-also a{display:inline-block;padding:5px 0}
   .toc-row{padding:11px 0}
+  .compare .toc-row{padding:8px 0 10px}
+  .home-more a{display:inline-block;padding:13px 0}
+  .ladder-name a{display:inline-flex;align-items:center;min-height:44px;margin:-10px 0}
 }
 
 /* 인쇄: 화면에 떠 있는 것(아래쪽 알약, 왼쪽 단, 설정, 뒤로)은 빼고 본문만 찍는다 */

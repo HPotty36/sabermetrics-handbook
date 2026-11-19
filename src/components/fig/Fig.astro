@@ -6,14 +6,16 @@ interface Props {
   /** viewBox 높이. 너비는 360이 기본이다(폰 본문 폭). */
   h: number;
   w?: number;
+  /** 위쪽에서 잘라 낼 높이. 같은 부품을 쓰는 그림(한 경기 9이닝 선 등)에서 위에 남는 빈 띠를 없앤다. */
+  top?: number;
   /** 스크린 리더용 짧은 설명 */
   alt: string;
   caption: string;
 }
 
-const { h, w = 360, alt, caption } = Astro.props;
+const { h, w = 360, top = 0, alt, caption } = Astro.props;
 ---
 <figure class="fig">
-  <svg class="fig-art" viewBox={`0 0 ${w} ${h}`} role="img" aria-label={alt}><slot /></svg>
+  <svg class="fig-art" viewBox={`0 ${top} ${w} ${h - top}`} role="img" aria-label={alt}><slot /></svg>
   <figcaption class="fig-cap">{caption}</figcaption>
 </figure>

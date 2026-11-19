@@ -1,5 +1,5 @@
 // 빌드가 끝나면 dist의 파일 목록으로 서비스 워커(dist/sw.js)를 만든다.
-// CSS·JS·아이콘·manifest와 두 홈은 설치할 때, 나머지 페이지는 그 뒤 하나씩, 글꼴 조각은 쓰일 때 저장한다(sw-template.js).
+// CSS·JS·아이콘·manifest와 두 홈은 설치할 때, 나머지 페이지와 사이트 글자에 쓰이는 글꼴 조각은 그 뒤 하나씩 저장한다(sw-template.js).
 import { createHash } from 'node:crypto';
 import { readFile, readdir, writeFile } from 'node:fs/promises';
 import { join, relative, sep } from 'node:path';
@@ -34,6 +34,35 @@ export function splitPrecache(urls, base) {
   return { core: urls.filter((u) => !isLaterPage(u)), pages: urls.filter(isLaterPage) };
 }
 
+/**
+ * 사이트의 글자를 그리는 데 필요한 글꼴 파일. 글꼴은 unicode-range로 잘게 나뉘어 있어(Pretendard 92조각) 브라우저는 그 페이지에
+ * 나오는 글자의 조각만 받는다. 그래서 온라인에서 열어 본 페이지의 조각만 저장되고, 오프라인에서 처음 여는 페이지에는
+ * ‘’나 ° 같은 글자가 다른 글꼴로 나왔다. 빌드한 HTML 전체에 나오는 글자와 겹치는 조각을 모두 고른다.
+ * @param {string} css 빌드한 CSS(@font-face가 든 것)
+ * @param {string} text 빌드한 HTML을 모두 이은 것
+ * @param {string} base
+ */
+export function fontUrls(css, text, base) {
+  const used = new Set();
+  for (const ch of text.replace(/&#x([0-9a-f]+);|&#(\d+);/gi, (_, h, d) => String.fromCodePoint(h ? parseInt(h, 16) : Number(d)))) used.add(ch.codePointAt(0));
+  const covers = (range) =>
+    range.split(',').some((part) => {
+      const r = part.trim().replace(/^U\+/i, '');
+      const [lo, hi] = r.includes('?') ? [r.replace(/\?/g, '0'), r.replace(/\?/g, 'F')] : r.split('-').concat(r.split('-').slice(-1)).slice(0, 2);
+      const a = parseInt(lo, 16);
+      const b = parseInt(hi, 16);
+      for (const c of used) if (c >= a && c <= b) return true;
+      return false;
+    });
+  const out = new Set();
+  for (const [, face] of css.matchAll(/@font-face\s*{([^}]*)}/g)) {
+    const range = /unicode-range:\s*([^;}]+)/.exec(face)?.[1];
+    if (range && !covers(range)) continue;
+    for (const [, u] of face.matchAll(/url\(["']?([^"')]+\.woff2)["']?\)/g)) out.add(u.startsWith('/') ? u : base + u.replace(/^\.?\//, ''));
+  }
+  return [...out].sort();
+}
+
 /** @param {string} dir */
 async function walk(dir) {
   const entries = await readdir(dir, { recursive: true, withFileTypes: true });
@@ -63,12 +92,15 @@ export default function serviceWorker() {
         }
         const version = hash.digest('hex').slice(0, 12);
 
+        const read = (ext) => Promise.all(files.filter((f) => f.endsWith(ext)).map((f) => readFile(join(root, f), 'utf8')));
+        const fonts = fontUrls((await read('.css')).join('\n'), (await read('.html')).join('\n'), base);
+
         const template = await readFile(new URL('./sw-template.js', import.meta.url), 'utf8');
         const header =
           `const VERSION = ${JSON.stringify(version)};\nconst BASE = ${JSON.stringify(base)};\n` +
-          `const CORE_URLS = ${JSON.stringify(core)};\nconst PAGE_URLS = ${JSON.stringify(pages)};\n\n`;
+          `const CORE_URLS = ${JSON.stringify(core)};\nconst PAGE_URLS = ${JSON.stringify(pages)};\nconst FONT_URLS = ${JSON.stringify(fonts)};\n\n`;
         await writeFile(join(root, 'sw.js'), header + template);
-        logger.info(`sw.js ${version}: 설치 때 ${core.length}개, 그 뒤 페이지 ${pages.length}개를 저장한다`);
+        logger.info(`sw.js ${version}: 설치 때 ${core.length}개, 그 뒤 페이지 ${pages.length}개와 글꼴 조각 ${fonts.length}개를 저장한다`);
       },
     },
   };

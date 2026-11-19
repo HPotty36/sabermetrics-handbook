@@ -1,5 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { readdirSync, readFileSync } from 'node:fs';
 import { ALL_CATS, norm, search, toSearchEntry } from '../src/lib/search.ts';
 
 const entries = [
@@ -16,6 +17,8 @@ test('norm은 대소문자, 공백, 구두점을 무시하고 %와 +는 남긴�
   assert.equal(norm('수비 무관'), '수비무관');
   assert.equal(norm('C+SwStr%'), 'c+swstr%');
   assert.equal(norm('K-BB%'), 'kbb%');
+  assert.equal(norm('ERA-'), 'era-');
+  assert.equal(norm('a|b'), 'ab');
 });
 
 test('검색어가 없으면 들어온 순서를 그대로 둔다', () => {
@@ -60,9 +63,56 @@ test('이름이 검색어와 똑같은 용어가 맨 앞에 온다', () => {
 });
 
 test('맞는 게 없으면 이름이 한두 글자 다른 용어를 준다', () => {
-  assert.deepEqual(ids('fpi'), []);
+  assert.deepEqual(ids('fpi'), ['fip']); // 이웃한 두 글자가 바뀐 오타
   assert.deepEqual(ids('fipp'), ['fip']);
   assert.deepEqual(ids('feilding'), []);
   assert.deepEqual(ids('오피애스'), ['ops']);
   assert.deepEqual(ids('zz'), []);
+});
+
+test('이름이 안 맞고 요약에만 맞으면 오타 후보를 앞에 둔다', () => {
+  const more = [
+    { id: 'fip', searchNames: ['FIP'], level: 2, cats: ['투구'], summary: 'Not the same thing as sera.' },
+    { id: 'siera', searchNames: ['SIERA'], level: 3, cats: ['투구'], summary: '타구 유형까지 넣은 추정.' },
+  ].map((t) => toSearchEntry(t, `/terms/${t.id}/`));
+  assert.deepEqual(search(more, { q: 'sera', level: 0, cat: ALL_CATS }).map((e) => e.id), ['siera', 'fip']);
+  // 다른 이름 가운데에 들어 있어도(chase rate) 오타 후보가 먼저다.
+  const chase = toSearchEntry({ id: 'chase', searchNames: ['Chase%'], searchAliases: ['chase rate'], level: 2, cats: ['타격'], summary: '' }, '/terms/chase/');
+  assert.equal(search([chase, ...more], { q: 'sera', level: 0, cat: ALL_CATS })[0].id, 'siera');
+});
+
+test('정식 이름이 같은 용어를 별칭이 같은 용어보다 앞에 둔다', () => {
+  const more = [
+    { id: 'baserunning', searchNames: ['Baserunning Run Value'], searchAliases: ['baserunning'], level: 2, cats: ['종합'], summary: '' },
+    { id: 'bsr', searchNames: ['BsR', 'Base Running'], level: 3, cats: ['종합'], summary: '' },
+    { id: 'era', searchNames: ['ERA'], level: 1, cats: ['투구'], summary: '' },
+    { id: 'era-plus', searchNames: ['ERA+'], searchAliases: ['ERA-'], level: 2, cats: ['투구'], summary: '' },
+    { id: 'k-bb', searchNames: ['K-BB%'], level: 2, cats: ['투구'], summary: '' },
+  ].map((t) => toSearchEntry(t, `/terms/${t.id}/`));
+  const first = (q: string) => search(more, { q, level: 0, cat: ALL_CATS })[0]?.id;
+  assert.equal(first('Base Running'), 'bsr');
+  assert.equal(first('ERA-'), 'era-plus');
+  assert.equal(first('K-'), 'k-bb'); // 치는 중
+});
+
+test('실제 용어 64개가 제 정식 이름으로 찾으면 맨 앞에 온다', () => {
+  const dir = new URL('../src/content/', import.meta.url);
+  const read = (f: URL) => JSON.parse(readFileSync(f, 'utf8'));
+  const terms = readdirSync(new URL('terms/', dir)).filter((f) => f.endsWith('.json')).map((f) => {
+    const ko = read(new URL(`terms/${f}`, dir));
+    const en = read(new URL(`en/terms/${f}`, dir));
+    return { id: f.replace('.json', ''), ko, en };
+  });
+  const all = terms.map(({ id, ko, en }) =>
+    toSearchEntry(
+      { id, searchNames: [ko.abbr, ko.chip, ko.ko, en.name], searchAliases: [...(ko.aliases ?? []), ...(en.aliases ?? [])], level: ko.level, cats: ko.cats, summary: ko.summary },
+      `/terms/${id}/`,
+    ),
+  );
+  const wrong = terms.flatMap(({ id, ko, en }) =>
+    [ko.abbr, ko.chip, ko.ko, en.name]
+      .filter((q) => search(all, { q, level: 0, cat: ALL_CATS })[0]?.id !== id)
+      .map((q) => `${id}: ‘${q}’ → ${search(all, { q, level: 0, cat: ALL_CATS })[0]?.id}`),
+  );
+  assert.deepEqual(wrong, []);
 });

@@ -11,6 +11,7 @@ export const GET: APIRoute = ({ props, site }) => {
   const lang = (props as { lang: Lang }).lang;
   const s = ui(lang);
   const link = new URL(`${lang === 'ko' ? '' : 'en/'}changelog/`, site).href;
+  const self = new URL(`${lang === 'ko' ? '' : 'en/'}rss.xml`, site).href;
   const items = changelog
     .map((c, i) => {
       const n = changelog.length - i;
@@ -18,7 +19,7 @@ export const GET: APIRoute = ({ props, site }) => {
     })
     .join('\n');
   return new Response(
-    `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0"><channel><title>${esc(s.siteName)} · ${esc(s.changelog)}</title><link>${link}</link><description>${esc(s.changelogDescription)}</description><language>${lang}</language>\n${items}\n</channel></rss>\n`,
+    `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>${esc(s.siteName)} · ${esc(s.changelog)}</title><link>${link}</link><atom:link href="${self}" rel="self" type="application/rss+xml"/><description>${esc(s.changelogDescription)}</description><language>${lang}</language>\n${items}\n</channel></rss>\n`,
     { headers: { 'Content-Type': 'application/rss+xml; charset=utf-8' } },
   );
 };

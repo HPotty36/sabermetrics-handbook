@@ -33,12 +33,19 @@ function repaint() {
 const clear = document.querySelector<HTMLButtonElement>('[data-read-clear]');
 const cleared = document.querySelector<HTMLElement>('[data-read-cleared]');
 function syncClear() {
-  if (clear) clear.hidden = load().length === 0;
+  if (!clear) return;
+  clear.hidden = load().length === 0;
+  // 다른 탭에서 다시 읽었거나 뒤로 가기로 돌아와 단추가 다시 보이면 ‘지웠어요’는 맞지 않는다.
+  if (!clear.hidden && cleared) cleared.hidden = true;
 }
 clear?.addEventListener('click', () => {
   save([]);
   repaint();
-  if (cleared) cleared.hidden = false;
+  if (cleared) {
+    cleared.hidden = false;
+    // 누른 단추가 사라지므로 초점을 알림 글로 옮긴다(키보드로 누른 사람이 맨 위로 튕기지 않게).
+    cleared.focus();
+  }
 });
 syncClear();
 

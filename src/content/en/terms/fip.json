@@ -13,7 +13,7 @@
       { "v": 3.34, "t": "Good" },
       { "v": 3.75, "t": "Above average" },
       { "v": 4.59, "t": "Below average" },
-      { "v": 5.21, "t": "Poor" }
+      { "v": 5.21, "t": "Very poor" }
     ],
     "note": "Reads like ERA. The ranges are approximate and assume a starter's full season."
   },

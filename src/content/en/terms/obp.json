@@ -4,13 +4,13 @@
   "summary": "How often a hitter reaches base on a hit, a walk or a hit-by-pitch.",
   "easy": [
     "The most basic thing a hitter can do is not make an out. A team only gets 27 of them, and every out a hitter avoids hands one more chance to the batters behind him.",
-    "Batting average ignores walks completely. OBP counts a walk the same as a hit: one more time on base. Hitters with a good eye end up well above their batting average, and OBP usually runs about 60 points higher."
+    "Batting average ignores walks completely. OBP counts a walk the same as a hit: one more time on base. Hitters with a good eye end up well above their batting average, and in 2026 league OBP ran 74 points above batting average in MLB and 78 in the KBO."
   ],
   "scale": {
     "avg": "2026 MLB average .318 (2025: .315)",
     "kbo": "2026 KBO average .346 (2025: .338)",
     "marks": [
-      { "v": 0.29, "t": "Poor" },
+      { "v": 0.29, "t": "Very poor" },
       { "v": 0.34, "t": "Above average" },
       { "v": 0.37, "t": "Good" },
       { "v": 0.39, "t": "Elite" }
