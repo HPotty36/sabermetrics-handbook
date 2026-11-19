@@ -26,7 +26,7 @@
   "deep": [
     "It's just one rate minus another, but it's a strong predictor of the rest of a season. FanGraphs' Stuff+ primer says as much and uses K-BB% as the benchmark for its own Pitching+ model.",
     "It ignores contact quality entirely. A pitcher who gets out of innings with ground-ball double plays, or one who lives on weak fly balls, gets undersold.",
-    "The denominator is batters faced, so it isn't the same as K/9 minus BB/9. League average fell to 13.3% in 2026 from 13.8% in 2025, in step with the rise in walks."
+    "The denominator is batters faced, so it isn't the same as K/9 minus BB/9. The MLB average fell to 13.3% in 2026 from 13.8% in 2025, in step with the rise in walks. The KBO figure was 10.1%."
   ],
   "sources": [
     { "t": "FanGraphs Library · Strikeout and Walk Rates (pitchers)", "u": "https://library.fangraphs.com/pitching/rate-stats/" },

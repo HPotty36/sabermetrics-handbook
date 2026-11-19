@@ -3,11 +3,11 @@
   "aliases": ["catcher pop time", "POP", "exchange time"],
   "summary": "How long it takes a catcher, on a steal attempt, to get the ball from his mitt to the base.",
   "easy": [
-    "It runs from the pop of the pitch hitting the mitt to the moment the fielder at second would catch the throw. Shorter is better.",
+    "It runs from the pop of the pitch hitting the mitt to the moment the throw reaches (or would reach) the middle of second base. Shorter is better.",
     "A strong arm alone won't do it. Footwork coming up out of the crouch, the transfer from glove to hand, and throw speed all add up."
   ],
   "scale": {
-    "avg": "2026 leaderboard average 1.94",
+    "avg": "2026 MLB leaderboard average 1.94",
     "marks": [
       { "v": 1.88, "t": "Top 10%" },
       { "v": 2.0, "t": "Bottom 10%" }

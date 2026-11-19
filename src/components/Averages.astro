@@ -1,0 +1,10 @@
+---
+// 평균 한 줄(수치 기준 모아 보기, 주제 페이지). 큰 숫자 옆에 용어 페이지와 같은 설명을 붙인다:
+// ‘2026 MLB 평균’, ‘2026 KBO 평균’, ‘평균 (정의상)’, ‘Statcast 기준’처럼 리그와 기준 시즌, 정의로 정해진 값인지가 보인다.
+import { avgCaption, fmt } from '../lib/format.ts';
+import type { LocalTerm } from '../lib/handbook.ts';
+
+const { scale } = Astro.props as { scale: NonNullable<LocalTerm['scale']> };
+const rows = [scale.avg, scale.kbo].filter((a) => a !== undefined);
+---
+{rows.length > 0 && <p class="bench-avg">{rows.map((a) => <span><b>{fmt(a.v, scale)}</b>{avgCaption(a, scale)}</span>)}</p>}

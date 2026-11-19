@@ -1,5 +1,10 @@
 [
   {
+    "date": "2026-11-19",
+    "ko": "원문을 옮겨 쓴 설명 다섯 곳을 다시 쓰고, 배럴·BABIP·IVB의 수치 구간을 2026 선수 분포로 다시 정했다. LI·SIERA·블로킹 그림을 다시 그렸다.",
+    "en": "Rewrote five explanations that followed their sources too closely, reset the barrel, BABIP and IVB ranges from the 2026 player distribution, and redrew the LI, SIERA and blocking figures."
+  },
+  {
     "date": "2026-11-12",
     "ko": "주제마다 페이지가 생겼다. 그 주제의 용어를 뜻, 식, 평균과 함께 한 줄씩 견줘 볼 수 있다.",
     "en": "Each topic now has its own page that lines up its terms with their meaning, formula and average."
@@ -31,8 +36,8 @@
   },
   {
     "date": "2026-10-27",
-    "ko": "영어판을 열었다. 다크 모드와 앱 설치를 넣었다.",
-    "en": "Opened the English edition. Added dark mode and app install."
+    "ko": "영어판을 열었다. 화면 모드 단추와 ‘앱 설치’ 단추를 달았다.",
+    "en": "Opened the English edition. Added a dark-mode switch and an Install app button."
   },
   {
     "date": "2026-10-26",

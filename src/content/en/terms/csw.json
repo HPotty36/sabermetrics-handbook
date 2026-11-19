@@ -4,15 +4,15 @@
   "summary": "The percentage of all pitches that are either taken for a called strike or swung at and missed.",
   "easy": [
     "A strikeout only shows up once the plate appearance is over. CSW% is tallied pitch by pitch, counting each one that got the better of the hitter.",
-    "Every pitch adds to the sample, so it fills in fast. A game or two is enough to get a rough idea of whether a pitcher's stuff was working that day. Clearing 30% marks a good pitcher, and somewhere around 32% is dominant."
+    "Every pitch adds to the sample, so it fills in fast. A game or two is enough to get a rough idea of whether a pitcher's stuff was working that day. Pitcher List's introduction treats 30% or better in a start as a good outing, while noting that for a reliever throwing one inning, 30% is a little below average."
   ],
   "scale": {
     "avg": "2026 MLB average 27% (FanGraphs C+SwStr%)",
     "marks": [
       { "v": 25, "t": "Low" },
-      { "v": 30, "t": "Good" },
-      { "v": 32, "t": "Dominant" }
-    ]
+      { "v": 30, "t": "Good" }
+    ],
+    "note": "Bands Pitcher List's 2019 introduction used to grade a single start (20–25% poor, 25–30% okay, 30–35% good). Relievers are held to a higher bar."
   },
   "formula": {
     "expr": "CSW% = (called strikes + whiffs) ÷ total pitches",

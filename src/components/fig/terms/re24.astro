@@ -28,7 +28,7 @@ const en: typeof ko = {
 };
 const L = lang === 'ko' ? ko : en;
 ---
-<Fig h={226} alt={L.alt} caption={L.caption}>
+<Fig h={226} top={34} alt={L.alt} caption={L.caption}>
   {[D1, D2].map((d) => (
     <g>
       <path class="ln ln-1 ln-muted" d={`M${d.pts.home[0]} ${d.pts.home[1]}L${d.pts.first[0]} ${d.pts.first[1]}L${d.pts.second[0]} ${d.pts.second[1]}L${d.pts.third[0]} ${d.pts.third[1]}Z`} />

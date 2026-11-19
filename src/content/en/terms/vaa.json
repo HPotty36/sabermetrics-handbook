@@ -10,8 +10,7 @@
     "avg": "2026 MLB four-seam average −4.6° (2025: −4.7°)",
     "marks": [
       { "v": -5.5, "t": "Steep" },
-      { "v": -4.0, "t": "Flat" },
-      { "v": -3.5, "t": "Very flat" }
+      { "v": -4.0, "t": "Flat" }
     ],
     "note": "Four-seamers only. Pitch height moves the angle a lot, so only compare pitches thrown at similar heights."
   },

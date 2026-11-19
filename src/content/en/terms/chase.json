@@ -20,7 +20,7 @@
   },
   "deep": [
     "The math is the same as FanGraphs' O-Swing%. Each data source draws the zone a little differently, though, so the two sites' numbers don't quite match.",
-    "League chase rate rose to 30.5% in 2026 from 28.2% in 2025, while the share of pitches in the zone dropped from 50.6% to 47.5%.",
+    "The MLB chase rate rose to 30.5% in 2026 from 28.2% in 2025, while the share of pitches in the zone dropped from 50.6% to 47.5%.",
     "Laying off pitches outside the zone isn't enough if a hitter also takes everything inside it, because he falls behind in the count. That's why it gets read alongside the rate of swings at pitches in the zone (Z-Swing%)."
   ],
   "sources": [

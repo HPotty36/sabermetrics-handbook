@@ -1,5 +1,6 @@
 ---
 // 수치 기준 모아 보기: 눈금이 있는 용어의 평균(MLB, KBO)과 구간을 한 페이지에 적는다. 인쇄해도 읽히게 글만 쓴다.
+import Averages from '../../components/Averages.astro';
 import Seam from '../../components/Seam.astro';
 import Base from '../../layouts/Base.astro';
 import { fmt } from '../../lib/format.ts';
@@ -31,8 +32,9 @@ const levels = [1, 2, 3] as const;
         return (
           <li>
             <a class="toc-row" href={termHref(t.id)}><span class="toc-abbr">{t.chip}</span>{t.sub && <span class="toc-ko">{t.sub}</span>}</a>
-            {(sc.avg || sc.kbo) && <p class="bench-avg">{sc.avg && <span><b>{fmt(sc.avg.v, sc)}</b> MLB</span>}{sc.kbo && <span><b>{fmt(sc.kbo.v, sc)}</b> KBO</span>}</p>}
+            <Averages scale={sc} />
             <dl class="bench-marks">{marks.map((m) => <div><dt>{fmt(m.v, sc)}</dt><dd>{m.t}</dd></div>)}</dl>
+            {sc.note && <p class="bench-memo">{sc.note}</p>}
           </li>
         );
       })}</ul>

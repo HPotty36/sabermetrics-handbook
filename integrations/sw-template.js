@@ -1,8 +1,9 @@
-// 서비스 워커 본체. 빌드 때 integrations/service-worker.mjs가 맨 앞에 VERSION, BASE, CORE_URLS, PAGE_URLS를 붙여 dist/sw.js로 내보낸다.
-/* global VERSION, BASE, CORE_URLS, PAGE_URLS */
+// 서비스 워커 본체. 빌드 때 integrations/service-worker.mjs가 맨 앞에 VERSION, BASE, CORE_URLS, PAGE_URLS, FONT_URLS를 붙여 dist/sw.js로 내보낸다.
+/* global VERSION, BASE, CORE_URLS, PAGE_URLS, FONT_URLS */
 
 const PRECACHE = `sh-precache-${VERSION}`;
-// 글꼴 조각(woff2)은 파일 이름에 해시가 있어 버전이 바뀌어도 그대로 쓴다. 쓰는 조각만 처음 받을 때 저장한다.
+// 글꼴 조각(woff2)은 파일 이름에 해시가 있어 버전이 바뀌어도 그대로 쓴다. 쓰인 조각은 처음 받을 때 저장하고,
+// 사이트 글자에 필요한 나머지 조각(FONT_URLS)은 페이지를 다 받은 뒤 하나씩 저장한다(오프라인에서 처음 여는 페이지도 같은 글꼴로).
 const FONTS = 'sh-fonts';
 const NETWORK_TIMEOUT_MS = 3000;
 
@@ -30,6 +31,7 @@ self.addEventListener('message', (event) => {
   event.waitUntil(warming);
 });
 
+// 없는 글꼴 조각만 받는다. 연결이 끊기면 멈추고, 다음에 이어서 받는다.
 async function cacheFonts(urls) {
   const cache = await caches.open(FONTS);
   for (const u of urls) {
@@ -37,8 +39,10 @@ async function cacheFonts(urls) {
     if (url.origin !== self.location.origin || !url.pathname.endsWith('.woff2')) continue;
     if (await cache.match(url.href, { ignoreVary: true })) continue;
     const response = await fetch(url.href).catch(() => null);
-    if (response && response.ok) await cache.put(url.href, response);
+    if (!response) return false;
+    if (response.ok) await cache.put(url.href, response);
   }
+  return true;
 }
 
 async function warmPages() {
@@ -49,6 +53,7 @@ async function warmPages() {
     if (!response) return;
     if (response.ok) await cache.put(url, response);
   }
+  if (!(await cacheFonts(FONT_URLS))) return;
   // 새 버전의 페이지를 다 받았으니 예전 버전의 저장분을 지운다.
   // 그 전에 지우면 배포 직후 오프라인이 됐을 때 저장해 둔 페이지가 한동안 사라진다.
   const keys = await caches.keys();

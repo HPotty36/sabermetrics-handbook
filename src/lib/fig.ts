@@ -4,6 +4,8 @@
 
 /** 경로 문자열에 넣을 숫자. 소수 둘째 자리까지. */
 export const n = (v: number) => String(Math.round(v * 100) / 100);
+/** 숫자를 소리 내어 읽을 때 끝에 받침이 있는지(영, 일, 삼, 육, 칠, 팔). ‘3.00이었다’와 ‘3.05였다’를 가른다. */
+export const batchim = (s: string) => /[013678]$/.test(s);
 
 /** 값(d0~d1)을 화면 좌표(r0~r1)로 바꾸는 직선 눈금 */
 export function lin(d0: number, d1: number, r0: number, r1: number) {

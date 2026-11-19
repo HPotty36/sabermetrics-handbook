@@ -4,7 +4,7 @@
   "summary": "ERA rescaled for league average and ballpark so that 100 is average. Higher is better.",
   "easy": [
     "A 3.50 ERA is excellent in a high-scoring season and merely fine in a low-scoring one. Whether a pitcher's home park favors hitters or pitchers moves the number too.",
-    "ERA+ strips those differences out and sets league average at 100. A 150 reads as one and a half times league average. Unlike ERA, bigger is better."
+    "ERA+ strips those differences out and sets league average at 100. A 150 means the park-adjusted league ERA is one and a half times his. Unlike ERA, bigger is better."
   ],
   "scale": {
     "avg": "Average 100 (by definition)",

@@ -4,7 +4,7 @@
   "summary": "How many feet a player covers in his fastest one-second window while running all out.",
   "easy": [
     "Home-to-first times depend on which side of the plate a hitter bats from, his first step and the kind of ball he hit. Sprint speed strips that away and looks only at the top speed his legs can reach.",
-    "The MLB average is about 27 feet per second, and any run over 30 is called a Bolt. One second is roughly seven full-speed strides, so players who can hold their speed do better than ones with a quick burst."
+    "The MLB average is about 27 feet per second, and any run over 30 is called a Bolt."
   ],
   "scale": {
     "avg": "MLB average per Statcast 27.0 ft/s (2026 leaderboard player average 27.4 ft/s)",

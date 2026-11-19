@@ -29,6 +29,7 @@ export interface LocalTerm {
   title: string;
   /** 검색에 쓰는 이름. 두 언어의 이름과 별칭을 모두 넣는다(어느 쪽 화면에서든 ‘ERA’, ‘평균자책점’, ‘earned run’으로 찾는다). */
   searchNames: string[];
+  searchAliases: string[];
   summary: string;
   easy: string[];
   scale?: Scale;
@@ -146,7 +147,8 @@ function shared(t: TermEntry, en: TermEn) {
     added: t.added,
     related: t.related,
     checked: t.checked,
-    searchNames: [t.abbr, t.chip, t.ko, en.name, ...(t.aliases ?? []), ...(en.aliases ?? [])],
+    searchNames: [t.abbr, t.chip, t.ko, en.name],
+    searchAliases: [...(t.aliases ?? []), ...(en.aliases ?? [])],
   };
 }
 
@@ -201,6 +203,8 @@ async function readRaw(): Promise<Raw> {
     ...validateEnglish(terms, en),
     ...ladders.flatMap((l) => (/[가-힣]/.test(l.en + l.introEn) ? [`ladders.json › ${l.name} › en, introEn: 영어 글에 한글이 있다`] : [])),
     ...ladders.flatMap((l, i) => (ladders.findIndex((x) => x.slug === l.slug) !== i ? [`ladders.json › ${l.name} › slug: ‘${l.slug}’가 겹친다`] : [])),
+    // 소개에는 숫자를 쓰지 않는다(RE24처럼 이름에 든 숫자는 괜찮다). 숫자는 확인한 용어 파일 것만 화면에 나온다(docs/content-guide.md).
+    ...ladders.flatMap((l) => (/(?<![A-Za-z0-9])[0-9]/.test(l.intro + l.introEn) ? [`ladders.json › ${l.name} › intro, introEn: 소개에 숫자가 있다`] : [])),
     ...stubs.flatMap((s) => (/[가-힣]/.test(s.en) ? [`stubs.json › ${s.id} › en: 영어 이름에 한글이 있다`] : [])),
   ];
   if (problems.length) fail(problems);

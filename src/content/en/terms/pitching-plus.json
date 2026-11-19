@@ -12,7 +12,7 @@
       { "v": 90, "t": "−1 standard deviation" },
       { "v": 110, "t": "+1 standard deviation" }
     ],
-    "note": "Same scale as Stuff+ and Location+. For a single pitch, 10 points is one standard deviation."
+    "note": "Same scale as Stuff+ and Location+. Within a pitch type, 10 points is one standard deviation."
   },
   "deep": [
     "Its value is prediction. FanGraphs' primer says that before the season it predicted relievers' ERA better than any projection system, and that during the season it overtakes preseason projections after about 250 pitches for relievers and about 400 for starters.",

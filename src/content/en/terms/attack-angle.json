@@ -16,7 +16,7 @@
     "note": "The ideal range is 5 to 20°. About half of swings across the league fall inside it."
   },
   "deep": [
-    "It came out in May 2025, in a batch of new Statcast swing metrics. The others in that batch were swing path tilt (how steep the bat's path is just before contact, about 32° on average) and attack direction (left or right at contact, slightly toward the pull side on average).",
+    "It came out in May 2025, in a batch of new Statcast swing metrics. The others in that batch were swing path tilt (how steep the bat's path is just before contact, 32.3° on average in 2026 MLB) and attack direction (left or right at contact, 2.1° toward the pull side on average in 2026 MLB).",
     "Ideal attack angle rate is what fraction of swings land between 5 and 20 degrees.",
     "June 2026 brought more, including swing timing (early or late) and Miss Distance, which measures how badly a whiff missed."
   ],

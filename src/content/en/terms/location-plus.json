@@ -12,7 +12,7 @@
       { "v": 90, "t": "−1 standard deviation" },
       { "v": 110, "t": "+1 standard deviation" }
     ],
-    "note": "At the level of a single pitch, 10 points is one standard deviation. Pitcher-level numbers spread differently."
+    "note": "Within a pitch type, 10 points is one standard deviation. Pitcher-level numbers spread differently."
   },
   "deep": [
     "It doesn't try to figure out where the pitcher was aiming. Command stats where human stringers judge intent didn't add predictive value, so Location+ looks only at where the pitch actually went and assumes that, for a given count and pitch type, intent is about the same across the league.",

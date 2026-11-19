@@ -30,12 +30,12 @@ A glossary of baseball stats, from batting average to swing timing. Every term i
 ## What's inside
 
 - **Two layers per term.** A simple explanation and a detailed one, with a switch for which comes first. The choice is remembered.
-- **Topics.** Related terms lined up from basic to advanced, so you can keep going one step at a time (ERA → WHIP → ERA+ → FIP). Terms you've read get a stitched ball on the line, and the stretch you've covered turns red. The record stays in your browser.
+- **Topics.** Related terms lined up from basic to advanced, so you can keep going one step at a time (ERA → QS → WHIP → ERA+ → FIP). Each topic also has a page that lines its terms up side by side. Terms you've read get a stitched ball on the line, and the stretch you've covered turns red. The record stays in your browser.
 - **Benchmarks.** A scale with the 2026 MLB average, the 2026 KBO average where league totals give one, and rough ranges for good and bad. One page lists them all. Every number links to its source, and each term shows the date its numbers were last checked against those sources.
 - **A figure for every term.** Each one is drawn the way that stat is best explained: the plate appearances a rate counts, the strike zone, exit velocity against launch angle, a pitch seen from the side, the field from above, or how a value adds up. They are plain line drawings built into the page, with only definitional thresholds, checked averages or clearly made-up examples.
 - **Recent Statcast metrics.** Bat speed, swing length, attack direction, arm angle, swing timing and the 2026 ABS challenge, along with the classics.
 - **Korean and English, light and dark.** Switch language on any page and land on the same term. Dark mode is pitch black, and Auto follows your device.
-- **Installs like an app.** Tap “Install app” in the settings (on iPhone it shows how to add it to the Home Screen). Once installed, every page, font and search works without a connection, and long-pressing the icon jumps to Topics, Terms or the other language. Android and iOS wrappers use the same build.
+- **Installs like an app.** Tap “Install app” in the settings (on iPhone it shows how to add it to the Home Screen). Once installed, every page, font and search works without a connection, and long-pressing the icon jumps to Topics, Terms or the other language. The Android and iOS projects wrap the same site, built with app-style links.
 
 ## Terms
 
@@ -96,13 +96,14 @@ src/content/ladders.json         topics, in the order they appear
 src/lib/schema.ts                content schema (zod)
 src/lib/validate.ts              cross-file checks, including Korean and English staying in step
 src/lib/i18n.ts                  interface text in both languages
-src/pages/[...lang]/             home, topics, term list and term pages for both languages
+src/pages/[...lang]/             every page, in both languages
 src/components/fig/terms/<id>.astro  the figure for each term (static SVG, both languages)
 src/scripts/                     search, filters, settings, back, progress (the only client scripts)
 src/styles/global.css            design tokens and styles
 integrations/                    builds the service worker (dist/sw.js) after each build
 docs/content-guide.md            how to write a term (Korean)
 docs/verified-facts.md           numbers and definitions checked against sources (Korean)
+CLAUDE.md                        project notes for Claude Code (Korean)
 ```
 
 The build stops if anything is off: a missing field, a scale mark out of range, a link to a term that doesn't exist, or an English file whose numbers or sources don't match the Korean one.
@@ -112,7 +113,7 @@ The build stops if anything is off: a missing field, a scale mark out of range, 
 - Every explanation is original writing. Nothing is translated or copied from FanGraphs, MLB.com or anywhere else.
 - Definitions and formulas link to their original source.
 - No real player stats as examples. Examples use made-up numbers.
-- No number goes in without a source. League averages name their season, currently the 2026 MLB regular season.
+- No number goes in without a source. League averages name their league and season: the 2026 MLB regular season, with the 2026 KBO average next to it where league totals give one.
 
 ## Contributing
 
@@ -128,4 +129,4 @@ Corrections are the most useful thing you can send. If a number, definition or s
 
 ## License
 
-The code is under the [MIT License](LICENSE). The writing and the figures (`src/content/`, `src/components/fig/`, `docs/`) are under [CC BY-NC 4.0](LICENSE-CONTENT.md): share and adapt them with credit, not for commercial use. The name and the app icon are not covered by either.
+The code is under the [MIT License](LICENSE). The writing, the figures and the screenshots (`src/content/`, `src/components/fig/`, `docs/`, plus the images in `.github/assets/`, `public/screenshots/` and `public/og.png`) are under [CC BY-NC 4.0](LICENSE-CONTENT.md): share and adapt them with credit, not for commercial use. The name and the app icon are not covered by either.

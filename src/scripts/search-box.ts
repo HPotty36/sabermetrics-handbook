@@ -14,6 +14,8 @@ const status = results.querySelector<HTMLElement>('[role="status"]')!;
 
 const find = (q: string) => search(entries, { q, level: 0, cat: ALL_CATS });
 
+type SheetState = { shSearch?: boolean; q?: string };
+
 let open = false; // 폰의 검색 화면이 열려 있는지
 let shown = false; // 결과 목록이 보이는지
 let inPlace = false; // 결과가 본문 자리에 나와 있는지(넓은 화면). 폰의 검색 화면은 본문 위를 덮으므로 스크롤을 건드리지 않는다.
@@ -91,7 +93,11 @@ function shut() {
 document.querySelectorAll('[data-open-search]').forEach((b) => b.addEventListener('click', openSheet));
 document.querySelectorAll('[data-close-search]').forEach((b) => b.addEventListener('click', close));
 
-input.addEventListener('input', (e) => render((e as InputEvent).isComposing));
+input.addEventListener('input', (e) => {
+  // 검색 화면의 기록 칸에 검색어를 적어 둔다. 다른 페이지에 갔다가 뒤로 와서 화면을 다시 열 때 쓴다.
+  if (open && (history.state as SheetState | null)?.shSearch) history.replaceState({ ...history.state, q: input.value }, '');
+  render((e as InputEvent).isComposing);
+});
 input.addEventListener('compositionend', () => render());
 
 input.addEventListener('keydown', (e) => {
@@ -123,4 +129,13 @@ window.addEventListener('pageshow', (e) => {
   if (e.persisted) render();
 });
 
+// 검색 화면에서 용어를 열었다가 뒤로 왔는데 브라우저가 페이지를 새로 읽었으면(뒤로 가기 저장본이 없을 때),
+// 기록 칸은 아직 ‘검색 화면’이라 뒤로를 한 번 더 눌러도 아무 일이 없었다. 떠날 때처럼 화면을 다시 연다.
+// 키보드는 올리지 않는다(누른 순간이 아니면 iOS는 focus로 키보드를 올리지 않고, 결과 목록이 먼저 보이는 게 낫다).
+const back = history.state as SheetState | null;
+if (back?.shSearch && matchMedia('(max-width:1023px)').matches) {
+  input.value = back.q ?? '';
+  open = true;
+  document.body.toggleAttribute('data-search-open', true);
+}
 render();

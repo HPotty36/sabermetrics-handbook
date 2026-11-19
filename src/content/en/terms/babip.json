@@ -9,10 +9,11 @@
     "avg": "2026 MLB average .290",
     "kbo": "2026 KBO average .317 (2025: .312)",
     "marks": [
-      { "v": 0.26, "t": "Low" },
-      { "v": 0.32, "t": "High" }
+      { "v": 0.258, "t": "Lowest 10%" },
+      { "v": 0.292, "t": "Median" },
+      { "v": 0.336, "t": "Highest 10%" }
     ],
-    "note": "When a pitcher's BABIP is low, or a hitter's is high, luck probably played a part. For hitters, their own career BABIP is a better comparison than the league average."
+    "note": "Bands are the distribution of the 135 qualified hitters in 2026. When a pitcher's BABIP is low, or a hitter's is high, luck probably played a part. For hitters, their own career BABIP is a better comparison than the league average."
   },
   "formula": {
     "expr": "BABIP = (H − HR) ÷ (AB − K − HR + SF)",
