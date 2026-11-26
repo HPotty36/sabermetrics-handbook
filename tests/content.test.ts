@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { readdirSync, readFileSync } from 'node:fs';
 import { basename } from 'node:path';
 import { laddersSchema, stubsSchema, termEnSchema, termSchema } from '../src/lib/schema.ts';
-import { validateEnglish, validateHandbook } from '../src/lib/validate.ts';
+import { validateEnglish, validateHandbook, validateLadderText } from '../src/lib/validate.ts';
 
 const dir = new URL('../src/content/', import.meta.url);
 const readJson = (path: string | URL) => JSON.parse(readFileSync(path, 'utf8'));
@@ -40,6 +40,14 @@ test('stubs와 ladders가 스키마를 통과한다', () => {
   assert.ok(s.success, s.error?.message);
   const l = laddersSchema.safeParse(ladders);
   assert.ok(l.success, l.error?.message);
+});
+
+test('주제와 준비 중 용어의 글을 빌드와 같은 규칙으로 검사한다', () => {
+  assert.deepEqual(validateLadderText(ladders, stubs), []);
+  const withNumber = [{ ...ladders[0], intro: ladders[0].intro + ' 평균은 100이다.' }, ...ladders.slice(1)];
+  assert.deepEqual(validateLadderText(withNumber, stubs).length, 1);
+  const withName = [{ ...ladders[0], intro: 'RE24와 K-BB%는 이름이다.' }, ...ladders.slice(1)];
+  assert.deepEqual(validateLadderText(withName, stubs), []);
 });
 
 test('참조가 모두 이어진다', () => {

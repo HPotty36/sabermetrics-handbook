@@ -37,14 +37,22 @@ export function splitPrecache(urls, base) {
 /**
  * 사이트의 글자를 그리는 데 필요한 글꼴 파일. 글꼴은 unicode-range로 잘게 나뉘어 있어(Pretendard 92조각) 브라우저는 그 페이지에
  * 나오는 글자의 조각만 받는다. 그래서 온라인에서 열어 본 페이지의 조각만 저장되고, 오프라인에서 처음 여는 페이지에는
- * ‘’나 ° 같은 글자가 다른 글꼴로 나왔다. 빌드한 HTML 전체에 나오는 글자와 겹치는 조각을 모두 고른다.
- * @param {string} css 빌드한 CSS(@font-face가 든 것)
- * @param {string} text 빌드한 HTML을 모두 이은 것
+ * ‘’나 ° 같은 글자가 다른 글꼴로 나왔다. 빌드한 HTML의 글자와 CSS의 content 글자(주제 이름 뒤의 › 등)와 겹치는 조각을 모두 고른다.
+ * @param {{ path: string, text: string }[]} cssFiles 빌드한 CSS(dist 기준 경로와 내용). 상대 주소의 글꼴은 그 CSS 파일 자리에서 푼다.
+ * @param {string} html 빌드한 HTML을 모두 이은 것
  * @param {string} base
  */
-export function fontUrls(css, text, base) {
+export function fontUrls(cssFiles, html, base) {
   const used = new Set();
-  for (const ch of text.replace(/&#x([0-9a-f]+);|&#(\d+);/gi, (_, h, d) => String.fromCodePoint(h ? parseInt(h, 16) : Number(d)))) used.add(ch.codePointAt(0));
+  const add = (text) => {
+    for (const ch of text) used.add(ch.codePointAt(0));
+  };
+  add(html.replace(/&#x([0-9a-f]+);|&#(\d+);/gi, (_, h, d) => String.fromCodePoint(h ? parseInt(h, 16) : Number(d))));
+  for (const { text } of cssFiles) {
+    for (const [, , body] of text.matchAll(/content:\s*(["'])((?:\\.|(?!\1).)*)\1/g)) {
+      add(body.replace(/\\([0-9a-f]{1,6})\s?|\\(.)/gi, (_, h, c) => (h ? String.fromCodePoint(parseInt(h, 16)) : c)));
+    }
+  }
   const covers = (range) =>
     range.split(',').some((part) => {
       const r = part.trim().replace(/^U\+/i, '');
@@ -55,10 +63,13 @@ export function fontUrls(css, text, base) {
       return false;
     });
   const out = new Set();
-  for (const [, face] of css.matchAll(/@font-face\s*{([^}]*)}/g)) {
-    const range = /unicode-range:\s*([^;}]+)/.exec(face)?.[1];
-    if (range && !covers(range)) continue;
-    for (const [, u] of face.matchAll(/url\(["']?([^"')]+\.woff2)["']?\)/g)) out.add(u.startsWith('/') ? u : base + u.replace(/^\.?\//, ''));
+  for (const { path, text } of cssFiles) {
+    const from = new URL(base + path, 'http://site');
+    for (const [, face] of text.matchAll(/@font-face\s*{([^}]*)}/g)) {
+      const range = /unicode-range:\s*([^;}]+)/.exec(face)?.[1];
+      if (range && !covers(range)) continue;
+      for (const [, u] of face.matchAll(/url\(["']?([^"')]+\.woff2)["']?\)/g)) out.add(new URL(u, from).pathname);
+    }
   }
   return [...out].sort();
 }
@@ -92,8 +103,8 @@ export default function serviceWorker() {
         }
         const version = hash.digest('hex').slice(0, 12);
 
-        const read = (ext) => Promise.all(files.filter((f) => f.endsWith(ext)).map((f) => readFile(join(root, f), 'utf8')));
-        const fonts = fontUrls((await read('.css')).join('\n'), (await read('.html')).join('\n'), base);
+        const read = (ext) => Promise.all(files.filter((f) => f.endsWith(ext)).map(async (f) => ({ path: f, text: await readFile(join(root, f), 'utf8') })));
+        const fonts = fontUrls(await read('.css'), (await read('.html')).map((f) => f.text).join('\n'), base);
 
         const template = await readFile(new URL('./sw-template.js', import.meta.url), 'utf8');
         const header =

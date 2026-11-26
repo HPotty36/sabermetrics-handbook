@@ -5,7 +5,7 @@ import laddersJson from '../content/ladders.json';
 import stubsJson from '../content/stubs.json';
 import type { Lang } from './i18n.ts';
 import { laddersSchema, stubsSchema, type Ladder, type Scale, type Stub, type Term, type TermEn } from './schema.ts';
-import { formatIssues, validateEnglish, validateHandbook } from './validate.ts';
+import { formatIssues, validateEnglish, validateHandbook, validateLadderText } from './validate.ts';
 
 /** 한 언어로 옮긴 용어. 화면은 이것만 쓴다. */
 export interface LocalTerm {
@@ -201,11 +201,7 @@ async function readRaw(): Promise<Raw> {
   const problems = [
     ...validateHandbook({ terms, stubs, ladders }),
     ...validateEnglish(terms, en),
-    ...ladders.flatMap((l) => (/[가-힣]/.test(l.en + l.introEn) ? [`ladders.json › ${l.name} › en, introEn: 영어 글에 한글이 있다`] : [])),
-    ...ladders.flatMap((l, i) => (ladders.findIndex((x) => x.slug === l.slug) !== i ? [`ladders.json › ${l.name} › slug: ‘${l.slug}’가 겹친다`] : [])),
-    // 소개에는 숫자를 쓰지 않는다(RE24처럼 이름에 든 숫자는 괜찮다). 숫자는 확인한 용어 파일 것만 화면에 나온다(docs/content-guide.md).
-    ...ladders.flatMap((l) => (/(?<![A-Za-z0-9])[0-9]/.test(l.intro + l.introEn) ? [`ladders.json › ${l.name} › intro, introEn: 소개에 숫자가 있다`] : [])),
-    ...stubs.flatMap((s) => (/[가-힣]/.test(s.en) ? [`stubs.json › ${s.id} › en: 영어 이름에 한글이 있다`] : [])),
+    ...validateLadderText(ladders, stubs),
   ];
   if (problems.length) fail(problems);
 
