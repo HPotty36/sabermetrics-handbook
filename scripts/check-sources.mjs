@@ -12,7 +12,8 @@ function readDays(argv) {
   if (i < 0) return 180;
   const raw = argv[i].includes('=') ? argv[i].split('=')[1] : argv[i + 1];
   const n = Number(raw);
-  if (!Number.isInteger(n) || n < 0) {
+  // 빈 값(‘--days=’)은 Number('')가 0이라 따로 막는다.
+  if (!raw?.trim() || !Number.isInteger(n) || n < 0) {
     console.error(`--days에는 0 이상의 정수를 적는다(받은 값: ${raw ?? '없음'}).`);
     process.exit(2);
   }
@@ -41,6 +42,11 @@ function probe(url) {
   return new Promise((resolve) => {
     const args = ['-s', '-o', '/dev/null', '-D', '-', '-L', '--max-redirs', '10', '--max-time', '40', '-A', 'Mozilla/5.0 (source check)', '-w', '\n%{http_code}', url];
     execFile('curl', args, { maxBuffer: 4 * 1024 * 1024 }, (err, out) => {
+      // curl을 실행하지 못했으면(설치되지 않음 등) 모든 주소를 죽은 링크로 적지 않고 멈춘다.
+      if (err && typeof err.code !== 'number') {
+        console.error(`curl을 실행하지 못했다(${err.code}). curl을 설치한 뒤 다시 돌린다.`);
+        process.exit(2);
+      }
       const lines = out.trimEnd().split('\n');
       const code = Number(lines.at(-1)) || 0;
       const exit = err?.code;

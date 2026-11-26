@@ -50,5 +50,15 @@ test('사이트 글자와 겹치는 글꼴 조각만 고른다', async () => {
     '@font-face{font-family:B;src:url(/_astro/B.dd.woff2)format("woff2")}' +
     '@font-face{font-family:W;src:url(/_astro/W.ee.woff2)format("woff2");unicode-range:U+00??}';
   // 가(U+AC00), ’(U+2019, &#8217;로 적음), A(U+0041). 일본어 가나는 없다.
-  assert.deepEqual(fontUrls(css, '<p>가 &#8217; A</p>', '/'), ['/_astro/B.dd.woff2', '/_astro/P.0.aa.woff2', '/_astro/P.1.bb.woff2', '/_astro/W.ee.woff2']);
+  assert.deepEqual(fontUrls([{ path: '_astro/a.css', text: css }], '<p>가 &#8217; A</p>', '/'), ['/_astro/B.dd.woff2', '/_astro/P.0.aa.woff2', '/_astro/P.1.bb.woff2', '/_astro/W.ee.woff2']);
+});
+
+test('CSS content에만 나오는 글자의 조각도 고르고, 상대 주소는 CSS 파일 자리에서 푼다', async () => {
+  const { fontUrls } = await import('../integrations/service-worker.mjs');
+  const css =
+    '.a::after{content:"›" / ""}.b::before{content:"\\2192"}' +
+    '@font-face{font-family:P;src:url(./P.3.cc.woff2)format("woff2");unicode-range:U+203A}' +
+    '@font-face{font-family:P;src:url(fonts/P.4.dd.woff2)format("woff2");unicode-range:U+2192}' +
+    '@font-face{font-family:P;src:url(/_astro/P.5.ee.woff2)format("woff2");unicode-range:U+3040-309F}';
+  assert.deepEqual(fontUrls([{ path: '_astro/x.css', text: css }], '<p>A</p>', '/'), ['/_astro/P.3.cc.woff2', '/_astro/fonts/P.4.dd.woff2']);
 });

@@ -81,6 +81,18 @@ test('이름이 안 맞고 요약에만 맞으면 오타 후보를 앞에 둔다
   assert.equal(search([chase, ...more], { q: 'sera', level: 0, cat: ALL_CATS })[0].id, 'siera');
 });
 
+test('한 낱말 안에 든 검색어는 오타 후보보다 앞이다', () => {
+  const more = [
+    { id: 'fip', searchNames: ['FIP'], level: 2, cats: ['투구'], summary: '' },
+    { id: 'babip', searchNames: ['BABIP'], level: 1, cats: ['타격'], summary: '' },
+    { id: 'obp', searchNames: ['OBP'], level: 1, cats: ['타격'], summary: '' },
+    { id: 'woba', searchNames: ['wOBA'], level: 2, cats: ['타격'], summary: '' },
+  ].map((t) => toSearchEntry(t, `/terms/${t.id}/`));
+  const first = (q: string) => search(more, { q, level: 0, cat: ALL_CATS })[0]?.id;
+  assert.equal(first('bip'), 'babip');
+  assert.equal(first('oba'), 'woba');
+});
+
 test('정식 이름이 같은 용어를 별칭이 같은 용어보다 앞에 둔다', () => {
   const more = [
     { id: 'baserunning', searchNames: ['Baserunning Run Value'], searchAliases: ['baserunning'], level: 2, cats: ['종합'], summary: '' },

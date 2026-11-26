@@ -65,6 +65,24 @@ export interface HandbookRefs {
   ladders: { name: string; steps: string[] }[];
 }
 
+/**
+ * 주제(ladders.json)와 준비 중 용어(stubs.json)의 글을 검사한다. 빌드(handbook.ts)와 npm test가 같은 함수를 쓴다.
+ * - 영어 이름과 영어 소개에 한글이 없다.
+ * - slug(주소)가 겹치지 않는다.
+ * - 소개에는 숫자를 쓰지 않는다(RE24처럼 이름에 붙은 숫자는 괜찮다). 숫자는 확인한 용어 파일 것만 화면에 나온다(docs/content-guide.md).
+ */
+export function validateLadderText(
+  ladders: { name: string; en: string; slug: string; intro: string; introEn: string }[],
+  stubs: { id: string; en: string }[],
+): string[] {
+  return [
+    ...ladders.flatMap((l) => (/[가-힣]/.test(l.en + l.introEn) ? [`ladders.json › ${l.name} › en, introEn: 영어 글에 한글이 있다`] : [])),
+    ...ladders.flatMap((l, i) => (ladders.findIndex((x) => x.slug === l.slug) !== i ? [`ladders.json › ${l.name} › slug: ‘${l.slug}’가 겹친다`] : [])),
+    ...ladders.flatMap((l) => (/(?<![A-Za-z0-9])[0-9]/.test(l.intro + l.introEn) ? [`ladders.json › ${l.name} › intro, introEn: 소개에 숫자가 있다`] : [])),
+    ...stubs.flatMap((s) => (/[가-힣]/.test(s.en) ? [`stubs.json › ${s.id} › en: 영어 이름에 한글이 있다`] : [])),
+  ];
+}
+
 /** 파일 사이의 참조를 검사한다. 문제마다 한 줄씩 돌려준다. */
 export function validateHandbook({ terms, stubs, ladders }: HandbookRefs): string[] {
   const problems: string[] = [];

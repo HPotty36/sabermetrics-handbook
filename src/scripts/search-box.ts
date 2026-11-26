@@ -93,17 +93,34 @@ function shut() {
 document.querySelectorAll('[data-open-search]').forEach((b) => b.addEventListener('click', openSheet));
 document.querySelectorAll('[data-close-search]').forEach((b) => b.addEventListener('click', close));
 
+// 검색 화면의 기록 칸에 검색어를 적어 둔다. 다른 페이지에 갔다가 뒤로 와서 화면을 다시 열 때 쓴다.
+// 글자마다 적지 않고 입력이 멈춘 뒤 한 번 적는다. Safari는 replaceState를 짧은 시간에 너무 많이 부르면 오류를 던진다
+// (한글은 자모마다 input이 온다). 적지 못해도 검색은 그대로 되도록 결과를 먼저 그리고, 오류는 삼킨다.
+let saveTimer = 0;
+function saveQuery() {
+  clearTimeout(saveTimer);
+  if (!open || !(history.state as SheetState | null)?.shSearch) return;
+  try {
+    history.replaceState({ ...history.state, q: input.value }, '');
+  } catch {}
+}
+const saveLater = () => {
+  clearTimeout(saveTimer);
+  saveTimer = window.setTimeout(saveQuery, 400);
+};
 input.addEventListener('input', (e) => {
-  // 검색 화면의 기록 칸에 검색어를 적어 둔다. 다른 페이지에 갔다가 뒤로 와서 화면을 다시 열 때 쓴다.
-  if (open && (history.state as SheetState | null)?.shSearch) history.replaceState({ ...history.state, q: input.value }, '');
   render((e as InputEvent).isComposing);
+  saveLater();
 });
 input.addEventListener('compositionend', () => render());
+// 결과를 눌러 다른 페이지로 갈 때는 기다리지 않고 바로 적는다.
+results.addEventListener('click', saveQuery);
 
 input.addEventListener('keydown', (e) => {
   if (e.key === 'Enter' && !e.isComposing) {
     const first = find(input.value)[0];
     if (input.value.trim() && first) {
+      saveQuery();
       input.blur();
       location.href = first.href;
     }
@@ -120,8 +137,25 @@ document.addEventListener('keydown', (e) => {
   input.focus();
 });
 
+// 기록 칸이 ‘검색 화면’인데 화면이 닫혀 있으면 다시 연다(뒤로 와서 페이지를 새로 읽었을 때, 앞으로 가기로 그 칸에 들어왔을 때).
+// 넓은 화면에는 그 화면이 없으므로(폰에서 열고 태블릿을 돌린 경우) 그 칸을 건너뛴다. 그대로 두면 뒤로를 한 번 더 눌러야 했다.
+function reopen(st: SheetState) {
+  if (!matchMedia('(max-width:1023px)').matches) {
+    history.back();
+    return;
+  }
+  // 키보드는 올리지 않는다(누른 순간이 아니면 iOS는 focus로 키보드를 올리지 않고, 결과 목록이 먼저 보이는 게 낫다).
+  input.value = st.q ?? '';
+  open = true;
+  document.body.toggleAttribute('data-search-open', true);
+  render();
+  syncKeyboard();
+}
+
 window.addEventListener('popstate', () => {
-  if (open) shut();
+  const st = history.state as SheetState | null;
+  if (open && !st?.shSearch) shut();
+  else if (!open && st?.shSearch) reopen(st);
 });
 
 // 뒤로 가기로 저장된 페이지가 돌아오면 떠날 때의 검색 화면과 검색어대로 다시 그린다.
@@ -130,12 +164,7 @@ window.addEventListener('pageshow', (e) => {
 });
 
 // 검색 화면에서 용어를 열었다가 뒤로 왔는데 브라우저가 페이지를 새로 읽었으면(뒤로 가기 저장본이 없을 때),
-// 기록 칸은 아직 ‘검색 화면’이라 뒤로를 한 번 더 눌러도 아무 일이 없었다. 떠날 때처럼 화면을 다시 연다.
-// 키보드는 올리지 않는다(누른 순간이 아니면 iOS는 focus로 키보드를 올리지 않고, 결과 목록이 먼저 보이는 게 낫다).
+// 기록 칸은 아직 ‘검색 화면’이다. 떠날 때처럼 화면을 다시 연다.
 const back = history.state as SheetState | null;
-if (back?.shSearch && matchMedia('(max-width:1023px)').matches) {
-  input.value = back.q ?? '';
-  open = true;
-  document.body.toggleAttribute('data-search-open', true);
-}
-render();
+if (back?.shSearch) reopen(back);
+else render();

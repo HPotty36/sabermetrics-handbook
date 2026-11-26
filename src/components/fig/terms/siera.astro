@@ -53,7 +53,8 @@ const labelEnd = lang === 'ko' ? MX + 72 : MX + 52;
       <text x={MX + 9} y={n(TY(j) + 4)} class:list={['tx-s', t.mix ? 'tx-red' : 'tx-ink']}>{lang === 'ko' ? t.ko : t.en}</text>
     </g>
   ))}
-  <circle class="fi-red" cx={OUT[0]} cy={OUT[1]} r="9" />
-  <text x={OUT[0]} y={OUT[1] - 18} text-anchor="middle" class="tx-red tx-b">SIERA</text>
+  {/* 빨강은 SIERA를 FIP와 가르는 것(제곱항·곱셈항) 하나에만 쓴다. 결과는 잉크다. */}
+  <circle class="fi-ink" cx={OUT[0]} cy={OUT[1]} r="9" />
+  <text x={OUT[0]} y={OUT[1] - 18} text-anchor="middle" class="tx-ink tx-b">SIERA</text>
   <text x="24" y="200" class="tx-s">{L.hr}</text>
 </Fig>

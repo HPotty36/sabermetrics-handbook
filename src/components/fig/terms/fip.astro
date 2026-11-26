@@ -41,7 +41,7 @@ const Y = (i: number) => 26 + i * 32;
       <g>
         <text x="0" y={Y(i) + 4} class="tx-ink">{L[r.key]}</text>
         <rect class="fi-ink" x={n(x)} y={Y(i) - 7} width={n(Math.abs(v) * U)} height="14" />
-        <text x={n(v >= 0 ? AX + v * U + 6 : AX + v * U - 6)} y={Y(i) + 4} text-anchor={v >= 0 ? 'start' : 'end'} class="tx-num tx-ink">{v > 0 ? `+${v}` : `−${Math.abs(v)}`}</text>
+        <text x={n(v >= 0 ? AX + v * U + 6 : AX + v * U - 6)} y={Y(i) + 4} text-anchor={v >= 0 ? 'start' : 'end'} class="tx-num tx-ink">{v > 0 ? `+${v}` : v < 0 ? `−${-v}` : '0'}</text>
       </g>
     );
   })}
